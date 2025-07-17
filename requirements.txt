@@ -1,4 +1,5 @@
 pulp
+pytest
 gurobipy
 numpy
 pandas
