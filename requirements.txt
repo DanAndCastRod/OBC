@@ -1,0 +1,10 @@
+pulp
+gurobipy
+numpy
+pandas
+scipy
+matplotlib
+seaborn
+scikit-learn
+statsmodels
+networkx
