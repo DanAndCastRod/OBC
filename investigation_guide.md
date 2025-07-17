@@ -1,4 +1,4 @@
-A continuación encontrarás un plan de investigación paso a paso, estructurado según los ítems que indicas, para abordar el problema de optimización del balanceo de carcasa en la industria avícola. El lenguaje es formal e investigativo, y cada sección incluye tareas concretas.
+A continuación se muestra un plan de investigación paso a paso, para abordar el problema de optimización del balanceo de carcasa en la industria avícola.
 
 ---
 

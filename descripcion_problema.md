@@ -1,9 +1,8 @@
 ---
-title: Balanceo de Carcasa en la Industria Avícola: Problema y Metodologías de Optimización
-description: Un análisis del problema de balanceo de carcasa en la industria avícola, su importancia, y las metodologías de optimización utilizadas para resolverlo.
-date: 2023-10-01
-bibliography: references.bib
-csl: apa.csl
+bibliography: "references.bib"   # Archivo BibTeX
+csl: "apa.csl"                     # Estilo CSL para APA
+title: "Descripción del problema"  # (opcional) Título del documento
+date: "2025-07-17"                 # (opcional) Fecha en formato ISO
 ---
 
 # Balanceo de Carcasa en la Industria Avícola: Problema y Metodologías de Optimización
