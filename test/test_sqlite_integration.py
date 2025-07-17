@@ -1,8 +1,15 @@
 # tests/test_sqlite_integration.py
 import os
+import sys
+from pathlib import Path
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+
+# Asegurar que el paquete `src` sea importable al ejecutar las pruebas desde
+# cualquier directorio. Esto inserta la ruta del proyecto en `sys.path`.
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
 from src.db.sqlite import Base, Paper, insertar_paper_db, init_db
 from src.utils.config import SQLITE_PATH
 
