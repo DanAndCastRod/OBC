@@ -5,13 +5,13 @@ Este repositorio centraliza la investigación y los prototipos de código para a
 ## Contenido principal
 
 - Documentos en formato Markdown que describen el problema, la metodología de investigación y las guías de implementación.
-- Código en `src/` para gestionar referencias bibliográficas: incluye un extractor de la API de Elsevier, un cliente para MyLoft y un módulo de base de datos SQLite.
+- Código en `src/` para gestionar referencias bibliográficas: incluye un cliente para MyLoft y un módulo de base de datos SQLite.
 - Pruebas automáticas en `test/` que verifican la inserción de artículos en la base de datos.
 
 ## Uso rápido
 
 1. Instalar las dependencias listadas en `requirements.txt` (se requiere acceso a internet).
-2. Definir las variables de entorno indicadas en `src/utils/config.py` para configurar las claves de API y la ruta de la base de datos.
+2. Definir las variables de entorno indicadas en `src/utils/config.py` para configurar la ruta de la base de datos.
 3. Ejecutar `pytest` para correr las pruebas de integración.
 
 Este proyecto sirve como punto de partida para desarrollar modelos de optimización que logren un balance productivo y comercial sostenible.

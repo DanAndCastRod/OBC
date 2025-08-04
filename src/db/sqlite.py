@@ -3,9 +3,8 @@
 from sqlalchemy import (
     create_engine, Column, Integer, String, UniqueConstraint
 )
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-from src.utils.config import SQLITE_PATH
+from sqlalchemy.orm import declarative_base, sessionmaker
+from src.utils.config import get_sqlite_path
 
 # Base para definir modelos
 Base = declarative_base()
@@ -24,14 +23,14 @@ class Paper(Base):
         UniqueConstraint("scopus_id", name="uq_papers_scopus_id"),
     )
 
-# Crear engine y sesión
-engine = create_engine(f"sqlite:///{SQLITE_PATH}", echo=False)
-Session = sessionmaker(bind=engine)
+def get_engine():
+    return create_engine(f"sqlite:///{get_sqlite_path()}", echo=False)
 
 def init_db():
     """
     Inicializa la base de datos creando tablas si no existen.
     """
+    engine = get_engine()
     Base.metadata.create_all(engine)
 
 def insertar_paper_db(metadatos: dict) -> bool:
@@ -40,6 +39,8 @@ def insertar_paper_db(metadatos: dict) -> bool:
     :param metadatos: dict con keys 'scopus_id', 'doi', 'title', 'authors', 'journal', 'year'
     :return: True si se insertó, False si ya existía.
     """
+    engine = get_engine()
+    Session = sessionmaker(bind=engine)
     session = Session()
     existe = session.query(Paper).filter_by(scopus_id=metadatos["scopus_id"]).first()
     if existe:
