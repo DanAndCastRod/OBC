@@ -5,8 +5,9 @@ Este repositorio centraliza la investigación y los prototipos de código para a
 ## Contenido principal
 
 - Documentos en formato Markdown que describen el problema, la metodología de investigación y las guías de implementación.
-- Código en `src/` para gestionar referencias bibliográficas: incluye un cliente para MyLoft y un módulo de base de datos SQLite.
+- Código en `src/` para gestionar referencias bibliográficas de forma manual mediante un módulo de base de datos SQLite.
 - Pruebas automáticas en `test/` que verifican la inserción de artículos en la base de datos.
+- Guía consolidada en `development_guide.md` con pasos de investigación, implementación y recomendaciones para el anteproyecto.
 
 ## Uso rápido
 
