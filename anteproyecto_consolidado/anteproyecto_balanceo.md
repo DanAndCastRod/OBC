@@ -1866,9 +1866,9 @@ Desarrollar y validar un Algoritmo Genético para el balanceo óptimo de la lín
 | Redacción y difusión    | 1 mes        |
 
 ## 8. Resultados Esperados
-- **≤ 8 estaciones** vs línea actual (10–12)  
-- **Uso de tiempo ≥ 90%** por estación  
-- **Aprovechamiento de carcasa ≥ 98%**  
+- **<= 8 estaciones** vs línea actual (10–12)  
+- **Uso de tiempo >= 90%** por estación  
+- **Aprovechamiento de carcasa >= 98%**  
 - Evidencia cuantitativa de ahorro de costos (+15%) y reducción de desperdicios  
 
 ## 9. Limitaciones
@@ -1983,7 +1983,7 @@ Se incluyeron solo artículos de acceso público y estudios generales aplicables
 **Tabla 1.** Comparativa de 30 trabajos representativos en DLBP (2015–2025).
 
 ## 3. Selección del Método Óptimo
-El **Algoritmo Genético (GA)** es el enfoque más prometedor por su **versatilidad**, **facilidad de adaptación** y **resultados consistentemente superiores** frente a otras técnicas (Recocido Simulado, Tabú, ACO)【Mete2023; Liu2017】.
+El **Algoritmo Genético (GA)** es el enfoque más prometedor por su **versatilidad**, **facilidad de adaptación** y **resultados consistentemente superiores** frente a otras técnicas (Recocido Simulado, Tabú, ACO) [@Mete2023; Liu2017].
 
 ## 4. Gráfico de Relaciones (Mermaid)
 ```mermaid
