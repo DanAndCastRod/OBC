@@ -1,3 +1,12 @@
+---
+bibliography: "referencias.bib"   # Archivo BibTeX
+csl: "apa.csl"                     # Estilo CSL para APA
+title: "Anteproyecto: Balanceo de línea de desensamble para la optimización de la carcasa de pollo"  # (opcional) Título del documento
+date: "2025-08-04"                 # (opcional) Fecha en formato ISO
+description: "Un enfoque integral para maximizar el aprovechamiento de la carcasa de pollo en la industria avícola mediante técnicas avanzadas de balanceo de línea."
+
+---
+
 # Anteproyecto: Balanceo de línea de desensamble para la optimización de la carcasa de pollo
 
 ## Introducción
