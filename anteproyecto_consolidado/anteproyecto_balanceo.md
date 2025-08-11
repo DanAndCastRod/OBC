@@ -1,10 +1,10 @@
 # Anteproyecto: Balanceo de línea de desensamble para la optimización de la carcasa de pollo
 
 ## Introducción
-La industria avícola afronta el reto de maximizar el aprovechamiento de la carcasa de pollo en un contexto de sostenibilidad y competencia global. El balanceo de líneas de desensamble (DLB, por sus siglas en inglés) surge como una estrategia que permite asignar tareas y recursos de manera eficiente en procesos donde los productos se desmontan para recuperar valor. Estudios previos han destacado la relevancia de aplicar estos principios al sector cárnico para reducir desperdicios y mejorar la productividad [@gpt; @geminimd].
+La industria avícola afronta el reto de maximizar el aprovechamiento de la carcasa de pollo en un contexto de sostenibilidad y competencia global. El balanceo de líneas de desensamble (DLB, por sus siglas en inglés) surge como una estrategia que permite asignar tareas y recursos de manera eficiente en procesos donde los productos se desmontan para recuperar valor. Estudios previos han destacado la relevancia de aplicar estos principios al sector cárnico para reducir desperdicios y mejorar la productividad [@Ozceylan2019; @Piewthongngam2019].
 
 ## Estado del arte
-El DLB ha sido explorado desde distintos enfoques, empleando algoritmos exactos y heurísticos para optimizar la secuencia de operaciones, el tiempo de ciclo y la utilización de recursos. En el ámbito alimentario, trabajos como @1s20s0924224410000063mainpdf y @1s20s240589631631179xmainpdf discuten la adaptación de estas metodologías a líneas de procesamiento de carne. Investigaciones relacionadas han propuesto modelos de optimización multiobjetivo, técnicas metaheurísticas y esquemas basados en simulación para abordar la variabilidad inherente a los productos biológicos [@10117700368504241238612pdf; @ahybridtabusearchmethodforassemblylinebalapdf].
+El DLB ha sido explorado desde distintos enfoques, empleando algoritmos exactos y heurísticos para optimizar la secuencia de operaciones, el tiempo de ciclo y la utilización de recursos. En el ámbito alimentario, trabajos como @Mahalik2010 y @Mete2016 discuten la adaptación de estas metodologías a líneas de procesamiento de carne. Investigaciones relacionadas han propuesto modelos de optimización multiobjetivo, técnicas metaheurísticas y esquemas basados en simulación para abordar la variabilidad inherente a los productos biológicos [@Liu2017; @Mete2023].
 
 ## Pregunta problema
 ¿Cómo implementar un modelo de balanceo de línea de desensamble que optimice la recuperación de componentes de la carcasa de pollo, minimizando tiempos muertos y residuos, en un entorno de producción avícola de pequeña y mediana escala?
@@ -44,7 +44,7 @@ análisis final      :        des4, 2024-11-01, 30d
 ```
 
 ## Referencias
-Las referencias completas se encuentran en el archivo `referencias.bib` asociado a este documento. Durante el desarrollo se consultaron múltiples fuentes académicas y técnicas, disponibles en la carpeta `data` y en los archivos de la carpeta `respuestas` [@notebookmlmd; @txyzmd].
+Las referencias completas se encuentran en el archivo `referencias.bib` asociado a este documento. Durante el desarrollo se consultaron múltiples fuentes académicas y técnicas, disponibles en la carpeta `data` y en los archivos de la carpeta `respuestas`.
 
 ## Anexo: Resultados completos de las búsquedas
 A continuación se incluyen los contenidos originales de cada archivo dentro de la carpeta `respuestas`, consolidados para referencia futura.
@@ -1813,13 +1813,13 @@ Consulta el archivo `references.bib` para las citas en formato BibTeX.
 **Optimización del Balanceo de Línea de Desensamble de Carcasas de Pollo mediante Algoritmo Genético**
 
 ## 1. Introducción
-El equilibrio eficiente de líneas de desensamble en plantas avícolas es crucial para maximizar la productividad y minimizar desperdicios. A diferencia del ensamble, el DLBP (Disassembly Line Balancing Problem) enfrenta retos de **secuencias lógicas de corte**, **variabilidad anatómica** y **condiciones destructivas** de las piezas[@Ozceylan2019]. Aunque existen estudios de simulación en despiece de pollo[@Pisuchpen2016], faltan enfoques de **optimización metaheurística** aplicados específicamente a carcasas avícolas. 
+El equilibrio eficiente de líneas de desensamble en plantas avícolas es crucial para maximizar la productividad y minimizar desperdicios. A diferencia del ensamble, el DLBP (Disassembly Line Balancing Problem) enfrenta retos de **secuencias lógicas de corte**, **variabilidad anatómica** y **condiciones destructivas** de las piezas[@Ozceylan2019]. Aunque existen estudios de simulación en despiece de pollo[@Piewthongngam2019], faltan enfoques de **optimización metaheurística** aplicados específicamente a carcasas avícolas. 
 
 ## 2. Estado del Arte
 Investigaciones relevantes incluyen:
 - **Revisiones DLBP**: Ozceylan et al. (2019) describen enfoques y tendencias, destacando metaheurísticos como GA, ACO y PSO[@Ozceylan2019].
 - **Metaheurísticos Avanzados**: Mete et al. (2023) comparan GA vs SA bajo tiempos estocásticos, mostrando la superioridad de GA[@Mete2023]. Liu & Wang (2017) integran criterios ambientales con D-ABC multiobjetivo[@Liu2017].
-- **Aplicaciones Cárnicas**: Pisuchpen & Ongkunaruk (2016) emplean simulación Arena para una planta de pollo, con mejora de eficiencia y ahorro[@Pisuchpen2016].
+- **Aplicaciones Cárnicas**: Piewthongngam et al. (2019) emplean simulación Arena para una planta de pollo, con mejora de eficiencia y ahorro[@Piewthongngam2019].
 
 La bibliografía revela la eficacia de GA y la necesidad de adaptarlo al contexto avícola para aprovechar su **flexibilidad** y **desempeño robusto**.
 
