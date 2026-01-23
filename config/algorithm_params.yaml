@@ -1,0 +1,23 @@
+calibracion:
+  GA:
+    fitness_obtenido: 10.0
+    parametros:
+      elitismo: 1
+      poblacion_size: 75
+      prob_cruce: 0.9327500072434707
+      prob_mutacion: 0.19639878836228103
+      tamano_torneo: 4
+  Hybrid:
+    fitness_obtenido: 10.0
+    parametros:
+      aplicar_ts_cada: 24
+      iter_ts_por_individuo: 28
+      poblacion_size: 45
+      prob_cruce: 0.937678576602479
+      top_n_para_ts: 4
+  TS:
+    fitness_obtenido: 10.666666666666666
+    parametros:
+      tamano_lista_tabu: 15
+      tamano_vecindario: 49
+      tipo_movimiento: swap

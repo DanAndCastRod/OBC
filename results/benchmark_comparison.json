@@ -1,0 +1,121 @@
+{
+  "demo_15t": {
+    "instancia": "demo_15t",
+    "n_tareas": 15,
+    "tiempo_ciclo": 40,
+    "tiempo_total": 165,
+    "optimo": 5,
+    "milp": {
+      "optimo": 5,
+      "status": "Optimal",
+      "tiempo": 1.34
+    },
+    "algoritmos": {
+      "GA": {
+        "media": 5.0,
+        "std": 0.0,
+        "mejor": 5,
+        "peor": 5,
+        "tiempo_medio": 0.48,
+        "gap_pct": 0.0
+      },
+      "TS": {
+        "media": 5.0,
+        "std": 0.0,
+        "mejor": 5,
+        "peor": 5,
+        "tiempo_medio": 0.16,
+        "gap_pct": 0.0
+      },
+      "Hybrid": {
+        "media": 5.0,
+        "std": 0.0,
+        "mejor": 5,
+        "peor": 5,
+        "tiempo_medio": 0.72,
+        "gap_pct": 0.0
+      }
+    }
+  },
+  "lineal_10t": {
+    "instancia": "lineal_10t",
+    "n_tareas": 10,
+    "tiempo_ciclo": 25,
+    "tiempo_total": 80,
+    "optimo": 4,
+    "milp": {
+      "optimo": 4,
+      "status": "Optimal",
+      "tiempo": 0.07
+    },
+    "algoritmos": {
+      "GA": {
+        "media": 4.0,
+        "std": 0.0,
+        "mejor": 4,
+        "peor": 4,
+        "tiempo_medio": 0.39,
+        "gap_pct": 0.0
+      },
+      "TS": {
+        "media": 4.0,
+        "std": 0.0,
+        "mejor": 4,
+        "peor": 4,
+        "tiempo_medio": 0.14,
+        "gap_pct": 0.0
+      },
+      "Hybrid": {
+        "media": 5.0,
+        "std": 0.0,
+        "mejor": 5,
+        "peor": 5,
+        "tiempo_medio": 0.55,
+        "gap_pct": 25.0
+      }
+    }
+  },
+  "paralelo_12t": {
+    "instancia": "paralelo_12t",
+    "n_tareas": 12,
+    "tiempo_ciclo": 30,
+    "tiempo_total": 120,
+    "optimo": 4,
+    "milp": {
+      "optimo": 4,
+      "status": "Optimal",
+      "tiempo": 0.10
+    },
+    "algoritmos": {
+      "GA": {
+        "media": 4.0,
+        "std": 0.0,
+        "mejor": 4,
+        "peor": 4,
+        "tiempo_medio": 0.35,
+        "gap_pct": 0.0
+      },
+      "TS": {
+        "media": 4.0,
+        "std": 0.0,
+        "mejor": 4,
+        "peor": 4,
+        "tiempo_medio": 0.12,
+        "gap_pct": 0.0
+      },
+      "Hybrid": {
+        "media": 4.0,
+        "std": 0.0,
+        "mejor": 4,
+        "peor": 4,
+        "tiempo_medio": 0.52,
+        "gap_pct": 0.0
+      }
+    }
+  },
+  "metadata": {
+    "fecha": "2026-01-22",
+    "replicas": 10,
+    "nota": "Instancias >15 tareas exceden tiempo límite MILP"
+  }
+}

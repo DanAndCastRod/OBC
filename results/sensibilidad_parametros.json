@@ -1,0 +1,392 @@
+{
+  "GA": {
+    "poblacion_size": {
+      "valores": [
+        50,
+        75,
+        100,
+        125
+      ],
+      "resultados": {
+        "50": {
+          "estaciones_media": 5.0,
+          "estaciones_std": 0.0,
+          "estaciones_min": 5,
+          "estaciones_max": 5,
+          "eficiencia_media": 82.5,
+          "tiempo_medio": 0.5731945037841797,
+          "n_factibles": 10,
+          "n_replicas": 10
+        },
+        "75": {
+          "estaciones_media": 5.0,
+          "estaciones_std": 0.0,
+          "estaciones_min": 5,
+          "estaciones_max": 5,
+          "eficiencia_media": 82.5,
+          "tiempo_medio": 0.8167499542236328,
+          "n_factibles": 10,
+          "n_replicas": 10
+        },
+        "100": {
+          "estaciones_media": 5.0,
+          "estaciones_std": 0.0,
+          "estaciones_min": 5,
+          "estaciones_max": 5,
+          "eficiencia_media": 82.5,
+          "tiempo_medio": 1.078662347793579,
+          "n_factibles": 10,
+          "n_replicas": 10
+        },
+        "125": {
+          "estaciones_media": 5.0,
+          "estaciones_std": 0.0,
+          "estaciones_min": 5,
+          "estaciones_max": 5,
+          "eficiencia_media": 82.5,
+          "tiempo_medio": 1.3281972408294678,
+          "n_factibles": 10,
+          "n_replicas": 10
+        }
+      },
+      "impacto": {
+        "impactos_por_valor": {
+          "50": {
+            "estaciones_media": 5.0,
+            "variacion_vs_base": 0.0,
+            "variacion_pct": 0.0
+          },
+          "75": {
+            "estaciones_media": 5.0,
+            "variacion_vs_base": 0.0,
+            "variacion_pct": 0.0
+          },
+          "100": {
+            "estaciones_media": 5.0,
+            "variacion_vs_base": 0.0,
+            "variacion_pct": 0.0
+          },
+          "125": {
+            "estaciones_media": 5.0,
+            "variacion_vs_base": 0.0,
+            "variacion_pct": 0.0
+          }
+        },
+        "rango_total": 0.0,
+        "valor_base": 75,
+        "es_critico": false
+      }
+    },
+    "prob_cruce": {
+      "valores": [
+        0.8,
+        0.85,
+        0.9,
+        0.95
+      ],
+      "resultados": {
+        "0.8": {
+          "estaciones_media": 5.0,
+          "estaciones_std": 0.0,
+          "estaciones_min": 5,
+          "estaciones_max": 5,
+          "eficiencia_media": 82.5,
+          "tiempo_medio": 0.7461918354034424,
+          "n_factibles": 10,
+          "n_replicas": 10
+        },
+        "0.85": {
+          "estaciones_media": 5.0,
+          "estaciones_std": 0.0,
+          "estaciones_min": 5,
+          "estaciones_max": 5,
+          "eficiencia_media": 82.5,
+          "tiempo_medio": 0.8066915273666382,
+          "n_factibles": 10,
+          "n_replicas": 10
+        },
+        "0.9": {
+          "estaciones_media": 5.0,
+          "estaciones_std": 0.0,
+          "estaciones_min": 5,
+          "estaciones_max": 5,
+          "eficiencia_media": 82.5,
+          "tiempo_medio": 0.7773979425430297,
+          "n_factibles": 10,
+          "n_replicas": 10
+        },
+        "0.95": {
+          "estaciones_media": 5.0,
+          "estaciones_std": 0.0,
+          "estaciones_min": 5,
+          "estaciones_max": 5,
+          "eficiencia_media": 82.5,
+          "tiempo_medio": 0.8404968976974487,
+          "n_factibles": 10,
+          "n_replicas": 10
+        }
+      },
+      "impacto": {}
+    },
+    "prob_mutacion": {
+      "valores": [
+        0.1,
+        0.15,
+        0.2,
+        0.25
+      ],
+      "resultados": {
+        "0.1": {
+          "estaciones_media": 5.0,
+          "estaciones_std": 0.0,
+          "estaciones_min": 5,
+          "estaciones_max": 5,
+          "eficiencia_media": 82.5,
+          "tiempo_medio": 0.7645079612731933,
+          "n_factibles": 10,
+          "n_replicas": 10
+        },
+        "0.15": {
+          "estaciones_media": 5.0,
+          "estaciones_std": 0.0,
+          "estaciones_min": 5,
+          "estaciones_max": 5,
+          "eficiencia_media": 82.5,
+          "tiempo_medio": 0.7652051210403442,
+          "n_factibles": 10,
+          "n_replicas": 10
+        },
+        "0.2": {
+          "estaciones_media": 5.0,
+          "estaciones_std": 0.0,
+          "estaciones_min": 5,
+          "estaciones_max": 5,
+          "eficiencia_media": 82.5,
+          "tiempo_medio": 0.763982605934143,
+          "n_factibles": 10,
+          "n_replicas": 10
+        },
+        "0.25": {
+          "estaciones_media": 5.0,
+          "estaciones_std": 0.0,
+          "estaciones_min": 5,
+          "estaciones_max": 5,
+          "eficiencia_media": 82.5,
+          "tiempo_medio": 0.8014498710632324,
+          "n_factibles": 10,
+          "n_replicas": 10
+        }
+      },
+      "impacto": {
+        "impactos_por_valor": {
+          "0.1": {
+            "estaciones_media": 5.0,
+            "variacion_vs_base": 0.0,
+            "variacion_pct": 0.0
+          },
+          "0.15": {
+            "estaciones_media": 5.0,
+            "variacion_vs_base": 0.0,
+            "variacion_pct": 0.0
+          },
+          "0.2": {
+            "estaciones_media": 5.0,
+            "variacion_vs_base": 0.0,
+            "variacion_pct": 0.0
+          },
+          "0.25": {
+            "estaciones_media": 5.0,
+            "variacion_vs_base": 0.0,
+            "variacion_pct": 0.0
+          }
+        },
+        "rango_total": 0.0,
+        "valor_base": 0.2,
+        "es_critico": false
+      }
+    }
+  },
+  "TS": {
+    "tamano_lista_tabu": {
+      "valores": [
+        10,
+        15,
+        20,
+        25
+      ],
+      "resultados": {
+        "10": {
+          "estaciones_media": 5.1,
+          "estaciones_std": 0.3,
+          "estaciones_min": 5,
+          "estaciones_max": 6,
+          "eficiencia_media": 81.125,
+          "tiempo_medio": 0.5096770286560058,
+          "n_factibles": 10,
+          "n_replicas": 10
+        },
+        "15": {
+          "estaciones_media": 5.1,
+          "estaciones_std": 0.3,
+          "estaciones_min": 5,
+          "estaciones_max": 6,
+          "eficiencia_media": 81.125,
+          "tiempo_medio": 0.5794818162918091,
+          "n_factibles": 10,
+          "n_replicas": 10
+        },
+        "20": {
+          "estaciones_media": 5.1,
+          "estaciones_std": 0.3,
+          "estaciones_min": 5,
+          "estaciones_max": 6,
+          "eficiencia_media": 81.125,
+          "tiempo_medio": 0.6861053943634033,
+          "n_factibles": 10,
+          "n_replicas": 10
+        },
+        "25": {
+          "estaciones_media": 5.1,
+          "estaciones_std": 0.3,
+          "estaciones_min": 5,
+          "estaciones_max": 6,
+          "eficiencia_media": 81.125,
+          "tiempo_medio": 0.6949272394180298,
+          "n_factibles": 10,
+          "n_replicas": 10
+        }
+      },
+      "impacto": {
+        "impactos_por_valor": {
+          "10": {
+            "estaciones_media": 5.1,
+            "variacion_vs_base": 0.0,
+            "variacion_pct": 0.0
+          },
+          "15": {
+            "estaciones_media": 5.1,
+            "variacion_vs_base": 0.0,
+            "variacion_pct": 0.0
+          },
+          "20": {
+            "estaciones_media": 5.1,
+            "variacion_vs_base": 0.0,
+            "variacion_pct": 0.0
+          },
+          "25": {
+            "estaciones_media": 5.1,
+            "variacion_vs_base": 0.0,
+            "variacion_pct": 0.0
+          }
+        },
+        "rango_total": 0.0,
+        "valor_base": 15,
+        "es_critico": false
+      }
+    },
+    "tamano_vecindario": {
+      "valores": [
+        30,
+        40,
+        50,
+        60
+      ],
+      "resultados": {
+        "30": {
+          "estaciones_media": 5.1,
+          "estaciones_std": 0.3,
+          "estaciones_min": 5,
+          "estaciones_max": 6,
+          "eficiencia_media": 81.125,
+          "tiempo_medio": 0.2924243211746216,
+          "n_factibles": 10,
+          "n_replicas": 10
+        },
+        "40": {
+          "estaciones_media": 5.1,
+          "estaciones_std": 0.3,
+          "estaciones_min": 5,
+          "estaciones_max": 6,
+          "eficiencia_media": 81.125,
+          "tiempo_medio": 0.4273583173751831,
+          "n_factibles": 10,
+          "n_replicas": 10
+        },
+        "50": {
+          "estaciones_media": 5.1,
+          "estaciones_std": 0.3,
+          "estaciones_min": 5,
+          "estaciones_max": 6,
+          "eficiencia_media": 81.125,
+          "tiempo_medio": 0.5318893909454345,
+          "n_factibles": 10,
+          "n_replicas": 10
+        },
+        "60": {
+          "estaciones_media": 5.1,
+          "estaciones_std": 0.3,
+          "estaciones_min": 5,
+          "estaciones_max": 6,
+          "eficiencia_media": 81.125,
+          "tiempo_medio": 0.6653994083404541,
+          "n_factibles": 10,
+          "n_replicas": 10
+        }
+      },
+      "impacto": {}
+    }
+  },
+  "Hybrid": {
+    "aplicar_ts_cada": {
+      "valores": [
+        15,
+        20,
+        25,
+        30
+      ],
+      "resultados": {
+        "15": {
+          "estaciones_media": 5.0,
+          "estaciones_std": 0.0,
+          "estaciones_min": 5,
+          "estaciones_max": 5,
+          "eficiencia_media": 82.5,
+          "tiempo_medio": 1.01053466796875,
+          "n_factibles": 10,
+          "n_replicas": 10
+        },
+        "20": {
+          "estaciones_media": 5.0,
+          "estaciones_std": 0.0,
+          "estaciones_min": 5,
+          "estaciones_max": 5,
+          "eficiencia_media": 82.5,
+          "tiempo_medio": 0.8007784843444824,
+          "n_factibles": 10,
+          "n_replicas": 10
+        },
+        "25": {
+          "estaciones_media": 5.0,
+          "estaciones_std": 0.0,
+          "estaciones_min": 5,
+          "estaciones_max": 5,
+          "eficiencia_media": 82.5,
+          "tiempo_medio": 0.6558708429336548,
+          "n_factibles": 10,
+          "n_replicas": 10
+        },
+        "30": {
+          "estaciones_media": 5.0,
+          "estaciones_std": 0.0,
+          "estaciones_min": 5,
+          "estaciones_max": 5,
+          "eficiencia_media": 82.5,
+          "tiempo_medio": 0.5963287830352784,
+          "n_factibles": 10,
+          "n_replicas": 10
+        }
+      },
+      "impacto": {}
+    }
+  }
+}

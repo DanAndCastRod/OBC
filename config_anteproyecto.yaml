@@ -1,0 +1,64 @@
+# Configuración para el Anteproyecto DLBP - Coproductos con Metaheurísticas
+# Este archivo contiene la configuración para procesar el anteproyecto con Pandoc
+
+# Configuración del documento
+document:
+  title: "Anteproyecto: Modelo DLBP para Coproductos con Metaheurísticas en la Industria Avícola"
+  author: "Daniel Andrés Castañeda Rodríguez"
+  date: "2025-09-10"
+  institution: "Universidad Tecnológica de Pereira"
+  department: "Maestría en Ingeniería de Operaciones y Estadística"
+  
+# Configuración de bibliografía
+bibliography:
+  file: "referencias_dlbp.bib"
+  style: "apa.csl"
+  format: "bibtex"
+  
+# Configuración de metadatos
+metadata:
+  description: "Desarrollo de un modelo de balanceo de línea de desensamble (DLBP) para optimizar el aprovechamiento de coproductos en la industria avícola mediante técnicas metaheurísticas"
+  keywords: ["DLBP", "metaheurísticas", "coproductos", "industria avícola", "optimización", "balanceo de líneas"]
+  language: "es"
+  
+# Configuración de procesamiento
+processing:
+  input_format: "markdown"
+  output_format: "pdf"
+  template: "default"
+  engine: "pandoc"
+  filters:
+    - pandoc-mermaid
+  
+# Configuración de citas
+citations:
+  style: "author-year"
+  format: "apa"
+  link_citations: true
+  reference_docx: null
+  
+# Configuración de figuras y tablas
+figures:
+  caption_location: "bottom"
+  number_sections: true
+  
+tables:
+  caption_location: "top"
+  number_sections: true
+  
+# Configuración de secciones
+sections:
+  numbered: true
+  depth: 3
+  
+# Configuración de referencias cruzadas
+crossrefs:
+  enabled: true
+  format: "section"
+  
+# Configuración de metadatos adicionales
+additional_metadata:
+  abstract: "Este anteproyecto propone el desarrollo de un modelo de Disassembly Line Balancing Problem (DLBP) específicamente diseñado para optimizar el aprovechamiento de coproductos en la industria avícola mediante técnicas metaheurísticas."
+  methodology: "Modelo DLBP con metaheurísticas (GA, PSO, TS) para balanceo de coproductos"
+  timeline: "Sep 2025 - Dic 2025"
+  scope: "Industria avícola colombiana"

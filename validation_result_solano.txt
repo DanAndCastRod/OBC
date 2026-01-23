@@ -1,0 +1,939 @@
+--- START FILE: data/Integrated planning decisions in the broiler chicken supply chain.pdf ---
+--- PAGE 1 ---
+Intl. Trans. in Op. Res. 00 (2020) 1–24
+DOI: 10.1111/itor.12861
+INTERNATIONAL
+TRANSACTIONS
+IN OPERATIONAL
+RESEARCH
+Integrated planning decisions in the broiler
+chicken supply chain
+Alfaima L. Solano-Blancoa , Jaime E. Gonzálezb , Luis O. Gómez-Ruedac ,
+Jhon J. Vargas-Sánchezd and Andrés L. Medagliaa,∗
+aCentro para la Optimización y Probabilidad Aplicada (COP A), Departamento de Ingeniería Industrial, Universidad de
+los Andes, Cra. 1 Este No. 19A – 40, Bogotá, D.C., Colombia
+bDepartment of Mathematics and Industrial Engineering, Polytechnique Montréal, 2900 Boulevard Édouard-Montpetit,
+Montréal, QC H3T 1J4, Canada
+cProducción y Logística (PyLO), Departamento de Ingeniería Industrial, Universidad de los Andes, Cra. 1 Este,
+No. 19A – 40, Bogotá, D.C., Colombia
+dEstadística y Métodos cuantitativos, Departamento de Ingeniería Industrial, Universidad del Magdalena, Carrera 32,
+No. 22 – 08, Santa Marta D.T .C.H., Colombia
+E-mail: al.solano@uniandes.edu.co [Solano-Blanco]; jaime.gonzalez@polymtl.ca [González];
+lo.gomez10@uniandes.edu.co [Gómez-Rueda]; jvargass@unimagdalena.edu.co [V argas-Sánchez];
+amedagli@uniandes.edu.co [Medaglia]
+Received 24 December 2019; received in revised form 25 May 2020; accepted 29 July 2020
+Abstract
+In the poultry industry, the meat market requires a careful coordination of the broiler chicken supply chain
+comprising breeders, hatcheries, farms, slaughterhouses, wholesale, and retail vendors. Aside from the in-
+herent challenges of coordinating a supply chain, animal husbandry systems face additional complex tasks.
+The lack of integrated decisions within the poultry chain could lead to a production plan that (a) does not
+comply with the biosecurity standards required in meat production for human consumption at the farms; (b)
+violates the production and inventory capacities at the slaughterhouses; and (c) does not meet the demand
+of customers. To streamline the supply chain, we propose a mixed-integer linear programming model that
+supports production planning and scheduling decisions in broiler chicken production facilities. In addition,
+we embedded the mixed-integer programming model in a rolling-horizon scheme to improve scalability and
+to avoid the myopic eﬀect of time-indexed optimization models that put too much emphasis on a speciﬁc
+time period. We present the results of a case study in a poultry company in Santa Marta (Colombia), where
+we reach proﬁt improvements that range from 7% to 57% with a reduction in inventory costs that range from
+30% to 60%, while simultaneously meeting stringent technical, tactical, and biosecurity constraints.
+Keywords: poultry supply chain; mixed-integer linear programming; production planning; lot-sizing decisions; decision
+support system; rolling horizon
+∗Corresponding author.
+© 2020 The Authors.
+International Transactions in Operational Research © 2020 International Federation of Operational Research Societies
+Published by John Wiley & Sons Ltd, 9600 Garsington Road, Oxford OX4 2DQ, UK and 350 Main St, Malden, MA02148,
+USA.
+--- PAGE 2 ---
+2 A. L. Solano-Blanco et al. / Intl. Trans. in Op. Res. 00 (2020) 1–24
+Fig. 1. Broiler chicken meat supply chain.
+1. Introduction
+In 2018, the poultry sector produced 123.9 million tons of poultry meat leading the market with
+a 36% of the global meat production (FAO, 2019b). In the same year, it was the most consumed
+meat in the world and its demand shows an increasing trend of over 1% per year (OECD and FAO,
+2019). This trend can be explained by a shift in the preference of customers and the accessibility
+over other competing types of meat such as pork or beef.
+Within the poultry sector, the chicken meat production system has the largest share.Broiler chick-
+ens are especially raised for meat production and have been enhanced by breeding over decades.
+These breeds represent less costs for farmers, as they show high food-meat conversion rates that
+make them grow quickly with less food (Zuidhof et al., 2014). In 2017, broiler chicken meat pro-
+duction accounted for 89% of the world’s poultry production (FAO, 2019a). Moreover, production
+and demand of broiler chicken meat products increased by 7% (about 7000 metric tons) in the last
+ﬁve years (USDA, 2019). Therefore, meeting the demand of broiler chicken meat is essential to
+guarantee food security and any eﬀort to increase the eﬃciency of its supply chain contributes to
+global economic growth.
+The structure of the broiler chicken supply chain and its degree of integration vary among coun-
+tries and ﬁrms. Such a structure has changed throughout the years favoring large-scale vertically
+integrated operations of the supply chain (Narrod et al., 2008). Figure 1 shows the general struc-
+ture of this agri-chain. At the beginning of the chain, breeders and hatcheries produce batches of
+day-old chickens that are sent to farms. Once in the farms, day-old chickens are ﬂoor-raised on
+litter (e.g., made from rice hulls) at open structures known as grow-out houses. Chickens are grain-
+fed, with feed provided by mills, until they reach slaughter weight targeted in terms of animal age
+(i.e., six weeks). Slaughterhouses then receive these mature chickens from farms and turn them into
+multiple products for wholesalers, which then distribute them to retailers and customers.
+In developing countries, the majority of poultry production is oﬀered by small-to-medium-sized
+enterprises (SMEs). For instance, in Colombia, poultry SMEs represented 58% of the sector in the
+© 2020 The Authors.
+International Transactions in Operational Research © 2020 International Federation of Operational Research Societies
+--- PAGE 3 ---
+A. L. Solano-Blanco et al. / Intl. Trans. in Op. Res. 00 (2020) 1–24 3
+period between 2013 and 2017 (Rivera-Godoy and Rendón-Perea, 2019). In a context of growing
+markets and a more intensive and industrialized production, such SMEs must develop strategies
+to enhance their competitiveness (Mcleod et al., 2009). One plausible plan is the integration of
+the supply chain, which, in the poultry sector, implies the collaboration between farms and meat
+processing facilities. Such cooperation can provide either a vertical integration of large companies
+with farms or contractual relationships where farms supply services to integrators (OECD, 2018).
+On the other hand, intensiﬁcation is another strategy that improves economies of scale in SMEs
+(Robinson et al., 2011) by lowering costs and allowing access to better technology and management
+practices. In any case, such strategies increase the complexity of the operations and quantitative
+analytical methods are then required to make better decisions.
+Hence, integrated production planning in the broiler chicken supply chain requires a careful
+coordination to guarantee not only proﬁtability and high-quality standards but also animal welfare
+(Allender and Richards, 2010; Tonsor and Olynk, 2011). Good living conditions assure biosecurity
+measures (Siekkinen et al., 2012; Van Limbergen et al., 2018), prevent and control diseases in birds,
+and enable sustainable practices (Leinonen and Kyriazakis, 2016), which lead to environmentally
+and economically viable systems.
+For a mid-term (i.e., 6- to 12-month) production plan at the farm level, managers must make sev-
+eral tactical and interweaved decisions. Primarily, they must determine the batch size of chicken lots
+arriving from hatcheries; and the allocation of these lots to grow-out houses of diﬀerent sections or
+farms with varying capacities, while meeting biosecurity constraints. In addition, if the operation
+in the slaughterhouse is integrated with the farm operation, the production plan should adjust to
+both the forecast demand of broiler meat products and the slaughterhouse capacity to fulﬁll the
+stock policies. At the end, managers are required to produce a proﬁtable plan that keep ﬁnancial
+and environmental costs under control.
+The planning complexity in the broiler chicken supply chain provides fertile ground for the use
+of operational research (OR) to support decisions in this agricultural system. Since the early 1950s,
+OR-based approaches have been applied in agricultural systems to solve decision problems facing
+large-scale, social, and environmental complexities (Carravilla and Oliveira, 2013). Plà-Aragonés
+(2015), Weintraub and Romero (2006), Higgins et al. (2010), Bjørndal et al. (2012), and Kusumas-
+tuti et al. (2016) have reviewed applications of OR in agriculture to manage resources and to solve
+planning problems in crops and meat industries using techniques such as linear programming (LP),
+simulation, risk analysis, stochastic programming, and metaheuristics, among others.
+Several applications of OR in the meat sector have been developed for the pig industry. Plà-
+Aragonés and Rodríguez-Sánchez (2015) and Khamjan et al. (2013) focused on the transportation
+of pigs to the slaughterhouse considering decisions at the farm level. Rodríguez-Sánchez et al.
+(2012) modeled tactical decisions at sow farms to produce piglets for the pig supply chain. Nadal-
+Roig and Plà (2014) developed a production planning tool based on LP for a multiperiod multisite
+pig production system. Finally, Albornoz et al. (2014) presented a mixed-integer linear program for
+pork production and cutting that focuses on the slaughterhouse operation.
+Some researchers have employed OR techniques to enhance the poultry industry competitive-
+ness. For instance, Taube-Netto (1996) developed an integrated production planning system for
+a leading Brazilian company. The author used a modular system to determine lot sizes, alloca-
+tion decisions, slaughtering operations, and shift plans. Although the article presents an overview
+of the methodology, it does not cover the details of the models. It is worth noting that the sheer
+© 2020 The Authors.
+International Transactions in Operational Research © 2020 International Federation of Operational Research Societies
+--- PAGE 4 ---
+4 A. L. Solano-Blanco et al. / Intl. Trans. in Op. Res. 00 (2020) 1–24
+size of the company and the integrated structure does not ﬁt most poultry ﬁrms in the indus-
+try. Oliveira and Lindau (2012) proposed a scheduling methodology for the collection of chickens
+at the farm level to reduce the waiting times of birds before their transportation to a slaughter-
+house with capacity constraints. For egg-laying chickens, which are raised for egg production (not
+meat consumption), Boonmee et al. (2015) used a hybrid clustering heuristic to minimize trans-
+portation distances and to avoid mixing hen ages allocated in the same cages. Later, Boonmee
+and Sethanan (2016) developed a mixed-integer linear programming (MILP) model for solving
+small instances of a lot-sizing problem (i.e., with a planning horizon (PH) of up to 20 weeks)
+and then a particle swarm optimization approach to tackle larger instances. More recently, Bre-
+vik et al. (2020) presented an MILP model for the integration in the broiler chicken industry with
+an emphasis on the connection between hatcheries and farms. The authors also presented rolling-
+horizon (RH) heuristics to eﬃciently solve the instances due to the computational burden of the
+MILP model.
+The literature lacks work on integrated production planning and scheduling in the broiler chicken
+supply chain where farms and slaughterhouses are tightly coordinated. This paper aims to ﬁll this
+gap by extending the work outlined by the authors in BigDSSAgro held in Valparaiso (Chile) in
+2019 (Solano-Blanco et al., 2020). This work presents an optimization-based decision support tool
+that tackles strategic, tactical, and operational decisions in a poultry company with integrated op-
+erations among its farms and slaughterhouse facilities.
+The remaining structure of the paper is as follows. Section 2 presents the integrated production
+planning problem for broiler chickens. In Section 3, we present the MILP model that provides a
+production plan. Section 4 presents the case study. Section 5 presents both computational experi-
+ments on diﬀerent instances of a Colombian poultry company with vertical integration (farm and
+slaughterhouse) and a comparative analysis using a rolling-horizon heuristic and a sensitivity anal-
+ysis on the demand. Finally, Section 6 concludes the paper and outlines future work.
+2. The broiler chicken production problem
+We study the broiler chicken supply chain where production and inventory decisions are made
+by the same decision maker at the farm, slaughterhouse, and wholesale level. The hatcheries and
+feed manufacturers are suppliers of day-old chicken and chicken feed, respectively. These sourcing
+options have suﬃcient capacity, provided purchase orders are sent to suppliers with enough time in
+advance. In general, hatcheries expect purchase orders six months ahead of time so they can plan
+and adjust their production of day-old chicken lots. Therefore, a decision support tool for planning
+poultry operations is critical to run eﬃciently, this supply chain and negotiating economic deals
+with hatcheries and feeding mills.
+In this vertically integrated context, decisions made at the farm level have a tremendous impact
+and propagate throughout the whole supply chain. Speciﬁcally, the lot sizing and assignment of
+day-old chicken lots to grow-out houses have a cascade eﬀect in the poultry chain. Such resource
+allocation decisions must consider not only the operational conditions in the farm but also the
+capacity of the slaughterhouse and the demand of chicken meat products at the wholesale level.
+Thus, the coordinated ﬂow of material and information between these echelons of the poultry sup-
+ply chain makes production planning a challenging problem for any company.
+© 2020 The Authors.
+International Transactions in Operational Research © 2020 International Federation of Operational Research Societies
+--- PAGE 5 ---
+A. L. Solano-Blanco et al. / Intl. Trans. in Op. Res. 00 (2020) 1–24 5
+Fig. 2. Life cycle of the broiler chicken in a grow-out house.
+Figure 2 shows the typical life cycle of the broiler chicken under consideration. Operations at
+the farm begin with the arrival of day-old chicken lots. These lots are allocated in grow-out houses
+where they stay until completing their life cycle and are taken to the slaughterhouse. In the grow-
+out houses, chickens are provided with water, food, and a controlled microclimate. The ﬁrst two
+weeks are crucial since mortality and food-meat conversion rates are particularly high. If chickens
+are conﬁned to a high density (chickens/m 2), their stress levels increase while their conversion rate
+and meat quality decrease (Estevez, 2007). Overcrowding can even cause a signiﬁcant increase in
+mortality rates, yet lower densities increase costs of chicken raising.
+Meeting biosecurity measures improve animal welfare and guarantee meat quality for human
+consumption. For this reason, it is of utmost importance that broiler chickens allocated at the
+same grow-out house have the same age, so vaccines can be scheduled accordingly. By doing so,
+there are lower chances of proliferation of diseases, which can greatly aﬀect the whole farm and
+its surroundings. Since chickens are mainly aﬀected by airborne diseases or through tools used by
+employees, it is advisable to have homogeneous and separated lots. Consequently, poultry farms are
+often geographically divided into smaller areas called sections comprising grow-out houses located
+nearby. Figure 3 shows an example of a case of a farm with 11 grow-out houses distributed into
+ﬁve sections.
+Conﬁning chickens into sections is a good poultry farming practice. Aside from avoiding cross-
+contamination, which is a major biosecurity concern, sections can also increase productivity. Since
+the idea is that grow-out houses in one section are ﬁlled with day-old chicken in the shortest possi-
+ble time, nearby chickens are going to reach their slaughter weight roughly at the same time. When
+the slaughter time comes, it then requires less eﬀort to load trucks and ship chickens to the slaugh-
+terhouse. Once chickens leave the farm, cleaning and sanitation processes start simultaneously at all
+grow-out houses of the same section, so to get ready for a new production cycle as early as possible.
+These processes require a rest period where no chicken lots are assigned to the section.
+In the meat market, consumers value freshness and short storage times. A good coordination
+between farm and slaughterhouse operations often translate into low inventories and cost reduc-
+tions. A good ﬂow of information allows for a smooth reaction to demand ﬂuctuations and to
+adjust operations to avoid under- or oversupply. Slaughterhouses store chicken meat products in
+compartmentalized cold rooms that operate based on the inventory levels and their safety stock. In
+practice, if inventory levels are kept low, close to the safety stock, product freshness is guaranteed
+and storage costs reduced.
+In summary, an eﬃcient broiler chicken supply chain relies on coordinated farm, slaughterhouse,
+and wholesale operations. Given the farm layout (i.e., distribution of sections and grow-out houses),
+© 2020 The Authors.
+International Transactions in Operational Research © 2020 International Federation of Operational Research Societies
+--- PAGE 6 ---
+6 A. L. Solano-Blanco et al. / Intl. Trans. in Op. Res. 00 (2020) 1–24
+Fig. 3. Example of a farm with 11 grow-out houses distributed into ﬁve sections.
+the broiler chicken production problem consists of determining the size of day-old chicken lots to
+order from hatcheries and the grow-out house assignment at the farm, so to maximize the com-
+pany’s proﬁt along the PH. The plan must meet the demand of chicken meat product at the whole-
+sale level as well as operational and biosecurity constraints in the farm and slaughterhouse. The
+longer the PH the better, as better decisions can be spread taking advantage of seasonal demand
+and better sourcing deals.
+3. Optimization model for the broiler chicken production problem
+We propose an MILP model to solve the broiler chicken production problem. The MILP model
+aims at providing optimal production and inventory decisions for the farm and the slaughterhouse,
+while observing the demand from the wholesale level and operational constraints. The model will
+be described using the order of Fig. 4, which zooms in on Fig. 1. Table 1 summarizes the notation
+used in this section.
+The model deﬁnition is as follows. Let T be the set of weeks in the time horizon and J the set
+of ages of broiler chickens (in weeks). Let H be the set of grow-out houses and H0 the subset of
+grow-out houses that are occupied (i.e., not available) at the beginning of the PH. Let S be the set
+© 2020 The Authors.
+International Transactions in Operational Research © 2020 International Federation of Operational Research Societies
+--- PAGE 7 ---
+A. L. Solano-Blanco et al. / Intl. Trans. in Op. Res. 00 (2020) 1–24 7
+Fig. 4. Schematic notation of the model following the ﬂow of the supply chain.
+of sections in the farm and Hs be the subset of grow-out houses of section s ∈ S.F i n a l l y ,l e tR be
+the set of walk-in cold rooms at the slaughterhouse.
+The integrated operation starts with the day-old chicken lot orders that arrive every week to the
+farm. The number of day-old chickens in the lot should be greater than a minimum order quantity
+parameter Qmin. The lot is then assigned to one or more grow-out houses h ∈ H, considering its
+minimum and maximum occupancy, which are the parametersKmin
+h and Kmax
+h , respectively. Chicken
+lots of diﬀerent ages can be assigned to grow-out houses of the same sections ∈ S, but the diﬀerence
+between lot ages can be at most Jmax
+s weeks. After chickens are sent to the slaughterhouse, grow-
+out houses need to be cleaned and rested during at least Lmin weeks; on the other hand, a grow-out
+house cannot be idle for more than Lmax weeks. In the ﬁrst weeks of the PH, the values of some
+v a r i a b l e sh a v et ob eﬁ x e du s i n gt h ep a r a m e t e r sY 0a
+th for assignments, X 0
+hj for fattening, and Y 0c
+tk
+for cleaning.
+The chicken lot that arrives to the slaughterhouse is diminished by the mortality rateF . Chickens
+are slaughtered and the yield is given by the parameter W . The chicken product is then stored in
+cold rooms. In the ﬁrst week, there is an inventory of I0 at the slaughterhouse; then, at any given
+time, there should be a minimum safety stock given byImin. The parameters Imax
+r and Imax represent
+the maximum inventory capacity of every cold roomr ∈ R and of the slaughterhouse, respectively.
+The demand is known for every week and it is denoted by the parameter Dt. The parameter Co
+denotes the unitary ordering cost of day-old chickens. Parameters Cu
+h and Cc
+h are the ﬁxed costs of
+using and cleaning a grow-out house, respectively. The costCu
+h includes mostly salaries and supplies
+to workers; and the costCc
+h includes disinfection and sanitization supplies. The parameterC f
+tj is the
+unitary cost of maintaining (fattening) chickens of agej ∈ J in week t ∈ T and includes the cost of
+feed and vaccines. In general, in the poultry cost structure, the feed costs account roughly for 70%
+of the operation cost, thusC f
+tj is modeled with ﬁner detail to capture cost variations per week along
+the PH. Finally, parameterVt denotes the revenue per unit of chicken product on weekt ∈ T .
+The model decides with variable qt the size of the day-old chicken lot that arrives on weekt ∈ T .
+For the farm operation, binary variables ya
+th, ym
+th,a n d yc
+th decide whether a grow-out house h ∈ H
+© 2020 The Authors.
+International Transactions in Operational Research © 2020 International Federation of Operational Research Societies
+--- PAGE 8 ---
+8 A. L. Solano-Blanco et al. / Intl. Trans. in Op. Res. 00 (2020) 1–24
+Table 1
+Summary of the notation used in the mathematical model
+Sets
+T Set of weeks in the time horizon (ordered set)
+J Set of ages (in weeks) of broiler chickens
+H Set of grow-out houses
+H0 Set of grow-out houses occupied at the beginning of the PH (i.e., not available)
+S Set of sections in the farm
+Hs Set of grow-out houses of section s ∈ S
+R Set of walk-in cold rooms at the slaughterhouse (ordered set)
+Parameters
+Qmin Minimum order quantity of day-old chickens for each week (chickens)
+Kmin
+h Minimum number of chickens in grow-out househ ∈ H (if used) (chickens)
+Kmax
+h Maximum number of chickens in grow-out househ ∈ H (if used) (chickens)
+Jmax
+s Maximum diﬀerence of chicken ages allowed in section s ∈ S (weeks)
+Lmin Minimum number of weeks for cleaning, sanitizing, disinfecting, and resting of a grow-out house (weeks)
+Lmax Maximum number of weeks for resting of a grow-out house (weeks)
+Y 0a
+th 1, if the grow-out house h ∈ H can be assigned on week t = 1,..., |J |− 1; 0, otherwise
+Y 0c
+th 1, if the grow-out house is resting on week t = 1,..., Lmin;0 ,o t h e r w i s e
+X 0
+hj The number of chickens of age j ∈ J that occupy grow-out house h ∈ H on the ﬁrst week (chickens)
+F Mortality rate of a chicken lot (dimensionless)
+W Unitary yield of slaughtered chickens (kg/chicken)
+Imin Minimum inventory of chicken product (kg)
+Imax Maximum inventory of chicken product (kg)
+Imax
+r Maximum inventory in cold room r ∈ R (kg)
+I0 Inventory of chicken product at the beginning of the planning horizon (kg)
+Dt Demand of chicken product on week t ∈ T (kg)
+Co Unitary ordering (purchasing) cost of a day-old chicken ($)
+Cu
+h Fixed weekly cost of using grow-out house h ∈ H ($)
+C f
+tj Unitary weekly cost of fattening a chicken of age j ∈ J on week t ∈ T ($)
+Cc
+h Fixed weekly cost of cleaning, sanitizing, and disinfecting grow-out house h ∈ H ($)
+Ci
+r Fixed weekly cost of carrying inventory using cold room r ∈ R ($)
+Vt Revenue per kilogram of chicken product for weekt ∈ T ($/kg)
+Variables
+qt Size of the day-old chicken lot that arrives on weekt ∈ T (chickens)
+ya
+th 1, if the grow-out house h ∈ H receives a day-old chicken lot at weekt ∈ T ;0 ,o t h e r w i s e
+ym
+th 1, if a lot of chickens with age greater than one week is maintained at grow-out househ ∈ H in week
+t ∈ T ;0 ,o t h e r w i s e
+yc
+th 1, if the grow-out house h ∈ H is being cleaned in week t ∈ T ;0 ,o t h e r w i s e
+xth j The number of chickens of age j ∈ J that occupy a grow-out house h ∈ H in week t ∈ T (chickens)
+wth Quantity of chicken product from chickens of the grow-out househ ∈ H slaughtered in week t ∈ T (kg)
+ztr 1, if the cold room r ∈ R is being used on week t ∈ T ;0 ,o t h e r w i s e
+It Quantity of chicken product that is kept on inventory in the cold rooms at the end of weekt ∈ T (kg)
+Auxiliary variables
+co Cost of ordering ($)
+cm Cost of farm operation ($)
+ci Cost of inventory management ($)
+© 2020 The Authors.
+International Transactions in Operational Research © 2020 International Federation of Operational Research Societies
+--- PAGE 9 ---
+A. L. Solano-Blanco et al. / Intl. Trans. in Op. Res. 00 (2020) 1–24 9
+should be assigned with day-old chickens, maintained with chickens of other ages, or cleaned in a
+given week t ∈ T , respectively. The variable xth j keeps track of the amount of chickens that are in
+grow-out house h ∈ H in week t ∈ T with age j ∈ J . Variable pth denotes how many chickens leave
+grow-out house h ∈ H in week t ∈ T to be slaughtered; while variablewth keeps track of the chicken
+product (in kg) after the slaughtering. Variable ztr decides whether to operate a cold room r ∈ R
+on week t ∈ T , while variable It keeps track of the inventory of chicken product stored in the cold
+rooms on week t ∈ T . Finally, the auxiliary variablesco, cm,a n dci are a convenient way to account
+for the total ordering, maintenance, and inventory costs, respectively. The proposed MILP follows:
+max z =
+∑
+t∈T
+Vt · Dt − [co + cm + ci]( 1 )
+subject to
+costs:
+co =
+∑
+t∈T
+Co · qt (2)
+cm =
+∑
+t∈T
+∑
+h∈H
+⎡
+⎣(
+Cu
+h · (ya
+th + ym
+th ) + Cc
+h · yc
+th
+)
++
+∑
+j∈J
+C f
+tj · xth j
+⎤
+⎦ (3)
+ci =
+∑
+t∈T
+∑
+r∈R
+Ci
+r · ztr; (4)
+ordering:
+qt ≥ Qmin, t = 1,..., |T |−| J |+ 1( 5 )
+qt =
+∑
+h∈H
+xth1, t = 1,..., |T |−| J |+ 1; (6)
+assignment of grow-out houses:
+ya
+th +
+t+|J |−1∑
+t′=t+Jmaxs +1
+ya
+t′h′ ≤ 1, t = 1,..., |T |−| J |+ 1; h, h′ ∈ Hs; s ∈ S (7)
+xth1 ≥ Kmin
+h · ya
+th , t ∈ T , h ∈ H (8)
+xth1 ≤ Kmax
+h · ya
+th , t ∈ T , h ∈ H (9)
+xth j ≥ Kmin
+h · ym
+th , t ∈ T , h ∈ H, j ∈ J (10)
+xth j ≤ Kmax
+h · ym
+th , t ∈ T , h ∈ H, j ∈ J (11)
+ya
+th + ym
+th + yc
+th ≤ 1, t ∈ T , h ∈ H; (12)
+© 2020 The Authors.
+International Transactions in Operational Research © 2020 International Federation of Operational Research Societies
+--- PAGE 10 ---
+10 A. L. Solano-Blanco et al. / Intl. Trans. in Op. Res. 00 (2020) 1–24
+sanitation of grow-out houses:
+Kmax
+h · yc
+t′h ≥ xth|J |, t = 1,..., |T |− 1;
+t′ = t + 1,..., min(t + Lmin, |T |);
+h ∈ H
+(13)
+t+|J |+Lmax−1∑
+t′=t
+ya
+t′h ≥ 1, t = 1,..., |T |−| J |− Lmax + 1; h ∈ H; (14)
+farm initialization (variable ﬁxing):
+xth j ≤ 0, t = 1,..., |J |− 1; h ∈ H
+⏐⏐ h /∈ H0;
+j = t + 1,..., |J |
+(15)
+yc
+th ≥ Y 0c
+th , t = 1,..., Lmin; h ∈ H
+⏐⏐ Y 0c
+th = 1 (16)
+ya
+th ≤ Y 0a
+th , t = 1,..., |J |; h ∈ H (17)
+x1hj = X 0
+hj , h ∈ H0, j ∈ J
+⏐⏐ X 0
+hj > 0; (18)
+fattening:
+xth j = xt+1,h, j+1, t = 1,..., |T |− 1; h ∈ H; j = 1,..., |J |− 1 (19)
+xth1 = 0, t =| T |−| J |+ 1,..., T ; h ∈ H; (20)
+slaughterhouse:
+wth = (1 − F ) · W · xth|J |, t ∈ T , h ∈ H; (21)
+freezing rooms:
+It ≥ Imin, t ∈ T (22)
+It ≤ Imax · zt1, t ∈ T (23)
+It −
+r−1∑
+r′=1
+Imax
+r′ ≤
+(
+Imax −
+r−1∑
+r′=1
+Imax
+r′
+)
+· ztr , t ∈ T ; r = 2,..., |R|; (24)
+sales:
+∑
+h∈H
+w1h + I0 = D1 + I1 (25)
+∑
+h∈H
+wth + It−1 = Dt + It , t = 2,..., |T |; (26)
+© 2020 The Authors.
+International Transactions in Operational Research © 2020 International Federation of Operational Research Societies
+--- PAGE 11 ---
+A. L. Solano-Blanco et al. / Intl. Trans. in Op. Res. 00 (2020) 1–24 11
+Fig. 5. Graphical representation of constraint (7), which enforces a maximum allowed age diﬀerence between lots.
+variable deﬁnition:
+xth j ∈ Z1
++; t ∈ T , h ∈ H, j ∈ J (27)
+ya
+th , ym
+th , yc
+th ∈{ 0, 1}; t ∈ T , h ∈ H (28)
+wth ≥ 0; t ∈ T , h ∈ H (29)
+ztr ∈{ 0, 1}; t ∈ T , r ∈ R (30)
+qt ∈ Z1
++; t ∈ T (31)
+It ≥ 0; t ∈ T (32)
+co, cm, ci ≥ 0. (33)
+The model maximizes proﬁt (1) by subtracting to the sales income, the costs of fattening and
+slaughtering operations (2)–(4) along the PH. The group of constraints (5) assures that the order
+size at any given week is larger than or equal to the minimum order size. Since the last lot considered
+should be ready for slaughtering at the end of the PH, we can only order until period|T |− (|J |−
+1). The set of constraints (6) assigns the day-old chicken of the arriving lot to the grow-out houses
+every week.
+The set of constraints (7) guarantees that the age diﬀerence within a section is less than or equal to
+the maximum allowed. For the sake of clarity, Fig. 5 illustrates this constraint through an example
+with |J |= 6a n dJmax
+s = 1. Let the ﬁrst row represent an assignment at grow-out househ in week t,
+then the constraint checks for the other grow-out housesh′ in the same section s, that the maximum
+diﬀerence between ages of chickens in that section is one week. This indicates that we can assign
+chickens in that section on t + 1 but not on t + 2,..., t + 5.
+© 2020 The Authors.
+International Transactions in Operational Research © 2020 International Federation of Operational Research Societies
+--- PAGE 12 ---
+12 A. L. Solano-Blanco et al. / Intl. Trans. in Op. Res. 00 (2020) 1–24
+Fig. 6. Graphical representation of the inventory and cold rooms management modeled through constraint (24).
+Constraints (8) and (10) guarantee that if a grow-out house is used, the amount of assigned
+chickens should satisfy a minimum occupancy level. Constraint groups (9) and (11) assure that the
+amount of chickens assigned is less than or equal to the maximum capacity of the grow-out houses.
+If a grow-out house is being used, new chicken assignments are possible after it is freed from the
+current lot and sanitized. Constraints (12) guarantee that at a given time period a grow-out house
+could be either receiving chickens, maintaining chickens, being cleaned, or idle.
+For sanitation purposes, the set of constraints (13) enforces a minimum number of weeks of
+cleaning for each grow-out house just after a lot of chickens has been sent to the slaughterhouse.
+The constraint group (14) assures that any grow-out house should not exceedLmax weeks of clean-
+ing and resting after the fattening stage.
+The set of constraints (15) assures that in the ﬁrst weeks, the model does not assign chickens older
+than t. For instance, the model forbids to maintain chickens three-week old in the second week of
+the PH. Constraints (16) assure the resting period of grow-out houses in the ﬁrst weeks that is ﬁxed
+with parameter Y 0c
+th . The set of constraints (17) guarantees that no more grow-out houses can be
+assigned to a section in the ﬁrst weeks if this assignment violates the biosecurity conditions with
+parameter Y 0a
+th . Constraint group (18) assigns chickens of diﬀerent ages in the ﬁrst week according
+to the initial assignment conditions of the farm. In summary, constraints (15)–(18) allow us to
+initialize the model with a snapshot of the current conditions in the farm.
+We model the chicken life cycle with constraints (19) assuring that, when assigned, chickens are
+going to grow through the weeks until they reach the slaughter weight (at age |J |). Constraints
+(20) guarantee that there are no more assignments of chickens in the farm in the last weeks of the
+PH because they would not reach maturity. The set of constraints (21) guarantees that the number
+of chickens that leave the grow-out house are converted to kilograms of chicken meat product
+accounting for the mortality rate.
+In the slaughterhouse, chicken meat products are stored in walk-in cold rooms. Constraint group
+(22) enforces the minimum weekly inventory. Constraints (23) assure that the ﬁrst cold room is
+always in operation. Constraints (24) guarantee that cold rooms are activated depending on the
+inventory levels. Figure 6 shows an illustrative example with three cold rooms, each one of them
+© 2020 The Authors.
+International Transactions in Operational Research © 2020 International Federation of Operational Research Societies
+--- PAGE 13 ---
+A. L. Solano-Blanco et al. / Intl. Trans. in Op. Res. 00 (2020) 1–24 13
+with a capacity of 100 kg, and an inventory in the fourth period of I4 = 150. For this case, the ﬁrst
+two cold rooms should be operating and the third cold room should be powered oﬀ, so variables
+z41 and z42 will take the value of 1, while variablez43 will take the value of 0.
+Finally, with constraints (25) for the ﬁrst week and (26) for the remaining ones, we guarantee that
+the inventory of meat (chicken product) at the end of a time period is given by the initial inventory,
+plus the newly slaughtered chicken coming from the farm, minus the demanded chicken product at
+the sales points. Constraints (27)–(33) deﬁne the nature of the decision variables.
+4. Case study: a vertically integrated poultry supply chain in Santa Marta (Colombia)
+We applied the proposed optimization model using real data from a medium-sized company in
+Santa Marta (Colombia) called Pollos Altair. The company handles 80,000 chickens at any given
+time in the farm and a daily production of more than 2,000 chickens in the slaughterhouse. The
+company was involved in the model deﬁnition phase providing constant feedback and reality
+checks. Some of the critical and practical requirements, explicitly asked by the company manage-
+ment, consisted in handling biosecurity constraints, initial conditions, and maximum resting times
+in grow-out houses, among other conditions. The model was reﬁned through an iterative process
+with periodic meetings with the company’s management.
+The company provided 30 months of data records (from January 2016 to June 2018) on the
+farm scheduling and slaughterhouse operations. Jointly with the company, we estimated parameters
+such as, but not limited to, costs, allowed chicken density, inventory limits, size of day-old chicken
+lots, and chicken-to-meat conversion rates. To estimate demand, we used production and inventory
+l e v e l sa n daf o r e c a s tb a s e do nh i s t o r i cd a t a .
+The company sends in advance its yearly poultry production plan to the hatchery. This informa-
+tion ﬂow allows the hatchery to align its production plan and improve the supply chain performance
+from the supplier end. However, during the year, the plan is updated every six months and the com-
+pany is allowed to make minor modiﬁcations to the plan three months in advance of the housing
+date. For benchmark purposes, we created four instances with 3-, 6-, 9-, and 12-month PHs from
+two datasets with records starting in December 2016 and December 2017 labeled as Altair01 and
+Altair02, respectively.
+To illustrate the model inputs, let us consider a smaller instance depicted in Fig. 7. It represents
+the state of the farm with 11 grow-out houses distributed in ﬁve sections at the beginning of the PH.
+Note that some sections (e.g., Section C) have allocated lots of chicken of diﬀerent ages. Within sec-
+tions, chickens of one or two consecutive ages are allowed to coexist. Also, if a grow-out house is
+empty, it could be either idle or being cleaned. After solving the model, the company aims for a de-
+tailed production plan at the farm and the inventory management decisions at the slaughterhouse,
+which could lead to the best possible proﬁt while meeting all business constraints.
+5. Computational results and analysis
+We implemented the model using Pyomo 5.6.2.dev0 (Hart et al., 2017) library for Python 3.7 and
+Gurobi 9.0.2 as the MILP solver (Gurobi Optimization, 2020). We ran all experiments on a 7th
+© 2020 The Authors.
+International Transactions in Operational Research © 2020 International Federation of Operational Research Societies
+--- PAGE 14 ---
+14 A. L. Solano-Blanco et al. / Intl. Trans. in Op. Res. 00 (2020) 1–24
+Fig. 7. Illustrative example of the farm with 11 grow-out houses distributed in ﬁve sections.
+Generation AMD A10 2.40 GHz computer with 8 GB RAM, 10 processors (4 CPU+ 6G P Uc o r e s )
+and 64-bit architecture on Windows 10. We set the solver parameters to use at most four threads;
+and the termination criteria was either a time limit of 84,600 seconds (1 day) or an optimality gap
+of 1%, 3%, 5%, and 10% for the 3-, 6-, 9-, and 12-month instances, respectively.
+5.1. Decision support system
+We developed a Microsoft (MS) Excel-based decision support system to communicate the output
+of the models to the farm managers and to facilitate the implementation of the model’s output.
+Figure 8 represents a 13-week (three-month) schedule for the farm operations of the illustrative
+example shown in Fig. 7. The columns in the table represent weeks, while rows represent a com-
+bination of section (A, B, C, D, or E) and grow-out house sequence (1 , 2,... ). Observing a given
+column, we could know the current state of the farm for a given week. For instance, observing
+column “01,” we note that in the ﬁrst week grow-out houses A1 and D1 are idle; 4100 chicken
+at grow-out house A2 are ready to be sacriﬁced; and an incoming lot of 2068 day-old chickens
+from the hatchery is allocated to grow-out house D2. If we focus on a row, for instance D2, we
+see what happens to the grow-out house along the PH. Note that the incoming lot of chickens in
+grow-out house D2 is raised and gets ready to be slaughtered in week 6. Then, the grow-out house
+gets cleaned in weeks 7 and 8, and becomes idle starting from week 9. This output was produced
+with Visual Basic for Applications (VBA) automation in MS-Excel and helped us communicate the
+proposed production plan to the farm managers. Based on this output, they quickly checked if the
+results were coherent and helped us discuss model changes.
+© 2020 The Authors.
+International Transactions in Operational Research © 2020 International Federation of Operational Research Societies
+--- PAGE 15 ---
+A. L. Solano-Blanco et al. / Intl. Trans. in Op. Res. 00 (2020) 1–24 15
+Fig. 8. Illustrative example: a 13-week schedule for the farm (weeks in columns; grow-out houses in rows). Colors in
+cells represent the age of chicken lots.
+Fig. 9. Illustrative example: tactical visualization of the 13-week schedule.
+Figure 9 shows the second representation of the schedule shown in Fig. 8, which allows farm
+managers to communicate with employees in charge of implementing the model’s output. In Fig. 9,
+the solution for the illustrative example is translated into a tactical format that includes relevant in-
+formation per week, including the assigned grow-out house, date of arrival, area, density, quantities
+of chickens, range of dates for slaughtering, demand, and inventory. Another output of the decision
+support system is a chart of the inventory level at any given time of the PH (depicted in Fig. 10).
+Note that the optimization process pushes down inventory, fulﬁlling the minimum requirement
+level and using as few cold rooms as possible.
+© 2020 The Authors.
+International Transactions in Operational Research © 2020 International Federation of Operational Research Societies
+--- PAGE 16 ---
+16 A. L. Solano-Blanco et al. / Intl. Trans. in Op. Res. 00 (2020) 1–24
+Fig. 10. Illustrative example: evolution of the production and inventory levels along the planning horizon.
+Table 2
+Summary of results for the benchmark instances in terms of size (horizon, variables, and constraints), quality (gap), and
+performance (time)
+Dataset
+Planning
+horizon
+(months) Variables Constraints
+Improvement
+(%)
+Gap
+(%)
+Time
+(seconds)
+Altair01 12 14,353 36,885 42.8 ≤10% 6456.8
+9 10,765 27,213 36.5 ≤5% 2903.8
+6 7177 17,541 40.0 ≤3% 63.5
+3 3589 7869 57.0 ≤1% 1.4
+Altair02 12 14,353 36,885 28.3 ≤10% 7690.4
+9 10,765 27,213 22.8 ≤5% 2895.5
+6 7177 17,541 19.0 ≤3% 187.9
+3 3589 7869 6.7 ≤1% 0.4
+5.2. Quality and performance assessment
+Table 2 summarizes the computational results for the two sets of instances. Column 1 presents the
+name of the dataset (family of instances). Column 2 shows the length of the PH. Columns 3 and
+4 present the number of variables and constraints in the resulting MILP model for each instance,
+respectively. Column 5 presents the improvement of the MILP solution against the housing and
+slaughtering plan used by the company. Column 6 presents the optimality gap used as termination
+criterion. Column 7 presents the computational time in seconds to reach the target gap in Column
+6. More importantly, for all instances there is a signiﬁcant improvement that ranges from 7% to
+57%, against the manual plan of the company. Although the model is hard to solve, the optimizer
+found high-quality solutions for the 3-, 6-, 9-, and 12-month instances in less than 2 seconds, 4
+© 2020 The Authors.
+International Transactions in Operational Research © 2020 International Federation of Operational Research Societies
+--- PAGE 17 ---
+A. L. Solano-Blanco et al. / Intl. Trans. in Op. Res. 00 (2020) 1–24 17
+Fig. 11. Breakup of cost variation against the manual plan for all benchmark instances.
+minutes, 50 minutes, and 2.2 hours, respectively. These times are acceptable due to the strategic and
+tactical level of the decisions.
+To understand what drives the signiﬁcant improvements against the manual planning approach,
+we delved into the cost structure of the solutions for the benchmark instances. Figure 11 shows
+the relative cost variation against the manual approach, breaking up the costs for each instance of
+each dataset (family of instances). Note that cost reductions come mostly from a better inventory
+management. To a less extent, these cost savings come from ordering and fattening decisions. The
+reduction in inventory costs ranges from 30% to 60%; while the reduction in ordering and fattening
+costs reaches up to 3% and 4%, respectively. This means that less chicken is bought and fattened,
+and ultimately kept in inventory. These cost improvements come at the expense of higher housing
+and cleaning costs. However, it is worth highlighting that for some instances we found that the
+original production plan violated the biosecurity standards, which is understandable because they
+are very hard to meet manually. For example, the original 12-month production plans that the
+company executed for the periods included in the
+Altair01 and Altair02 datasets had 16% and
+23% of assignments violating biosecurity conditions, respectively. On the contrary, the model did
+not allow biosecurity violations, shifting the company away of an overly expensive risk exposure.
+5.3. Rolling-horizon heuristic
+In general, time-based optimization models present a myopic behavior in the last time periods of
+the PH. As the foresight is restricted to the last time period of the calendar, decisions are made
+without considering future periods beyond the end of the PH. In our case study, such behavior
+shows in Fig. 10 by model decisions carrying the inventory to the lowest possible level at the end
+of the PH. This low inventory and farm conﬁguration at the end are less than ideal as they put the
+company at risk as initial conditions are harsh for future planning cycles (i.e., next optimization
+run).
+© 2020 The Authors.
+International Transactions in Operational Research © 2020 International Federation of Operational Research Societies
+--- PAGE 18 ---
+18 A. L. Solano-Blanco et al. / Intl. Trans. in Op. Res. 00 (2020) 1–24
+Fig. 12. Representation of the rolling-horizon approach.
+A common practice in industry to address this problem is to feed the model with a forecast of
+additional time periods under an RH approach (Sethi and Sorger, 1991). The idea behind the RH
+is to make decisions for a (long) PH by solving a series of linked smaller optimization models with
+shorter planning cycles (Sahin et al., 2013). Although an RH approach yields a heuristic solution
+for the long PH, it is suitable for addressing the myopic behavior, scalability, and even stochastic
+demand scenarios (Silvente et al., 2015).
+For the implementation of the RH approach we deﬁne (a) the (long) PH; (b) the shorter equally
+sized RH for each of the smaller MILP models; and (c) a control horizon (CH), which is a fraction
+of the RH where the smaller MILP models build (ﬁx) part of the ﬁnal solution for the PH. The
+RH approach iteratively solves smaller MILP models as follows. First, we solve a smaller MILP
+over the ﬁrst RH and save the decisions of the ﬁrst periods over the CH. The state of the system
+at the end of the ﬁrst CH is used to initialize the model for the second RH. This process continues
+by sliding the RH over the PH, solving smaller MILP models over RH, and ﬁxing the solution for
+the CH. At the end, to cover all the PH with the CH, the last RH needs to extend over additional
+dummy time periods. Figure 12 shows schematically an example of the RH approach with a PH of
+6 months (26 weeks), RH of 3 months (13 weeks), and CH of 5 weeks (except for the last one).
+To test the beneﬁts of the RH approach, we solved the instances with the longer 9- and 12-month
+PHs for the
+Altair01 and Altair02 datasets, using 13-week RH. Figure 13 compares the RH
+heuristic against the MILP (henceforth called the single-run MILP) in terms of solution quality
+and computing time. On the left axis, the clustered columns show the improvement of the single-
+run MILP and the RH heuristic compared against the manual housing and slaughtering plan used
+by the company. On the
+Altair01 dataset, the improvements for the single-run MILP for the 12-
+and 9-month horizon are 42.8% and 36.5%, whereas the RH heuristic improves the manual plan by
+24.3% and 14.4%. Similarly, on the
+Altair02 dataset, the improvements for the single-run MILP
+for the 12- and 9-month horizon are 28.3% and 22.8%, whereas the RH heuristic improves the
+manual plan by 12.9% and 4.7%. However, the better improvements of the single-run MILP come at
+a computational price. On the right axis (in logarithmic scale), the markers show the time in seconds
+for the single-run (×)a n dt h eR H(+). On the
+Altair01 dataset, the solution time for the single-run
+MILP for the 12- and 9-month horizon are 6456.8 and 2903.8 seconds, respectively, whereas the RH
+heuristic takes just 14.9 and 7.3 seconds. Similarly, on the
+Altair02 dataset, the solution time for
+the single-run MILP for the 12- and 9-month horizon are 7690.4 and 2895.5 seconds, respectively,
+© 2020 The Authors.
+International Transactions in Operational Research © 2020 International Federation of Operational Research Societies
+--- PAGE 19 ---
+A. L. Solano-Blanco et al. / Intl. Trans. in Op. Res. 00 (2020) 1–24 19
+Fig. 13. Summary of results of the rolling horizon for the benchmark instances in terms of improvement and
+performance (time).
+whereas the RH heuristics only takes 4.6 and 3.9 seconds. Thus, on the computational side, an
+advantage of the RH heuristic is that it takes less than 15 seconds to solve, whereas a single-run
+MILP can take a few hours.
+For further understanding, we delved into the solution of the single-run MILP solved for the
+entire PH and compared it against that of the RH heuristic. For illustrative purposes, Fig. 14 shows
+such diﬀerences for the 12-month instance in dataset
+Altair01. Figure 14a shows that the inventory
+of kilograms of broiler chicken in the RH heuristic is kept low with respect to the single-run MILP,
+except for the last weeks (50–52). Because the RH heuristic sees more demand on weeks that go
+beyond the PH, it chooses to keep more inventory to satisfy it. Such protective behavior eﬀectively
+addresses the short-sighted view of the single-run MILP . At ﬁrst glance, it also seems that the RH
+heuristic performs better due to greater savings in inventory costs. Nonetheless, the maintenance
+cost increases in the RH heuristic because roughly less chickens are assigned to more grow-out
+houses. This is supported by Fig. 14b, which shows the number of six-week-old chickens for every
+week and by Fig. 14c, which shows the number of grow-out houses that hold six-week-old chickens.
+For example, in week 11, though the amount of birds in both single-run MILP and RH heuristic are
+very similar, the number of grow-out houses needed by the RH heuristic to allocate the chickens
+is larger. In total, 13 more grow-out houses are used by the RH heuristic for this instance, thus
+increasing the ﬁxed costs in comparison to the single-run MILP .
+Lastly, we evaluated ﬁnancially the implementation of the RH heuristic in the company. Even
+though the improvement by the RH heuristic is lower than the single-run MILP, the return on
+investment (ROI) with one year of use is at least 11%. To compute this ROI, we considered the
+beneﬁts expressed by the gains against the hand-based solution and the cost of a commercial solver
+license, equipment, and salaries to run the project for that year. In summary, this optimization-
+based decision support system is self-sustainable and pays oﬀ.
+5.4. Demand sensitivity analysis
+Demand is a critical parameter in any production planning system and this is no exception for
+the broiler chicken supply chain. Fortunately, the decision support tool allows the company to
+© 2020 The Authors.
+International Transactions in Operational Research © 2020 International Federation of Operational Research Societies
+--- PAGE 20 ---
+20 A. L. Solano-Blanco et al. / Intl. Trans. in Op. Res. 00 (2020) 1–24
+Fig. 14. Weekly comparison between the single-run MILP and the rolling-horizon heuristic for the 12-month instance
+of dataset Altair01.
+explore diﬀerent “what-if” scenarios to measure the impact on proﬁt as demand ﬂuctuates. Fig-
+ure 15 shows how the prescriptive actions of the model vary as we change the demand for the six-
+month instance of dataset
+Altair01. We compare two scenarios (low- and high-demand) against a
+baseline case (expected demand). The low-demand (high-demand) scenario reduces (increases) by
+10% the expected demand (baseline) in the last half of the PH.
+Figure 15a and b shows the weekly inventory levels and the number of chickens ready for slaugh-
+ter, suggested by the MILP for the three scenarios. Under high demand, more chickens are fattened
+in the farms and inventory is kept under control. In contrast, under a low-demand scenario, less
+chickens are fattened, but inventories are kept high. Comparing against the baseline case, the high-
+demand scenario increases proﬁt by 6%, while the low-demand scenario reduces proﬁt by 7%.
+© 2020 The Authors.
+International Transactions in Operational Research © 2020 International Federation of Operational Research Societies
+--- PAGE 21 ---
+A. L. Solano-Blanco et al. / Intl. Trans. in Op. Res. 00 (2020) 1–24 21
+Fig. 15. Weekly comparison between the cases of low, baseline, and high demand for the six-month instance of dataset
+Altair01.
+Although demand is inherently deterministic in the proposed MILP, the decision support tool
+allows the company to relax this assumption and evaluate diﬀerent scenarios based on demand
+changes leading to better informed decisions. As expected, the MILP model conveniently adjusts
+production plans that are sensitive to demand ﬂuctuations. In addition, the RH heuristic (Sec-
+tion 5.3) provides an eﬀective adaptive strategy to adjust the production plan as more reliable de-
+mand estimates unveil. In this way, available demand estimations at the beginning of the PH can be
+used for an initial aggregate plan and future adjusted demand estimations could be used within a
+RH heuristic as more accurate data reveals over time.
+6. Conclusions
+In this paper, we developed an MILP model (single-run MILP) that determines a suitable way to or-
+der and assign chicken lots for the integrated operations of farms and slaughterhouses in the broiler
+chicken supply chain. The model maximizes proﬁt and considers the customer demand observed at
+the wholesale level, initialization conditions at the farm, homogeneity of chicken ages in sections,
+the mortality rate of chickens, cleaning times of grow-out houses, and inventory and production
+© 2020 The Authors.
+International Transactions in Operational Research © 2020 International Federation of Operational Research Societies
+--- PAGE 22 ---
+22 A. L. Solano-Blanco et al. / Intl. Trans. in Op. Res. 00 (2020) 1–24
+decisions at the slaughterhouse. Although these considerations add complexity to the integrated
+planning of poultry chicken production, the proposed model is capable of solving instances with
+several grow-out houses and sections in a mid-term PH.
+We validated the model with a medium-sized poultry company that operates in Santa Marta
+(Colombia). The company provided us with real data and manual plans with biosecurity risks (i.e.,
+shorter cleaning times and mixed ages). The results showed potential proﬁt improvements ranging
+from nearly 7% up to 57%, while still meeting biosecurity standards. As assignment costs may
+rise due to stringent constraints, inventory costs can be reduced by more than 40%. Therefore, the
+vertical integration proved to be beneﬁcial as the common goal is achieved with fewer resources.
+Additional beneﬁts of using an optimization-based decision support system in this agri-chain
+come in terms of solution quality, feasibility of the plans, “what-if” analysis on sensitive parameters
+(e.g., demand), and savings in management time. The model was able to produce a tactical solution
+for a 52-week PH in less than 2.2 hours; and the plan can be adjusted for a 13-week PH in less than
+am i n u t e .
+Furthermore, we propose an RH heuristic as an alternative to cope with the myopic inventory
+decisions at the end of the PH and to reduce the computational burden of long-term time-indexed
+planning models, such as the single-run MILP . The computational experiments show an acceptable
+trade-oﬀ between speed and accuracy comparing the RH heuristic against the single-run MILP
+model over the year-long PH. The reduction in computational times (from a couple of hours to
+less than a minute) makes the RH approach a fair alternative if the MILP model for the entire
+PH becomes hard to solve. Evidently, if resources are available (e.g., commercial solver capability
+and time), in terms of proﬁt improvement potential it is preferred to use the single-run MILP
+with the mentioned caveat on the myopic decisions made at the last time periods of the horizon.
+Alternatively, the fast and scalable RH heuristic is a very good option, competitive against the
+single-run MILP and superior to the hand-based solution. To relax the deterministic assumptions
+of the MILP, a sensitivity analysis over diﬀerent scenarios allows the company to measure the
+impact on proﬁt to demand ﬂuctuations. Finally, we discuss how the proposed RH heuristic can be
+used to dynamically adjust the production plan as better demand estimations reveals.
+Research currently underway focuses on relaxing some of the deterministic assumptions used
+herein. As we found the model sensitive to demand forecast, incorporating uncertainty could lead
+to a more robust planning. In the case study, prices of resources and products are steady because
+of the year-round availability of resources and the tropical weather without seasons. However, this
+might not be the case in other regions worldwide. Another source of variation comes from the
+weight gain of birds that might reach maturity at diﬀerent weeks. Therefore, addressing ﬂuctuations
+in demand, resources, prices, and weight gain is certainly an important research line. Finally, the
+integration with more echelons of the supply chain (e.g., chicken feed suppliers) could increase the
+proﬁt margin for the companies in this highly competitive meat market.
+Acknowledgments
+The authors thank the management ofPollos y Huevos Altairfor providing us a detailed description
+of the case study and data of its operations. The authors also express their thanks to the ﬁnancial
+support received from Universidad del Magdalena at an early stage of this project; and from grant
+© 2020 The Authors.
+International Transactions in Operational Research © 2020 International Federation of Operational Research Societies
+--- PAGE 23 ---
+A. L. Solano-Blanco et al. / Intl. Trans. in Op. Res. 00 (2020) 1–24 23
+CI-001/2020 from the Research Oﬃce at Universidad de los Andes. Last, but not least, the au-
+thors would like to thank the anonymous reviewers who provided insightful comments that greatly
+improved the paper. As always, any and all errors are fully attributable to the authors.
+References
+Albornoz, V ., González-Araya, M., Rodriguez, S., Albornoz, V .M., Gripe, M.C., Rodríguez, S.V ., 2014. A mixed integer
+linear programming model for planning at operative level in a meat packing plant. 3rd International Workshop on
+Food Supply Chain, San Francisco, CA.
+Allender, W .J., Richards, T.J., 2010. Consumer impact of animal welfare regulation in the California poultry industry.
+Journal of Agricultural and Resource Economics 35, 424–442.
+Bjørndal, T., Herrero, I., Newman, A., Romero, C., Weintraub, A., 2012. Operations research in the natural resource
+industry. International Transactions in Operational Research 19, 1–2, 39–62.
+Boonmee, A., Sethanan, K., 2016. A GLNPSO for multi-level capacitated lot-sizing and scheduling problem in the
+poultry industry. European Journal of Operational Research 250, 2, 652–665.
+Boonmee, A., Sethanan, K., Arnonkijpanich, B., Theerakulpisut, S., 2015. Minimizing the total cost of hen allocation to
+poultry farms using hybrid growing neural gas approach.Computers and Electronics in Agriculture 110, 27–35.
+Brevik, E., Lauen, A., Rolke, M.C., Fagerholt, K., Hansen, J.R., 2020. Optimisation of the broiler production supply
+chain. International Journal of Production Research. https://doi.org/10.1080/00207543.2020.1713415.
+Carravilla, M.A., Oliveira, J.F ., 2013. Operations research in agriculture: better decisions for a scarce and uncertain world.
+Agris On-line Papers in Economics and Informatics 5, 2, 37–46.
+Estevez, I., 2007. Density allowances for broilers: where to set the limits?Poultry Science 86, 6, 1265–1272.
+FAO, 2019a. FAOSTAT statistical database.
+FAO, 2019b. Food Outlook—Biannual Report on Global Food Markets. FAO, Rome.
+Gurobi Optimization, L., 2020. Gurobi Optimizer Reference Manual. Available at https://www.gurobi.com/wp-
+content/plugins/hd-documentations/documentation/9.0/refman.pdf.
+Hart, W ., Laird, C., Watson, J., Woodruﬀ, D., Hackebeil, G., Nicholson, B., Siirola, J., 2017.Pyomo-Optimization Mod-
+eling in Python (2nd edn), Vol. 67. Springer Science & Business Media, New Y ork.
+Higgins, A.J., Miller, C.J., Archer, A.A., Ton, T., Fletcher, C.S., McAllister, R.R.J., 2010. Challenges of operations
+research practice in agricultural value chains. Journal of the Operational Research Society 61, 6, 964–973.
+Khamjan, S., Piewthongngam, K., Pathumnakul, S., 2013. Pig procurement plan considering pig growth and size distri-
+bution. Computers & Industrial Engineering 64, 886–894.
+Kusumastuti, R.D., Donk, D.P .V ., Teunter, R., 2016. Crop-related harvesting and processing planning: a review.Interna-
+tional Journal of Production Economics 174, 76–92.
+Leinonen, I., Kyriazakis, I., 2016. How can we improve the environmental sustainability of poultry production?Proceed-
+ings of the Nutrition Society 75, 3, 265–273.
+Mcleod, A., Thieme, O., Mack, S., 2009. Structural changes in the poultry sector: will there be smallholder poultry
+development in 2030? World’s Poultry Science Journal 65, 2, 191–200.
+Nadal-Roig, E., Plà, L.M., 2014. Multiperiod planning tool for multisite pig production systems. Journal of Animal
+Science 92, 4154–4160.
+Narrod, C., Tiongco, M., Costales, A., 2008. Global poultry sector trends and external drivers of structural
+change. FAO Procceedings on “Poultry in the 21st Century.” Available at https://pdfs.semanticscholar.org/6e71/
+1c9aba5cd2080f2bd23db65b9014642cdea9.pdf.
+OECD, 2018. Market examinations in Mexico: case study of the chicken meat market 2018. Available at https://www.
+oecd.org/daf/competition/ENG-WEB-REPORT-Chicken-MeatMarketMexico2018.pdf.
+OECD, FAO, 2019. OECD-FAO agricultural outlook. Available at http://www.fao.org/3/ca4076en/ca4076en.pdf.
+Oliveira, G.A., Lindau, L.A., 2012. A framework for delivery scheduling in the poultry industry. Journal of Scheduling
+15, 6, 757–772.
+Plà-Aragonés, L.M., 2015. Handbook of Operations Research in Agriculture and the Agri-Food Industry . Springer
+Science+Business Media, New Y ork.
+© 2020 The Authors.
+International Transactions in Operational Research © 2020 International Federation of Operational Research Societies
+--- PAGE 24 ---
+24 A. L. Solano-Blanco et al. / Intl. Trans. in Op. Res. 00 (2020) 1–24
+Plà-Aragonés, L.M., Rodríguez-Sánchez, S.V ., 2015. Optimal delivery of pigs to the abattoir. Handbook of Operations
+Research in Agriculture and the Agri-Food Industry . Springer, New Y ork, pp. 381–395.
+Rivera-Godoy, J.A., Rendón-Perea, J.D., 2019. Sector avícola en Colombia: rendimiento contable y EV A. Contaduría
+Universidad de Antioquia 74, 127–151.
+Robinson, T.P ., Thornton, P .K., Franceschini, G., Kruska, R., Chiozza, F ., Notenbaert, A.M.O., Cecchi, G., Herrero,
+M.T., Epprecht, M., Fritz, S., Y ou, L., Conchedda, G., See, L., 2011.Global Livestock Production Systems.F A Oa n d
+ILRI, Rome: FAO.
+Rodríguez-Sánchez, S.V ., Plà-Aragonés, L.M., Albornoz, V .M., 2012. Modeling tactical planning decisions through a
+linear optimization model in sow farms. Livestock Science 143, 162–171.
+Sahin, F ., Narayanan, A., Robinson, E.P ., 2013. Rolling horizon planning in supply chains: review, implications and
+directions for future research. International Journal of Production Research 51, 18, 5413–5436.
+Sethi, S., Sorger, G., 1991. A theory of rolling horizon decision making.Annals of Operations Research 29, 1, 387–415.
+Siekkinen, K.M., Heikkilä, J., Tammiranta, N., Rosengren, H., 2012. Measuring the costs of biosecurity on poultry
+farms: a case study in broiler production in Finland. Acta V eterinaria Scandinavica54, 1, 12.
+Silvente, J., Kopanos, G.M., Pistikopoulos, E.N., Espuña, A., 2015. A rolling horizon optimization framework for the
+simultaneous energy supply and demand planning in microgrids. Applied Energy 155, 485–501.
+Solano-Blanco, A., González, J.E., Gomez, L., Vargas-Sanchez, J., Medaglia, A.L., 2020. Aggregated planning in the
+broiler chicken industry: a case study in Santa Marta (Colombia). In Albornoz, V ., Mac Cawley, A. (eds) Proceedings
+of the III International Conference on Agro BigData and Decision Support Systems in Agriculture. Universidad
+Técnica Federico Santa María, Valparaíso, Chile, pp. 16–18.
+Taube-Netto, M., 1996. Integrated planning for poultry production at Sadia.Interfaces 26, 1, 38–53.
+Tonsor, G.T., Olynk, N.J., 2011. Impacts of animal well-being and welfare media on meat demand.Journal of Agricultural
+Economics 62, 1, 59–72.
+USDA, 2019. Livestock and poultry: world markets and trade. Technical Report, USDA, Washington, DC.
+Van Limbergen, T., Dewulf, J., Klinkenberg, M., Ducatelle, R., Gelaude, P ., Méndez, J., Heinola, K., Papasolomontos,
+S., Szeleszczuk, P ., Maes, D., 2018. Scoring biosecurity in European conventional broiler production.Poultry Science
+97, 1, 74–83.
+Weintraub, A., Romero, C., 2006. Operations research models and the management of agricultural and forestry resources:
+a review and comparison. Interfaces 36, 5, 446–457.
+Zuidhof, M., Schneider, B., Carney, V ., Korver, D., Robinson, F ., 2014. Growth, eﬃciency, and yield of commercial
+broilers from 1957, 1978, and 2005. Poultry Science 93, 12, 2970–2982.
+© 2020 The Authors.
+International Transactions in Operational Research © 2020 International Federation of Operational Research Societies
+--- END FILE ---

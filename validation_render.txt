@@ -1,0 +1,650 @@
+--- START FILE: anteproyecto_dlbp_coproductos.pdf ---
+Anteproyecto: Modelo DLBP para Coproductos con
+Metaheurísticas en la Industria A vícola
+Daniel Castañeda
+2026-01-14
+Anteproyecto: Modelo DLBP para Coproductos con Me-
+taheurísticas en la Industria A vícola
+Información del Proyecto
+Estudiante: Daniel Castañeda
+Programa: Maestría en Investigación de Operaciones y Estadística
+Institución: Universidad Tecnológica de Pereira
+Fecha de inicio propuesta : 15 de septiembre de 2025
+Fecha de elaboración del anteproyecto : 25 de noviembre de 2025
+Resumen Ejecutivo
+Este anteproyecto propone el desarrollo de un modelo de optimización para el Proble-
+ma de Balanceo de Líneas de Desensamble (DLBP) aplicado a la industria avícola
+colombiana. El problema central abordado es el desbalance estructural entre la oferta rígida
+de coproductos (determinada por la anatomía del ave) y la demanda variable del mercado.
+Utilizando un enfoque cuantitativo y experimental (simulación) , se implementarán y
+compararán técnicas metaheurísticas (Algoritmos Genéticos, Búsqueda Tabú y algoritmos
+híbridos) para maximizar la rentabilidad del proceso de despiece. La investigación se funda-
+menta en evidencia empírica local, como el estudio de Solano-Blanco et al. en Santa Marta,
+que demostró mejoras en la utilidad entre el 7 % y 57 % , así como reducciones en costos
+de inventario entre el 30 % y 60 % mediante planificación integrada (Solano-Blanco et al.,
+2022).
+La industria avícola colombiana, un pilar económico con una producción anual superior a 1.7
+millones de toneladas de carne de pollo (FENA VI, 2024), enfrenta el desafío de optimizar el
+aprovechamiento de coproductos. La gestión ineficiente de este desbalance genera pérdidas
+económicas significativas, incluyendo altos costos de inventario, desperdicio de productos y
+oportunidades de venta perdidas.
+1
+El DLBP, clasificado como NP-hard, requiere enfoques avanzados como las metaheurísticas
+para encontrar soluciones óptimas en tiempos razonables. A pesar de la extensa investigación
+en DLBP para otras industrias, existe una notable escasez de estudios específicos para el
+sector avícola, especialmente en el contexto colombiano.
+Este proyecto busca cerrar esta brecha, desarrollando un modelo DLBP avanzado que integre
+la estocasticidad de la demanda y las particularidades del procesamiento avícola. La imple-
+mentación de metaheurísticas permitirá generar una herramienta de apoyo a la decisión que
+mejore la rentabilidad, reduzca el desperdicio y fortalezca la competitividad del sector.
+1. Introducción
+1.1. El Desafío del Balanceo de Carcasa en la Industria A vícola
+La industria avícola, reconocida como un pilar económico en Colombia y a nivel mundial,
+enfrenta un desafío operativo fundamental conocido como el problema de balanceo de la
+carcasa. Este problema surge de la discrepancia inherente entre la oferta de coproductos,
+que se derivan en proporciones relativamente fijas del despiece de cada ave (carcasa), y la
+demanda variable y a menudo desalineada del mercado para cada uno de esos cortes (pechuga,
+alas, muslos, vísceras, etc.).
+La industria avícola opera bajo una dinámica compleja de “Push” (Empuje) y “Pull”
+(Tracción). Por un lado, el factor “Push” proviene de la granja: una vez que las aves alcanzan
+su peso de mercado, deben ser procesadas inmediatamente, generando una oferta fija de
+coproductos (alas, pechugas, muslos) en proporciones biológicamente determinadas. Por otro
+lado, el factor “Pull” es la demanda del mercado, que es estocástica, estacional y a menudo
+desbalanceada respecto a la oferta anatómica (alta demanda de pechuga pero baja de alas,
+por ejemplo).
+Un plan de ventas que, por ejemplo, prioriza la comercialización de pechuga para maximizar
+ingresos, inevitablemente genera una sobreoferta de otros coproductos como alas y patas. Si
+no se gestiona adecuadamente, este excedente debe ser almacenado (incrementando costos
+de refrigeración), vendido a precios de liquidación o incluso desechado, ocasionando pérdidas
+económicas significativas y un desperdicio de recursos valiosos.
+Este conflicto genera ineficiencias operativas significativas, como la acumulación de inventa-
+rios de baja rotación, la venta de productos premium a precios de liquidación, y la pérdida de
+oportunidades de mercado. La literatura científica, incluyendo el trabajo seminal de Becker
+y Scholl sobre balanceo de líneas (Becker & Scholl, 2006), y estudios recientes en Colombia
+(Solano-Blanco et al., 2022), sugieren que la aplicación de modelos matemáticos avanzados de
+optimización puede mitigar estos efectos y mejorar la sostenibilidad financiera y ambiental
+del sector.
+2
+1.2. Relevancia Económica y Contexto Nacional
+La relevancia económica de resolver el problema del balanceo de carcasa es crucial para
+la competitividad y sostenibilidad de la industria avícola colombiana. Según FENA VI (FE-
+NA VI, 2024), la avicultura representa uno de los renglones pecuarios más importantes del
+país, con una producción anual que supera las 1.7 millones de toneladas de carne de pollo.
+La agroindustria avícola aporta aproximadamente 0.52 % del valor agregado bruto nacional
+(Departamento Administrativo Nacional de EstadÃstica (DANE), 2024).
+Una gestión optimizada del balanceo de carcasa permite:
+Reducir costos de inventario: Minimizando la acumulación de productos de baja
+rotación.
+Maximizar ingresos: Aprovechando oportunidades de mercado para cortes de alta
+demanda.
+Mejorar la eficiencia operativa: Equilibrando la carga de trabajo en las estaciones
+de despiece.
+Reducir el desperdicio: Contribuyendo a la sostenibilidad ambiental del sector.
+El DLBP es un problema de optimización combinatoria clasificado como NP-hard, lo que sig-
+nifica que encontrar una solución óptima se vuelve computacionalmente intratable a medida
+que aumenta la escala del problema (Becker & Scholl, 2006). Esta complejidad computacional
+ha motivado el desarrollo de enfoques heurísticos y metaheurísticos para encontrar soluciones
+de alta calidad en tiempos de cómputo razonables.
+La revisión de literatura de Güngör y Gupta (Güngör & Gupta, 2001) identifica que, aunque
+existe una extensa investigación en DLBP aplicado a reciclaje de electrónicos y recuperación
+de materiales, hay una notable escasez de estudios que aborden el DLBP en la industria de
+procesamiento de alimentos, y particularmente en el sector avícola.
+Este anteproyecto se centra en abordar este desafío mediante el desarrollo de un modelo DLBP
+avanzado, que utiliza técnicas metaheurísticas para optimizar el proceso de despiece en
+la industria avícola. El objetivo es desarrollar una herramienta de apoyo a la decisión que
+permita a las empresas del sector mejorar su planificación, reducir sus pérdidas y fortalecer
+su competitividad en un mercado cada vez más exigente.
+2. Planteamiento del Problema
+2.1. Problema Central: Desbalance y Consecuencias en la Cadena de Suministro
+A vícola
+El problema central que aborda esta investigación es el desbalance estructural entre la
+oferta de coproductos generada por el proceso de desensamble avícola y la demanda esto-
+cástica y heterogénea del mercado . Este desajuste, inherente a la naturaleza del negocio,
+se traduce en una cascada de ineficiencias operativas y pérdidas económicas que impactan a
+toda la cadena de valor.
+3
+El desbalance se manifiesta en dos frentes principales:
+1. Excedentes de Inventario (Sobreproducción): Cuando la producción de ciertos
+cortes (alas, patas, vísceras) supera la demanda del mercado, las empresas se ven for-
+zadas a incurrir en costos adicionales de almacenamiento en frío, transporte y, en el
+peor de los casos, vender estos productos a precios de liquidación, erosionando signifi-
+cativamente los márgenes de ganancia.
+2. Faltantes de Inventario (Subproducción): De forma simultánea, la demanda de
+cortes de alto valor (pechuga) puede exceder la capacidad de producción balanceada,
+resultando en oportunidades de venta perdidas y una potencial insatisfacción del cliente.
+2.3. Pregunta de Investigación
+Pregunta Principal: ¿Cómo puede un modelo de optimización DLBP, resuelto mediante
+técnicas metaheurísticas, minimizar las pérdidas económicas asociadas al desbalance entre
+la oferta de coproductos y la demanda del mercado en una planta de procesamiento avícola
+colombiana?
+Preguntas Secundarias:
+1. ¿Qué formulación matemática del DLBP captura adecuadamente las restricciones de
+precedencia, los tiempos de procesamiento y la variabilidad de la demanda en el con-
+texto avícola?
+2. ¿Qué técnicas metaheurísticas (Algoritmos Genéticos, Búsqueda Tabú, o híbridos) pre-
+sentan el mejor desempeño para resolver el modelo DLBP propuesto?
+3. ¿En qué magnitud se pueden reducir las pérdidas económicas asociadas al desbalance
+de carcasa mediante la implementación del modelo de optimización?
+2.4. Hipótesis de Investigación
+Hipótesis Principal (H1): La aplicación de un modelo DLBP con metaheurísticas puede
+generar una reducción de costos de inventario superior al 30 % y una mejora sustancial en la
+utilidad operativa, tomando como referencia el benchmark del caso de Santa Marta (Pollos
+Altair) (Solano-Blanco et al., 2022).
+Hipótesis Secundarias:
+H2: Un algoritmo metaheurístico híbrido (que combine Algoritmos Genéticos y Bús-
+queda Tabú) superará en desempeño a cada técnica aplicada individualmente.
+H3: El modelo de optimización permitirá una reducción de al menos un 15 % en el
+inventario promedio de productos de baja rotación.
+4
+3. Justificación
+Esta investigación se justifica desde múltiples dimensiones que abarcan aspectos económicos,
+sociales, ambientales y científicos:
+3.1. Conveniencia y Relevancia Económica
+La optimización del balanceo de carcasa tiene un impacto directo en la rentabilidad de las
+empresas avícolas. Como demostró el caso de Santa Marta (Solano-Blanco et al., 2022), las
+mejoras en la planificación pueden traducirse en un aumento de la utilidad operativa de
+hasta un 57 % y reducciones de costos de inventario superiores al 30 %. En una industria
+de márgenes estrechos y alto volumen, este porcentaje representa una ventaja competitiva
+crítica y puede significar la diferencia entre la rentabilidad y las pérdidas operativas.
+El sector avícola colombiano, que según FENA VI (FENA VI, 2024) genera más de 600,000
+empleos directos e indirectos, se beneficiaría significativamente de herramientas que mejoren
+su eficiencia operativa. La implementación de modelos de optimización no solo mejora la
+rentabilidad de las empresas individuales, sino que fortalece la competitividad del sector a
+nivel nacional e internacional.
+3.2. Relevancia Social y Ambiental (Sostenibilidad)
+Mejorar el equilibrio de la carcasa contribuye directamente a la sostenibilidad del sector. Al
+reducir el desperdicio de alimentos y optimizar el uso de recursos (energía para refrigeración de
+inventarios no deseados), el proyecto se alinea con los Objetivos de Desarrollo Sostenible
+(ODS), específicamente:
+ODS 12 (Producción y Consumo Responsables): Reduciendo el desperdicio de
+alimentos y optimizando el aprovechamiento de cada ave procesada.
+ODS 9 (Industria, Innovación e Infraestructura): Mediante la aplicación de
+técnicas avanzadas de optimización y el desarrollo de herramientas tecnológicas para
+la industria.
+La reducción del desperdicio de alimentos es particularmente relevante en un contexto global
+donde aproximadamente el 14 % de los alimentos se pierde en la cadena de suministro antes
+de llegar al consumidor (F AO, 2023). Un mejor balanceo de la carcasa significa un proceso
+más sostenible, con menor huella de carbono y mejor utilización de los recursos naturales.
+En el contexto más amplio del desensamble industrial, Darghouth et al. (Darghouth et al.,
+2021) han demostrado que la optimización de la programación de desensamble con
+enfoque en sostenibilidad puede generar beneficios significativos en términos de eficiencia
+energética y reducción de costos . Su modelo de programación capacitada consideró la
+selección de tecnologías de procesamiento y el consumo energético de diferentes técnicas de
+desensamble, proporcionando un marco metodológico para integrar criterios de sostenibilidad
+en la toma de decisiones operativas. Aunque su enfoque se centró en remanufactura industrial,
+los principios de optimización con restricciones de capacidad y consideraciones ambientales
+son directamente aplicables al procesamiento avícola, donde la selección de secuencias de
+5
+corte eficientes puede minimizar el consumo energético de equipos de refrigeración y reducir
+el desperdicio de subproductos.
+3.3. Implicaciones Prácticas
+El desarrollo de una herramienta de toma de decisiones basada en metaheurísticas permitirá
+a los planificadores de producción pasar de decisiones basadas en la intuición (“gut feeling”)
+y la experiencia personal a decisiones basadas en datos y modelado matemático robusto.
+Esto mejorará la capacidad de respuesta ante fluctuaciones del mercado y permitirá una
+planificación más ágil y eficiente.
+La implementación de tecnologías de sensores inteligentes (Kim et al., 2022) y sistemas de
+automatización (GarcÃa LÃ³pez et al., 2023) en la industria avícola está generando gran-
+des volúmenes de datos que pueden ser aprovechados por modelos de optimización como el
+propuesto en este proyecto.
+3.4. Valor Teórico y Científico
+El proyecto contribuye significativamente a la literatura del DLBP, extendiendo los modelos
+clásicos deterministas (Becker & Scholl, 2006) hacia enfoques estocásticos que consideran la
+incertidumbre de la demanda, un área identificada como línea futura de investigación por
+Güngör y Gupta (Güngör & Gupta, 2001).
+La optimización multi-objetivo en la industria alimentaria ha experimentado un avance
+significativo en los últimos años. Arteaga-Cabrera et al. (Arteaga-Cabrera et al., 2025) pre-
+sentaron una revisión comprehensiva sobre la evolución de las estrategias de optimización
+en alimentos, identificando la transición desde métodos univariados tradicionales hacia técni-
+cas multi-objetivo integradas con tecnologías emergentes. Su trabajo destaca que la industria
+alimentaria moderna requiere optimizar simultáneamente múltiples objetivos compe-
+titivos (costos de producción, eficiencia energética, calidad del producto, sostenibilidad), lo
+cual se alinea perfectamente con el DLBP aplicado al procesamiento avícola, donde se deben
+balancear simultáneamente: - Maximización de ingresos por venta de coproductos - Minimi-
+zación de costos de inventario - Minimización de penalizaciones por demanda no satisfecha -
+Maximización del nivel de servicio al cliente
+La incorporación de algoritmos evolutivos y metaheurísticas hibridizadas, como lo docu-
+mentan Arteaga-Cabrera et al. (Arteaga-Cabrera et al., 2025), ha permitido abordar estos
+problemas complejos de forma efectiva en la industria alimentaria, generando soluciones ro-
+bustas que equilibran trade-offs entre objetivos contradictorios. Este proyecto se posiciona
+como una contribución directa a esta línea de investigación, aplicando metaheurísticas
+(GA, TS, híbridos) a un problema multi-objetivo del procesamiento avícola.
+Adicionalmente, la comparación rigurosa de diferentes técnicas metaheurísticas (Algoritmos
+Genéticos, Búsqueda Tabú, y algoritmos híbridos) en el contexto específico de la industria
+avícola generará conocimiento valioso sobre la efectividad de estas técnicas en problemas
+del mundo real con características particulares (perecibilidad, estocasticidad, restricciones
+sanitarias).
+6
+4.1. El Problema de Balanceo de Líneas de Desensamble (DLBP)
+El Problema de Balanceo de Líneas de Desensamble (DLBP) es un área fundamental
+de la investigación de operaciones que se enfoca en la optimización de sistemas de produc-
+ción donde un producto principal se descompone en varios componentes o subproductos. A
+diferencia de su contraparte, el Problema de Balanceo de Líneas de Ensamble (ALBP), que
+trata de la convergencia de partes para formar un producto, el DLBP aborda un proceso
+de divergencia (Becker & Scholl, 2006). Investigaciones recientes han desarrollado enfoques
+predictivos para el DLBP que utilizan datos históricos para estimar tiempos de operación y
+optimizar múltiples objetivos simultáneamente, como tiempo de ciclo, eficiencia de línea y
+rentabilidad (Paprocka & SkoÃ￿Â￿ud, 2022).
+El enfoque de Zhu et al. (Zhu et al., 2025) es particularmente relevante para la industria
+avícola, donde: - La variabilidad del peso de las carcasas afecta los tiempos de procesa-
+miento. - La calidad variable de cada ave (presencia de defectos, estado físico) introduce
+incertidumbre en el rendimiento de cada coproducto. - Las dependencias de secuencia
+existen (por ejemplo, el corte de muslos antes de pechugas puede afectar la precisión del
+siguiente corte).
+La incorporación de estos elementos estocásticos y dependientes de secuencia en el modelo
+DLBP representa un avance significativo en la literatura, cerrando la brecha entre los
+modelos deterministas clásicos y las condiciones operativas reales de las plantas de procesa-
+miento.
+En paralelo, Mete et al. (Mete et al., 2022) realizaron un análisis comparativo exhaustivo de
+métodos metaheurísticos aplicados al DLBP con tiempos de tarea estocásticos , demos-
+trando que los Algoritmos Genéticos superan en desempeño a otras técnicas como Simulated
+Annealing en términos de calidad de solución y eficiencia computacional. Su investigación
+propuso además una heurística constructiva basada en el algoritmo de Dijkstra que mos-
+tró resultados competitivos para la minimización del número de estaciones de trabajo. Este
+trabajo refuerza la validez del enfoque metaheurístico para el DLBP y confirma la superio-
+ridad de los Algoritmos Genéticos en contextos estocásticos, proporcionando un precedente
+metodológico directo para esta investigación.
+Recientemente, la literatura ha evolucionado desde modelos deterministas hacia enfoques
+estocásticos y robustos, cruciales para entornos con alta incertidumbre como el avícola. Hu et
+al. (Hu et al., 2023) propusieron un algoritmo hiper-heurístico basado en recocido simulado
+para manejar la estocasticidad en líneas de desensamble paralelas, mientras que Liu et al.
+(X. Liu et al., 2021) desarrollaron modelos de optimización robusta para la asignación de
+fuerza laboral bajo incertidumbre. Asimismo, Fang et al. (Fang et al., 2025) introdujeron
+optimización dinámica basada en inferencia causal para estados de componentes inciertos.
+Estos avances, sumados a enfoques para tiempos de procesamiento ambiguos (M. Liu et al.,
+2019) y algoritmos evolutivos híbridos para problemas estocásticos multi-objetivo (Tian et
+al., 2023), proporcionan el marco teórico necesario para abordar la variabilidad inherente al
+procesamiento de carcasas.
+Aunque el DLBP es menos común en la industria alimentaria, los problemas de programación
+detallada (scheduling) comparten características similares. Kopanos et al. (Kopanos et al.,
+7
+2012) establecieron marcos matemáticos eficientes para el scheduling en procesamiento de
+alimentos, destacando la importancia de la perecibilidad. Akkerman y van Donk (Akkerman
+& Donk, 2008) analizaron la estructura de tareas en esta industria, mientras que Véghová et
+al. (V Ã￿Â©ghovÃ￿Â¡ et al., 2016) enfatizaron la trazabilidad en el procesamiento de carne.
+Estos estudios fundamentan la necesidad de adaptar los modelos clásicos de DLBP a las
+restricciones sanitarias y de calidad propias del sector avícola.
+4.2. Metaheurísticas para la Optimización de Líneas de Producción
+Debido a la complejidad computacional del DLBP, las metaheurísticas se han convertido
+en el enfoque predominante para resolver este tipo de problemas. Las metaheurísticas son
+algoritmos de optimización de alto nivel que pueden ser aplicados a una amplia gama de
+problemas de ingeniería complejos (Abdel-Basset et al., 2023), y que a menudo se inspiran
+en procesos naturales. En el contexto del DLBP, estos algoritmos han demostrado ser efecti-
+vos para abordar problemas de optimización multi-criterio, como lo evidencia el trabajo de
+Paprocka y Skołud (Paprocka & SkoÃ￿Â￿ud, 2022), quienes optimizaron simultáneamente
+tiempo de ciclo, eficiencia y profit mediante un enfoque predictivo.
+En el contexto de la industria alimentaria, Arteaga-Cabrera et al. (Arteaga-Cabrera et al.,
+2025) documentaron la efectividad de algoritmos evolutivos y metaheurísticas para re-
+solver problemas de optimización multi-objetivo en sistemas de producción alimentaria. Su
+revisión comprehensiva destaca que estas técnicas son particularmente efectivas cuando se
+deben equilibrar objetivos contradictorios (e.g., minimizar costos vs. maximizar calidad), una
+característica intrínseca del DLBP aplicado al procesamiento de carcasas avícolas. A conti-
+nuación se detallan las metaheurísticas más relevantes para este proyecto:
+4.2.1. Algoritmos Genéticos (GA) Los Algoritmos Genéticos, inspirados en la teoría
+de la evolución de Darwin, operan sobre una población de soluciones, aplicando operadores
+de selección, cruce y mutación para generar nuevas y mejores soluciones. Su efectividad en
+problemas de balanceo de líneas ha sido demostrada mediante análisis comparativos de dife-
+rentes variantes del algoritmo (Sivasankaran & Shahabudeen, 2014), particularmente cuando
+el espacio de búsqueda es grande y complejo.
+En el contexto específico del DLBP con incertidumbre, Mete et al. (Mete et al., 2022) demos-
+traron empíricamente que los Algoritmos Genéticos superan consistentemente a otras
+metaheurísticas (como Simulated Annealing) cuando se enfrentan a tiempos de tarea esto-
+cásticos. Su estudio comparativo, realizado sobre problemas benchmark del DLBP, mostró
+que los GA logran soluciones de mayor calidad en tiempos computacionales competitivos, lo
+que los posiciona como una técnica especialmente adecuada para el problema de balanceo de
+carcasas avícolas, donde la variabilidad en peso y calidad introduce estocasticidad inherente
+en los tiempos de procesamiento.
+4.2.2. Búsqueda Tabú (TS) La Búsqueda Tabú es un método de búsqueda local que
+utiliza una lista “tabú” para evitar volver a visitar soluciones ya exploradas y así escapar
+de óptimos locales. El trabajo de Suwannarongsri et al. (Suwannarongsri et al., 2007) ha
+8
+demostrado la efectividad de la búsqueda tabú híbrida en problemas de balanceo de líneas
+de ensamble, con resultados prometedores que pueden ser adaptados al contexto del DLBP.
+4.2.3. Enfoques Híbridos y Multi-objetivo La tendencia actual prioriza el uso de
+algoritmos híbridos para superar las limitaciones de las técnicas individuales. Wang et al.
+(Wang et al., 2021) demostraron que combinar Algoritmos Genéticos con Recocido Simulado
+mejora la capacidad de escapar de óptimos locales en problemas de desensamble parcial. En
+el ámbito multi-objetivo, Saif et al. (Saif et al., 2014) aplicaron algoritmos de colonias de
+abejas artificiales (ABC) basados en Pareto para manejar tiempos inciertos, y Li et al. (Li et
+al., 2021) extendieron este enfoque a líneas en forma de U. Adicionalmente, Babazadeh et al.
+(Babazadeh et al., 2018) mejoraron el algoritmo NSGA-II para problemas fuzzy bi-objetivo,
+evidenciando la superioridad de los enfoques híbridos y evolutivos para resolver instancias
+complejas del DLBP.
+4.3. Tecnologías Habilitadoras y Tendencias Recientes
+Mahalik y Nambiar (Mahalik & Nambiar, 2010) destacan la tendencia creciente hacia la
+automatización y el uso de sensores inteligentes en los sistemas de manufactura de alimentos,
+elementos clave para asegurar la calidad y trazabilidad. La integración de estos sensores
+(Kim et al., 2022) y la planificación automatizada de desensamble (Hartono et al., 2022) en
+plantas de procesamiento están generando oportunidades para la implementación de modelos
+de optimización en tiempo real. Hartono et al. (Hartono et al., 2022) demostraron la eficacia
+del Bees Algorithm para optimizar planes de desensamble robótico, un enfoque que podría
+adaptarse al procesamiento de carcasas avícolas.
+Recientemente, el uso de tecnologías avanzadas como la visión por computador y la gene-
+ración de datos sintéticos ha comenzado a transformar el procesamiento avícola. Feng et al.
+(Feng et al., 2025) demostraron cómo el aumento de datos sintéticos puede mejorar significa-
+tivamente la segmentación de instancias de carcasas de pollo, lo cual es fundamental para la
+automatización de procesos de despiece y control de calidad.
+Asimismo, la integración de robótica colaborativa (Chen et al., 2023) promete flexibilizar
+las líneas de producción, permitiendo una mejor adaptación a la variabilidad de la materia
+prima. Estas innovaciones tecnológicas proporcionan la base para implementar modelos de
+optimización más sofisticados como el DLBP.
+4.4. Vacíos de Investigación Identificados
+A pesar de la extensa literatura sobre ALBP y el creciente interés en DLBP, la revisión del
+estado del arte revela varios vacíos de investigación que este proyecto busca abordar:
+1. Falta de Modelos Específicos para la Industria A vícola: Aunque existen mode-
+los generales de DLBP, hay una escasez de modelos que capturen las características
+específicas y las complejidades del proceso de despiece avícola, como la variabilidad
+en el peso de las carcasas, las restricciones de calidad, la perecibilidad del producto
+(Piewthongngam & Chatavithee, 2019), y las demandas estacionales de los coproduc-
+tos.
+9
+2. Integración Limitada con la Planificación de la Demanda: Muchos de los mo-
+delos existentes asumen una demanda determinista, lo cual no refleja la realidad del
+mercado avícola. Es necesario desarrollar modelos que integren la estocasticidad de la
+demanda para generar planes de producción más robustos y realistas.
+3. Comparación Insuficiente de Metaheurísticas en Contextos Reales: Si bien
+se han aplicado diversas metaheurísticas al DLBP en contextos académicos, faltan
+estudios comparativos rigurosos que evalúen el desempeño de diferentes algoritmos en
+un conjunto de instancias de problemas realistas para la industria avícola, considerando
+tanto la calidad de la solución como la eficiencia computacional.
+4. Validación con Datos Reales o Sintéticos Calibrados: Muchos de los modelos
+propuestos en la literatura se validan con datos sintéticos arbitrarios o instancias de
+problemas de pequeña escala. Existe la necesidad de validar estos modelos con datos
+reales o, en su defecto, con datos sintéticos que hayan sido cuidadosamente calibrados
+para reflejar las condiciones operativas reales de la industria.
+Este proyecto de investigación se posiciona para abordar estos vacíos, con el objetivo de
+desarrollar una contribución significativa tanto al campo académico del DLBP como a la
+práctica industrial de la gestión de la producción avícola.
+5. Diseño Metodológico
+La metodología de esta investigación se estructura en cinco fases principales, diseñadas para
+abordar de manera sistemática las preguntas de investigación y validar las hipótesis plantea-
+das.
+5.1. Clasificación de la Investigación
+Enfoque: Cuantitativo. Se basa en la medición numérica de variables (costos, tiempos,
+cantidades) y el análisis estadístico riguroso de resultados.
+Alcance: Explicativo y Correlacional. Busca explicar la relación causal entre la opti-
+mización del balanceo mediante DLBP y la rentabilidad/eficiencia operativa.
+Diseño: Experimental (Simulación). Se manipularán variables independientes (algorit-
+mos metaheurísticos, escenarios de demanda) en un entorno controlado ( in silico) para
+observar su efecto en la variable dependiente (costo total, nivel de servicio, inventario).
+Método de Inferencia: Deductivo. Se parte de teorías generales de optimización y
+DLBP para aplicarlas a un caso específico de la industria avícola.
+Temporalidad: Transversal. Los experimentos computacionales se realizarán en un
+corte de tiempo específico, aunque considerando escenarios de demanda que reflejan
+variabilidad temporal.
+5.2. Fases de la Investigación
+Fase 1: Formulación del Modelo Matemático (Semanas 1-8) El primer paso consiste
+en desarrollar un modelo matemático de optimización para el DLBP adaptado a la industria
+10
+avícola. Este modelo será la base para la implementación de los algoritmos de solución.
+Definición de Variables de Decisión: Se identificarán las variables clave del proble-
+ma, como la asignación de tareas de despiece a las estaciones de trabajo, el secuencia-
+miento de las tareas, y las cantidades de cada coproducto a procesar en cada período.
+Función Objetivo: Se formulará una función objetivo que buscará maximizar la ren-
+tabilidad de la operación. Esto implicará maximizar los ingresos por la venta de copro-
+ductos y minimizar los costos de producción, inventario y penalizaciones por demanda
+no satisfecha.
+Restricciones: Se incorporarán al modelo todas las restricciones relevantes del proble-
+ma:
+• Restricciones de precedencia entre las tareas de despiece (basadas en la anatomía
+del ave).
+• Restricciones de capacidad de las estaciones de trabajo.
+• Restricciones de tiempo de ciclo de la línea.
+• Restricciones de balance de materiales (cantidad de coproductos generados).
+• Restricciones de demanda estocástica del mercado.
+• Restricciones de perecibilidad y vida útil de los productos.
+Fase 2: Diseño e Implementación de Metaheurísticas (Semanas 9-16) Dada la
+complejidad NP-hard del DLBP, se recurrirá a metaheurísticas para encontrar soluciones
+de alta calidad en tiempos computacionales razonables. Se explorarán e implementarán las
+siguientes técnicas:
+Algoritmo Genético (GA): Implementación de un GA con representación permuta-
+cional de soluciones, operadores de cruce y mutación adaptados al problema de balanceo
+(Sivasankaran & Shahabudeen, 2014).
+Búsqueda Tabú (TS): Implementación de TS con estrategias de diversificación e
+intensificación, siguiendo las mejores prácticas documentadas en (Suwannarongsri et
+al., 2007).
+Algoritmo Híbrido GA-TS: Desarrollo de un algoritmo híbrido que combine la
+exploración global del GA con la explotación local de TS.
+Para cada metaheurística se realizará: * Codificación adecuada de la solución. * Diseño de
+operadores de búsqueda específicos para el problema. * Calibración de parámetros mediante
+diseño experimental.
+La implementación se realizará en Python, utilizando librerías de optimización estándar y
+frameworks de experimentación controlada.
+Fase 3: Generación de Datos y Escenarios de Prueba (Semanas 17-20) Para validar
+el modelo y los algoritmos propuestos, se generará un conjunto de instancias de prueba que
+representen de manera realista las condiciones de la industria avícola colombiana.
+Datos Sintéticos Calibrados: Se utilizarán datos sintéticos para las pruebas, siguien-
+do las mejores prácticas en generación de datos sintéticos (Feng, Pallerla, et al., 2025).
+Estos datos serán calibrados utilizando:
+11
+• Rendimientos estándar de carcasa publicados en la literatura.
+• Costos de producción del sector avícola colombiano.
+• Patrones de demanda históricos (cuando estén disponibles) o generados mediante
+distribuciones probabilísticas, siguiendo el enfoque predictivo basado en datos
+históricos propuesto por (Paprocka & SkoÃ￿Â￿ud, 2022).
+• Parámetros de la industria local (caso Santa Marta como referencia).
+Generación de Instancias: Se crearán múltiples instancias del problema con dife-
+rentes tamaños (número de estaciones, número de cortes) y niveles de complejidad
+(variabilidad de demanda, estacionalidad) para evaluar la escalabilidad y robustez de
+los algoritmos.
+Fase 4: Diseño Experimental y Análisis de Resultados (Semanas 21-24) Se llevará
+a cabo un diseño experimental riguroso para evaluar el desempeño de las metaheurísticas
+propuestas y validar las hipótesis de la investigación.
+Métricas de Desempeño: Se definirán métricas cuantitativas para evaluar:
+• Rentabilidad total (función objetivo).
+• Nivel de servicio al cliente ( % de demanda satisfecha).
+• Niveles de inventario promedio.
+• Tiempo computacional.
+• Gap de optimalidad (cuando sea posible comparar con soluciones exactas en ins-
+tancias pequeñas).
+Análisis Comparativo: Se comparará el desempeño de:
+• GA vs. TS vs. Híbrido.
+• Modelo optimizado vs. Métodos heurísticos simples (baseline).
+Análisis Estadístico: Se utilizarán herramientas estadísticas (ANOV A, pruebas t,
+pruebas no paramétricas) para analizar los resultados y obtener conclusiones con signi-
+ficancia estadística.
+Análisis de Sensibilidad: Se evaluará la sensibilidad del modelo ante cambios en
+parámetros clave (precios, costos, variabilidad de demanda).
+Fase 5: Validación y Documentación (Semanas 25-26) Finalmente, se validará el
+enfoque general y se documentarán las conclusiones de la investigación.
+Validación del Modelo: Se verificará que el modelo y los algoritmos propuestos
+generan soluciones realistas y aplicables en el contexto industrial.
+Documentación y Escritura: Se redactará el documento final de tesis y un artículo
+científico para publicación en revista indexada.
+Transferencia de Conocimiento: Se preparará material de divulgación para la indus-
+tria (presentaciones, infografías) que faciliten la adopción de los resultados del proyecto.
+12
+6. Cronograma de Actividades
+El proyecto se desarrollará en un período de 26 semanas (aproximadamente 6 meses), dis-
+tribuidas según las fases metodológicas:
+Fase Actividad Semanas Duración
+Fase 1 Revisión de Literatura 1-4 4 semanas
+Formulación del Modelo Matemático 5-8 4 semanas
+Fase 2 Implementación de GA 9-11 3 semanas
+Implementación de TS 12-14 3 semanas
+Implementación de Híbrido 15-16 2 semanas
+Fase 3 Diseño del Generador de Datos 17-18 2 semanas
+Calibración y Generación de Instancias 19-20 2 semanas
+Fase 4 Diseño Experimental 21 1 semana
+Ejecución de Experimentos 22-23 2 semanas
+Análisis de Resultados 24 1 semana
+Fase 5 Validación 25 1 semana
+Documentación y Escritura Final 26 1 semana
+7. Resultados Esperados
+Al finalizar este proyecto de investigación, se espera obtener los siguientes resultados y con-
+tribuciones:
+7.1. Contribuciones Científicas y Tecnológicas
+Un modelo matemático de DLBP validado para la industria avícola, que sirva
+como base para futuras investigaciones en el área.
+Algoritmos metaheurísticos (GA, TS e híbrido) implementados y calibrados ,
+que podrán ser utilizados para resolver problemas de optimización similares en otros
+contextos industriales.
+Un conjunto de datos sintéticos de prueba calibrados , que estará a disposición
+de la comunidad científica para la evaluación y comparación de nuevos algoritmos para
+el DLBP.
+Un artículo científico con los resultados de la investigación, que será enviado para
+su publicación en una revista indexada de alto impacto en el área de Investigación de
+Operaciones o Gestión de Operaciones.
+7.2. Impacto Potencial en la Industria A vícola
+Una herramienta de software (prototipo) que implemente el modelo y los algorit-
+mos desarrollados, y que pueda ser utilizada por las empresas del sector para mejorar
+su planificación y toma de decisiones.
+13
+Una reducción de costos de inventario superior al 30 % y una mejora sustancial
+en la utilidad operativa, tomando como referencia el benchmark del caso de Santa Marta
+(Pollos Altair) (Solano-Blanco et al., 2022), validada a través de simulación rigurosa.
+Una mejora estimada en la eficiencia operativa , cuantificada en términos de:
+• Reducción de inventarios (objetivo: 15 %).
+• Aumento del nivel de servicio (satisfacción de demanda).
+• Mayor utilización de la capacidad instalada de la línea de despiece.
+7.3. Formación de Capital Humano
+La formación de un estudiante de maestría con altas competencias en investiga-
+ción, modelado matemático, programación de algoritmos de optimización y análisis de
+datos.
+La transferencia de conocimiento a la comunidad académica y a la industria a
+través de publicaciones, presentaciones en conferencias, y el software desarrollado (con
+licencia de código abierto cuando sea posible).
+8. Referencias
+Las referencias completas se encuentran en el archivo referencias_dlbp.bib y siguen el
+formato APA 7ª edición.
+Referencias clave citadas en este documento:
+Solano-Blanco, A. L., et al. (2022). Integrated planning decisions in the broiler
+chicken supply chain. International Transactions in Operational Research . DOI:
+10.1111/itor.12861
+Becker, C., & Scholl, A. (1998). A survey of the assembly line balancing procedures.
+European Journal of Operational Research .
+Güngör, A., & Gupta, S. M. (2021). Disassembly scheduling: Literature review and
+future research directions. International Journal of Production Research .
+Akpınar, Ş., & Baykasoğlu, A. (2019). A hybrid tabu search algorithm for the assembly
+line balancing problem. Computers & Industrial Engineering .
+Awad, M., et al. (2023). The minimisation of giveaway and underweight in poultry
+proportioning process. Food Control.
+Estadísticas oficiales: * FENA VI (2023). Estadísticas del Sector A vícola Colombiano. *
+DANE (2023). Encuesta Nacional Agropecuaria (ENA). * F AO (2023). Poultry Production
+and Trade Statistics.
+14
+Anexos
+Anexo A: Estructura del Modelo Matemático (Formulación Preliminar)
+La formulación matemática completa del modelo DLBP se desarrollará en la Fase 1, pero se
+anticipa que incluirá:
+Conjuntos: - 𝑇 : Conjunto de tareas de despiece - 𝑆: Conjunto de estaciones de trabajo - 𝑃 :
+Conjunto de coproductos - 𝐷: Conjunto de períodos de demanda
+Parámetros: - 𝑡𝑖: Tiempo de procesamiento de la tarea 𝑖 - 𝑑𝑝𝑡: Demanda del coproducto 𝑝
+en el período 𝑡 - 𝑐𝑝: Precio de venta del coproducto 𝑝 - ℎ𝑝: Costo de mantener inventario del
+coproducto 𝑝 - Precedencias entre tareas (grafo dirigido acíclico)
+Variables de decisión: - 𝑥𝑖𝑠: Asignación de tarea 𝑖 a estación 𝑠 (binaria) - 𝑦𝑝𝑡: Cantidad
+producida del coproducto 𝑝 en período 𝑡 - 𝐼𝑝𝑡: Inventario del coproducto 𝑝 al final del período
+𝑡
+Función objetivo: Maximizar el beneficio neto = Ingresos por ventas - Costos de producción
+- Costos de inventario - Penalizaciones por demanda no satisfecha
+Anexo B: Herramientas Tecnológicas a Utilizar
+Lenguaje de Programación: Python 3.9+
+Librerías de Optimización: PuLP, SciPy
+Librerías de Análisis de Datos: Pandas, NumPy
+Visualización: Matplotlib, Seaborn
+Control de Versiones: Git/GitHub
+Documentación: Jupyter Notebooks, LaTeX
+Abdel-Basset, M. et al. (2023). Review of metaheuristic optimization algorithms for power
+systems problems. Sustainability, 15(12), 9434. https://doi.org/10.3390/su15129434
+Akkerman, R., & Donk, D. P. van. (2008). Analyzing scheduling in the food-processing
+industry: Structure and tasks. Cognition, Technology & Work , 11(3), 215–226. https:
+//doi.org/10.1007/s10111-007-0107-7
+Arteaga-Cabrera, E., Ramírez-Márquez, C., Sánchez-Ramírez, E., Segovia-Hernández, J. G.,
+Osorio-Mora, O., & Gómez-Salazar, J. A. (2025). Advancing optimization strategies in the
+food industry: From traditional approaches to multi-objective and technology-integrated
+solutions. Applied Sciences, 15(7), 3846. https://doi.org/10.3390/app15073846
+Babazadeh, H., Alavidoost, M. H., Fazel Zarandi, M. H., & Sayyari, S. T. (2018). An enhanced
+NSGA-II algorithm for fuzzy bi-objective assembly line balancing problems. Computers
+& Industrial Engineering , 123, 189–208. https://doi.org/10.1016/j.cie.2018.06.014
+Becker, C., & Scholl, A. (2006). A survey on problems and methods in generalized assembly
+line balancing. European Journal of Operational Research , 168(3), 694–715. https://doi.
+org/10.1016/j.ejor.2004.07.023
+Chen, W., Liu, H., & Wang, J. (2023). Industrial robots and collaborative robots: A compa-
+rative study. Applied Sciences, 13(15), 8544. https://doi.org/10.3390/app13158544
+15
+Darghouth, M. N. et al. (2021). A capacitated disassembly scheduling problem considering
+processing technology selection and parts commonality. Journal of Remanufacturing , 11,
+243–261. https://doi.org/10.1007/s13243-021-00104-3
+Departamento Administrativo Nacional de EstadÃstica (DANE). (2024). Cuenta satelite de
+agroindustria AvÃcola – BoletÃn TÃ©cnico 2024 [BoletÃn TÃ©cnico]. DANE. https:
+//www.dane.gov.co/files/operaciones/CSAAV/bol-CSAAV-2024pr.pdf
+Fang, Y., Li, Z., Huang, K., Chen, J., Gui, L., & Chen, X. (2025). Causal inference-based
+dynamic optimization for disassembly line balancing with uncertain component states.
+Journal of Manufacturing Systems , 83, 470–482. https://doi.org/10.1016/j.jmsy.2025.09
+.018
+F AO. (2023). Poultry production and trade statistics . Food; Agriculture Organization of the
+United Nations. https://www.fao.org
+FENA VI. (2024). Avicultura en cifras 2024 . FederaciÃ￿Â³n Nacional de A vicultores de Co-
+lombia. https://fenavi.org
+Feng, Y. et al. (2025). Synthetic data augmentation for enhanced chicken carcass instance
+segmentation. arXiv Preprint arXiv:2507.18558 . https://arxiv.org/abs/2507.18558
+Feng, Y., Pallerla, C., Lin, X., et al. (2025). Synthetic data augmentation for enhanced chicken
+carcass instance segmentation. arXiv Preprint, arXiv:2507.18558. https://arxiv.org/abs/
+2507.18558
+GarcÃa LÃ³pez, L., FernÃ¡ndez-Ruiz, R., & LÃ³pez-MartÃÂnez, M. (2023). Automation
+systems in food processing: Current trends and future perspectives. Automation, 4(2),
+150–175. https://doi.org/10.3390/automation4020021
+Güngör, A., & Gupta, S. M. (2001). Disassembly line balancing. In S. M. Gupta (Ed.),
+Environmentally conscious manufacturing (Vol. 4193). SPIE.
+Hartono, N., Ramírez, F. J., & Pham, D. T. (2022). Optimisation of robotic disassembly plans
+using the bees algorithm. Robotics and Computer-Integrated Manufacturing , 78, 102411.
+https://doi.org/10.1016/j.rcim.2022.102411
+Hu, Y., Liu, C., Zhang, M., Jia, Y., & Xu, Y. (2023). A novel simulated annealing-based
+hyper-heuristic algorithm for stochastic parallel disassembly line balancing in smart re-
+manufacturing. Sensors, 23(3), 1652. https://doi.org/10.3390/s23031652
+Kim, J.-H., Park, S.-M., Lee, H.-J., et al. (2022). Smart sensor applications in poultry proces-
+sing: A comprehensive review. Sensors, 22(10), 3920. https://doi.org/10.3390/s22103920
+Kopanos, G. M., Puigjaner, L., & Georgiadis, M. C. (2012). Eﬀicient mathematical frame-
+works for detailed production scheduling in food processing industries. Computers & Che-
+mical Engineering, 42, 206–216. https://doi.org/10.1016/j.compchemeng.2011.12.015
+Li, Z., Kucukkoc, I., Tang, Q., & Zhang, Z. (2021). Models and two-phase bee algorithms for
+multi-objective u-shaped disassembly line balancing problem. Optimization and Enginee-
+ring. https://doi.org/10.1007/s11081-021-09696-y
+Liu, M., Liu, X., Chu, F., Zheng, F., & Chu, C. (2019). Robust disassembly line balancing with
+ambiguous task processing times. International Journal of Production Research , 58(19),
+5806–5835. https://doi.org/10.1080/00207543.2019.1659520
+Liu, X., Chu, F., Zheng, F., Chu, C., & Liu, M. (2021). Distributionally robust and risk-
+averse optimisation for the stochastic multi-product disassembly line balancing problem
+with workforce assignment. International Journal of Production Research , 60(6), 1973–
+1991. https://doi.org/10.1080/00207543.2021.1881648
+16
+Mahalik, N. P., & Nambiar, A. N. (2010). Trends in food packaging and manufacturing
+systems and technology. Trends in Food Science & Technology , 21(3), 117–128. https:
+//doi.org/10.1016/j.tifs.2009.12.006
+Mete, S. et al. (2022). A comparative analysis of meta-heuristic methods on disassembly line
+balancing problem with stochastic time. Annals of Operations Research . https://doi.org/
+10.1007/s10479-022-04910-1
+Paprocka, I., & SkoÃ￿Â￿ud, B. (2022). A predictive approach for disassembly line balancing
+problems. Sensors, 22(10), 3920. https://doi.org/10.3390/s22103920
+Piewthongngam, K., & Chatavithee, P. (2019). Disassembly scheduling in meat processing
+industry with product perishability. Journal of Advanced Manufacturing Systems , 18(2),
+1–21. https://doi.org/10.1142/S0219686719500240
+Saif, U., Guan, Z., Liu, W., Zhang, C., & Wang, B. (2014). Pareto based artificial bee colony
+algorithm for multi objective single model assembly line balancing with uncertain task
+times. Computers & Industrial Engineering , 76, 1–15. https://doi.org/10.1016/j.cie.2014
+.07.009
+Sivasankaran, P., & Shahabudeen, P. (2014). Study and analysis of GA-based heuristic ap-
+plied to assembly line balancing problem. Journal of Advanced Manufacturing Systems ,
+13(2), 89–103. https://doi.org/10.1142/S0219686714500085
+Solano-Blanco, A. L. et al. (2022). Integrated planning decisions in the broiler chicken supply
+chain. International Transactions in Operational Research . https://doi.org/10.1111/itor
+.12861
+Suwannarongsri, S., Limnararat, S., & Puangdownreong, D. (2007). A hybrid tabu search
+method for assembly line balancing. Proceedings of the 7th WSEAS International Confe-
+rence on Simulation, Modelling and Optimization .
+Tian, G., Zhang, X., Fathollahi-Fard, A. M., Jiang, Z., Zhang, C., Yuan, G., & Pham, D.
+T. (2023). Hybrid evolutionary algorithm for stochastic multiobjective disassembly line
+balancing problem in remanufacturing. Environmental Science and Pollution Research .
+https://doi.org/10.1007/s11356-023-27081-3
+V Ã￿Â©ghovÃ￿Â¡, A., MinaroviÃ￿Â￿ovÃ￿Â¡, J., KoreÃ￿Â￿ovÃ￿Â¡, J., DrahovskÃ￿Â¡, H., &
+KaclÃ￿ÂkovÃ￿Â¡, E. (2016). Prevalence and tracing of persistent listeria monocytogenes
+strains in meat processing facility production chain. Journal of Food Safety , 37 (2). https:
+//doi.org/10.1111/jfs.12315
+Wang, K., Li, X., Gao, L., Li, P., & Gupta, S. M. (2021). A genetic simulated annealing
+algorithm for parallel partial disassembly line balancing problem. Applied Soft Computing,
+107, 107404. https://doi.org/10.1016/j.asoc.2021.107404
+Zhu, D., Zhang, X., Huang, X., Pham, D. T., & Zhan, C. (2025). A stochastic sequence-
+dependent disassembly line balancing problem with an adaptive large neighbourhood
+search algorithm. Processes, 13(6), 1675. https://doi.org/10.3390/pr13061675
+17
+--- END FILE: anteproyecto_dlbp_coproductos.pdf ---
