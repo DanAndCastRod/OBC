@@ -1,0 +1,20 @@
+{
+  "status": "Optimal",
+  "beneficio": 13430000.0,
+  "estaciones_usadas": 8,
+  "produccion": {
+    "pechuga_entera": 100.0,
+    "pechuga_filete": 150.0,
+    "alas_solas": 200.0,
+    "alas_costillar": 80.0,
+    "pernil_entero": 120.0,
+    "contramuslo": 100.0,
+    "muslo": 100.0,
+    "muslo_filete": 80.0,
+    "visceras": 300.0,
+    "pollo_entero": 200.0,
+    "pollo_adobado": 100.0
+  },
+  "faltantes": {},
+  "excedentes": {}
+}

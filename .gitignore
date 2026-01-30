@@ -1,5 +1,33 @@
+# Entornos virtuales
+venv/
+env/
 .env
-data/*
-!data/.gitkeep
+
+# Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Archivos pesados y multimedia (No subir al repo)
+*.m4a
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.iso
+*.tar.gz
+*.zip
+seminario de investigación/
+
+# Datos grandes (Opcional, descomentar si se quiere ignorar todos los datos)
+# data/
+# !data/.gitkeep
+
+# IDEs
+.vscode/
+.idea/
+*.swp

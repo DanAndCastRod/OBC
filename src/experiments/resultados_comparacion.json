@@ -1,0 +1,368 @@
+{
+  "resultados": [
+    {
+      "algoritmo": "GA",
+      "instancia": "avicola_45t",
+      "semilla": 42,
+      "n_estaciones": 8,
+      "fitness": 0.0,
+      "tiempo_segundos": 9.364515781402588,
+      "iteraciones": 100,
+      "es_factible": true,
+      "historial_fitness": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "algoritmo": "GA",
+      "instancia": "avicola_45t",
+      "semilla": 1042,
+      "n_estaciones": 8,
+      "fitness": 0.0,
+      "tiempo_segundos": 10.28934097290039,
+      "iteraciones": 100,
+      "es_factible": true,
+      "historial_fitness": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "algoritmo": "GA",
+      "instancia": "avicola_45t",
+      "semilla": 2042,
+      "n_estaciones": 8,
+      "fitness": 0.0,
+      "tiempo_segundos": 8.733168363571167,
+      "iteraciones": 100,
+      "es_factible": true,
+      "historial_fitness": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "algoritmo": "GA",
+      "instancia": "avicola_45t",
+      "semilla": 3042,
+      "n_estaciones": 8,
+      "fitness": 0.0,
+      "tiempo_segundos": 8.763062953948975,
+      "iteraciones": 100,
+      "es_factible": true,
+      "historial_fitness": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "algoritmo": "GA",
+      "instancia": "avicola_45t",
+      "semilla": 4042,
+      "n_estaciones": 8,
+      "fitness": 0.0,
+      "tiempo_segundos": 8.632745027542114,
+      "iteraciones": 100,
+      "es_factible": true,
+      "historial_fitness": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "algoritmo": "TS",
+      "instancia": "avicola_45t",
+      "semilla": 42,
+      "n_estaciones": 8,
+      "fitness": 0.0,
+      "tiempo_segundos": 5.83796501159668,
+      "iteraciones": 200,
+      "es_factible": true,
+      "historial_fitness": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "algoritmo": "TS",
+      "instancia": "avicola_45t",
+      "semilla": 1042,
+      "n_estaciones": 8,
+      "fitness": 0.0,
+      "tiempo_segundos": 5.171147584915161,
+      "iteraciones": 200,
+      "es_factible": true,
+      "historial_fitness": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "algoritmo": "TS",
+      "instancia": "avicola_45t",
+      "semilla": 2042,
+      "n_estaciones": 8,
+      "fitness": 0.0,
+      "tiempo_segundos": 4.220725774765015,
+      "iteraciones": 200,
+      "es_factible": true,
+      "historial_fitness": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "algoritmo": "TS",
+      "instancia": "avicola_45t",
+      "semilla": 3042,
+      "n_estaciones": 8,
+      "fitness": 0.0,
+      "tiempo_segundos": 4.223332405090332,
+      "iteraciones": 200,
+      "es_factible": true,
+      "historial_fitness": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "algoritmo": "TS",
+      "instancia": "avicola_45t",
+      "semilla": 4042,
+      "n_estaciones": 8,
+      "fitness": 0.0,
+      "tiempo_segundos": 4.232039451599121,
+      "iteraciones": 200,
+      "es_factible": true,
+      "historial_fitness": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "algoritmo": "Hybrid",
+      "instancia": "avicola_45t",
+      "semilla": 42,
+      "n_estaciones": 8,
+      "fitness": 0.0,
+      "tiempo_segundos": 7.556924343109131,
+      "iteraciones": 50,
+      "es_factible": true,
+      "historial_fitness": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "algoritmo": "Hybrid",
+      "instancia": "avicola_45t",
+      "semilla": 1042,
+      "n_estaciones": 8,
+      "fitness": 0.0,
+      "tiempo_segundos": 7.796380519866943,
+      "iteraciones": 50,
+      "es_factible": true,
+      "historial_fitness": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "algoritmo": "Hybrid",
+      "instancia": "avicola_45t",
+      "semilla": 2042,
+      "n_estaciones": 8,
+      "fitness": 0.0,
+      "tiempo_segundos": 7.838168144226074,
+      "iteraciones": 50,
+      "es_factible": true,
+      "historial_fitness": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "algoritmo": "Hybrid",
+      "instancia": "avicola_45t",
+      "semilla": 3042,
+      "n_estaciones": 8,
+      "fitness": 0.0,
+      "tiempo_segundos": 8.790237188339233,
+      "iteraciones": 50,
+      "es_factible": true,
+      "historial_fitness": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "algoritmo": "Hybrid",
+      "instancia": "avicola_45t",
+      "semilla": 4042,
+      "n_estaciones": 8,
+      "fitness": 0.0,
+      "tiempo_segundos": 8.010707378387451,
+      "iteraciones": 50,
+      "es_factible": true,
+      "historial_fitness": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "reporte": {
+    "algoritmos": {
+      "GA": {
+        "n_experimentos": 5,
+        "factibles": 5,
+        "estaciones_min": 8,
+        "estaciones_max": 8,
+        "estaciones_media": 8.0,
+        "estaciones_std": 0.0,
+        "tiempo_medio": 9.156566619873047,
+        "tiempo_std": 0.6220805201554902
+      },
+      "TS": {
+        "n_experimentos": 5,
+        "factibles": 5,
+        "estaciones_min": 8,
+        "estaciones_max": 8,
+        "estaciones_media": 8.0,
+        "estaciones_std": 0.0,
+        "tiempo_medio": 4.737042045593261,
+        "tiempo_std": 0.6612089991148288
+      },
+      "Hybrid": {
+        "n_experimentos": 5,
+        "factibles": 5,
+        "estaciones_min": 8,
+        "estaciones_max": 8,
+        "estaciones_media": 8.0,
+        "estaciones_std": 0.0,
+        "tiempo_medio": 7.998483514785766,
+        "tiempo_std": 0.42155532095120524
+      }
+    }
+  }
+}
