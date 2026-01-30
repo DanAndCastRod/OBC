@@ -7,6 +7,10 @@
 
 > **Modelo de Optimización DLBP con Metaheurísticas para la Industria Avícola Colombiana**
 
+- Documentos en formato Markdown que describen el problema, la metodología de investigación y las guías de implementación.
+- Código en `src/` para gestionar referencias bibliográficas de forma manual mediante un módulo de base de datos SQLite.
+- Pruebas automáticas en `test/` que verifican la inserción de artículos en la base de datos.
+- Guía consolidada en `development_guide.md` con pasos de investigación, implementación y recomendaciones para el anteproyecto.
 ## 📋 Descripción
 
 Este proyecto desarrolla un modelo de optimización para el **Problema de Balanceo de Líneas de Desensamble (DLBP)** aplicado a la industria avícola colombiana. Implementa tres técnicas metaheurísticas (Algoritmo Genético, Búsqueda Tabú, y un Híbrido) para minimizar el número de estaciones de trabajo respetando restricciones de precedencia y tiempo de ciclo.
