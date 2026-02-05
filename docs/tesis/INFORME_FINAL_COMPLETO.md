@@ -962,6 +962,8 @@ Ver **Anexo H** para detalles técnicos y resultados de estas extensiones.
 
 2. **Sin validación de campo:** Los resultados no han sido validados en operación real en planta física.
 
+3. **Incertidumbre en la Demanda:** Aunque el contexto teórico reconoce la demanda estocástica, este estudio se limitó a modelos con demanda determinista (promedio esperado). La optimización robusta bajo escenarios de demanda variable queda planteada como trabajo futuro.
+
 ## 6.5. Trabajo Futuro
 
 ### 6.5.1. Líneas de Investigación Futura
