@@ -1,0 +1,94 @@
+name: Render Academic Documents (PDF)
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'anteproyecto_dlbp_coproductos.md'
+      - 'docs/tesis/INFORME_FINAL_COMPLETO.md'
+      - 'referencias_dlbp.bib'
+      - 'ieee.csl'
+      - '.github/workflows/render-docs.yml'
+  workflow_dispatch:  # Permite ejecución manual
+
+jobs:
+  render-pdf:
+    runs-on: ubuntu-latest
+    name: Render Anteproyecto & Informe Final
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            texlive-xetex \
+            texlive-latex-extra \
+            texlive-fonts-recommended \
+            texlive-fonts-extra \
+            texlive-lang-spanish \
+            librsvg2-bin \
+            fonts-liberation \
+            fonts-noto
+
+      - name: Install Pandoc
+        run: |
+          PANDOC_VERSION="3.6.4"
+          wget -q "https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-1-amd64.deb"
+          sudo dpkg -i "pandoc-${PANDOC_VERSION}-1-amd64.deb"
+          pandoc --version
+
+      - name: Install pandoc-mermaid filter
+        run: |
+          sudo npm install -g @mermaid-js/mermaid-cli
+          pip install pandoc-mermaid-filter || true
+
+      - name: Render Anteproyecto (PDF)
+        run: |
+          pandoc anteproyecto_dlbp_coproductos.md \
+            --pdf-engine=xelatex \
+            --citeproc \
+            --bibliography=referencias_dlbp.bib \
+            --csl=ieee.csl \
+            --resource-path=.:docs/tesis \
+            -V geometry:margin=2.5cm \
+            -V fontsize=12pt \
+            -V lang=es \
+            -V mainfont="Liberation Serif" \
+            -V sansfont="Liberation Sans" \
+            -V monofont="Liberation Mono" \
+            -o output/ANTEPROYECTO_DLBP.pdf
+
+      - name: Render Informe Final (PDF)
+        run: |
+          cd docs/tesis
+          pandoc INFORME_FINAL_COMPLETO.md \
+            --pdf-engine=xelatex \
+            --citeproc \
+            --bibliography=../../referencias_dlbp.bib \
+            --csl=../../ieee.csl \
+            --resource-path=.:../.. \
+            -V geometry:margin=2.5cm \
+            -V fontsize=12pt \
+            -V lang=es \
+            -V mainfont="Liberation Serif" \
+            -V sansfont="Liberation Sans" \
+            -V monofont="Liberation Mono" \
+            -o ../../output/INFORME_FINAL_INVESTIGACION.pdf
+
+      - name: Upload PDFs as artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentos-academicos-pdf
+          path: output/*.pdf
+          retention-days: 90
+
+      - name: Commit PDFs to repository
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add output/*.pdf
+          git diff --staged --quiet || git commit -m "docs: render PDFs actualizados [skip ci]"
+          git push
