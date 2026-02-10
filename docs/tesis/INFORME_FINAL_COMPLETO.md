@@ -77,6 +77,18 @@ header-includes:
 
 \newpage
 
+## Declaración de Uso de Herramientas de Inteligencia Artificial
+
+Este trabajo ha sido elaborado con la asistencia de herramientas de inteligencia artificial utilizadas estrictamente como apoyo lingüístico, de redacción, de formato y de programación. En particular, se emplearon las siguientes herramientas:
+
+* **Google Gemini Pro 3** se utilizó como asistente de escritura e investigación para mejorar la claridad, la gramática y el estilo a lo largo del documento, así como para apoyar en la elaboración preliminar de algunas figuras, tablas y fragmentos de código, siempre bajo la supervisión, revisión y verificación final del autor.
+
+* **Anthropic Claude Opus 4.5 y Claude Opus 4.6** se emplearon como asistentes de programación y revisión técnica, contribuyendo a la implementación de algoritmos, la estructuración del código fuente y la generación de documentación técnica.
+
+Todo el contenido intelectual y científico, incluidas las ideas, análisis, resultados e interpretaciones presentadas en este trabajo, es responsabilidad exclusiva del autor. Las herramientas de inteligencia artificial se emplearon únicamente para facilitar la calidad lingüística, la presentación del documento y la productividad en la implementación de software.
+
+\newpage
+
 # Resumen Ejecutivo
 
 Esta investigación desarrolló un modelo de optimización para el **Problema de Balanceo de Líneas de Desensamble (DLBP)** aplicado a la industria avícola colombiana. El problema central abordado es el desbalance estructural entre la oferta rígida de coproductos (determinada por la anatomía del ave) y la demanda variable del mercado, una situación que genera pérdidas económicas significativas por acumulación de inventarios de baja rotación, ventas a precio de liquidación y oportunidades comerciales perdidas.
@@ -196,6 +208,28 @@ La revisión de literatura revela que, aunque existe extensa investigación en D
 - Desmantelamiento de equipos industriales
 
 Hay una **notable escasez de estudios** que aborden el DLBP en la **industria de procesamiento de alimentos**, y particularmente en el **sector avícola** [@GungorGupta2001]. Este vacío representa la oportunidad de investigación que este trabajo busca aprovechar.
+
+### 1.3.4. Tendencias Emergentes en DLBP (2025-2026)
+
+La literatura más reciente muestra una clara evolución hacia la integración de **inteligencia artificial avanzada** y **sistemas colaborativos**. Tan et al. [@Tan2026] y Wang et al. [@Wang2026] han aplicado algoritmos de **Aprendizaje por Refuerzo Profundo (Deep Reinforcement Learning)** y optimización Kepleriana para resolver problemas de balanceo dinámico en entornos de manufactura (baterías y electrodomésticos), donde la incertidumbre proviene de la variabilidad en los tiempos humano-robot.
+
+Paralelamente, Tahraoui et al. [@Tahraoui2025] han avanzado en el estado del arte de la **planeación operativa** para plantas de beneficio avícola utilizando modelos exactos (MILP), abordando la complejidad de la demanda fluctuante en entornos multi-producto. Sin embargo, su enfoque permanece en el nivel agregado de producción (turnos y cantidades globales) sin descender al detalle operativo del balanceo de línea de desposte estocástico, confirmando que la aplicación de metaheurísticas de balanceo fino en este sector sigue siendo un área inexplorada.
+
+La Tabla 1.1 resume los trabajos más relevantes y su posicionamiento respecto a esta propuesta.
+
+**Tabla 1.1. Resumen del Estado del Arte y Brechas Identificadas**
+
+| Autor(es) | Técnica | Objetivo | Manejo de Incertidumbre | Aplicación |
+|-----------|---------|----------|------------------------|------------|
+| Becker & Scholl [-@BeckerScholl2006] | Revisión / Exactos | Balanceo General (GALBP) | Determinista | Manufactura |
+| Mete et al. [-@Mete2022] | GA, Dijkstra | Minimizar Estaciones | Estocástico (Tiempos) | Desensamble (Benchmark) |
+| Solano-Blanco et al. [-@SolanoBlanco2022] | MILP | Maximizar Utilidad | Determinista | Avícola (Colombia) |
+| Paprocka & Skołud [-@Paprocka2022] | Predictivo / Heurística | Tiempo, Eficiencia, Profit | Datos Históricos | Desensamble |
+| Hu et al. [-@Hu_2023] | Hiper-heurística (SA) | Balanceo Paralelo | Estocástico | Remanufactura |
+| Zhu et al. [-@Zhu2025] | ALNS | Dependencias Secuencia | Estocástico | Desensamble |
+| Tan et al. [-@Tan2026] | Keplerian Opt + Q-Learning | HRC-DLBP | Estocástico (Humano) | E-waste (Baterías) |
+| Tahraoui et al. [-@Tahraoui2025] | MILP (CPLEX) | Planeación Agregada | Demanda Fluctuante | Avícola (Pollos) |
+| **Esta Propuesta** | **GA, TS, Híbrido** | **Max Profit / Min Costos** | **Estocástico (Demanda + Tiempos)** | **Avícola (Coproductos)** |
 
 ## 1.4. Pregunta de Investigación
 
@@ -317,7 +351,9 @@ Los tiempos de procesamiento en el desensamble avícola presentan alta variabili
 
 Siguiendo a Hu et al. [@Hu_2023] y Liu et al. [@Liu_2019], el tiempo de procesamiento se modela como una **variable aleatoria**:
 
-$$\tilde{t}_{ik} \sim \mathcal{N}(\mu_{ik}, \sigma_{ik}^2)$$
+\begin{equation}
+\tilde{t}_{ik} \sim \mathcal{N}(\mu_{ik}, \sigma_{ik}^2)
+\end{equation}
 
 Donde:
 - $\mu_{ik}$: Tiempo estándar (esperado) de la tarea $i$ para carcasa tipo $k$
@@ -325,7 +361,9 @@ Donde:
 
 Para efectos prácticos de simulación, se utilizó una distribución **triangular** con varianza de ±20%:
 
-$$\tilde{t}_{ik} \sim \text{Triangular}(0.8\mu_{ik}, \mu_{ik}, 1.2\mu_{ik})$$
+\begin{equation}
+\tilde{t}_{ik} \sim \text{Triangular}(0.8\mu_{ik}, \mu_{ik}, 1.2\mu_{ik})
+\end{equation}
 
 ## 2.4. Variables de Decisión
 
@@ -341,11 +379,15 @@ $$\tilde{t}_{ik} \sim \text{Triangular}(0.8\mu_{ik}, \mu_{ik}, 1.2\mu_{ik})$$
 
 La función objetivo minimiza el número total de estaciones activas:
 
-$$\min Z = \sum_{s \in S} y_s$$
+\begin{equation}
+\min Z = \sum_{s \in S} y_s
+\end{equation}
 
 Para la versión orientada a costos, se puede utilizar:
 
-$$\min Z = \sum_{s \in S} c_s \cdot y_s + \sum_{p \in P} h_p \cdot I_p^+ + \sum_{p \in P} \pi_p \cdot I_p^-$$
+\begin{equation}
+\min Z = \sum_{s \in S} c_s \cdot y_s + \sum_{p \in P} h_p \cdot I_p^+ + \sum_{p \in P} \pi_p \cdot I_p^-
+\end{equation}
 
 Donde $\pi_p$ es el costo de penalización por demanda no satisfecha.
 
@@ -355,31 +397,41 @@ Donde $\pi_p$ es el costo de penalización por demanda no satisfecha.
 
 Cada tarea debe asignarse exactamente a una estación:
 
-$$\sum_{s \in S} x_{is} = 1 \quad \forall i \in I$$
+\begin{equation}
+\sum_{s \in S} x_{is} = 1 \quad \forall i \in I
+\end{equation}
 
 ### 2.6.2. Tiempo de Ciclo
 
 La carga de trabajo de cada estación no puede exceder el tiempo de ciclo:
 
-$$\sum_{i \in I} t_i \cdot x_{is} \leq C \cdot y_s \quad \forall s \in S$$
+\begin{equation}
+\sum_{i \in I} t_i \cdot x_{is} \leq C \cdot y_s \quad \forall s \in S
+\end{equation}
 
 ### 2.6.3. Precedencias Tecnológicas
 
 Si la tarea $j$ es predecesora de la tarea $i$ (notación: $j \prec i$), entonces $j$ debe asignarse a una estación con índice menor o igual que la de $i$:
 
-$$\sum_{s'=1}^{s} x_{js'} \geq x_{is} \quad \forall (j \prec i), \forall s \in S$$
+\begin{equation}
+\sum_{s'=1}^{s} x_{js'} \geq x_{is} \quad \forall (j \prec i), \forall s \in S
+\end{equation}
 
 ### 2.6.4. Activación de Estaciones
 
 Una estación solo puede tener tareas asignadas si está activa:
 
-$$x_{is} \leq y_s \quad \forall i \in I, \forall s \in S$$
+\begin{equation}
+x_{is} \leq y_s \quad \forall i \in I, \forall s \in S
+\end{equation}
 
 ### 2.6.5. Zonificación Sanitaria
 
 **Innovación del modelo:** Tareas de la zona "sucia" (evisceración) y tareas de la zona "limpia" (fileteado) **no pueden compartir estación**:
 
-$$x_{is} + x_{js} \leq 1 \quad \forall i \in Z_{sucia}, j \in Z_{limpia}, \forall s \in S$$
+\begin{equation}
+x_{is} + x_{js} \leq 1 \quad \forall i \in Z_{sucia}, j \in Z_{limpia}, \forall s \in S
+\end{equation}
 
 Esta restricción garantiza el cumplimiento de normas sanitarias INVIMA.
 
@@ -387,13 +439,15 @@ Esta restricción garantiza el cumplimiento de normas sanitarias INVIMA.
 
 La cantidad de cada coproducto producida debe satisfacer las ecuaciones de balance:
 
-$$q_{pk} = \sum_{i \in I} \gamma_{pi} \cdot Q_k \cdot x_{is} \quad \forall p \in P, \forall k \in K$$
+\begin{equation}
+q_{pk} = \sum_{i \in I} \gamma_{pi} \cdot Q_k \cdot x_{is} \quad \forall p \in P, \forall k \in K
+\end{equation}
 
 ## 2.7. Modelo Completo
 
 El modelo MILP completo se formula como:
 
-$$
+\begin{equation}
 \begin{aligned}
 \min \quad & Z = \sum_{s \in S} y_s \\
 \text{s.a.} \quad 
@@ -403,19 +457,19 @@ $$
 & x_{is} + x_{js} \leq 1 & \forall i \in Z_{sucia}, j \in Z_{limpia}, \forall s \\
 & x_{is}, y_s \in \{0, 1\} & \forall i, s
 \end{aligned}
-$$
+\end{equation}
 
 \newpage
 
 # Capítulo 3: Metodología de Solución
 
-Dado que el DLBP pertenece a la clase NP-Hard, se implementaron tres algoritmos metaheurísticos para encontrar soluciones de alta calidad en tiempos computacionales razonables.
+Dado que el DLBP pertenece a la clase NP-Hard, se implementan tres algoritmos metaheurísticos para encontrar soluciones de alta calidad en tiempos computacionales razonables.
 
 ## 3.1. Representación de Soluciones
 
 ### 3.1.1. Codificación Cromosómica
 
-Se adoptó una representación basada en **permutaciones de tareas**, ampliamente utilizada en problemas de balanceo [@McGovern2007; @Kucukkoc2020]. Cada cromosoma $\pi = (\pi_1, \pi_2, \ldots, \pi_n)$ es una permutación de las $n$ tareas que indica el orden de prioridad para la asignación a estaciones.
+Se adopta una representación basada en **permutaciones de tareas**, ampliamente utilizada en problemas de balanceo [@McGovern2007; @Kucukkoc2020]. Cada cromosoma $\pi = (\pi_1, \pi_2, \ldots, \pi_n)$ es una permutación de las $n$ tareas que indica el orden de prioridad para la asignación a estaciones.
 
 **Ejemplo:** Para 5 tareas, un cromosoma válido podría ser:
 
@@ -507,7 +561,7 @@ Intercambia dos posiciones aleatorias en el cromosoma, seguido de reparación de
 
 ### 3.2.3. Parámetros Calibrados
 
-Los parámetros fueron calibrados automáticamente mediante Optuna (ver Capítulo 4):
+Los parámetros se calibran automáticamente mediante Optuna (ver Capítulo 4):
 
 | Parámetro | Valor Calibrado | Justificación |
 |-----------|-----------------|---------------|
@@ -548,7 +602,7 @@ flowchart TD
 
 ### 3.3.2. Estructura de Vecindario
 
-Se implementaron dos tipos de movimientos:
+Se implementan dos tipos de movimientos:
 
 1. **Swap $(i, j)$**: Intercambia las posiciones de las tareas en índices $i$ y $j$
 2. **Insert $(i, j)$**: Remueve tarea de posición $i$ e inserta en posición $j$
@@ -618,7 +672,7 @@ Salida: Mejor solución x*
 
 ## 3.5. Arquitectura de Software
 
-Se diseñó una arquitectura orientada a objetos siguiendo el patrón Strategy:
+Se diseña una arquitectura orientada a objetos siguiendo el patrón Strategy:
 
 ```mermaid
 %%{init: {'theme': 'neutral', 'themeVariables': {'primaryColor': '#fff', 'primaryTextColor': '#000', 'primaryBorderColor': '#333', 'lineColor': '#333'}}}%%
@@ -700,22 +754,64 @@ Dado que los datos reales de plantas avícolas son frecuentemente confidenciales
 | `grande_70t` | 70 | 10 | 45s | 740s | ⌈740/45⌉ = 17 |
 | `muy_grande_100t` | 100 | 12 | 50s | 1076s | ⌈1076/50⌉ = 22 |
 
+### 4.1.4. Documentación del Generador de Instancias
+
+El generador de instancias sintéticas (`src/experiments/generar_instancias.py`, 243 líneas) utiliza un enfoque estructurado para producir instancias reproducibles y representativas del contexto avícola:
+
+**Algoritmo de generación:**
+
+1. **Especificación parametrizada** (`InstanceSpec`): Cada instancia se define mediante un conjunto de parámetros: número de tareas ($n$), número de áreas ($a$), tiempo de ciclo ($C$), rango de tiempos de procesamiento ($[t_{min}, t_{max}]$) y densidad de precedencias ($\delta \in [0, 1]$).
+
+2. **Generación de precedencias** (`generar_precedencias_aleatorias`):
+   - Las tareas se dividen en $a$ áreas (grupos) simulando subprocesos de la planta avícola.
+   - Dentro de cada área se crea una **cadena secuencial** (precedencias lineales).
+   - Entre áreas consecutivas se establece una **precedencia inter-área** (la primera tarea del área $i$ depende de la última del área $i-1$).
+   - Se agregan precedencias adicionales con probabilidad $\delta \times 0.1$ para incrementar la conectividad del grafo DAG sin crear ciclos.
+
+3. **Generación de tiempos** (`generar_tiempos_aleatorios`): Distribución uniforme discreta $U(t_{min}, t_{max})$.
+
+4. **Reproducibilidad**: Todas las instancias se generan con semilla fija (`seed=42`) usando `numpy.random.default_rng`, garantizando resultados idénticos en cualquier ejecución.
+
+5. **Exportación**: Las instancias se serializan en formato JSON con estructura completa (tareas, tiempos, precedencias, tiempo de ciclo).
+
+**Ejecución:**
+
+```bash
+python src/experiments/generar_instancias.py
+```
+
+Este comando genera las 4 instancias estándar en `data/instancias_sinteticas/` y puede ejecutarse desde el repositorio publicado para reproducir exactamente las instancias utilizadas en esta investigación.
+
+
 ## 4.2. Calibración de Parámetros (Optuna)
 
 ### 4.2.1. Metodología
 
 Se empleó el framework **Optuna** [@Akiba2019] para calibración automática de hiperparámetros mediante muestreo bayesiano (TPE - Tree-structured Parzen Estimator).
 
-### 4.2.2. Espacio de Búsqueda
+### 4.2.2. Espacio de Búsqueda y Valores por Defecto
 
-| Algoritmo | Parámetro | Tipo | Rango |
-|-----------|-----------|------|-------|
-| **GA** | `poblacion_size` | int | [30, 150] |
-| | `prob_cruce` | float | [0.6, 0.95] |
-| | `prob_mutacion` | float | [0.05, 0.25] |
-| **TS** | `tamano_lista_tabu` | int | [7, 30] |
-| | `tamano_vecindario` | int | [15, 50] |
-| **Híbrido** | `aplicar_ts_cada` | int | [5, 30] |
+La siguiente tabla documenta los valores por defecto del código fuente (antes de calibración) junto con el espacio de búsqueda definido para Optuna:
+
+| Algoritmo | Parámetro | Valor por Defecto | Tipo | Rango Optuna |
+|-----------|-----------|-------------------|------|-------|
+| **GA** | `poblacion_size` | 50 | int | [30, 150] |
+| | `prob_cruce` | 0.80 | float | [0.6, 0.95] |
+| | `prob_mutacion` | **0.15** | float | [0.05, 0.25] |
+| | `tamano_torneo` | 3 | int | [2, 5] |
+| | `elitismo` | 2 | int | [1, 5] |
+| **TS** | `tamano_lista_tabu` | 20 | int | [7, 30] |
+| | `tamano_vecindario` | 30 | int | [15, 50] |
+| | `tipo_movimiento` | swap | categorical | [swap, insert, mixto] |
+| **Híbrido** | `poblacion_size` | 40 | int | [25, 80] |
+| | `prob_cruce` | 0.85 | float | [0.70, 0.95] |
+| | `aplicar_ts_cada` | 10 gen | int | [5, 30] |
+| | `iter_ts_por_individuo` | 20 | int | [10, 40] |
+| | `top_n_para_ts` | 5 | int | [3, 10] |
+
+**Nota sobre el alcance de la calibración:** Optuna calibró **cada algoritmo de forma independiente**, mediante funciones objetivo separadas (`crear_objetivo_ga`, `crear_objetivo_ts`, `crear_objetivo_hybrid`). Se utilizaron 30 trials por algoritmo con el sampler TPE sobre una instancia representativa de 40 tareas. Cada trial evaluó el promedio de estaciones en 3 réplicas.
+
+**Nota sobre la mutación del GA:** El valor por defecto de `prob_mutacion = 0.15` fue calibrado por Optuna a `0.20`, sugiriendo que una mayor diversidad genética favorece la exploración del espacio de soluciones en instancias del DLBP avícola. La mutación utilizada es de tipo *swap* (intercambio de dos posiciones en la permutación), seguida de reparación de precedencias.
 
 ### 4.2.3. Resultados de Calibración
 
@@ -788,6 +884,30 @@ Se empleó el framework **Optuna** [@Akiba2019] para calibración automática de
 | GA | 23.5 | 0.84 | 4.12 | 85.1% |
 | TS | 24.8 | 1.45 | 1.67 | 80.7% |
 | **Híbrido** | **22.8** | **0.42** | 5.87 | **87.8%** |
+
+### 5.1.5. Validación contra Modelo Exacto (MILP)
+
+Para evaluar la calidad absoluta de las soluciones metaheurísticas, se compararon contra el óptimo exacto obtenido mediante Programación Lineal Entera Mixta (MILP) usando el solver PuLP/CBC. Esta validación se realizó sobre instancias pequeñas (≤15 tareas) donde la solución exacta es computacionalmente factible dentro de un límite de 120 segundos.
+
+**Tabla 5.1. Comparación Modelo Exacto (MILP) vs. Metaheurísticas**
+
+| Instancia | Tareas | MILP (Óptimo) | T. MILP (s) | GA (Media) | T. GA (s) | Gap GA | TS (Media) | T. TS (s) | Gap TS | Híbrido (Media) | T. Híbrido (s) | Gap Híbrido |
+|-----------|--------|---------------|-------------|------------|-----------|--------|------------|-----------|--------|-----------------|----------------|-------------|
+| demo_15t | 15 | **5** | 1.34 | 5.0 | 0.48 | 0.0% | 5.0 | 0.16 | 0.0% | 5.0 | 0.72 | 0.0% |
+| lineal_10t | 10 | **4** | 0.07 | 4.0 | 0.39 | 0.0% | 4.0 | 0.14 | 0.0% | 5.0 | 0.55 | 25.0% |
+| paralelo_12t | 12 | **4** | 0.10 | 4.0 | 0.35 | 0.0% | 4.0 | 0.12 | 0.0% | 4.0 | 0.52 | 0.0% |
+
+*Fuente: `results/benchmark_comparison.json` (10 réplicas por algoritmo)*
+
+**Análisis de resultados:**
+
+1. **GA y TS alcanzan el óptimo exacto** (gap = 0.0%) en todas las instancias benchmark, confirmando la correcta implementación de ambos algoritmos y su capacidad de encontrar soluciones óptimas en instancias pequeñas.
+
+2. **El Híbrido presenta un gap del 25% en `lineal_10t`**, una instancia con estructura puramente secuencial (cadena lineal de precedencias). En este caso, el espacio de búsqueda factible es extremadamente restringido y la intensificación local por TS no aporta mejora, siendo incluso contraproducente al consumir iteraciones sin explorar nuevas direcciones.
+
+3. **Escalabilidad del MILP:** El solver exacto resuelve instancias de 10-15 tareas en menos de 2 segundos, pero se vuelve intratable para instancias mayores (>15 tareas exceden el límite de 120s), lo que confirma la necesidad práctica de las metaheurísticas para los tamaños de instancia realistas evaluados en esta investigación (40-100 tareas).
+
+4. **Tiempo computacional:** Las metaheurísticas son competitivas incluso en instancias pequeñas (TS: 0.14s vs. MILP: 1.34s en `demo_15t`) y escalan significativamente mejor a medida que crece el número de tareas.
 
 ## 5.2. Visualización de Resultados
 
@@ -1015,6 +1135,10 @@ src/
 
 **Total:** Aproximadamente 2,700 líneas de código Python documentado.
 
+**Repositorio público:** Todo el código fuente, datos y scripts de experimentación están disponibles en:
+
+> 🔗 [https://github.com/DanAndCastRod/OBC](https://github.com/DanAndCastRod/OBC)
+
 ## Anexo B: Instancias de Prueba
 
 Las instancias generadas están disponibles en formato JSON en:
@@ -1027,6 +1151,11 @@ data/instancias_sinteticas/
 └── muy_grande_100t.json
 ```
 
+Las instancias y todos los resultados experimentales están disponibles públicamente en el repositorio del proyecto para facilitar la reproducibilidad:
+
+> 🔗 [https://github.com/DanAndCastRod/OBC](https://github.com/DanAndCastRod/OBC)
+
+Para regenerar las instancias: `python src/experiments/generar_instancias.py` (semilla fija: 42).
 ## Anexo C: Configuración Calibrada
 
 Archivo: `config/algorithm_params.yaml`
@@ -1099,20 +1228,9 @@ Se implementó una suite de tests unitarios para validar la correcta implementac
 
 ## Anexo G: Comparación con Benchmarks y Solver Exacto
 
-Se comparó el desempeño de las metaheurísticas contra soluciones óptimas obtenidas con un solver MILP exacto (PuLP + CBC).
+La comparación detallada entre el modelo exacto (MILP) y las metaheurísticas se presenta en la **Sección 5.1.5** del cuerpo principal del informe (Tabla 5.1). Los datos de origen se encuentran en `results/benchmark_comparison.json`.
 
-| Instancia | n | Óptimo | GA | TS | Híbrido | Gap |
-|-----------|---|--------|----|----|---------|-----|
-| demo_15t | 15 | 5 | 5.0 | 5.0 | 5.0 | 0% |
-| lineal_10t | 10 | 4 | 4.0 | 4.0 | 5.0 | 0% |
-| paralelo_12t | 12 | 4 | 4.0 | 4.0 | 4.0 | 0% |
-
-**Hallazgos principales:**
-- **GA y TS alcanzan el óptimo exacto** (gap = 0%) en todas las instancias probadas
-- **TS es el más rápido** (0.14s promedio) pero MILP excede tiempos razonables para n > 15
-- **Implementación validada:** Los resultados confirman la correcta implementación de los algoritmos
-
-**Documentación completa:** `docs/tesis/anexo_benchmarks.md`
+**Documentación técnica complementaria:** `docs/tesis/anexo_benchmarks.md`
 
 ---
 

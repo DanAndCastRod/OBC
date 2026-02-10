@@ -343,17 +343,29 @@ Recientemente, el uso de tecnologías avanzadas como la visión por computador y
 
 Asimismo, la integración de robótica colaborativa [@IndustrialRobots2023] promete flexibilizar las líneas de producción, permitiendo una mejor adaptación a la variabilidad de la materia prima. Estas innovaciones tecnológicas proporcionan la base para implementar modelos de optimización más sofisticados como el DLBP.
 
+#### 5.3.1. Tendencias Emergentes en DLBP (2025-2026)
+
+La literatura más reciente muestra una clara evolución hacia la integración de **inteligencia artificial avanzada** y **sistemas colaborativos**. Tan et al. [@Tan2026] y Wang et al. [@Wang2026] han aplicado algoritmos de **Aprendizaje por Refuerzo Profundo (Deep Reinforcement Learning)** y optimización Kepleriana para resolver problemas de balanceo dinámico en entornos de manufactura (baterías y electrodomésticos), donde la incertidumbre proviene de la variabilidad en los tiempos humano-robot. 
+
+Paralelamente, Tahraoui et al. [@Tahraoui2025] han avanzado en el estado del arte de la **planeación operativa** para plantas de beneficio avícola utilizando modelos exactos (MILP), abordando la complejidad de la demanda fluctuante en entornos multi-producto. Sin embargo, su enfoque permanece en el nivel agregado de producción (turnos y cantidades globales) sin descender al detalle operativo del balanceo de línea de desposte estocástico, confirmando que la aplicación de metaheurísticas de balanceo fino en este sector sigue siendo un área inexplorada.
+
 ### 5.4. Vacíos de Investigación Identificados
 
-A pesar de la extensa literatura sobre ALBP y el creciente interés en DLBP, la revisión del estado del arte revela varios vacíos de investigación que este proyecto busca abordar:
+A pesar de la extensa literatura sobre ALBP y el creciente interés en DLBP, la revisión del estado del arte revela varios vacíos de investigación que este proyecto busca abordar. La Tabla 1 resume los trabajos más relevantes y su posicionamiento respecto a esta propuesta.
 
-1.  **Falta de Modelos Específicos para la Industria Avícola:** Aunque existen modelos generales de DLBP, hay una escasez de modelos que capturen las características específicas y las complejidades del proceso de despiece avícola, como la variabilidad en el peso de las carcasas, las restricciones de calidad, la perecibilidad del producto [@Piewthongngam2019], y las demandas estacionales de los coproductos.
+**Tabla 1. Resumen del Estado del Arte y Brechas Identificadas**
 
-2.  **Integración Limitada con la Planificación de la Demanda:** Muchos de los modelos existentes asumen una demanda determinista, lo cual no refleja la realidad del mercado avícola. Es necesario desarrollar modelos que integren la estocasticidad de la demanda para generar planes de producción más robustos y realistas.
-
-3.  **Comparación Insuficiente de Metaheurísticas en Contextos Reales:** Si bien se han aplicado diversas metaheurísticas al DLBP en contextos académicos, faltan estudios comparativos rigurosos que evalúen el desempeño de diferentes algoritmos en un conjunto de instancias de problemas realistas para la industria avícola, considerando tanto la calidad de la solución como la eficiencia computacional.
-
-4.  **Validación con Datos Reales o Sintéticos Calibrados:** Muchos de los modelos propuestos en la literatura se validan con datos sintéticos arbitrarios o instancias de problemas de pequeña escala. Existe la necesidad de validar estos modelos con datos reales o, en su defecto, con datos sintéticos que hayan sido cuidadosamente calibrados para reflejar las condiciones operativas reales de la industria.
+| Autor(es) | Técnica | Objetivo | Manejo de Incertidumbre | Aplicación |
+|-----------|---------|----------|------------------------|------------|
+| Becker & Scholl [-@BeckerScholl2006] | Revisión / Exactos | Balanceo General (GALBP) | Determinista | Manufactura |
+| Mete et al. [-@Mete2022] | GA, Dijkstra | Minimizar Estaciones | Estocástico (Tiempos) | Desensamble (Benchmark) |
+| Solano-Blanco et al. [-@SolanoBlanco2022] | MILP | Maximizar Utilidad | Determinista | Avícola (Colombia) |
+| Paprocka & Skołud [-@Paprocka2022] | Predictivo / Heurística | Tiempo, Eficiencia, Profit | Datos Históricos | Desensamble |
+| Hu et al. [-@Hu_2023] | Hiper-heurística (SA) | Balanceo Paralelo | Estocástico | Remanufactura |
+| Zhu et al. [-@Zhu2025] | ALNS | Dependencias Secuencia | Estocástico | Desensamble |
+| Tan et al. [-@Tan2026] | Keplerian Opt + Q-Learning | HRC-DLBP | Estocástico (Humano) | E-waste (Baterías) |
+| Tahraoui et al. [-@Tahraoui2025] | MILP (CPLEX) | Planeación Agregada | Demanda Fluctuante | Avícola (Pollos) |
+| **Esta Propuesta** | **GA, TS, Híbrido** | **Max Profit / Min Costos** | **Estocástico (Demanda + Tiempos)** | **Avícola (Coproductos)** |
 
 Este proyecto de investigación se posiciona para abordar estos vacíos, con el objetivo de desarrollar una contribución significativa tanto al campo académico del DLBP como a la práctica industrial de la gestión de la producción avícola.
 
@@ -367,9 +379,9 @@ La metodología de esta investigación se estructura en cinco fases principales,
 
 *   **Enfoque:** Cuantitativo. Se basa en la medición numérica de variables (costos, tiempos, cantidades) y el análisis estadístico riguroso de resultados.
 *   **Alcance:** Explicativo y Correlacional. Busca explicar la relación causal entre la optimización del balanceo mediante DLBP y la rentabilidad/eficiencia operativa.
-*   **Diseño:** Experimental (Simulación). Se manipularán variables independientes (algoritmos metaheurísticos, escenarios de demanda) en un entorno controlado (*in silico*) para observar su efecto en la variable dependiente (costo total, nivel de servicio, inventario).
+*   **Diseño:** Experimental (Simulación). Se manipulan variables independientes (algoritmos metaheurísticos, escenarios de demanda) en un entorno controlado (*in silico*) para observar su efecto en la variable dependiente (costo total, nivel de servicio, inventario).
 *   **Método de Inferencia:** Deductivo. Se parte de teorías generales de optimización y DLBP para aplicarlas a un caso específico de la industria avícola.
-*   **Temporalidad:** Transversal. Los experimentos computacionales se realizarán en un corte de tiempo específico, aunque considerando escenarios de demanda que reflejan variabilidad temporal.
+*   **Temporalidad:** Transversal. Los experimentos computacionales se realizan en un corte de tiempo específico, aunque considerando escenarios de demanda que reflejan variabilidad temporal.
 
 ### 5.2. Fases de la Investigación
 
@@ -377,9 +389,9 @@ La metodología de esta investigación se estructura en cinco fases principales,
 
 El primer paso consiste en desarrollar un modelo matemático de optimización para el DLBP adaptado a la industria avícola. Este modelo será la base para la implementación de los algoritmos de solución.
 
-*   **Definición de Variables de Decisión:** Se identificarán las variables clave del problema, como la asignación de tareas de despiece a las estaciones de trabajo, el secuenciamiento de las tareas, y las cantidades de cada coproducto a procesar en cada período.
-*   **Función Objetivo:** Se formulará una función objetivo que buscará maximizar la rentabilidad de la operación. Esto implicará maximizar los ingresos por la venta de coproductos y minimizar los costos de producción, inventario y penalizaciones por demanda no satisfecha.
-*   **Restricciones:** Se incorporarán al modelo todas las restricciones relevantes del problema:
+*   **Definición de Variables de Decisión:** Se identifican las variables clave del problema, como la asignación de tareas de despiece a las estaciones de trabajo, el secuenciamiento de las tareas, y las cantidades de cada coproducto a procesar en cada período.
+*   **Función Objetivo:** Se formula una función objetivo que busca maximizar la rentabilidad de la operación. Esto implica maximizar los ingresos por la venta de coproductos y minimizar los costos de producción, inventario y penalizaciones por demanda no satisfecha.
+*   **Restricciones:** Se incorporan al modelo todas las restricciones relevantes del problema:
 
     *   Restricciones de precedencia entre las tareas de despiece (basadas en la anatomía del ave).
     *   Restricciones de capacidad de las estaciones de trabajo.
@@ -390,11 +402,11 @@ El primer paso consiste en desarrollar un modelo matemático de optimización pa
 
 #### Fase 2: Diseño e Implementación de Metaheurísticas (Semanas 9-16)
 
-Dada la complejidad NP-hard del DLBP, se recurrirá a metaheurísticas para encontrar soluciones de alta calidad en tiempos computacionales razonables. Se explorarán e implementarán las siguientes técnicas:
+Dada la complejidad NP-hard del DLBP, se recurre a metaheurísticas para encontrar soluciones de alta calidad en tiempos computacionales razonables. Se exploran e implementan las siguientes técnicas:
 
 *   **Algoritmo Genético (GA):** Implementación de un GA con representación permutacional de soluciones, operadores de cruce y mutación adaptados al problema de balanceo [@Sivasankaran2014].
 *   **Búsqueda Tabú (TS):** Implementación de TS con estrategias de diversificación e intensificación, siguiendo las mejores prácticas documentadas en [@Suwannarongsri2007].
-*   **Algoritmo Híbrido GA-TS:** Desarrollo de un algoritmo híbrido que combine la exploración global del GA con la explotación local de TS.
+*   **Algoritmo Híbrido GA-TS:** Desarrollo de un algoritmo híbrido que combina la exploración global del GA con la explotación local de TS.
 
 Para cada metaheurística se realizará:
 *   Codificación adecuada de la solución.
@@ -405,38 +417,38 @@ La implementación se realizará en Python, utilizando librerías de optimizaci�
 
 #### Fase 3: Generación de Datos y Escenarios de Prueba (Semanas 17-20)
 
-Para validar el modelo y los algoritmos propuestos, se generará un conjunto de instancias de prueba que representen de manera realista las condiciones de la industria avícola colombiana.
+Para validar el modelo y los algoritmos propuestos, se genera un conjunto de instancias de prueba que representan de manera realista las condiciones de la industria avícola colombiana.
 
-*   **Datos Sintéticos Calibrados:** Se utilizarán datos sintéticos para las pruebas, siguiendo las mejores prácticas en generación de datos sintéticos [@SyntheticDataChicken2025]. Estos datos serán calibrados utilizando:
+*   **Datos Sintéticos Calibrados:** Se utilizan datos sintéticos para las pruebas, siguiendo las mejores prácticas en generación de datos sintéticos [@SyntheticDataChicken2025]. Estos datos son calibrados utilizando:
     *   Rendimientos estándar de carcasa publicados en la literatura.
     *   Costos de producción del sector avícola colombiano.
-    *   Patrones de demanda históricos (cuando estén disponibles) o generados mediante distribuciones probabilísticas, siguiendo el enfoque predictivo basado en datos históricos propuesto por [@Paprocka2022].
+    *   Patrones de demanda históricos (cuando están disponibles) o generados mediante distribuciones probabilísticas, siguiendo el enfoque predictivo basado en datos históricos propuesto por [@Paprocka2022].
     *   Parámetros de la industria local (caso Santa Marta como referencia).
-*   **Generación de Instancias:** Se crearán múltiples instancias del problema con diferentes tamaños (número de estaciones, número de cortes) y niveles de complejidad (variabilidad de demanda, estacionalidad) para evaluar la escalabilidad y robustez de los algoritmos.
+*   **Generación de Instancias:** Se crean múltiples instancias del problema con diferentes tamaños (número de estaciones, número de cortes) y niveles de complejidad (variabilidad de demanda, estacionalidad) para evaluar la escalabilidad y robustez de los algoritmos.
 
 #### Fase 4: Diseño Experimental y Análisis de Resultados (Semanas 21-24)
 
-Se llevará a cabo un diseño experimental riguroso para evaluar el desempeño de las metaheurísticas propuestas y validar las hipótesis de la investigación.
+Se lleva a cabo un diseño experimental riguroso para evaluar el desempeño de las metaheurísticas propuestas y validar las hipótesis de la investigación.
 
-*   **Métricas de Desempeño:** Se definirán métricas cuantitativas para evaluar:
+*   **Métricas de Desempeño:** Se definen métricas cuantitativas para evaluar:
     *   Rentabilidad total (función objetivo).
     *   Nivel de servicio al cliente (% de demanda satisfecha).
     *   Niveles de inventario promedio.
     *   Tiempo computacional.
     *   Gap de optimalidad (cuando sea posible comparar con soluciones exactas en instancias pequeñas).
-*   **Análisis Comparativo:** Se comparará el desempeño de:
+*   **Análisis Comparativo:** Se compara el desempeño de:
     *   GA vs. TS vs. Híbrido.
     *   Modelo optimizado vs. Métodos heurísticos simples (baseline).
-*   **Análisis Estadístico:** Se utilizarán herramientas estadísticas (ANOVA, pruebas t, pruebas no paramétricas) para analizar los resultados y obtener conclusiones con significancia estadística.
-*   **Análisis de Sensibilidad:** Se evaluará la sensibilidad del modelo ante cambios en parámetros clave (precios, costos, variabilidad de demanda).
+*   **Análisis Estadístico:** Se utilizan herramientas estadísticas (ANOVA, pruebas t, pruebas no paramétricas) para analizar los resultados y obtener conclusiones con significancia estadística.
+*   **Análisis de Sensibilidad:** Se evalúa la sensibilidad del modelo ante cambios en parámetros clave (precios, costos, variabilidad de demanda).
 
 #### Fase 5: Validación y Documentación (Semanas 25-26)
 
-Finalmente, se validará el enfoque general y se documentarán las conclusiones de la investigación.
+Finalmente, se valida el enfoque general y se documentan las conclusiones de la investigación.
 
-*   **Validación del Modelo:** Se verificará que el modelo y los algoritmos propuestos generan soluciones realistas y aplicables en el contexto industrial.
-*   **Documentación y Escritura:** Se redactará el documento final de tesis.
-*   **Transferencia de Conocimiento:** Se preparará material de divulgación para la industria (presentaciones, infografías) que faciliten la adopción de los resultados del proyecto.
+*   **Validación del Modelo:** Se verifica que el modelo y los algoritmos propuestos generen soluciones realistas y aplicables en el contexto industrial.
+*   **Documentación y Escritura:** Se redacta el documento final de tesis.
+*   **Transferencia de Conocimiento:** Se prepara material de divulgación para la industria (presentaciones, infografías) que faciliten la adopción de los resultados del proyecto.
 
 ---
 
@@ -472,6 +484,7 @@ Al finalizar este proyecto de investigación, se espera obtener los siguientes r
 *   **Un modelo matemático de DLBP validado** para la industria avícola, que sirva como base para futuras investigaciones en el área.
 *   **Algoritmos metaheurísticos (GA, TS e híbrido) implementados y calibrados**, que podrán ser utilizados para resolver problemas de optimización similares en otros contextos industriales.
 *   **Un conjunto de datos sintéticos de prueba calibrados**, que estará a disposición de la comunidad científica para la evaluación y comparación de nuevos algoritmos para el DLBP.
+*   **Código fuente y datos públicos**: Todo el código, instancias sintéticas y resultados experimentales están disponibles en el repositorio público: [https://github.com/DanAndCastRod/OBC](https://github.com/DanAndCastRod/OBC).
 <!-- *   **Un artículo científico** con los resultados de la investigación, que será enviado para su publicación en una revista indexada de alto impacto en el área de Investigación de Operaciones o Gestión de Operaciones. -->
 
 ### 8.2. Impacto Potencial en la Industria Avícola
@@ -533,33 +546,47 @@ Las referencias completas se generan automáticamente mediante Pandoc utilizando
 
 ## Anexos
 
-### Anexo A: Estructura del Modelo Matemático (Formulación Preliminar)
+### Anexo A: Formulación Matemática del Modelo DLBP
 
-La formulación matemática completa del modelo DLBP se desarrollará en la Fase 1, pero se anticipa que incluirá:
+El modelo propuesto se basa en una formulación de Programación Lineal Entera Mixta (MILP).
 
-**Conjuntos:**
+**Variables de Decisión:**
 
-- $T$: Conjunto de tareas de despiece
-- $S$: Conjunto de estaciones de trabajo
-- $P$: Conjunto de coproductos
-- $D$: Conjunto de períodos de demanda
+\begin{equation}
+x_{is} = \begin{cases} 1 & \text{si la tarea } i \text{ se asigna a la estación } s \\ 0 & \text{de lo contrario} \end{cases}
+\end{equation}
 
-**Parámetros:**
+\begin{equation}
+y_s = \begin{cases} 1 & \text{si la estación } s \text{ está activa} \\ 0 & \text{de lo contrario} \end{cases}
+\end{equation}
 
-- $t_i$: Tiempo de procesamiento de la tarea $i$
-- $d_{pt}$: Demanda del coproducto $p$ en el período $t$
-- $c_p$: Precio de venta del coproducto $p$
-- $h_p$: Costo de mantener inventario del coproducto $p$
-- Precedencias entre tareas (grafo dirigido acíclico)
+**Función Objetivo:**
 
-**Variables de decisión:**
+Minimizar el número de estaciones o maximizar el beneficio neto:
 
-- $x_{is}$: Asignación de tarea $i$ a estación $s$ (binaria)
-- $y_{pt}$: Cantidad producida del coproducto $p$ en período $t$
-- $I_{pt}$: Inventario del coproducto $p$ al final del período $t$
+\begin{equation}
+\min Z = \sum_{s \in S} y_s
+\end{equation}
 
-**Función objetivo:**
-Maximizar el beneficio neto = Ingresos por ventas - Costos de producción - Costos de inventario - Penalizaciones por demanda no satisfecha
+O alternativamente (orientado a costos/profit):
+
+\begin{equation}
+\max Profit = \sum_{p,k} c_{pk} q_{pk} - \sum_{s} C_s y_s
+\end{equation}
+
+**Restricciones:**
+
+\begin{equation}
+\sum_{s \in S} x_{is} = 1 \quad \forall i \in I
+\end{equation}
+
+\begin{equation}
+\sum_{i \in I} t_i \cdot x_{is} \leq C \cdot y_s \quad \forall s \in S
+\end{equation}
+
+\begin{equation}
+\sum_{s'=1}^{s} x_{js'} \geq x_{is} \quad \forall (j \prec i), \forall s \in S
+\end{equation}
 
 ### Anexo B: Herramientas Tecnológicas a Utilizar
 
