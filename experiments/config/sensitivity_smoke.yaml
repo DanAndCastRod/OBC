@@ -1,0 +1,44 @@
+experiment:
+  name: sensitivity_smoke
+  description: Analisis de sensibilidad de parametros economicos y estocasticos
+  n_replicas: 1
+  seeds:
+  - 1
+algorithm: ga_sa
+algorithm_params:
+  pop_size: 39
+  crossover_rate: 0.8589
+  mutation_rate: 0.0505
+  elitism_count: 1
+  selection_size: 3
+  local_search_T: 3226.6
+  local_search_cooling: 0.7126
+  local_search_freq: 9
+  local_search_iters: 26
+  local_search_top_k: 10
+  n_generations: 200
+  stagnation_limit: 50
+base_instance: data/instances/medium_seed42.yaml
+parameters:
+  prices:
+    description: Precios de venta por forma de corte
+    field: prices
+    deltas:
+    - 0.0
+  costs:
+    description: Costos de produccion, setup e inventario
+    fields:
+    - cost_prod
+    - cost_setup
+    - cost_inv
+    deltas:
+    - 0.0
+  demand_variability:
+    description: Variabilidad de la demanda estocastica
+    field: demand
+    deltas:
+    - 0.0
+    mode: spread
+output:
+  results_csv: experiments/results/sensitivity_smoke.csv
+  results_json: experiments/results/sensitivity_smoke.json

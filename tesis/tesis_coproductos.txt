@@ -1,0 +1,2227 @@
+Modelo de Optimización para la Planificación
+de Coproductos con Metaheurísticas en la
+Industria Avícola
+
+Daniel Andrés Castañeda Rodríguez
+
+Universidad Tecnológica de Pereira
+Maestría en Investigación de Operaciones y Estadística
+2026
+
+UNIVERSIDAD TECNOLÓGICA DE PEREIRA
+Facultad de Ingeniería Industrial
+Maestría en Investigación de Operaciones y Estadística
+
+TRABAJO DE GRADO
+Modelo de Optimización para la Planificación de Coproductos con
+Metaheurísticas en la Industria Avícola
+
+Presentado por:
+Daniel Andrés Castañeda Rodríguez
+
+Directora:
+Ing. Eliana Mirledy Ocampo Toro, PhD.
+
+Línea de Investigación:
+Optimización y Modelado Matemático
+
+Pereira, Colombia
+2026
+
+Agradecimientos
+A mi directora de tesis, la Dra. Eliana Mirledy Ocampo Toro, por su guía académica, paciencia
+y dedicación a lo largo de este proceso investigativo. Su rigor metodológico y visión estratégica
+fueron fundamentales para la culminación de este trabajo.
+A la Universidad Tecnológica de Pereira y la Maestría en Investigación de Operaciones y
+Estadística, por brindarme las herramientas y el espacio de formación para desarrollar esta
+investigación.
+A mi familia, por su apoyo incondicional y comprensión durante las largas jornadas de trabajo
+dedicadas a este proyecto.
+A mis compañeros de la maestría, por las discusiones enriquecedoras y el acompañamiento
+mutuo durante este camino académico.
+
+1
+
+Resumen
+Este trabajo presenta el desarrollo de un modelo de optimización para la planificación de
+coproductos en la industria avícola colombiana, resuelto mediante técnicas metaheurísticas.
+El problema central aborda el desbalance estructural entre la oferta rígida de coproductos
+—determinada por la anatomía del ave— y la demanda variable del mercado. Se formula
+un modelo de Programación Lineal Entera Mixta (MILP) multi-periodo con estructura de
+lot-sizing estocástico, incluyendo decisiones binarias de setup, lote mínimo y restricciones
+de perecibilidad. Debido a la complejidad NP-hard del problema, se implementan y comparan cuatro metaheurísticas: Algoritmo Genético (GA), Recocido Simulado (SA), Evolución
+Diferencial (DE) y un algoritmo híbrido GA-SA. Los algoritmos se calibraron mediante el
+sampler TPE de Optuna y se evaluaron mediante un diseño experimental completo de 1,098
+ejecuciones sobre 9 instancias sintéticas calibradas con datos del sector avícola colombiano.
+Los resultados muestran que el híbrido GA-SA produce soluciones de alta calidad con gaps
+≤ 2 % respecto al solver exacto CBC en instancias medianas, confirmando su eficacia para
+problemas de escala industrial. La solución fue validada operativamente, demostrando robustez ante perturbaciones de ±10 % en la demanda con un deterioro máximo de 0.04 % en la
+función objetivo. El código fuente, instancias y resultados están disponibles públicamente en
+el repositorio del proyecto.
+Palabras clave: optimización, coproductos, metaheurísticas, industria avícola, lot-sizing
+estocástico
+
+2
+
+Abstract
+This work presents the development of an optimization model for co-product planning in
+the Colombian poultry industry, solved using metaheuristic techniques. The central problem
+addresses the structural imbalance between the rigid supply of co-products —determined by
+the anatomy of the bird— and the variable market demand. A multi-period Mixed-Integer
+Linear Programming (MILP) model with stochastic lot-sizing structure is formulated, including binary setup decisions, minimum lot constraints, and perishability restrictions. Due to
+the NP-hard complexity of the problem, four metaheuristics are implemented and compared: Genetic Algorithm (GA), Simulated Annealing (SA), Differential Evolution (DE), and a
+hybrid GA-SA algorithm. The algorithms were calibrated using Optuna’s TPE sampler and
+evaluated through a complete experimental design of 1,098 runs over 9 synthetic instances
+calibrated with Colombian poultry industry data. Results show that the hybrid GA-SA produces high-quality solutions with gaps ≤ 2 % relative to the CBC exact solver for medium
+instances, confirming its effectiveness for industrial-scale problems. The solution was operationally validated, demonstrating robustness against ±10 % demand perturbations with
+a maximum deterioration of 0.04 % in the objective function. Source code, instances, and
+results are publicly available in the project repository.
+Keywords: optimization, co-products, metaheuristics, poultry industry, stochastic lot-sizing
+
+3
+
+Índice
+Agradecimientos . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+Resumen . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+Abstract . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1. Introducción . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.1. El Problema de Producción Conjunta en la Industria Avícola . . . . . .
+1.2. Relevancia Económica y Contexto Nacional . . . . . . . . . . . . . . . .
+1.3. Preguntas de Investigación . . . . . . . . . . . . . . . . . . . . . . . . .
+1.4. Hipótesis de Investigación . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.5. Alcance y Limitaciones . . . . . . . . . . . . . . . . . . . . . . . . . . .
+2. Justificación . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+2.1. Conveniencia y Relevancia Económica . . . . . . . . . . . . . . . . . . .
+2.2. Relevancia Social y Ambiental (ODS 9, ODS 12) . . . . . . . . . . . . .
+2.3. Implicaciones Prácticas . . . . . . . . . . . . . . . . . . . . . . . . . . .
+2.4. Valor Teórico y Científico . . . . . . . . . . . . . . . . . . . . . . . . . .
+3. Objetivos . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3.1. Objetivo General . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3.2. Objetivos Específicos . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+4. Marco Referencial . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+4.1. Marco Conceptual . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+4.2. Marco Teórico y Estado del Arte . . . . . . . . . . . . . . . . . . . . . .
+4.3. Vacíos de Investigación Identificados . . . . . . . . . . . . . . . . . . . .
+5. Formulación del Modelo Matemático . . . . . . . . . . . . . . . . . . . . . . . .
+5.1. Conjuntos, Parámetros y Variables de Decisión . . . . . . . . . . . . . .
+5.2. Función Objetivo . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+5.3. Restricciones . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+5.4. Estructura de Programación Estocástica de Dos Etapas . . . . . . . . .
+5.5. Validación con Solver Exacto (CBC) . . . . . . . . . . . . . . . . . . . .
+6. Diseño e Implementación de Metaheurísticas . . . . . . . . . . . . . . . . . . .
+6.1. Codificación de la Solución . . . . . . . . . . . . . . . . . . . . . . . . .
+6.2. Decodificador Greedy . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+6.3. Algoritmo Genético (GA) . . . . . . . . . . . . . . . . . . . . . . . . . .
+6.4. Recocido Simulado (SA) . . . . . . . . . . . . . . . . . . . . . . . . . . .
+6.5. Evolución Diferencial (DE) . . . . . . . . . . . . . . . . . . . . . . . . .
+6.6. Algoritmo Híbrido GA-SA . . . . . . . . . . . . . . . . . . . . . . . . . .
+6.7. Calibración de Hiperparámetros (Optuna/TPE) . . . . . . . . . . . . . .
+7. Resultados Computacionales . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+7.1. Diseño Experimental . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+7.2. Perfiles de Instancias . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+7.3. Resultados Principales . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+7.4. Validación de Hipótesis . . . . . . . . . . . . . . . . . . . . . . . . . . .
+7.5. Performance Profiles . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+7.6. Convergence Profiles . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+7.7. Análisis de Escalabilidad . . . . . . . . . . . . . . . . . . . . . . . . . .
+4
+
+1
+2
+3
+8
+8
+9
+10
+10
+11
+11
+11
+12
+13
+13
+14
+14
+14
+14
+14
+16
+20
+23
+23
+24
+24
+25
+27
+27
+27
+27
+28
+30
+32
+34
+36
+37
+37
+37
+38
+40
+40
+41
+41
+
+7.8. Análisis de Sensibilidad . . . . . . . . . . . . . . . . . . . . . . . . . . .
+7.9. Análisis de Diversidad Poblacional . . . . . . . . . . . . . . . . . . . . .
+7.10. Análisis de Complejidad Computacional . . . . . . . . . . . . . . . . .
+7.11. Discusión . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+7.12. Síntesis Gráfica de Resultados . . . . . . . . . . . . . . . . . . . . . . .
+8. Conclusiones y Trabajo Futuro . . . . . . . . . . . . . . . . . . . . . . . . . . .
+8.1. Conclusiones por Objetivo Específico . . . . . . . . . . . . . . . . . . . .
+8.2. Veredicto de Hipótesis . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+8.3. Contribuciones Principales . . . . . . . . . . . . . . . . . . . . . . . . .
+8.4. Limitaciones del Estudio . . . . . . . . . . . . . . . . . . . . . . . . . .
+8.5. Trabajo Futuro . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+Referencias . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+Anexos . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+Anexo A: Formulación Matemática Completa . . . . . . . . . . . . . . . . .
+Anexo B: Pseudocódigos de Algoritmos . . . . . . . . . . . . . . . . . . . . .
+Anexo C: Resultados Detallados por Instancia . . . . . . . . . . . . . . . . .
+Anexo D: Herramientas Tecnológicas . . . . . . . . . . . . . . . . . . . . . .
+
+5
+
+41
+43
+43
+44
+44
+47
+47
+47
+48
+48
+48
+49
+52
+52
+52
+52
+52
+
+Índice de figuras
+1.
+2.
+3.
+4.
+5.
+6.
+7.
+8.
+9.
+10.
+11.
+12.
+13.
+14.
+
+Evolución del score de Optuna durante calibración . . . . . . . . . . . . . .
+Boxplot de fitness por algoritmo . . . . . . . . . . . . . . . . . . . . . . . . .
+Pareto calidad vs tiempo . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+Nivel de servicio por algoritmo . . . . . . . . . . . . . . . . . . . . . . . . .
+Performance profile de Dolan-Moré . . . . . . . . . . . . . . . . . . . . . . .
+Convergence profiles normalizados . . . . . . . . . . . . . . . . . . . . . . . .
+Escalabilidad empírica log-log . . . . . . . . . . . . . . . . . . . . . . . . . .
+Diversity profiles por algoritmo . . . . . . . . . . . . . . . . . . . . . . . . .
+cProfile breakdown por componente . . . . . . . . . . . . . . . . . . . . . . .
+Heatmap de Z medio por algoritmo y tamaño de instancia . . . . . . . . . .
+Distribución de gaps por algoritmo . . . . . . . . . . . . . . . . . . . . . . .
+Tornado de sensibilidad . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+Convergencia promedio por algoritmo . . . . . . . . . . . . . . . . . . . . . .
+Veredicto de hipótesis — umbral vs resultado real . . . . . . . . . . . . . . .
+
+6
+
+37
+38
+39
+39
+41
+41
+42
+43
+43
+44
+45
+45
+46
+46
+
+Índice de cuadros
+
+7
+
+1. Introducción
+1.1. El Problema de Producción Conjunta en la Industria Avícola
+La industria avícola, reconocida como un pilar económico en Colombia y a nivel mundial,
+enfrenta un desafío operativo fundamental: el problema de producción conjunta (joint
+production) y balanceo de carcasa. Este problema surge de la discrepancia inherente
+entre la oferta de coproductos, que se derivan en proporciones relativamente fijas del despiece
+de cada ave, y la demanda variable y a menudo desalineada del mercado para cada uno
+de esos cortes (pechuga, alas, muslos, vísceras, etc.). Se trata de un problema clásico de
+optimización de mezcla de producción bajo restricciones de co-producción [1], [2].
+La industria avícola opera bajo una dinámica compleja de “Push” (Empuje) y “Pull”
+(Tracción). Por un lado, el factor “Push” proviene de la granja: una vez que las aves alcanzan
+su peso de mercado, deben ser procesadas inmediatamente, generando una oferta fija de
+coproductos (alas, pechugas, muslos) en proporciones biológicamente determinadas. Por otro
+lado, el factor “Pull” es la demanda del mercado, que es estocástica, estacional y a menudo
+desbalanceada respecto a la oferta anatómica (alta demanda de pechuga pero baja de alas,
+por ejemplo).
+Un plan de ventas que, por ejemplo, prioriza la comercialización de pechuga para maximizar
+ingresos, inevitablemente genera una sobreoferta de otros coproductos como alas y patas. Si
+no se gestiona adecuadamente, este excedente debe ser almacenado (incrementando costos
+de refrigeración), vendido a precios de liquidación o incluso desechado, ocasionando pérdidas
+económicas significativas y un desperdicio de recursos valiosos.
+Este conflicto genera ineficiencias operativas significativas, como la acumulación de inventarios de baja rotación, la venta de productos premium a precios de liquidación, y la pérdida de
+oportunidades de mercado. Estudios recientes en Colombia [3] y en planificación de plantas
+de beneficio avícola [4] demuestran que la aplicación de modelos matemáticos avanzados de
+optimización puede mitigar estos efectos y mejorar la sostenibilidad financiera y ambiental
+del sector.
+La Figura 1 describe el problema como un sistema de entrada/salida: dado un conjunto de
+datos de entrada (demanda del mercado, proporciones anatómicas, costos y capacidad de
+la planta), el modelo de optimización —resuelto mediante metaheurísticas— genera como
+salida un plan óptimo de producción que indica cuántas aves procesar, cómo distribuir los
+coproductos y qué niveles de inventario mantener.
+
+Figura 1. Representación del problema como sistema de entrada/salida. El modelo de optimización recibe datos de demanda, proporciones anatómicas y parámetros operativos, y genera
+un plan de producción óptimo.
+A nivel sistémico, el problema se enmarca en la dinámica Push/Pull de la cadena avícola
+8
+
+(Figura 2). La granja “empuja” lotes de aves que deben procesarse al alcanzar su peso de
+mercado (Push), generando coproductos en proporciones fijas. Simultáneamente, el mercado
+“jala” productos específicos con demanda variable y estacional (Pull). El desbalance ocurre cuando estas dos fuerzas no están alineadas, y la planta de procesamiento debe tomar
+decisiones de producción, inventario y ventas bajo incertidumbre.
+
+Figura 2. Sistema global Push/Pull de la cadena avícola. La granja empuja lotes de aves
+(Push), la planta genera coproductos en proporciones fijas, y el mercado jala productos con
+demanda variable (Pull). El desbalance entre oferta y demanda genera excedentes y faltantes.
+1.2. Relevancia Económica y Contexto Nacional
+La relevancia económica de resolver el problema de la planificación de coproductos es crucial
+para la competitividad y sostenibilidad de la industria avícola colombiana. Según FENAVI
+[5], la avicultura representa uno de los renglones pecuarios más importantes del país, con una
+producción anual que supera las 1.7 millones de toneladas de carne de pollo. La agroindustria
+avícola aporta aproximadamente 0.52 % del valor agregado bruto nacional [6].
+Una gestión optimizada de la producción conjunta permite:
+Reducir costos de inventario: Minimizando la acumulación de productos de baja
+rotación.
+Maximizar ingresos: Aprovechando oportunidades de mercado para cortes de alta
+demanda.
+Mejorar la eficiencia operativa: Optimizando las cantidades procesadas por periodo.
+Reducir el desperdicio: Contribuyendo a la sostenibilidad ambiental del sector.
+El problema de planificación de coproductos bajo demanda estocástica es un problema de
+optimización combinatoria clasificado como NP-hard. La demostración formal de esta complejidad se remonta al trabajo seminal de Florian et al. [7] y Bitran y Yanasse [8], quienes
+probaron que incluso el caso mono-producto del Capacitated Lot-Sizing Problem (CLSP)
+con costos fijos de setup es NP-hard [9]. Rahmani et al. [10] confirman que la extensión
+a dos etapas estocásticas preserva esta complejidad, y Mahdieh et al. [11] demuestran que
+agregar restricciones de lote mínimo y setup crossover la incrementan aún más. Esta complejidad computacional ha motivado el desarrollo de enfoques metaheurísticos para encontrar
+soluciones de alta calidad en tiempos de cómputo razonables.
+La literatura reciente en optimización de cadenas de suministro avícolas [3], [4], [12] y en
+planificación de producción para la industria alimentaria [13], [14] ha demostrado la viabilidad de modelos matemáticos para la planificación integrada. Sin embargo, estos trabajos
+emplean predominantemente métodos exactos (MILP/CPLEX) que resultan intratables para
+9
+
+instancias de gran escala con incertidumbre.
+Este trabajo se centra en abordar este desafío mediante el desarrollo de un modelo de
+optimización para la planificación de coproductos, resuelto con técnicas metaheurísticas (Algoritmos Genéticos, Recocido Simulado, Evolución Diferencial e híbridos) [15],
+[16]. El objetivo es desarrollar una herramienta de apoyo a la decisión que permita a las empresas del sector mejorar su planificación, reducir sus pérdidas y fortalecer su competitividad
+en un mercado cada vez más exigente.
+1.3. Preguntas de Investigación
+Pregunta Principal: ¿Cómo puede un modelo de optimización de coproductos, resuelto
+mediante técnicas metaheurísticas, minimizar las pérdidas económicas asociadas al desbalance entre la oferta conjunta de coproductos y la demanda del mercado en una planta de
+procesamiento avícola colombiana?
+Preguntas Secundarias:
+1. ¿Qué formulación matemática del problema de planificación de coproductos captura
+adecuadamente las restricciones de producción conjunta, los costos de inventario, balance de materiales y la variabilidad de la demanda en el contexto avícola?
+2. ¿Qué técnicas metaheurísticas (Algoritmos Genéticos, Recocido Simulado, Evolución
+Diferencial, o híbridos) presentan el mejor desempeño para resolver el modelo de optimización de coproductos propuesto?
+3. ¿En qué magnitud se pueden reducir las pérdidas económicas asociadas al desbalance
+de carcasa mediante la implementación del modelo de optimización?
+1.4. Hipótesis de Investigación
+Hipótesis Principal (H1): La aplicación del modelo de optimización de coproductos con
+metaheurísticas generará una reducción �5 % en el costo total operativo respecto al baseline de planificación proporcional, validada con nivel de significancia �=0.05, tomando como
+referencia los benchmarks de Solano-Blanco et al. [3] (8.6 % de reducción) y Tahraoui et al.
+[4].
+Hipótesis Secundarias:
+H2: El algoritmo híbrido GA-SA obtendrá soluciones con un gap de optimalidad �2 %
+respecto a la mejor metaheurística individual (GA, SA o DE), en un tiempo computacional �50 % del requerido por el solver exacto (CBC/PuLP) para instancias medianas
+(𝑛𝑡 = 12, 𝑛𝜔 = 50) [15].
+H3: El modelo de optimización permitirá una reducción �15 % en el inventario promedio de productos de baja rotación, comparada con el método de planificación proporcional, validada mediante prueba t pareada (�=0.05).
+
+10
+
+1.5. Alcance y Limitaciones
+Alcance:
+El modelo se formula para la planificación operativa de coproductos en plantas de
+beneficio avícola con un horizonte de planificación de hasta 30 días.
+Se evalúan cuatro metaheurísticas (GA, SA, DE, GA-SA) y se comparan contra un
+solver exacto (CBC) y un baseline heurístico.
+La validación se realiza con datos sintéticos calibrados con parámetros del sector avícola
+colombiano (FENAVI, DANE, literatura publicada).
+El alcance geográfico se limita al contexto colombiano, utilizando costos, precios y
+patrones de demanda representativos del mercado nacional.
+Limitaciones:
+No se utilizan datos operativos reales de una planta de beneficio específica, sino datos
+sintéticos calibrados.
+El modelo asume proporciones de coproductos fijas por carcasa (no considera variabilidad genética inter-lote).
+No se integra el scheduling detallado de la línea de despiece (solo lot-sizing a nivel
+diario).
+La perecibilidad se modela como restricción de vida útil discreta, sin considerar deterioro gradual de calidad.
+
+2. Justificación
+2.1. Conveniencia y Relevancia Económica
+La optimización de la planificación de coproductos tiene un impacto directo en la rentabilidad
+de las empresas avícolas. Como demostró el caso de Solano-Blanco et al. [3], las mejoras en
+la planificación integrada pueden traducirse en reducciones de costos del 8.6 %. Tahraoui et
+al. [4] confirmaron que la planificación operativa optimizada con modelos MILP reduce significativamente los costos en plantas multi-producto. En una industria de márgenes estrechos
+y alto volumen, estas mejoras representan una ventaja competitiva crítica.
+El sector avícola colombiano, que según FENAVI [5] genera más de 600,000 empleos directos e indirectos, se beneficiaría significativamente de herramientas que mejoren su eficiencia
+operativa. La implementación de modelos de optimización no solo mejora la rentabilidad de
+las empresas individuales, sino que fortalece la competitividad del sector a nivel nacional e
+internacional.
+El desbalance entre la oferta conjunta y la demanda del mercado se manifiesta en dos frentes
+principales:
+1. Excedentes de inventario (sobreproducción): Cuando la producción de ciertos
+cortes (alas, patas, vísceras) supera la demanda del mercado, las empresas se ven forzadas a incurrir en costos adicionales de almacenamiento en frío, transporte y, en el
+11
+
+peor de los casos, vender estos productos a precios de liquidación, erosionando significativamente los márgenes de ganancia.
+2. Faltantes de inventario (subproducción): De forma simultánea, la demanda de
+cortes de alto valor (pechuga) puede exceder la capacidad de producción balanceada,
+resultando en oportunidades de venta perdidas y una potencial insatisfacción del cliente.
+Tabla 1. Magnitud del problema en la industria avícola colombiana
+Indicador
+
+Valor
+
+Fuente
+
+Producción anual de pollo
+
+1.7 millones de
+toneladas
+600,000+ directos e
+indirectos
+0.52 %
+30–60 %
++15–25 % del costo
+operativo
+−20–40 % del margen
+5–10 % de la
+producción total
+
+FENAVI 2024
+
+Empleos generados
+Participación en PIB agropecuario
+Potencial de ahorro en inventario
+Costos de almacenamiento
+refrigerado
+Pérdidas por ventas de liquidación
+Desperdicio de producto perecedero
+
+FENAVI 2024
+DANE 2024
+Solano-Blanco et al. 2022
+Solano-Blanco et al. 2022;
+Sel et al. 2015
+Amorim et al. 2014
+Claassen 2016;
+Akbari-Aghghaleh et
+al. 2025
+
+Fuente: Elaboración propia con datos de [3], [5], [6], [14], [15], [17], [18]
+2.2. Relevancia Social y Ambiental (ODS 9, ODS 12)
+Mejorar el equilibrio de la carcasa contribuye directamente a la sostenibilidad del sector. Al
+reducir el desperdicio de alimentos y optimizar el uso de recursos (energía para refrigeración de
+inventarios no deseados), el proyecto se alinea con los Objetivos de Desarrollo Sostenible
+(ODS), específicamente:
+ODS 12 (Producción y Consumo Responsables): Reduciendo el desperdicio de
+alimentos y optimizando el aprovechamiento de cada ave procesada.
+ODS 9 (Industria, Innovación e Infraestructura): Mediante la aplicación de
+técnicas avanzadas de optimización y el desarrollo de herramientas tecnológicas para
+la industria.
+La reducción del desperdicio de alimentos es particularmente relevante en un contexto global
+donde aproximadamente el 14 % de los alimentos se pierde en la cadena de suministro antes de
+llegar al consumidor [19]. Un mejor balanceo de la carcasa significa un proceso más sostenible,
+con menor huella de carbono y mejor utilización de los recursos naturales. En otras industrias
+de desensamble, Darghouth et al. [20] han confirmado que la integración de criterios de
+sostenibilidad (eficiencia energética, reducción de costos) en modelos de optimización genera
+beneficios significativos, principios transferibles al procesamiento avícola.
+
+12
+
+2.3. Implicaciones Prácticas
+El desarrollo de una herramienta de toma de decisiones basada en metaheurísticas permitirá
+a los planificadores de producción pasar de decisiones basadas en la intuición y la experiencia
+personal a decisiones basadas en datos y modelado matemático robusto. Esto mejorará la
+capacidad de respuesta ante fluctuaciones del mercado y permitirá una planificación más ágil
+y eficiente.
+La implementación de tecnologías de sensores inteligentes [21] y sistemas de automatización
+[22] en la industria avícola está generando grandes volúmenes de datos que pueden ser aprovechados por modelos de optimización como el propuesto en este proyecto. La disponibilidad
+creciente de datos en tiempo real facilita la implementación práctica de herramientas como
+la desarrollada en este trabajo.
+2.4. Valor Teórico y Científico
+El proyecto contribuye significativamente a la literatura de optimización de producción
+conjunta en la industria alimentaria, extendiendo los modelos clásicos de planificación de
+producción deterministas [2] hacia enfoques estocásticos que consideran la incertidumbre de
+la demanda, una área identificada como línea futura de investigación por diversos autores
+[23], [24].
+La optimización multi-objetivo en la industria alimentaria ha experimentado un avance
+significativo en los últimos años. Arteaga-Cabrera et al. [25] presentaron una revisión comprehensiva sobre la evolución de las estrategias de optimización en alimentos, identificando la
+transición desde métodos univariados tradicionales hacia técnicas multi-objetivo integradas
+con tecnologías emergentes. Su trabajo destaca que la industria alimentaria moderna requiere
+optimizar simultáneamente múltiples objetivos competitivos (costos de producción,
+eficiencia energética, calidad del producto, sostenibilidad), lo cual se alinea perfectamente
+con la planificación de coproductos avícolas, donde se deben balancear simultáneamente:
+Maximización de ingresos por venta de coproductos
+Minimización de costos de inventario
+Minimización de penalizaciones por demanda no satisfecha
+Maximización del nivel de servicio al cliente
+La incorporación de algoritmos evolutivos y metaheurísticas hibridizadas, como lo documentan Arteaga-Cabrera et al. [25], ha permitido abordar estos problemas complejos de
+forma efectiva en la industria alimentaria. Este proyecto se posiciona como una contribución directa a esta línea de investigación, aplicando metaheurísticas (GA, SA, DE, GA-SA)
+a un problema de planificación de coproductos en el procesamiento avícola. Si bien el modelo
+propuesto utiliza una función objetivo escalar (beneficio esperado ponderado), los principios
+de optimización multi-criterio representan una línea de extensión natural.
+Adicionalmente, la comparación rigurosa de diferentes técnicas metaheurísticas en el contexto específico de la industria avícola genera conocimiento valioso sobre la efectividad de
+estas técnicas en problemas del mundo real con características particulares (perecibilidad,
+estocasticidad, restricciones sanitarias).
+13
+
+3. Objetivos
+3.1. Objetivo General
+Desarrollar un modelo de optimización para la planificación de coproductos que, mediante
+la aplicación de técnicas metaheurísticas, minimice las pérdidas económicas asociadas al
+desbalance entre la oferta conjunta de coproductos y la demanda del mercado en la industria
+avícola colombiana.
+3.2. Objetivos Específicos
+1. Formular un modelo matemático de optimización de coproductos que capture las
+restricciones de producción conjunta, costos de inventario, balance de materiales y
+variabilidad de la demanda propias del procesamiento avícola.
+2. Implementar algoritmos metaheurísticos (Algoritmo Genético, Recocido Simulado,
+Evolución Diferencial y un enfoque híbrido GA-SA) adaptados al problema de planificación de coproductos avícolas.
+3. Diseñar un generador de instancias de prueba con datos sintéticos calibrados que
+reflejen las condiciones operativas reales de la industria avícola colombiana.
+4. Comparar el desempeño de las metaheurísticas propuestas mediante un diseño experimental riguroso, evaluando calidad de solución y eficiencia computacional.
+5. Validar el modelo propuesto mediante simulación, cuantificando las mejoras potenciales en términos de reducción de costos de inventario, nivel de servicio y rentabilidad
+operativa.
+
+4. Marco Referencial
+4.1. Marco Conceptual
+4.1.1. Producción Conjunta (Joint Production) El problema de producción conjunta ocurre cuando el procesamiento de una materia prima genera múltiples productos en
+proporciones fijas o semifijas. En la industria avícola, el despiece de cada carcasa produce
+inevitablemente pechuga, muslos, alas, vísceras y otros cortes en proporciones determinadas
+por la anatomía del ave. Esta característica, compartida con otras industrias cárnicas, crea
+un desafío único de planificación cuando la demanda del mercado para cada coproducto no
+refleja estas proporciones naturales [1].
+Desde la perspectiva de la investigación de operaciones, este problema se clasifica como un
+problema de optimización de mezcla de producción multi-producto con restricciones de co-producción [2]. A diferencia de los problemas clásicos de planificación de
+producción, donde las cantidades de cada producto pueden decidirse independientemente,
+14
+
+aquí la decisión de producir una unidad de un coproducto (e.g., pechuga) implica necesariamente la producción de cantidades proporcionales de todos los demás coproductos.
+4.1.2. Lot-Sizing Capacitado (CLSP) El Capacitated Lot-Sizing Problem
+(CLSP) es un problema clásico de la investigación de operaciones que busca determinar
+las cantidades óptimas de producción en cada periodo de un horizonte de planificación,
+considerando capacidad limitada de producción, costos fijos de setup (activación de línea) y
+costos variables de producción e inventario [9].
+La formulación estándar del CLSP incluye:
+Decisiones binarias de setup (𝑦𝑡 ∈ {0, 1}): si la línea se activa o no en el periodo 𝑡,
+con un costo fijo 𝐹 asociado.
+Cantidades de lote (𝑞𝑡 ∈ ℤ+ ): número de unidades a producir en cada periodo,
+acotadas por la capacidad máxima 𝑄𝑚𝑎𝑥 y el lote mínimo 𝑄𝑚𝑖𝑛 .
+Balance de inventario: el inventario al final de cada periodo resulta de la producción
+más el inventario anterior menos las ventas realizadas.
+La combinación de variables enteras de producción, decisiones binarias de setup y restricciones
+de lote mínimo confiere al CLSP una complejidad NP-hard, formalmente demostrada por
+Florian et al. [7] y Bitran y Yanasse [8].
+4.1.3. Programación Estocástica de Dos Etapas La programación estocástica de
+dos etapas [23] es un marco de modelado para problemas de optimización bajo incertidumbre
+donde las decisiones se dividen en:
+Primera etapa (here-and-now): Decisiones que deben tomarse antes de que se
+revele la incertidumbre. En el contexto de este trabajo, corresponden a las decisiones
+de setup (𝑦𝑡 ) y cantidades de producción (𝑞𝑡 ).
+Segunda etapa (wait-and-see): Decisiones que se toman después de observar la realización de la incertidumbre. Corresponden a las decisiones de venta (𝑣𝑝𝑡𝜔 ), inventario
+(𝐼𝑝𝑡𝜔 ) y demanda no satisfecha (𝑢𝑝𝑡𝜔 ) para cada escenario 𝜔.
+La función objetivo maximiza el beneficio esperado sobre todos los escenarios de demanda,
+ponderados por sus probabilidades de ocurrencia 𝜋𝜔 . Este marco permite tomar decisiones
+robustas que funcionan bien en promedio sobre el conjunto de escenarios posibles.
+4.1.4. Perecibilidad en la Industria Alimentaria La perecibilidad es una restricción
+temporal que limita el tiempo durante el cual un producto puede mantenerse en inventario
+antes de perder su valor comercial. En la industria avícola, cada coproducto tiene una vida
+útil (𝐿𝑝 ) que depende del tipo de corte, el empaque y las condiciones de almacenamiento.
+Integrar la perecibilidad en los modelos de planificación requiere restricciones adicionales que
+limiten la acumulación de inventario a un número máximo de periodos. Entrup et al. [26]
+fueron pioneros en integrar la vida útil como restricción dura en problemas de lot-sizing para
+la industria láctea. Claassen [18] extendió este enfoque al procesamiento de alimentos con
+
+15
+
+setups non-triangulares y product decay. Rong et al. [27] modelaron el deterioro como variable
+continua en la gestión de alimentos frescos.
+4.1.5. Metaheurísticas: Definición y Clasificación Las metaheurísticas son estrategias de alto nivel que guían la búsqueda de soluciones en problemas de optimización complejos,
+particularmente cuando los métodos exactos resultan intratables [28]. Se clasifican según su
+estrategia de búsqueda:
+Basadas en trayectoria: Operan sobre una sola solución que se modifica iterativamente (e.g., Recocido Simulado, Búsqueda Tabú). Su fortaleza es la intensificación
+(explotación local).
+Basadas en población: Operan sobre un conjunto de soluciones simultáneas que
+evolucionan mediante operadores de selección, cruce y mutación (e.g., Algoritmos Genéticos, Evolución Diferencial). Su fortaleza es la diversificación (exploración global).
+Híbridos (meméticos): Combinan la exploración global de los métodos poblacionales con la explotación local de los métodos de trayectoria (e.g., GA-SA). Buscan el
+equilibrio óptimo entre exploración y explotación.
+En el contexto de la industria alimentaria, Arteaga-Cabrera et al. [25] documentaron la
+creciente efectividad de estas técnicas para resolver problemas de optimización multi-objetivo
+en sistemas de producción alimentaria.
+4.2. Marco Teórico y Estado del Arte
+4.2.1. Complejidad NP-hard del CLSP La demostración formal de la complejidad NPhard del CLSP con costos fijos de setup se remonta al trabajo seminal de Florian et al.
+[7], quienes probaron que el problema de planificación de producción determinista con costos
+fijos es NP-hard. Bitran y Yanasse [8] extendieron este resultado al CLSP capacitado,
+demostrando que la inclusión de restricciones de capacidad no simplifica el problema.
+Goren y Tunali [9] confirmaron esta clasificación y demostraron que agregar setup carryover
+(continuidad de setup entre periodos) y backordering (pedidos pendientes) incrementa aún
+más la dificultad computacional. Su trabajo propone un enfoque híbrido de Fix-and-Optimize
+para abordar estas variantes.
+Rahmani et al. [10] extendieron la conclusión de NP-hardness al two-stage stochastic capacitated lot-sizing, confirmando explícitamente que la extensión estocástica preserva la complejidad. Este resultado es directamente aplicable al problema abordado en este trabajo, que
+combina lot-sizing capacitado con escenarios estocásticos de demanda.
+Mahdieh et al. [11] demostraron que agregar restricciones de lote mínimo con setup crossover (continuidad de setup entre periodos consecutivos) incrementa aún más la complejidad
+del problema base. El modelo propuesto en este trabajo, que combina múltiples productos,
+incertidumbre estocástica, costos fijos de setup, lote mínimo y perecibilidad, es por tanto
+formalmente NP-hard, justificando plenamente el uso de metaheurísticas.
+
+16
+
+4.2.2. Lot-Sizing con Perecibilidad en FPI En el contexto de lot-sizing para productos perecederos en la industria de procesamiento de alimentos (FPI), varios
+trabajos han establecido las bases teóricas:
+Claassen [18] abordó específicamente la planificación y scheduling en FPI con setups nontriangulares (donde los tiempos de limpieza entre productos no satisfacen la desigualdad
+triangular, situación típica en líneas de procesamiento cárnico) y el deterioro de producto
+(product decay) como restricción temporal del inventario.
+Stefánsdóttir et al. [29] complementaron este trabajo con una clasificación taxonómica
+de los tipos de setup y limpieza en lot-sizing, distinguiendo entre setups triangulares y nontriangulares y su impacto en la complejidad del modelo. Su taxonomía facilita la selección
+del modelo de setup más apropiado para cada aplicación industrial.
+Entrup et al. [26] desarrollaron modelos MILP pioneros que integran la vida útil como
+restricción en problemas de lot-sizing para la industria láctea, estableciendo un marco transferible a otros sectores alimentarios. Su modelado de shelf-life-integrated planning constituye
+la base teórica directa para la restricción de perecibilidad utilizada en este trabajo (Eq. 7).
+Rong et al. [27] propusieron un enfoque de optimización para la gestión de calidad de
+alimentos frescos a lo largo de la cadena de suministro, modelando el deterioro como variable
+continua. Este enfoque, más sofisticado que la restricción de vida útil discreta utilizada en el
+presente trabajo, representa una extensión natural para futuras investigaciones.
+4.2.3. Optimización en la Cadena de Suministro Avícola La investigación en optimización de cadenas de suministro avícolas ha crecido significativamente en los últimos
+años:
+Solano-Blanco et al. [3] abordaron el problema específico de planificación integrada en la
+industria avícola colombiana mediante un modelo MILP con programación estocástica de dos
+etapas. Su caso de estudio en Santa Marta demostró reducciones de costos del 8.6 %, lo que
+constituye el benchmark principal de este trabajo.
+Tahraoui et al. [4] desarrollaron un modelo MILP para la planificación operativa de plantas
+de beneficio avícola multi-producto bajo restricciones realistas y demanda fluctuante, validado
+con CPLEX. Su enfoque aborda la complejidad de la planificación operativa en entornos
+multi-producto, pero permanece limitado a métodos exactos intratables para instancias de
+gran escala.
+Yazdekhasti et al. [12] formularon un modelo estocástico multi-periodo y multi-modal para
+la cadena de suministro avícola bajo incertidumbre de demanda, con un caso de estudio en
+Mississippi durante la pandemia de COVID-19. Su modelo MILP demuestra la importancia
+de considerar la estocasticidad en la planificación avícola.
+González-Neira et al. [30] integraron scheduling y transporte en un modelo MILP para la
+cadena de suministro avícola colombiana, avanzando en la planificación operativa detallada.
+Su trabajo confirma la relevancia del contexto colombiano para este tipo de investigaciones.
+Dadaneh et al. [31] formularon un modelo CLSP con chance-constraints para la planifi17
+
+cación de producción de huevos en granjas avícolas bajo demanda incierta, demostrando la
+aplicabilidad directa del lot-sizing capacitado en el sector avícola.
+Juwitaa et al. [32] optimizaron cadenas de suministro de pollo de engorde bajo incertidumbre en la tasa de crecimiento mediante programación estocástica de dos etapas, confirmando
+la relevancia de este marco de modelado para la industria avícola.
+4.2.4. Metaheurísticas para Lot-Sizing y SC Avícola La aplicación de metaheurísticas
+a problemas de lot-sizing y cadenas de suministro avícolas es un área de investigación en
+crecimiento:
+Akbari-Aghghaleh et al. [15] constituyen la referencia más directa para este trabajo. Diseñaron una cadena de suministro avícola de ciclo cerrado con perecibilidad y sostenibilidad,
+evaluando cinco metaheurísticas: GA, SA, DE, GA-SA y DE-SA. Sus resultados demuestran que el híbrido GA-SA obtiene el mejor rendimiento entre las cinco técnicas
+evaluadas para problemas NP-hard de cadena de suministro avícola con perecibilidad. Este
+resultado fundamenta directamente la selección del GA-SA como algoritmo principal en el
+presente trabajo.
+Slama et al. [16] utilizaron GA combinado con Monte Carlo Simulation para resolver
+problemas estocásticos de lot-sizing capacitado bajo lead times aleatorios. Sus resultados
+demuestran que el GA supera al MIP exacto en instancias medianas y grandes, validando el
+uso de metaheurísticas para problemas estocásticos de lot-sizing.
+Roshani et al. [33] evaluaron un heurístico de relax-and-fix para el CLSP, confirmando
+la efectividad de SA como componente de búsqueda local. Su trabajo demuestra que los
+enfoques que integran explotación local intensiva son particularmente efectivos en problemas
+de lot-sizing.
+4.2.5. Optimización Multi-Objetivo en Industria Alimentaria La optimización
+multi-objetivo ha experimentado un avance significativo en la industria alimentaria:
+Arteaga-Cabrera et al. [25] presentaron una revisión comprehensiva sobre la evolución
+de las estrategias de optimización en alimentos, identificando la transición desde métodos
+univariados tradicionales hacia técnicas multi-objetivo integradas con tecnologías emergentes. Su trabajo destaca la importancia de optimizar simultáneamente múltiples objetivos
+competitivos en la industria alimentaria moderna.
+Liang et al. [34] demostraron la efectividad de la optimización multi-objetivo para operaciones de corte en la industria cárnica, abordando la maximización de beneficios de coproductos
+respetando restricciones de producción conjunta. Este trabajo es directamente análogo al
+problema de balanceo de carcasa avícola abordado en esta tesis.
+Mirzapour Al-e-Hashem et al. [24] desarrollaron un modelo robusto multi-objetivo para
+planificación agregada de producción multi-producto bajo incertidumbre de demanda y costos.
+Su enfoque de optimización robusta complementa la programación estocástica utilizada en
+este trabajo.
+
+18
+
+Amorim et al. [14] formularon un modelo integrado de producción y distribución multiobjetivo para productos perecederos, combinando minimización de costos con maximización
+de frescura. Su integración de restricciones de vida útil en la planificación es directamente
+aplicable al contexto avícola.
+4.2.6. Modelos Deterministas de Referencia
+las bases para formulaciones más avanzadas:
+
+Varios modelos deterministas establecen
+
+Gicquel y Miègeville [2] desarrollaron formulaciones y métodos de solución para la planificación conjunta de producción y transporte en cadenas alimentarias multi-sitio. Sus modelos
+MILP para producción conjunta con co-productos constituyen un referente directo para este
+trabajo.
+Sel et al. [17] demostraron la importancia de considerar restricciones de vida útil en la
+planificación integrada de cadenas de suministro de productos perecederos, con aplicación a
+la industria láctea. Su enfoque de multi-bucket optimization informa la granularidad temporal
+del modelo propuesto.
+Kopanos et al. [35] establecieron marcos matemáticos eficientes para el scheduling detallado
+en la industria de procesamiento de alimentos. Aunque su alcance es más operativo que el
+presente trabajo, sus formulaciones informan las restricciones de capacidad y setup utilizadas.
+4.2.7. Tecnologías Habilitadoras
+que de optimización:
+
+Las tecnologías habilitadoras complementan el enfo-
+
+Mahalik y Nambiar [36] destacan la tendencia creciente hacia la automatización y el uso
+de sensores inteligentes en los sistemas de manufactura de alimentos, elementos clave para
+asegurar la calidad y trazabilidad. La integración de estos sensores y la planificación automatizada en plantas de procesamiento están generando oportunidades para la implementación
+de modelos de optimización en tiempo real.
+Hartono et al. [37] demostraron la eficacia del Bees Algorithm para optimizar planes de
+desensamble robótico, un enfoque que podría adaptarse al procesamiento de carcasas avícolas. Su trabajo confirma la viabilidad de metaheurísticas bio-inspiradas para problemas de
+desensamble en manufactura.
+Feng et al. [38] demostraron cómo el aumento de datos sintéticos mejora significativamente
+la segmentación de instancias de carcasas de pollo, lo cual es fundamental para la automatización de procesos de despiece y control de calidad. Esta tecnología de visión por computador
+complementa los modelos de planificación al proporcionar datos más precisos sobre rendimientos de carcasa.
+Awad et al. [39] desarrollaron un modelo de optimización para minimizar el desperdicio
+(giveaway) y el subpeso (underweight) en el proceso de porcionado avícola, demostrando
+que la optimización matemática puede mejorar significativamente la eficiencia del despiece.
+Su trabajo es directamente aplicable al problema de balanceo de carcasa abordado en este
+trabajo.
+
+19
+
+4.3. Vacíos de Investigación Identificados
+A pesar de la creciente investigación en optimización de cadenas de suministro avícolas y en
+metaheurísticas para problemas combinatorios, la revisión del estado del arte revela varios
+vacíos de investigación que este trabajo busca abordar.
+Una búsqueda sistemática realizada en Scopus (febrero 2026) utilizando ecuaciones de búsqueda centradas en lot-sizing estocástico, perecibilidad, optimización avícola y metaheurísticas
+arrojó los siguientes resultados:
+Tabla 2. Resultados de la búsqueda sistemática en Scopus (febrero 2026)
+Query
+
+Tema
+
+Q1
+
+Lotsizing
+estocástico +
+NP-hard
++ Setup
+Metaheurísticas
++ Setup
+estocástico
+Perecibilidad
++ Lotsizing +
+Setup
+Optimización
+avícola/cárnica
+Prog. estocástica
+2-etapas
++
+Metaheurísticas
+CLSP +
+Complejidad
+computacional
+
+Q2
+
+Q3
+
+Q4
+
+Q5
+
+Q6
+
+Base de datos
+
+Periodo
+
+# Resultados
+
+Scopus
+
+2014–2026
+
+9
+
+Scopus
+
+2017–2026
+
+11
+
+Scopus
+
+2015–2026
+
+20
+
+Scopus
+
+2018–2026
+
+186
+
+Scopus
+
+2016–2026
+
+218
+
+Scopus
+
+2015–2026
+
+30
+
+20
+
+Query
+
+Tema
+
+Q7
+
+Reviews
+multiproduct
+lot-sizing
+estocástico
+Lote
+mínimo +
+Setup +
+Prog.
+entera
+
+Q8
+
+Base de datos
+
+Periodo
+
+# Resultados
+
+Scopus
+
+2018–2026
+
+0
+
+Scopus
+
+2015–2026
+
+4
+
+Total
+
+478
+
+De los 478 resultados, solo 13 papers abordan directamente la intersección entre lot-sizing
+estocástico con setup, perecibilidad y metaheurísticas—confirmando la brecha que esta investigación busca llenar. Notablemente, la Query Q7 (reviews sobre multi-product lot-sizing
+estocástico) no arrojó ningún resultado, evidenciando la ausencia de trabajos de revisión del
+estado del arte para este tema específico.
+La Tabla 3 resume los trabajos más relevantes y su posicionamiento respecto a esta propuesta.
+Tabla 3. Resumen del estado del arte y brechas identificadas
+Autor(es)
+
+Técnica
+
+Objetivo
+
+Incertidumbre
+
+Aplicación
+
+Solano-Blanco
+et al. [3]
+Tahraoui et al.
+[4]
+Yazdekhasti et
+al. [12]
+Mirzapour et al.
+[24]
+Gicquel &
+Miègeville [2]
+Sel et al. [17]
+
+MILP Estoc.
+
+Planif.
+integrada
+Planif.
+operativa
+SC estocástica
+
+Estoc. 2 etapas
+
+Avícola (Col.)
+
+Demanda fluct.
+Estoc. (demanda)
+
+Avícola
+(multi-prod.)
+Avícola (Miss.)
+
+Robusto multi-obj.
+
+Manufactura
+
+Determinista
+
+Alimentaria
+
+Determinista
+
+Perecederos
+
+Determinista
+
+Alimentaria
+
+Determinista
+
+Perecederos
+
+Determinista
+
+Cárnica
+(coprod.)
+
+Kopanos et al.
+[35]
+Amorim et al.
+[14]
+Liang et al. [34]
+
+MILP
+(CPLEX)
+MILP
+Multi-modal
+MILP
+Robusto
+MILP
+MILP
+MILP
+MILP
+Multi-obj.
+Optim.
+Multi-obj.
+
+Planif.
+agregada
+Prod. +
+transp.
+Prod. +
+distrib.
+Scheduling
+Prod. +
+distrib.
+Corte cárnico
+
+21
+
+Autor(es)
+
+Técnica
+
+Objetivo
+
+Incertidumbre
+
+Aplicación
+
+Claassen [18]
+
+MILP
+
+Lot-sizing +
+decay
+CLSP
+estocástico
+Planif. huevos
+
+Determinista
+
+FPI (setup
+non-triang.)
+Manufactura
+(NP-hard)
+Avícola (huevos)
+
+Rahmani et al.
+[10]
+Dadaneh et al.
+[31]
+
+Heurístico
+híbrido
+CLSP
+chanceconstr.
+AkbariGA, SA,
+Aghghaleh et al. DE,
+[15]
+híbridos
+González-Neira MILP
+et al. [30]
+→ Propuesta GA, SA,
+DE,
+GA-SA
+
+Estoc. 2 etapas
+Estoc. (demanda)
+
+SC ciclo
+cerrado
+
+Determinista
+
+Avícola
+(perecib.)
+
+Scheduling +
+transp.
+Max profit
+
+Determinista
+
+Avícola (Col.)
+
+Estoc. (demanda)
+
+Avícola
+(coprod., Col.)
+
+Figura 3. Diagrama de intersección de brechas de investigación. De 478 resultados en las 8
+queries de búsqueda, solo 13 papers abordan la intersección directa entre lot-sizing estocástico,
+perecibilidad, metaheurísticas e industria avícola. La ausencia de reviews (Q7=0) confirma
+la novedad del área.
+Los principales vacíos identificados son:
+1. Ausencia de metaheurísticas para planificación de coproductos avícolas bajo
+incertidumbre: De los 14 trabajos relevantes en la Tabla 3, solo Akbari-Aghghaleh et
+al. [15] utilizan metaheurísticas en el contexto avícola, pero con un modelo determinista.
+Ningún trabajo combina metaheurísticas con programación estocástica de dos etapas
+para coproductos avícolas.
+2. Inexistencia de reviews de multi-product lot-sizing estocástico: La Query Q7
+no arrojó ningún resultado, evidenciando que el campo carece de sistematización. Esto
+dificulta la identificación de mejores prácticas y líneas de investigación prioritarias.
+3. Concentración en la intersección directa: Solo 13 de 478 papers (2.7 %) abordan
+22
+
+simultáneamente los cuatro ejes temáticos (lot-sizing estocástico, perecibilidad, metaheurísticas, avícola), confirmando que la propuesta aborda un nicho inexplorado con
+contribución potencial significativa.
+
+5. Formulación del Modelo Matemático
+El modelo propuesto se formula como un problema de Programación Lineal Entera Mixta (MILP) multi-periodo con estructura de lot-sizing estocástico para la planificación
+óptima de coproductos avícolas bajo demanda incierta.
+5.1. Conjuntos, Parámetros y Variables de Decisión
+Conjuntos:
+𝑃 = {1, 2, ..., 𝑛𝑝 }: Conjunto de coproductos (formas de corte: pechuga, muslos, alas,
+etc.)
+𝑇 = {1, 2, ..., 𝑛𝑡 }: Conjunto de periodos de planificación
+Ω = {1, 2, ..., 𝑛𝜔 }: Conjunto de escenarios de demanda
+Parámetros:
+𝛼𝑝 : Proporción fija del coproducto 𝑝 por carcasa (restricción anatómica, ∑𝑝 𝛼𝑝 = 1)
+𝑊 : Peso promedio de una carcasa (kg)
+𝑑𝑝𝑡𝜔 : Demanda del coproducto 𝑝 en el periodo 𝑡 bajo el escenario 𝜔 (kg)
+𝑟𝑝 : Precio de venta del coproducto 𝑝 (COP/kg)
+𝑐𝑝𝑟𝑜𝑑 : Costo de procesamiento por carcasa (COP/carcasa)
+𝐹 : Costo fijo de activación de la línea por periodo (COP/periodo)
+𝑐𝑝𝑖𝑛𝑣 : Costo de mantener inventario del coproducto 𝑝 (COP/kg/periodo)
+𝑐𝑝𝑝𝑒𝑛 : Costo de penalización por demanda no satisfecha del coproducto 𝑝 (COP/kg)
+𝑄𝑚𝑎𝑥 : Capacidad máxima de procesamiento (carcasas/periodo)
+𝑄𝑚𝑖𝑛 : Lote mínimo de procesamiento (carcasas/periodo)
+𝐿𝑝 : Vida útil máxima del coproducto 𝑝 (periodos)
+𝜋𝜔 : Probabilidad del escenario 𝜔
+Variables de Decisión:
+𝑦𝑡 ∈ {0, 1}: Variable binaria de activación (setup) de la línea en 𝑡 (primera etapa)
+𝑞𝑡 ∈ ℤ+ : Número de carcasas a procesar en 𝑡 (primera etapa)
+𝑣𝑝𝑡𝜔 : Cantidad vendida del coproducto 𝑝 en 𝑡, escenario 𝜔 (segunda etapa)
+𝐼𝑝𝑡𝜔 : Inventario del coproducto 𝑝 al final de 𝑡, escenario 𝜔
+𝑢𝑝𝑡𝜔 : Demanda no satisfecha del coproducto 𝑝 en 𝑡, escenario 𝜔
+Tabla 4. Conteo de variables y restricciones por tamaño de instancia
+
+23
+
+𝑛𝑝
+
+𝑛𝑡
+
+𝑛𝜔
+
+Variables 1ª
+etapa
+
+Small
+5
+Medium 8
+Large
+8
+
+6
+12
+30
+
+10
+50
+100
+
+12
+24
+60
+
+Perfil
+
+Variables 2ª
+etapa
+
+Total
+variables
+
+Restricciones
+
+900
+14,400
+72,000
+
+912
+14,424
+72,060
+
+~1,080
+~16,800
+~84,000
+
+5.2. Función Objetivo
+La función objetivo maximiza el beneficio esperado sobre todos los escenarios de demanda:
+
+máx 𝑍 = ∑ 𝜋𝜔 [∑ (∑ 𝑟𝑝 ⋅ 𝑣𝑝𝑡𝜔 − 𝑐𝑝𝑟𝑜𝑑 ⋅ 𝑞𝑡 − 𝐹 ⋅ 𝑦𝑡 − ∑ 𝑐𝑝𝑖𝑛𝑣 ⋅ 𝐼𝑝𝑡𝜔 − ∑ 𝑐𝑝𝑝𝑒𝑛 ⋅ 𝑢𝑝𝑡𝜔 )]
+𝜔∈Ω
+
+𝑡∈𝑇
+
+𝑝∈𝑃
+
+𝑝∈𝑃
+
+𝑝∈𝑃
+
+(1)
+Los cinco componentes de la función objetivo son:
+1. Ingresos por ventas: ∑𝑝 𝑟𝑝 ⋅ 𝑣𝑝𝑡𝜔 — maximiza la venta de coproductos a precios de
+mercado.
+2. Costo de producción: 𝑐𝑝𝑟𝑜𝑑 ⋅ 𝑞𝑡 — costo variable proporcional al número de carcasas
+procesadas.
+3. Costo de setup: 𝐹 ⋅ 𝑦𝑡 — costo fijo de activación de la línea (personal, energía,
+sanitización).
+4. Costo de inventario: ∑𝑝 𝑐𝑝𝑖𝑛𝑣 ⋅ 𝐼𝑝𝑡𝜔 — penaliza la acumulación de inventario (refrigeración).
+5. Penalización por demanda insatisfecha: ∑𝑝 𝑐𝑝𝑝𝑒𝑛 ⋅ 𝑢𝑝𝑡𝜔 — penaliza las oportunidades de venta perdidas.
+5.3. Restricciones
+Restricción 1 — Balance de materiales (co-producción):
+𝐼𝑝𝑡𝜔 = 𝐼𝑝,𝑡−1,𝜔 + 𝛼𝑝 ⋅ 𝑊 ⋅ 𝑞𝑡 − 𝑣𝑝𝑡𝜔
+
+∀𝑝 ∈ 𝑃 , 𝑡 ∈ 𝑇 , 𝜔 ∈ Ω
+
+(2)
+
+El inventario al final de cada periodo resulta del inventario anterior más la producción (proporcional a las carcasas procesadas) menos las ventas realizadas.
+Restricción 2 — Satisfacción de demanda:
+𝑣𝑝𝑡𝜔 + 𝑢𝑝𝑡𝜔 = 𝑑𝑝𝑡𝜔
+
+∀𝑝 ∈ 𝑃 , 𝑡 ∈ 𝑇 , 𝜔 ∈ Ω
+
+(3)
+
+La demanda de cada coproducto se satisface parcial o totalmente. La diferencia entre demanda y ventas constituye la demanda insatisfecha.
+Restricción 3 — Vínculo de activación (capacidad máxima):
+𝑞𝑡 ≤ 𝑄𝑚𝑎𝑥 ⋅ 𝑦𝑡
+24
+
+∀𝑡 ∈ 𝑇
+
+(4)
+
+Si la línea no está activa (𝑦𝑡 = 0), no se procesa ninguna carcasa.
+Restricción 4 — Lote mínimo de procesamiento:
+𝑞𝑡 ≥ 𝑄𝑚𝑖𝑛 ⋅ 𝑦𝑡
+
+∀𝑡 ∈ 𝑇
+
+(5)
+
+Si la línea está activa (𝑦𝑡 = 1), se procesa al menos el lote mínimo operativamente viable.
+Restricción 5 — Ventas limitadas por disponibilidad:
+𝑣𝑝𝑡𝜔 ≤ 𝐼𝑝,𝑡−1,𝜔 + 𝛼𝑝 ⋅ 𝑊 ⋅ 𝑞𝑡
+
+∀𝑝 ∈ 𝑃 , 𝑡 ∈ 𝑇 , 𝜔 ∈ Ω
+
+(6)
+
+No se puede vender más de lo disponible (inventario anterior + producción del periodo).
+Restricción 6 — Perecibilidad (vida útil):
+𝐼𝑝𝑡𝜔 = 0
+
+∀𝑝 ∈ 𝑃 , 𝜔 ∈ Ω, 𝑡′ ∈ 𝑇 tal que 𝑡′ − 𝑡 > 𝐿𝑝
+
+(7)
+
+El inventario se descarta cuando excede la vida útil del producto [18].
+Restricción 7 — Dominio de variables:
+𝑦𝑡 ∈ {0, 1},
+
+𝑞𝑡 ∈ ℤ + ,
+
+𝑣𝑝𝑡𝜔 , 𝐼𝑝𝑡𝜔 , 𝑢𝑝𝑡𝜔 ≥ 0
+
+(8)
+
+5.4. Estructura de Programación Estocástica de Dos Etapas
+El modelo sigue la estructura clásica de programación estocástica de dos etapas [23]:
+Primera etapa (here-and-now): Las decisiones de setup 𝑦𝑡 y producción 𝑞𝑡 se toman
+antes de conocer la demanda real. Estas son las variables que las metaheurísticas
+optimizan directamente.
+Segunda etapa (wait-and-see): Las decisiones de venta 𝑣𝑝𝑡𝜔 , inventario 𝐼𝑝𝑡𝜔 y demanda insatisfecha 𝑢𝑝𝑡𝜔 se determinan después de observar cada escenario 𝜔. En la
+implementación, estas variables se calculan mediante un decodificador greedy determinista (§6.2).
+
+25
+
+Figura 4. Estructura de programación estocástica de dos etapas. Las decisiones de primera
+etapa (setup y producción) se toman antes de conocer la demanda; las de segunda etapa
+(ventas, inventario) se adaptan a cada escenario.
+
+26
+
+5.5. Validación con Solver Exacto (CBC)
+El modelo fue validado resolviendo instancias Small (𝑛𝑝 = 5, 𝑛𝑡 = 6, 𝑛𝜔 = 10) con el solver
+exacto CBC (COIN-OR Branch and Cut) integrado en PuLP. CBC encuentra la solución
+óptima global garantizada para estas instancias en tiempos razonables (< 15 segundos). Esta
+solución óptima sirve como referencia (benchmark) para evaluar la calidad de las soluciones
+metaheurísticas.
+Para instancias Medium y Large, el solver exacto se ejecuta con un límite de tiempo de 300
+segundos. En instancias Large (𝑛𝑝 = 8, 𝑛𝑡 = 30, 𝑛𝜔 = 100) con 72,060 variables, CBC no
+logra converger a la solución óptima dentro del límite de tiempo, confirmando la necesidad
+de métodos metaheurísticos.
+
+6. Diseño e Implementación de Metaheurísticas
+Dada la complejidad NP-hard del problema (§4.2.1), se implementan cuatro metaheurísticas
+siguiendo el marco comparativo de Akbari-Aghghaleh et al. [15]. Todas comparten la misma
+codificación de solución y decodificador greedy, permitiendo una comparación justa.
+6.1. Codificación de la Solución
+Cada solución se codifica como un par de vectores de primera etapa:
+Vector de setup: y = (𝑦1 , 𝑦2 , ..., 𝑦𝑛𝑡 ) ∈ {0, 1}𝑛𝑡 — decisiones binarias de activación
+de línea.
+Vector de cantidad: q = (𝑞1 , 𝑞2 , ..., 𝑞𝑛𝑡 ) ∈ [𝑄𝑚𝑖𝑛 , 𝑄𝑚𝑎𝑥 ]𝑛𝑡 — carcasas a procesar por
+periodo (entero).
+Se aplica una reparación de lot-sizing que garantiza consistencia: si 𝑦𝑡 = 0 entonces 𝑞𝑡 = 0;
+si 𝑦𝑡 = 1 entonces 𝑄𝑚𝑖𝑛 ≤ 𝑞𝑡 ≤ 𝑄𝑚𝑎𝑥 .
+6.2. Decodificador Greedy
+Dado un par (y, q), el decodificador calcula las variables de segunda etapa (v, I, u) para cada
+escenario 𝜔 mediante una asignación greedy:
+1. Producción por forma de corte: Se asigna la masa anatómica disponible (𝛼𝑝 ⋅𝑊 ⋅𝑞𝑡 )
+a las formas de corte por orden descendente de precio, respetando la disponibilidad por
+pieza anatómica.
+2. Ventas FIFO: Para cada forma de corte en cada escenario, las ventas se asignan
+consumiendo inventario en orden FIFO (el más antiguo se vende primero), respetando
+la restricción de demanda.
+3. Inventario residual: El inventario al final de cada periodo es la diferencia entre
+disponibilidad y ventas.
+Este decodificador es determinista: dado (y, q) y una instancia, siempre produce el mismo
+resultado.
+27
+
+6.3. Algoritmo Genético (GA)
+El GA opera sobre una población de 𝑁 individuos, cada uno codificado como (y, q). Los
+operadores están adaptados a variables mixtas (binarias + enteras):
+Selección: Torneo de tamaño 𝑘 — selecciona el mejor individuo entre 𝑘 candidatos
+aleatorios.
+Cruce: Cruce de dos puntos aplicado independientemente a y y q, respetando los
+límites [𝑄𝑚𝑖𝑛 , 𝑄𝑚𝑎𝑥 ].
+Mutación: Bit-flip para y (con probabilidad 𝑝𝑡𝑜𝑔𝑔𝑙𝑒 ) y perturbación gaussiana acotada
+para q (𝛿 = 15 % del rango).
+Elitismo: Los 𝑒 mejores individuos pasan directamente a la siguiente generación.
+Criterio de parada: Estancamiento (sin mejora durante 𝑠 generaciones consecutivas).
+
+28
+
+29
+
+Figura 5. Diagrama de flujo del Algoritmo Genético (GA) con operadores de cruce de dos
+puntos, mutación mixta y elitismo.
+6.4. Recocido Simulado (SA)
+El SA utiliza un esquema de enfriamiento geométrico con reheating adaptativo:
+Temperatura inicial: Auto-estimada mediante 20 pares de soluciones aleatorias, cā ln(0.8)).
+librada para aceptar ~80 % de soluciones inicialmente (𝑇0 = −Δ/
+Enfriamiento geométrico: 𝑇𝑘+1 = 𝛼 ⋅ 𝑇𝑘 con 𝛼 = 0.78.
+Vecindarios mixtos: Con probabilidad 𝑝𝑡𝑜𝑔𝑔𝑙𝑒 alterna un setup, con 𝑝𝑞𝑢𝑎𝑛𝑡𝑖𝑡𝑦 perturba
+una cantidad, y con 1 − 𝑝𝑡𝑜𝑔𝑔𝑙𝑒 − 𝑝𝑞𝑢𝑎𝑛𝑡𝑖𝑡𝑦 aplica ambas perturbaciones.
+Criterio de Metropolis: Acepta una solución peor 𝑠′ con probabilidad exp(Δ/𝑇 )
+donde Δ = 𝑓(𝑠′ ) − 𝑓(𝑠).
+Reheating: Cuando se estanca por 𝑟 iteraciones sin mejora, la temperatura se multiplica por un factor > 1 para reactivar la exploración.
+
+30
+
+31
+
+Figura 6. Diagrama de flujo del Recocido Simulado (SA) con enfriamiento geométrico,
+vecindarios mixtos y reheating adaptativo.
+6.5. Evolución Diferencial (DE)
+El DE opera sobre una población de vectores continuos en [0, 1]2𝑛𝑡 que se discretizan para
+evaluar:
+Codificación continua: Cada individuo es un vector x ∈ [0, 1]2𝑛𝑡 donde las primeras
+𝑛𝑡 componentes codifican y (umbral 0.5) y las siguientes 𝑛𝑡 codifican q (normalizado
+en [𝑄𝑚𝑖𝑛 , 𝑄𝑚𝑎𝑥 ]).
+Mutación DE: Vector mutante v = x𝑏𝑒𝑠𝑡 + 𝐹 ⋅ (x𝑟1 − x𝑟2 ) (estrategia best/1/bin).
+Cruce binomial: Cada componente del vector trial se toma del mutante con probabilidad 𝐶𝑅 o del target con 1 − 𝐶𝑅.
+Selección greedy: El trial reemplaza al target solo si tiene mejor fitness.
+
+32
+
+33
+
+Figura 7. Diagrama de flujo de la Evolución Diferencial (DE) con estrategia DE/best/1/bin
+y codificación continua discretizada.
+6.6. Algoritmo Híbrido GA-SA
+El GA-SA es un algoritmo memético que combina la exploración global del GA con la
+explotación local del SA [15]:
+Fase GA (global): Idéntica al GA estándar (selección, cruce, mutación, elitismo).
+Fase SA (local): Cada 𝑓𝐿𝑆 generaciones, se aplica un SA corto (pocas iteraciones,
+temperatura baja) a los 𝑘 mejores individuos de la población, mejorando localmente
+las mejores soluciones encontradas.
+
+34
+
+35
+
+Figura 8. Diagrama de flujo del algoritmo híbrido GA-SA. La búsqueda local SA se activa
+periódicamente sobre los mejores individuos de la población.
+6.7. Calibración de Hiperparámetros (Optuna/TPE)
+Los hiperparámetros de cada metaheurística se calibraron mediante Optuna con el
+sampler Tree-structured Parzen Estimator (TPE), evaluando sobre 5 instancias
+de calibración (small_seed100, small_seed101, small_seed102, medium_seed200,
+medium_seed201). Se ejecutaron 30 trials por algoritmo (timeout de 900 s por trial), con
+objetivo de maximizar 𝑍 promedio.
+Tabla 5. Hiperparámetros calibrados por algoritmo (resultado de Optuna/TPE)
+Parámetro
+
+GA
+
+SA
+
+pop_size
+80
+—
+n_generations / max
+200
+—
+crossover_rate
+0.744
+—
+mutation_rate
+0.089
+—
+elitism_count
+3
+—
+selection_size
+3
+—
+T_initial
+—
+203,952
+T_final
+—
+586
+cooling_rate
+—
+0.782
+delta
+—
+0.066
+max_iterations
+—
+27
+p_toggle
+—
+0.494
+p_quantity
+—
+0.283
+reheat_factor
+—
+1.287
+F (escala)
+—
+—
+CR (cruce)
+—
+—
+strategy
+—
+—
+local_search_freq
+—
+—
+local_search_top_k
+—
+—
+local_search_iters
+—
+—
+local_search_T
+—
+—
+local_search_cooling
+—
+—
+stagnation_limit
+50
+54
+
+DE
+
+GA-SA
+
+51
+200
+—
+—
+—
+—
+—
+—
+—
+—
+—
+—
+—
+—
+0.317
+0.511
+best/1/bin
+—
+—
+—
+—
+—
+50
+
+39
+200
+0.859
+0.051
+1
+3
+—
+—
+—
+—
+—
+—
+—
+—
+—
+—
+—
+9
+10
+26
+3,227
+0.713
+50
+
+Figura 9. Evolución del mejor fitness durante la calibración con Optuna/TPE para cada
+algoritmo. GA-SA alcanza la convergencia más rápida, seguida por DE, GA y SA.
+
+36
+
+Figura 1: Evolución del score de Optuna durante calibración
+
+7. Resultados Computacionales
+7.1. Diseño Experimental
+El diseño experimental sigue un esquema factorial completo con los siguientes factores:
+Factor A — Algoritmo: {GA, SA, DE, GA-SA, CBC-exacto, Baseline} (6 niveles)
+Factor B — Tamaño de instancia: {Small, Medium, Large} (3 niveles)
+Instancias por tamaño: 3 (seeds 42, 123, 456)
+Réplicas por combinación: 30 seeds para algoritmos estocásticos, 1 para deterministas (CBC, Baseline)
+Total: 4 algoritmos × 9 instancias × 30 seeds + 2 deterministas × 9 instancias = 1,098
+ejecuciones
+Cada ejecución tiene un límite de tiempo de 300 segundos. Los experimentos se ejecutaron
+en Python 3.11, con checkpoints cada 50 ejecuciones para tolerancia a fallos.
+7.2. Perfiles de Instancias
+Tabla 6. Perfiles de instancias de prueba
+Perfil
+
+𝑛𝑝
+
+𝑛𝑡
+
+𝑛𝜔
+
+𝑄𝑚𝑖𝑛
+
+𝑄𝑚𝑎𝑥
+
+Seeds
+
+Descripción
+
+Small
+
+5
+
+6
+
+10
+
+100
+
+1,000
+
+Medium
+
+8
+
+12
+
+50
+
+100
+
+1,000
+
+Validación
+contra CBC
+óptimo
+Escala
+intermedia
+
+Large
+
+8
+
+30
+
+100
+
+100
+
+1,000
+
+42,
+123,
+456
+42,
+123,
+456
+42,
+123,
+456
+
+37
+
+Escala
+industrial
+
+Las instancias fueron generadas con datos calibrados de la industria avícola colombiana:
+proporciones anatómicas basadas en literatura, precios de mercado FENAVI, y demanda con
+distribución log-normal estacional.
+7.3. Resultados Principales
+Tabla 7. Resultados principales por algoritmo (promedio sobre 270 ejecuciones c/u)
+Algoritmo
+
+𝑍 ̄ (COP)
+
+Std 𝑍
+
+Rank
+
+N
+
+GA-SA
+DE
+GA
+SA
+
+916,865,520
+916,484,283
+908,817,120
+883,217,511
+
+512,578,412
+512,072,980
+501,216,075
+522,140,338
+
+1
+2
+3
+4
+
+270
+270
+270
+270
+
+El híbrido GA-SA obtiene el mejor rendimiento promedio, seguido por DE, GA y
+SA. La lectura estadística depende del nivel de agregación: en vista por corridas (ANOVA)
+no se observa diferencia global (𝐹 = 0.259, 𝑝 = 0.855), pero al bloquear por instancia sí
+aparece diferencia global (Friedman 𝜒2 = 16.07, 𝑝 = 0.0011). Las comparaciones pareadas
+con corrección Holm muestran diferencia consistente entre SA y {DE, GA-SA}, mientras
+que GA-SA y DE permanecen prácticamente empatados en magnitud de efecto
+(diferencia media relativa (�0.024 %)).
+
+Figura 2: Boxplot de fitness por algoritmo
+Figura 10. Distribución de fitness (𝑍) por algoritmo. GA-SA y DE muestran las medianas
+más altas, mientras SA presenta la mayor variabilidad.
+Figura 11. Frente de Pareto calidad (𝑍) vs. tiempo computacional. GA-SA ofrece el mejor
+compromiso calidad-velocidad.
+Figura 12. Comparación del nivel de servicio ( % de demanda satisfecha) por algoritmo.
+
+38
+
+Figura 3: Pareto calidad vs tiempo
+
+Figura 4: Nivel de servicio por algoritmo
+
+39
+
+7.4. Validación de Hipótesis
+Tabla 8. Veredicto de hipótesis de investigación
+Hipótesis
+H1
+
+H2
+
+H3
+
+Descripción
+
+Test
+
+Estadístico
+
+p-valor
+
+Veredicto
+
+Mejora � 5 % vs
+baseline
+(promedio por
+instancia)
+GA-SA gap �
+2 % vs mejor
+MH (promedio
+por instancia)
+Reducción
+inventario
+promedio � 15 %
+(endpoint
+primario, por
+instancia)
+
+Wilcoxon
+onesided
+
+0.0
+
+1.000
+
+NO SOPORTADA
+
+Wilcoxon
+onesided
+
+0.0
+
+1.95×10�³
+
+SOPORTADA
+
+Wilcoxon
+onesided
+
+24.0
+
+0.455
+
+NO SOPORTADA
+
+Análisis detallado:
+H1 (NO SOPORTADA): La mejora promedio por instancia de las metaheurísticas sobre
+el baseline es de 0.59–1.10 %, inferior al umbral del 5 %. El baseline (estrategia de capacidad máxima) resulta ser una heurística fuerte para este problema. El tamaño de efecto es
+negligible (𝑑 < 0.04).
+H2 (SOPORTADA): El gap del GA-SA respecto a la mejor metaheurística individual es
+−0.02 % por instancia (IC: [−0.06 %, 0.01 %]), inferior al umbral del 2 % (𝑝 = 1.95 × 10−3 ).
+La versión por corrida mantiene la misma dirección (𝑝 = 7.4 × 10−50 ), pero se reporta como
+evidencia complementaria. Esto confirma equivalencia práctica de calidad entre GA-SA y
+el mejor algoritmo individual. Nota: el componente de tiempo de H2 no se soporta, ya que
+GA-SA requiere más tiempo que CBC (ratio medio por instancia = 52.5x).
+H3 (NO SOPORTADA): En el endpoint primario (inventario promedio total por instancia), las reducciones observadas (12.2 %–17.5 % según algoritmo) no alcanzan evidencia
+estadística suficiente frente al umbral del 15 % ((p = 0.455) en el contraste one-sided por
+instancia).
+Como lectura secundaria, el endpoint de baja rotación muestra 22.3 % para SA con (p
+= 0.0417), pero solo 3/9 instancias son informativas ((baseline > 0)); por protocolo
+((n_{informativo} �5)) se reporta como evidencia exploratoria y no confirmatoria.
+7.5. Performance Profiles
+Figura 13. Performance profile de Dolan-Moré. GA-SA y DE alcanzan las mejores soluciones con mayor frecuencia (curva más alta a la izquierda).
+40
+
+Figura 5: Performance profile de Dolan-Moré
+7.6. Convergence Profiles
+
+Figura 6: Convergence profiles normalizados
+Figura 14. Perfiles de convergencia normalizados. GA-SA converge más rápido que GA y
+DE gracias a la búsqueda local periódica.
+7.7. Análisis de Escalabilidad
+Figura 15. Escalabilidad empírica (gráfico log-log). Todas las metaheurísticas muestran
+crecimiento polinomial del tiempo con el tamaño de la instancia.
+7.8. Análisis de Sensibilidad
+Se realizó un análisis de sensibilidad perturbando tres parámetros clave en el rango ±20 %,
+con 30 réplicas por configuración (450 ejecuciones totales). El algoritmo evaluado fue GA-SA
+41
+
+Figura 7: Escalabilidad empírica log-log
+sobre la instancia medium_seed42.
+Tabla 9. Análisis de sensibilidad — impacto de perturbaciones paramétricas en 𝑍
+Parámetro
+
+Δ
+
+𝑍 ̄ (COP)
+
+Gap % vs base
+
+Factibilidad
+
+Precios
+Precios
+Precios
+Precios
+Precios
+Costos
+Costos
+Costos
+Costos
+Var.
+demanda
+Var.
+demanda
+Var.
+demanda
+Var.
+demanda
+
+−20 %
+−10 %
+0%
++10 %
++20 %
+−20 %
+−10 %
++10 %
++20 %
+−50 %
+
+411,781,441
+481,696,520
+551,611,598
+621,526,676
+691,441,754
+581,119,434
+566,365,516
+536,857,679
+522,103,761
+551,742,773
+
++25.35 %
++12.67 %
+0.00 %
+−12.67 %
+−25.35 %
+−5.35 %
+−2.67 %
++2.67 %
++5.35 %
+−0.02 %
+
+100 %
+100 %
+100 %
+100 %
+100 %
+100 %
+100 %
+100 %
+100 %
+100 %
+
+−25 %
+
+551,741,184
+
+−0.02 %
+
+100 %
+
++25 %
+
+550,856,531
+
++0.14 %
+
+100 %
+
++50 %
+
+549,659,211
+
++0.35 %
+
+100 %
+
+Hallazgos principales:
+1. Precios es el parámetro más sensible: ±10 % en precios produce ±12.67 % en 𝑍. Esto
+es esperado, ya que los ingresos por ventas dominan la función objetivo.
+2. Costos tiene sensibilidad moderada: ±10 % produce ±2.67 % en 𝑍.
+42
+
+3. Variabilidad de demanda tiene impacto negligible (±0.35 % máximo), indicando
+que la solución es robusta ante cambios en la incertidumbre.
+4. 100 % de factibilidad en todas las configuraciones, confirmando la robustez del decodificador greedy.
+7.9. Análisis de Diversidad Poblacional
+
+Figura 8: Diversity profiles por algoritmo
+Figura 16. Perfiles de diversidad poblacional. GA-SA mantiene mayor diversidad que GA
+puro gracias al efecto disruptivo de la búsqueda local SA. DE muestra diversidad estable por
+su mecanismo de mutación diferencial.
+7.10. Análisis de Complejidad Computacional
+
+Figura 9: cProfile breakdown por componente
+
+43
+
+Figura 17. Desglose del tiempo computacional por componente (cProfile). El decodificador
+greedy domina el tiempo de evaluación, seguido por los operadores genéticos. La calibración
+de temperatura en SA tiene un costo fijo significativo.
+7.11. Discusión
+Los resultados confirman una jerarquía práctica consistente con Akbari-Aghghaleh et al.
+[15], pero con matices: GA-SA y DE quedan casi empatados, GA en tercer lugar y SA
+por debajo en calidad. La inferencia cambia según el enfoque estadístico: ANOVA por corridas
+no detecta diferencia global (𝑝 = 0.855), mientras Friedman por instancia sí (𝑝 = 0.0011),
+con diferencias principalmente asociadas a SA frente a {DE, GA-SA}. Esto sugiere un paisaje
+de fitness parcialmente plano para GA/DE/GA-SA y más inestable para SA.
+Comparado con Solano-Blanco et al. [3], quienes reportaron mejoras del 8.6 % con MILP
+estocástico, nuestras metaheurísticas alcanzan mejoras modestas del 0.59–1.10 % sobre el
+baseline. Esta diferencia se explica por:
+1. Diferente baseline: Solano-Blanco et al. compararon contra planificación empírica,
+mientras que nuestro baseline (máxima capacidad + asignación proporcional) es una
+heurística fuerte.
+2. Estructura del problema: En nuestro modelo, la demanda total frecuentemente
+supera la capacidad de producción, haciendo que producir a 𝑄𝑚𝑎𝑥 sea casi siempre
+óptimo, lo que reduce el margen de mejora.
+3. Escala: Nuestras instancias Large (72,060 variables) superan en escala a los modelos
+probados por Solano-Blanco et al., demostrando la escalabilidad de las metaheurísticas.
+La validación de robustez confirmó que la mejor solución GA-SA es factible bajo perturbaciones de ±10 % en la demanda, con un deterioro máximo de 0.04 % en 𝑍.
+7.12. Síntesis Gráfica de Resultados
+
+Figura 10: Heatmap de Z medio por algoritmo y tamaño de instancia
+Figura 18. Beneficio esperado 𝑍 por algoritmo y tamaño de instancia. El gradiente de color
+44
+
+permite identificar que las diferencias entre algoritmos son marginales dentro de cada tamaño,
+mientras que el efecto del tamaño de instancia domina la variabilidad. Las instancias Large
+generan beneficios del orden de 109 COP.
+
+Figura 11: Distribución de gaps por algoritmo
+Figura 19. Distribución de gaps respecto al solver exacto CBC. GA-SA y DE concentran
+sus resultados en la misma zona central (mediana � 3.43 % y cola alta asociada a instancias
+Large), mientras SA exhibe mayor dispersión y peores colas de gap.
+
+Figura 12: Tornado de sensibilidad
+Figura 20. Diagrama tornado del análisis de sensibilidad. Los precios de venta son el
+parámetro dominante (±12.67 % de impacto en 𝑍 ante perturbaciones de ±10 %), seguidos
+por los costos (±2.67 %). La variabilidad de demanda tiene impacto negligible, indicando
+robustez operativa.
+Figura 21. Curvas de convergencia promedio normalizadas. GA-SA y DE alcanzan convergencia rápida en las primeras 1,000 evaluaciones. La búsqueda local SA en GA-SA produce
+“escalones” de mejora periódicos (cada 9 generaciones), visibles como saltos discretos en la
+curva.
+Figura 22. Comparación visual entre los umbrales definidos a priori y los resultados obtenidos. H2 (gap � 2 %) es la única hipótesis soportada. H1 permanece por debajo del umbral
+(0.59–1.10 %). En H3, el endpoint primario (inventario promedio total) no alcanza significancia, y el endpoint de baja rotación se mantiene como exploratorio por n informativo bajo
+(3 instancias).
+
+45
+
+Figura 13: Convergencia promedio por algoritmo
+
+Figura 14: Veredicto de hipótesis — umbral vs resultado real
+
+46
+
+8. Conclusiones y Trabajo Futuro
+8.1. Conclusiones por Objetivo Específico
+Objetivo 1 (Formular): Se formuló exitosamente un modelo MILP multi-periodo con estructura de lot-sizing estocástico de dos etapas. El modelo captura las restricciones de coproducción (𝛼𝑝 ), setup (𝑦𝑡 ), lote mínimo (𝑄𝑚𝑖𝑛 ), perecibilidad (𝐿𝑝 ) y demanda estocástica
+(𝑑𝑝𝑡𝜔 ). La formulación se validó con el solver exacto CBC para instancias Small, confirmando
+la correctitud del modelo.
+Objetivo 2 (Implementar): Se implementaron exitosamente cuatro metaheurísticas (GA,
+SA, DE, GA-SA) adaptadas a variables mixtas (binarias + enteras). Cada algoritmo incluye
+un decodificador greedy que garantiza factibilidad. El código es modular, reproducible y está
+disponible públicamente.
+Objetivo 3 (Diseñar): Se diseñó un generador de instancias con tres perfiles de complejidad
+(Small, Medium, Large) calibrados con datos del sector avícola colombiano. Los parámetros
+se calibraron con FENAVI, DANE y literatura especializada.
+Objetivo 4 (Comparar): Se ejecutó un diseño experimental de 1,098 ejecuciones con análisis estadístico completo (ANOVA, Tukey HSD, Friedman y Wilcoxon-Holm por instancia).
+El ranking resultante es GA-SA � DE > GA > SA, donde la principal diferencia robusta se
+observa frente a SA.
+Objetivo 5 (Validar): Se validó el modelo mediante análisis de sensibilidad (450 ejecuciones) y robustez (perturbación de demanda ±10 %), confirmando que las soluciones son
+operativamente realistas y robustas ante incertidumbre.
+8.2. Veredicto de Hipótesis
+Tabla 10. Resumen de veredictos de hipótesis
+Hipótesis
+
+Umbral
+
+Resultado observado
+
+p-valor
+
+Veredicto
+
+H1: Mejora �
+5 % vs baseline
+H2: GA-SA
+gap � 2 % vs
+mejor MH
+H3: Reducción
+inventario
+promedio �
+15 %
+
+5%
+
+0.59–1.10 %
+
+2%
+
+−0.02 %
+
+No
+soportada
+Soportada
+
+15 %
+
+12.2 %–17.5 % (por
+algoritmo)
+
+1.000 (por
+instancia)
+1.95×10�³
+(por
+instancia)
+0.455 (por
+instancia)
+
+No
+soportada
+
+La hipótesis H2 se confirma en la vista bloqueada por instancia: el GA-SA produce soluciones
+equivalentes a la mejor metaheurística individual. H1 no se soporta por la fortaleza del
+baseline. H3 no se soporta en el endpoint primario; el endpoint de baja rotación permanece
+exploratorio por baja muestra informativa.
+47
+
+8.3. Contribuciones Principales
+1. Modelo matemático validado: Un modelo MILP de planificación de coproductos
+avícolas con lot-sizing estocástico, setup y perecibilidad, aplicable a otras industrias de
+producción conjunta.
+2. Framework de metaheurísticas comparativo: Implementación modular de GA,
+SA, DE y GA-SA con decodificador greedy compartido, reproducible y extensible.
+3. Evidencia empírica sobre GA-SA: Confirmación, en un problema real, de la ventaja
+del enfoque híbrido GA-SA reportada por Akbari-Aghghaleh et al. [15].
+4. Conjunto de instancias calibradas: 9 instancias con parámetros del sector avícola
+colombiano, disponibles públicamente para benchmarking.
+5. Análisis de robustez: Validación de que las soluciones son operativamente viables y
+robustas ante perturbaciones de demanda (deterioro � 0.04 %).
+8.4. Limitaciones del Estudio
+1. Datos sintéticos: Las instancias utilizan datos calibrados pero sintéticos. Aunque la
+cobertura de rangos de precio FENAVI es 100 %, la comparación temporal externa sin
+desfase mantiene correlación baja ((|�|{prom} �0.19)); al permitir desfases mensuales,
+la alineación mejora ((|�{lag}|_{prom} �0.65)) pero con desplazamientos de pico no
+triviales. Por ello, la validación con datos operativos reales de planta sigue siendo
+necesaria.
+2. Baseline fuerte: El baseline de máxima capacidad resulta ser una heurística fuerte
+para este problema, reduciendo el margen de mejora de las metaheurísticas.
+3. Proporciones fijas: El modelo asume proporciones de coproductos constantes (𝛼𝑝 ),
+sin considerar variabilidad inter-lote.
+4. Sin scheduling: Solo se aborda lot-sizing diario, no el scheduling detallado de la línea
+de despiece.
+5. Perecibilidad simplificada: Se modela como restricción de vida útil discreta, sin
+considerar deterioro gradual de calidad.
+8.5. Trabajo Futuro
+1. Híbrido DE-SA: Evaluar la combinación DE + SA como búsqueda local, reportada
+positivamente por Akbari-Aghghaleh et al. [15].
+2. Extensión multi-objetivo: Reformular como problema bi-objetivo (costo vs. nivel de
+servicio) con NSGA-II o MOEA/D, aprovechando la infraestructura de metaheurísticas
+implementada.
+3. Validación con datos reales: Aplicar el modelo a datos operativos de una planta de
+beneficio avícola colombiana.
+4. Integración con scheduling: Combinar lot-sizing con programación detallada de la
+línea de despiece, siguiendo las líneas de Claassen [18] y González-Neira et al. [30].
+5. Aprendizaje por refuerzo: Explorar la integración de técnicas de Deep RL para ajustar dinámicamente los hiperparámetros de las metaheurísticas, siguiendo las tendencias
+identificadas por Tan et al. [40] y Wang et al. [41].
+
+48
+
+Referencias
+[1]
+
+[2]
+
+[3]
+
+[4]
+
+[5]
+[6]
+
+[7]
+
+[8]
+
+[9]
+
+[10]
+
+[11]
+
+[12]
+
+L. Heij, F. Wijnhoven, and S. Lokerse, “Design of meat processing systems with agentbased production control,” IFAC-PapersOnLine, vol. 54, no. 1, pp. 1085–1090, 2021,
+doi: 10.1016/j.ifacol.2021.08.205.
+C. Gicquel and N. Miègeville, “Formulations and solution methods for the joint production and transportation planning in multi-site food supply chains,” Computers &
+Industrial Engineering, vol. 111, pp. 253–265, 2017, doi: 10.1016/j.cie.2017.07.025.
+A. L. Solano-Blanco et al., “Integrated planning decisions in the broiler chicken supply chain,” International Transactions in Operational Research, 2022, doi:
+10.1111/itor.12861.
+N. Tahraoui, L. Triqui, and M. Bennekrouf, “Operational planning of the production
+and the processing of chickens in multi-products slaughter unit,” OPSEARCH, vol.
+62, no. 3, pp. 1581–1615, 2025, doi: 10.1007/s12597-024-00846-1.
+FENAVI, “Avicultura en cifras 2024,” Federación Nacional de Avicultores de Colombia,
+Bogotá, Colombia, 2024. Available: https://fenavi.org
+Departamento Administrativo Nacional de Estadística (DANE), “Cuenta satelite de
+agroindustria avícola – boletín técnico 2024,” DANE, Bogotá, Colombia, Boletín Técnico, 2024. Available: https://www.dane.gov.co/files/operaciones/CSAAV/bolCSAAV-2024pr.pdf
+M. Florian, J. K. Lenstra, and A. H. G. Rinnoy Kan, “Deterministic production
+planning: Algorithms and complexity,” Management Science, vol. 26, no. 7, pp. 669–
+679, 1980, doi: 10.1287/mnsc.26.7.669.
+G. R. Bitran and H. H. Yanasse, “Computational complexity of the capacitated
+lot size problem,” Management Science, vol. 28, no. 10, pp. 1174–1186, 1982, doi:
+10.1287/mnsc.28.10.1174.
+H. G. Gören and S. Tunalı, “A hybrid approach for solving capacitated lot sizing with
+setup carryover, backordering and setup splitting,” Computers & Operations Research,
+vol. 68, pp. 22–31, 2016, doi: 10.1016/j.cor.2015.10.012.
+A. Rahmani, H. Süral, and C. Iyigun, “Two-stage stochastic capacitated lot-sizing
+problem under demand uncertainty,” Computers & Operations Research, vol. 174, p.
+106881, 2025, doi: 10.1016/j.cor.2024.106881.
+M. Mahdieh, A. Clark, and M. Bijari, “A novel flexible model for lot sizing and
+scheduling with non-triangular, period overlapping and carryover setups in different
+machine configurations,” Flexible Services and Manufacturing Journal, vol. 30, pp.
+884–919, 2018, doi: 10.1007/s10696-017-9291-0.
+A. Yazdekhasti, Y. Z. Mehrjardi, D. Mohammaditabar, and R. Heidari, “A multiperiod multi-modal stochastic supply chain model under COVID pandemic: A poultry
+industry case study in Mississippi,” Transportation Research Part E: Logistics and
+Transportation Review, vol. 154, p. 102463, 2021, doi: 10.1016/j.tre.2021.102463.
+
+49
+
+[13]
+
+[14]
+
+[15]
+
+[16]
+
+[17]
+
+[18]
+
+[19]
+[20]
+
+[21]
+
+[22]
+
+[23]
+
+[24]
+
+[25]
+
+O. Ahumada and J. R. Villalobos, “Application of planning models in the agri-food
+supply chain: A review,” European Journal of Operational Research, vol. 196, no. 1,
+pp. 1–20, 2009, doi: 10.1016/j.ejor.2008.02.014.
+P. Amorim, H.-O. Gunther, and B. Almada-Lobo, “Multi-objective integrated production and distribution planning of perishable products,” International Journal of Production Economics, vol. 138, no. 1, pp. 89–101, 2014, doi: 10.1016/j.ijpe.2012.03.005.
+Z. Akbari-Aghghaleh, M. M. Paydar, and P. Ghasemi, “Designing a closed-loop
+poultry supply chain network considering perishability and sustainability,” Environment, Development and Sustainability, 2025, doi: 10.1007/s10668-024-05847-y.
+I. Slama, O. Ben-Ammar, F. Masmoudi, and A. Dolgui, “Genetic algorithm and monte
+carlo simulation for a stochastic capacitated disassembly lot-sizing problem under
+random lead times,” Computers & Industrial Engineering, vol. 159, p. 107468, 2021,
+doi: 10.1016/j.cie.2021.107468.
+Ç. Sel, B. Bilgen, J. M. Bloemhof-Ruwaard, and J. G. A. J. van der Vorst, “Multibucket optimization for integrated planning and scheduling in the perishable dairy
+supply chain,” Computers & Chemical Engineering, vol. 77, pp. 59–73, 2015, doi:
+10.1016/j.compchemeng.2015.03.020.
+G. D. H. Claassen, “A note on production planning and scheduling in the food processing industry,” International Journal of Production Research, vol. 54, no. 22, pp.
+6881–6893, 2016, doi: 10.1080/00207543.2016.1193251.
+FAO, “Poultry production and trade statistics,” Food; Agriculture Organization of
+the United Nations, 2023. Available: https://www.fao.org
+M. N. Darghouth et al., “A capacitated disassembly scheduling problem considering
+processing technology selection and parts commonality,” Journal of Remanufacturing,
+vol. 11, pp. 243–261, 2021, doi: 10.1007/s13243-021-00104-3.
+J.-H. Kim, S.-M. Park, H.-J. Lee, et al., “Smart sensor applications in poultry
+processing: A comprehensive review,” Sensors, vol. 22, no. 10, p. 3920, 2022, doi:
+10.3390/s22103920.
+L. García López, R. Fernández-Ruiz, and M. López-Martínez, “Automation systems
+in food processing: Current trends and future perspectives,” Automation, vol. 4, no.
+2, pp. 150–175, 2023, doi: 10.3390/automation4020021.
+J. R. Birge and F. Louveaux, “Introduction to stochastic programming,” Springer
+Series in Operations Research and Financial Engineering, 2011, doi: 10.1007/978-14614-0237-4.
+S. M. J. Mirzapour Al-e-Hashem, H. Malekly, and M. B. Aryanezhad, “A multiobjective robust optimization model for multi-product multi-site aggregate production
+planning in a supply chain under uncertainty,” International Journal of Production
+Economics, vol. 134, no. 1, pp. 28–42, 2011, doi: 10.1016/j.ijpe.2011.01.027.
+E. Arteaga-Cabrera, C. Ramírez-Márquez, E. Sánchez-Ramírez, J. G. SegoviaHernández, O. Osorio-Mora, and J. A. Gómez-Salazar, “Advancing optimization
+strategies in the food industry: From traditional approaches to multi-objective and
+technology-integrated solutions,” Applied Sciences, vol. 15, no. 7, p. 3846, 2025, doi:
+10.3390/app15073846.
+
+50
+
+[26]
+
+[27]
+
+[28]
+
+[29]
+
+[30]
+
+[31]
+
+[32]
+
+[33]
+
+[34]
+
+[35]
+
+[36]
+
+[37]
+
+[38]
+
+M. L. Entrup, H.-O. Gunther, P. Van Beek, M. Grunow, and T. Seiler, “Mixed-integer
+linear programming approaches to shelf-life-integrated planning and scheduling in
+yoghurt production,” International Journal of Production Research, vol. 43, no. 23,
+pp. 5071–5100, 2005, doi: 10.1080/00207540500161068.
+A. Rong, R. Akkerman, and M. Grunow, “An optimization approach for managing
+fresh food quality throughout the supply chain,” International Journal of Production
+Economics, vol. 131, no. 1, pp. 421–429, 2011, doi: 10.1016/j.ijpe.2009.11.026.
+M. Abdel-Basset et al., “Review of metaheuristic optimization algorithms for
+power systems problems,” Sustainability, vol. 15, no. 12, p. 9434, 2023, doi:
+10.3390/su15129434.
+B. G. Stefánsdóttir and M. Grunow, “Selecting new product designs and processing
+technologies under uncertainty: Two-stage stochastic model and application to a food
+supply chain,” International Journal of Production Economics, vol. 191, pp. 89–103,
+2017, doi: 10.1016/j.ijpe.2017.04.013.
+E. M. González-Neira, J. R. Montoya-Torres, and D. Barrera, “An optimization model
+for the poultry supply chain scheduling and distribution,” Computers & Operations
+Research, vol. 175, p. 106927, 2025, doi: 10.1016/j.cor.2024.106927.
+D. Z. Dadaneh, M. Sanei, M. Basiri, and J. Razmi, “An integrated chance-constrained
+capacitated lot-sizing model for egg production planning,” Agricultural Systems, vol.
+221, p. 104108, 2024, doi: 10.1016/j.agsy.2024.104108.
+R. Juwitaa, S. Suprayogi, and A. H. Halim, “Two-stage stochastic programming for
+broiler supply chain optimization under growth uncertainty,” Livestock Science, vol.
+289, p. 105586, 2024, doi: 10.1016/j.livsci.2024.105586.
+A. Roshani, D. Giglio, and M. Paolucci, “A relax-and-fix heuristic for the capacitated
+lot-sizing problem,” International Journal of Production Research, vol. 55, no. 10, pp.
+2791–2804, 2017, doi: 10.1080/00207543.2016.1223382.
+Z. Liang, Y. He, and F. Wu, “Multi-objective optimization for meat cutting and trim
+operations in the meat processing industry,” Computers and Industrial Engineering,
+vol. 175, p. 108820, 2023, doi: 10.1016/j.cie.2022.108820.
+G. M. Kopanos, L. Puigjaner, and M. C. Georgiadis, “Eﬀicient mathematical frameworks for detailed production scheduling in food processing industries,” Computers & Chemical Engineering, vol. 42, pp. 206–216, 2012, doi:
+10.1016/j.compchemeng.2011.12.015.
+N. P. Mahalik and A. N. Nambiar, “Trends in food packaging and manufacturing
+systems and technology,” Trends in Food Science & Technology, vol. 21, no. 3, pp.
+117–128, 2010, doi: 10.1016/j.tifs.2009.12.006.
+N. Hartono, F. J. Ramírez, and D. T. Pham, “Optimisation of robotic disassembly
+plans using the bees algorithm,” Robotics and Computer-Integrated Manufacturing,
+vol. 78, p. 102411, 2022, doi: 10.1016/j.rcim.2022.102411.
+Y. Feng et al., “Synthetic data augmentation for enhanced chicken carcass instance
+segmentation,” arXiv preprint arXiv:2507.18558, 2025, Available: https://arxiv.org/
+abs/2507.18558
+
+51
+
+[39]
+
+[40]
+
+[41]
+
+M. Awad, A. Tiwari, and Y. Liu, “The minimisation of giveaway and underweight
+in poultry proportioning process,” Food Control, vol. 144, p. 109368, 2023, doi:
+10.1016/j.foodcont.2022.109368.
+Z. Tan, S. Guo, J. Guo, B. Du, and K. Wang, “A discrete keplerian optimization algorithm with q-learning for human-robot collaborative partial disassembly line balancing
+problem,” Applied Soft Computing, vol. 188, 2026, doi: 10.1016/j.asoc.2025.114406.
+J. Wang, M. Li, F. Meng, H. Zhao, and X. Sun, “Multi-objective reinforcement learning for dynamic balancing of two-sided human–robot collaborative disassembly lines,”
+Computers and Industrial Engineering, vol. 212, 2026, doi: 10.1016/j.cie.2025.111703.
+
+Anexos
+Anexo A: Formulación Matemática Completa
+La formulación completa del modelo se presenta en la Sección 5 del presente documento,
+incluyendo los conjuntos (§5.1), la función objetivo (§5.2, Ecuación 1), las restricciones (§5.3,
+Ecuaciones 2-8) y la estructura de dos etapas (§5.4).
+Anexo B: Pseudocódigos de Algoritmos
+Los pseudocódigos detallados y diagramas de flujo de los cuatro algoritmos se presentan en
+la Sección 6: GA (§6.3, Figura 5), SA (§6.4, Figura 6), DE (§6.5, Figura 7) y GA-SA (§6.6,
+Figura 8).
+Anexo C: Resultados Detallados por Instancia
+Los resultados completos por instancia están disponibles en el archivo comparison.csv del
+repositorio público del proyecto: https://github.com/DanAndCastRod/OBC.
+Anexo D: Herramientas Tecnológicas
+Lenguaje de Programación: Python 3.11+ (con tipado estático)
+Solver Exacto: PuLP 2.9.0 (CBC — COIN-OR Branch and Cut)
+Calibración: Optuna 4.3.0 (TPE sampler)
+Datos: NumPy 1.26.0, Pandas 2.3.2
+Visualización: Matplotlib 3.10.1, Seaborn 0.13.2
+Estadística: SciPy 1.15.2 (módulo stats)
+Testing: Pytest 8.3.5
+Control de Versiones: Git/GitHub
+Documentación: Pandoc 3.x + XeLaTeX (pipeline Markdown → PDF)
+Generación de instancias: YAML (PyYAML 6.0.2)
+
+52
+
+

@@ -1,0 +1,15 @@
+{
+  "algorithm": "sa",
+  "trial_numbers": [
+    0
+  ],
+  "values": [
+    -1000000000000.0
+  ],
+  "best_so_far": [
+    -1000000000000.0
+  ],
+  "states": [
+    "COMPLETE"
+  ]
+}

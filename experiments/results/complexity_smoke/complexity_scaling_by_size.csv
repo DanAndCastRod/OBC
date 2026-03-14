@@ -1,0 +1,2 @@
+algorithm,size,complexity,elapsed_mean,elapsed_std,eval_mean,n_runs
+sa,small,1440,11.99647068977356,,788.0,1

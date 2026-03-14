@@ -1,0 +1,77 @@
+{
+  "timestamp": 1773058915.7633007,
+  "completed_count": 10,
+  "total_planned": 10,
+  "completed_runs": [
+    {
+      "algorithm": "baseline",
+      "size_profile": "small",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 1
+    },
+    {
+      "algorithm": "baseline",
+      "size_profile": "small",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 2
+    },
+    {
+      "algorithm": "baseline",
+      "size_profile": "small",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 1
+    },
+    {
+      "algorithm": "baseline",
+      "size_profile": "small",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 2
+    },
+    {
+      "algorithm": "cbc_exact",
+      "size_profile": "small",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 1
+    },
+    {
+      "algorithm": "cbc_exact",
+      "size_profile": "small",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 1
+    },
+    {
+      "algorithm": "ga_sa",
+      "size_profile": "small",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 1
+    },
+    {
+      "algorithm": "ga_sa",
+      "size_profile": "small",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 2
+    },
+    {
+      "algorithm": "ga_sa",
+      "size_profile": "small",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 1
+    },
+    {
+      "algorithm": "ga_sa",
+      "size_profile": "small",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 2
+    }
+  ]
+}

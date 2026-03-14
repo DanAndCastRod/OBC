@@ -1,0 +1,9 @@
+{
+  "generated_at_epoch": 1772426756.4130497,
+  "n_comparison_rows": 1,
+  "n_scaling_rows": 1,
+  "n_performance_rows": 200,
+  "n_convergence_rows": 160,
+  "n_diversity_rows": 0,
+  "run_cprofile": true
+}

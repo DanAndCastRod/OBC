@@ -1,0 +1,735 @@
+{
+  "timestamp": 1773074100.2166033,
+  "completed_count": 104,
+  "total_planned": 104,
+  "completed_runs": [
+    {
+      "algorithm": "baseline",
+      "size_profile": "medium",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 1
+    },
+    {
+      "algorithm": "baseline",
+      "size_profile": "medium",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 2
+    },
+    {
+      "algorithm": "baseline",
+      "size_profile": "medium",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 3
+    },
+    {
+      "algorithm": "baseline",
+      "size_profile": "medium",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 4
+    },
+    {
+      "algorithm": "baseline",
+      "size_profile": "medium",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 5
+    },
+    {
+      "algorithm": "baseline",
+      "size_profile": "medium",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 1
+    },
+    {
+      "algorithm": "baseline",
+      "size_profile": "medium",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 2
+    },
+    {
+      "algorithm": "baseline",
+      "size_profile": "medium",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 3
+    },
+    {
+      "algorithm": "baseline",
+      "size_profile": "medium",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 4
+    },
+    {
+      "algorithm": "baseline",
+      "size_profile": "medium",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 5
+    },
+    {
+      "algorithm": "baseline",
+      "size_profile": "small",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 1
+    },
+    {
+      "algorithm": "baseline",
+      "size_profile": "small",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 2
+    },
+    {
+      "algorithm": "baseline",
+      "size_profile": "small",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 3
+    },
+    {
+      "algorithm": "baseline",
+      "size_profile": "small",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 4
+    },
+    {
+      "algorithm": "baseline",
+      "size_profile": "small",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 5
+    },
+    {
+      "algorithm": "baseline",
+      "size_profile": "small",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 1
+    },
+    {
+      "algorithm": "baseline",
+      "size_profile": "small",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 2
+    },
+    {
+      "algorithm": "baseline",
+      "size_profile": "small",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 3
+    },
+    {
+      "algorithm": "baseline",
+      "size_profile": "small",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 4
+    },
+    {
+      "algorithm": "baseline",
+      "size_profile": "small",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 5
+    },
+    {
+      "algorithm": "cbc_exact",
+      "size_profile": "medium",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 1
+    },
+    {
+      "algorithm": "cbc_exact",
+      "size_profile": "medium",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 1
+    },
+    {
+      "algorithm": "cbc_exact",
+      "size_profile": "small",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 1
+    },
+    {
+      "algorithm": "cbc_exact",
+      "size_profile": "small",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 1
+    },
+    {
+      "algorithm": "de",
+      "size_profile": "medium",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 1
+    },
+    {
+      "algorithm": "de",
+      "size_profile": "medium",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 2
+    },
+    {
+      "algorithm": "de",
+      "size_profile": "medium",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 3
+    },
+    {
+      "algorithm": "de",
+      "size_profile": "medium",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 4
+    },
+    {
+      "algorithm": "de",
+      "size_profile": "medium",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 5
+    },
+    {
+      "algorithm": "de",
+      "size_profile": "medium",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 1
+    },
+    {
+      "algorithm": "de",
+      "size_profile": "medium",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 2
+    },
+    {
+      "algorithm": "de",
+      "size_profile": "medium",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 3
+    },
+    {
+      "algorithm": "de",
+      "size_profile": "medium",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 4
+    },
+    {
+      "algorithm": "de",
+      "size_profile": "medium",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 5
+    },
+    {
+      "algorithm": "de",
+      "size_profile": "small",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 1
+    },
+    {
+      "algorithm": "de",
+      "size_profile": "small",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 2
+    },
+    {
+      "algorithm": "de",
+      "size_profile": "small",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 3
+    },
+    {
+      "algorithm": "de",
+      "size_profile": "small",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 4
+    },
+    {
+      "algorithm": "de",
+      "size_profile": "small",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 5
+    },
+    {
+      "algorithm": "de",
+      "size_profile": "small",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 1
+    },
+    {
+      "algorithm": "de",
+      "size_profile": "small",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 2
+    },
+    {
+      "algorithm": "de",
+      "size_profile": "small",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 3
+    },
+    {
+      "algorithm": "de",
+      "size_profile": "small",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 4
+    },
+    {
+      "algorithm": "de",
+      "size_profile": "small",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 5
+    },
+    {
+      "algorithm": "ga",
+      "size_profile": "medium",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 1
+    },
+    {
+      "algorithm": "ga",
+      "size_profile": "medium",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 2
+    },
+    {
+      "algorithm": "ga",
+      "size_profile": "medium",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 3
+    },
+    {
+      "algorithm": "ga",
+      "size_profile": "medium",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 4
+    },
+    {
+      "algorithm": "ga",
+      "size_profile": "medium",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 5
+    },
+    {
+      "algorithm": "ga",
+      "size_profile": "medium",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 1
+    },
+    {
+      "algorithm": "ga",
+      "size_profile": "medium",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 2
+    },
+    {
+      "algorithm": "ga",
+      "size_profile": "medium",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 3
+    },
+    {
+      "algorithm": "ga",
+      "size_profile": "medium",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 4
+    },
+    {
+      "algorithm": "ga",
+      "size_profile": "medium",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 5
+    },
+    {
+      "algorithm": "ga",
+      "size_profile": "small",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 1
+    },
+    {
+      "algorithm": "ga",
+      "size_profile": "small",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 2
+    },
+    {
+      "algorithm": "ga",
+      "size_profile": "small",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 3
+    },
+    {
+      "algorithm": "ga",
+      "size_profile": "small",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 4
+    },
+    {
+      "algorithm": "ga",
+      "size_profile": "small",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 5
+    },
+    {
+      "algorithm": "ga",
+      "size_profile": "small",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 1
+    },
+    {
+      "algorithm": "ga",
+      "size_profile": "small",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 2
+    },
+    {
+      "algorithm": "ga",
+      "size_profile": "small",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 3
+    },
+    {
+      "algorithm": "ga",
+      "size_profile": "small",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 4
+    },
+    {
+      "algorithm": "ga",
+      "size_profile": "small",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 5
+    },
+    {
+      "algorithm": "ga_sa",
+      "size_profile": "medium",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 1
+    },
+    {
+      "algorithm": "ga_sa",
+      "size_profile": "medium",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 2
+    },
+    {
+      "algorithm": "ga_sa",
+      "size_profile": "medium",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 3
+    },
+    {
+      "algorithm": "ga_sa",
+      "size_profile": "medium",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 4
+    },
+    {
+      "algorithm": "ga_sa",
+      "size_profile": "medium",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 5
+    },
+    {
+      "algorithm": "ga_sa",
+      "size_profile": "medium",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 1
+    },
+    {
+      "algorithm": "ga_sa",
+      "size_profile": "medium",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 2
+    },
+    {
+      "algorithm": "ga_sa",
+      "size_profile": "medium",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 3
+    },
+    {
+      "algorithm": "ga_sa",
+      "size_profile": "medium",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 4
+    },
+    {
+      "algorithm": "ga_sa",
+      "size_profile": "medium",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 5
+    },
+    {
+      "algorithm": "ga_sa",
+      "size_profile": "small",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 1
+    },
+    {
+      "algorithm": "ga_sa",
+      "size_profile": "small",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 2
+    },
+    {
+      "algorithm": "ga_sa",
+      "size_profile": "small",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 3
+    },
+    {
+      "algorithm": "ga_sa",
+      "size_profile": "small",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 4
+    },
+    {
+      "algorithm": "ga_sa",
+      "size_profile": "small",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 5
+    },
+    {
+      "algorithm": "ga_sa",
+      "size_profile": "small",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 1
+    },
+    {
+      "algorithm": "ga_sa",
+      "size_profile": "small",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 2
+    },
+    {
+      "algorithm": "ga_sa",
+      "size_profile": "small",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 3
+    },
+    {
+      "algorithm": "ga_sa",
+      "size_profile": "small",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 4
+    },
+    {
+      "algorithm": "ga_sa",
+      "size_profile": "small",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 5
+    },
+    {
+      "algorithm": "sa",
+      "size_profile": "medium",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 1
+    },
+    {
+      "algorithm": "sa",
+      "size_profile": "medium",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 2
+    },
+    {
+      "algorithm": "sa",
+      "size_profile": "medium",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 3
+    },
+    {
+      "algorithm": "sa",
+      "size_profile": "medium",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 4
+    },
+    {
+      "algorithm": "sa",
+      "size_profile": "medium",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 5
+    },
+    {
+      "algorithm": "sa",
+      "size_profile": "medium",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 1
+    },
+    {
+      "algorithm": "sa",
+      "size_profile": "medium",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 2
+    },
+    {
+      "algorithm": "sa",
+      "size_profile": "medium",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 3
+    },
+    {
+      "algorithm": "sa",
+      "size_profile": "medium",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 4
+    },
+    {
+      "algorithm": "sa",
+      "size_profile": "medium",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 5
+    },
+    {
+      "algorithm": "sa",
+      "size_profile": "small",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 1
+    },
+    {
+      "algorithm": "sa",
+      "size_profile": "small",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 2
+    },
+    {
+      "algorithm": "sa",
+      "size_profile": "small",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 3
+    },
+    {
+      "algorithm": "sa",
+      "size_profile": "small",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 4
+    },
+    {
+      "algorithm": "sa",
+      "size_profile": "small",
+      "demand_profile": "seasonal",
+      "instance_seed": 42,
+      "run_seed": 5
+    },
+    {
+      "algorithm": "sa",
+      "size_profile": "small",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 1
+    },
+    {
+      "algorithm": "sa",
+      "size_profile": "small",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 2
+    },
+    {
+      "algorithm": "sa",
+      "size_profile": "small",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 3
+    },
+    {
+      "algorithm": "sa",
+      "size_profile": "small",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 4
+    },
+    {
+      "algorithm": "sa",
+      "size_profile": "small",
+      "demand_profile": "stable",
+      "instance_seed": 42,
+      "run_seed": 5
+    }
+  ]
+}

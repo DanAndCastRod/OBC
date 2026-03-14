@@ -1,0 +1,28 @@
+algorithm: sa
+best_fitness: 396512715.4314909
+best_params:
+  T_final: 586.3467511854599
+  T_initial: 203952.18259405883
+  cooling_rate: 0.7816915860448379
+  delta: 0.06611925225189833
+  max_iterations: 27
+  p_quantity: 0.28253097367023466
+  p_toggle: 0.4940830990281091
+  reheat_factor: 1.2869801527771256
+  reheat_threshold: 54
+elapsed_seconds: 9190.541406869888
+history_csv: experiments\results\tuning\tuning_sa_trials.csv
+history_json: experiments\results\tuning\tuning_sa_history.json
+history_plot: experiments\results\tuning\tuning_sa_evolution.png
+instance_names:
+- small_seed100
+- small_seed101
+- small_seed102
+- medium_seed200
+- medium_seed201
+n_error_trials: 0
+n_instances: 5
+n_timeout_trials: 4
+n_trials: 30
+seed: 42
+trial_timeout_seconds: 900

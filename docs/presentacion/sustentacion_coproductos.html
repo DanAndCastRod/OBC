@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sustentación Coproductos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="libs/reveal.min.css">
+  <link rel="stylesheet" href="libs/white.min.css">
+  <script src="libs/tex-mml-chtml.js" async></script>
+  <script src="libs/chart.umd.min.js"></script>
+  <script src="presentation_data.js"></script>
+  <style>
+    :root { --teal:#0f766e; --teal2:#0d9488; --orange:#f28c28; --ink:#1f2937; --muted:#475569; --bg:#f4f8f8; }
+    .reveal { font-family:"IBM Plex Sans",sans-serif; color:var(--ink); font-size:24px;
+      background:radial-gradient(circle at 10% 10%, rgba(13,148,136,.16), transparent 30%), linear-gradient(180deg,var(--bg),#fff 70%); }
+    .reveal .slides section { padding:24px 42px; text-align:left; }
+    .reveal h1,.reveal h2,.reveal h3 { font-family:"Manrope",sans-serif; color:var(--teal); text-transform:none; }
+    .reveal h2 { font-size:1.2em; border-bottom:3px solid var(--orange); padding-bottom:6px; }
+    .reveal p,.reveal li { font-size:.75em; color:var(--muted); line-height:1.45; }
+    .title { text-align:center; }
+    .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .grid4 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .card { background:rgba(255,255,255,.9); border:1px solid rgba(15,118,110,.24); border-radius:12px; padding:12px 14px; box-shadow:0 8px 26px rgba(15,118,110,.14); }
+    .kpi { font-family:"Manrope",sans-serif; font-size:1.6em; font-weight:800; color:var(--teal); line-height:1.05; }
+    .callout { background:linear-gradient(135deg,var(--teal),var(--teal2)); color:#fff; border-radius:12px; padding:14px; }
+    .callout * { color:#fff !important; }
+    .chartbox { background:#fff; border:1px solid rgba(15,118,110,.28); border-radius:12px; padding:8px 10px; box-shadow:0 8px 26px rgba(15,118,110,.12); }
+    .chart { position:relative; height:290px; }
+    .chart-small { position:relative; height:225px; }
+    .controls { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:6px; }
+    .controls label { font-size:.62em; font-weight:600; color:var(--ink); }
+    .controls select { font-size:.62em; border:1px solid rgba(15,118,110,.34); border-radius:8px; padding:4px 8px; }
+    .pill { display:inline-block; font-size:.58em; font-weight:700; border-radius:999px; padding:2px 8px; margin-left:6px; }
+    .ok { background:rgba(13,148,136,.16); color:var(--teal); }
+    .no { background:rgba(242,140,40,.16); color:#9a3412; }
+    .hypo { border-left:5px solid var(--teal2); background:rgba(255,255,255,.9); border-radius:10px; padding:9px 11px; margin-bottom:8px; }
+    .hypo.n { border-left-color:var(--orange); }
+    .gif img { width:100%; max-height:200px; object-fit:contain; border-radius:8px; border:1px solid rgba(15,118,110,.2); }
+    .small { font-size:.6em; color:#64748b; }
+    .footer { position:absolute; left:0; right:0; bottom:0; height:4px; background:linear-gradient(90deg,var(--teal),var(--teal2),var(--orange)); }
+    @media (max-width:900px){ .grid2,.grid4{grid-template-columns:1fr;} .chart,.chart-small{height:230px;} .reveal .slides section{padding:16px 18px;} }
+  </style>
+</head>
+<body>
+<div class="reveal"><div class="slides">
+
+<!-- S1: PORTADA -->
+<section class="title">
+  <img src="figuras/logo_utp.png" alt="Logo UTP" style="max-height:60px;" onerror="this.style.display='none'">
+  <h1 style="font-size:1.35em;">Modelo de Optimización para la Planificación de Coproductos con Metaheurísticas en la Industria Avícola</h1>
+  <p><strong>Daniel Andrés Castañeda Rodríguez</strong></p>
+  <p class="small">Directora: Ing. Eliana Mirledy Ocampo Toro, PhD.</p>
+  <p class="small">Maestría en Investigación de Operaciones y Estadística — UTP, 2026</p>
+  <div class="footer"></div>
+</section>
+
+<!-- S2: AGENDA -->
+<section style="display:flex; flex-direction:column; justify-content:center; height:100%;">
+  <h2>Agenda</h2>
+  <ol style="column-count:2; column-gap:40px; font-size:.85em; margin-top:30px; line-height:1.6;">
+    <li style="margin-bottom:15px;">Contexto de la industria avícola</li>
+    <li style="margin-bottom:15px;">Problema e hipótesis</li>
+    <li style="margin-bottom:15px;">Objetivos</li>
+    <li style="margin-bottom:15px;">Marco teórico</li>
+    <li style="margin-bottom:15px;">Estado del arte</li>
+    <li style="margin-bottom:15px;">Modelo matemático</li>
+    <li style="margin-bottom:15px;">Diseño experimental y metaheurísticas</li>
+    <li style="margin-bottom:15px;">Resultados y validación</li>
+    <li style="margin-bottom:15px;">Conclusiones y trabajo futuro</li>
+  </ol>
+  <div class="footer"></div>
+</section>
+
+<!-- S3: CONTEXTO INDUSTRIA -->
+<section>
+  <h2>1. Contexto: Industria Avícola Colombiana</h2>
+  <div class="grid2">
+    <div>
+      <div class="card"><div class="kpi">1.7M</div><p>Toneladas de pollo procesadas por año (FENAVI 2023)</p></div>
+      <div class="card" style="margin-top:8px;"><div class="kpi">8 cortes</div><p>Coproductos por carcasa (pechuga, muslo, ala, etc.)</p></div>
+      <div class="card" style="margin-top:8px;"><div class="kpi">NP-hard</div><p>CLSP estocástico con setup, perecibilidad y coproducción</p></div>
+    </div>
+    <div>
+      <div class="chartbox">
+        <h3 style="margin-top:0;">Baseline vs GA-SA vs CBC exacto</h3>
+        <div class="chart-small"><canvas id="baselineSizeChart"></canvas></div>
+        <p class="small">Comparación de Z medio (M COP) por tamaño de instancia.</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer"></div>
+</section>
+
+<!-- S4: PROBLEMA -->
+<section>
+  <h2>2. Problema: Dinámica Push vs Pull</h2>
+  <div class="grid2">
+    <div class="callout">
+      <h3 style="margin-top:0;">Push (Oferta)</h3>
+      <ul>
+        <li>Oferta <strong>rígida</strong> por anatomía de la carcasa.</li>
+        <li>Proporciones fijas de coproductos (α<sub>p</sub>).</li>
+        <li>No se puede producir solo pechuga.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0;">Pull (Demanda)</h3>
+      <ul>
+        <li>Demanda <strong>estacional</strong> y heterogénea por corte.</li>
+        <li>Pechuga alta demanda, ala baja rotación.</li>
+        <li>Perecibilidad: vida útil L<sub>p</sub> ∈ [3,7] periodos.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card" style="margin-top:10px;">
+    <h3 style="margin-top:0;">Consecuencias del desbalance</h3>
+    <table style="font-size:.72em;width:100%;">
+      <tr><th>Consecuencia</th><th>Descripción</th><th>Impacto</th></tr>
+      <tr><td>Inventario excesivo</td><td>Productos de baja rotación se acumulan</td><td>Costos de almacenamiento</td></tr>
+      <tr><td>Pérdida por perecibilidad</td><td>Producto vencido = pérdida total</td><td>Reducción de margen</td></tr>
+      <tr><td>Demanda insatisfecha</td><td>Cortes de alta demanda agotados</td><td>Pérdida de ventas</td></tr>
+    </table>
+  </div>
+  <div class="footer"></div>
+</section>
+
+<!-- S-JUSTIFICACION (NEW) -->
+<section style="display:flex; flex-direction:column; justify-content:center; height:100%;">
+  <h2>3. Justificación del Estudio</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3 style="margin-top:0;font-size:.78em;">Relevancia Económica</h3>
+      <table style="font-size:.58em; width:100%; border-collapse:collapse;">
+        <tr style="border-bottom:1px solid #ccc;"><th style="text-align:left;">Consecuencia</th><th style="text-align:center;">Impacto estimado</th><th style="text-align:left;">Fuente</th></tr>
+        <tr style="border-bottom:1px solid #f0f0f0;"><td>Costos de inventario excesivo</td><td style="text-align:center;">+15–25% del costo total</td><td>Sel et al. 2015</td></tr>
+        <tr style="border-bottom:1px solid #f0f0f0;"><td>Pérdidas por ventas de liquidación</td><td style="text-align:center;">−20–40% del margen</td><td>Amorim et al. 2014</td></tr>
+        <tr style="border-bottom:1px solid #f0f0f0;"><td>Desperdicio de producto perecedero</td><td style="text-align:center;">5–10% de la producción</td><td>Claassen 2016</td></tr>
+        <tr><td>Penalización por demanda insatisfecha</td><td style="text-align:center;">Variable por contrato</td><td>Solano-Blanco 2022</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0;font-size:.78em;">Alineación ODS</h3>
+      <ul style="font-size:.62em; line-height:1.4;">
+        <li><strong>ODS 9</strong> (Industria, Innovación e Infraestructura): Aplicación de técnicas avanzadas de optimización a la industria colombiana.</li>
+        <li><strong>ODS 12</strong> (Producción y Consumo Responsables): Reducción del desperdicio alimentario mediante planificación óptima.</li>
+      </ul>
+      <h3 style="font-size:.78em;">Relevancia Metodológica</h3>
+      <ul style="font-size:.62em; line-height:1.4;">
+        <li>Primer framework que combina <strong>lot-sizing estocástico + coproductos + perecibilidad + metaheurísticas</strong> en la industria avícola.</li>
+        <li>Benchmark reproducible con instancias calibradas con FENAVI/DANE.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer"></div>
+</section>
+
+<!-- S5: HIPÓTESIS -->
+<section>
+  <h2>4. Pregunta de Investigación e Hipótesis</h2>
+  <div class="card" style="margin-bottom:10px;">
+    <p style="font-style:italic;font-size:.78em;">¿Cómo optimizar la planificación de producción de coproductos avícolas bajo demanda estocástica, minimizando costos de inventario y maximizando el beneficio?</p>
+  </div>
+  <div class="hypo n"><strong>H1:</strong> La mejor metaheurística mejora Z en ≥ 5% vs baseline <span class="pill no">No soportada (0.59%–1.10%)</span></div>
+  <div class="hypo"><strong>H2:</strong> GA-SA alcanza gap ≤ 2% vs mejor metaheurística individual <span class="pill ok">Soportada (-0.02%, p=0.002)</span></div>
+  <div class="hypo n"><strong>H3:</strong> Reducción de inventario ≥ 15% (endpoint primario: inventario promedio) <span class="pill no">No soportada</span></div>
+  <div class="card" style="margin-top:10px;">
+    <h3 style="margin-top:0;font-size:.82em;">Lectura metodológica</h3>
+    <ul style="font-size:.68em;">
+      <li><strong>Baseline:</strong> comparador de impacto operativo/negocio.</li>
+      <li><strong>CBC exacto:</strong> comparador técnico de calidad (gap).</li>
+      <li>Objetivo: escalar con buena calidad, no superar al exacto.</li>
+    </ul>
+  </div>
+  <div class="footer"></div>
+</section>
+
+<!-- S6: OBJETIVOS -->
+<section>
+  <h2>5. Objetivos</h2>
+  <div class="card" style="margin-bottom:10px;">
+    <h3 style="margin-top:0;">Objetivo General</h3>
+    <p style="font-size:.75em;">Desarrollar un modelo de optimización para la planificación de coproductos en la industria avícola colombiana, resuelto mediante metaheurísticas.</p>
+  </div>
+  <div class="grid2">
+    <div>
+      <div class="card" style="margin-bottom:6px;"><p style="font-size:.68em;margin:0;"><strong>OE1.</strong> Formular un modelo MILP multi-periodo con lot-sizing estocástico.</p></div>
+      <div class="card" style="margin-bottom:6px;"><p style="font-size:.68em;margin:0;"><strong>OE2.</strong> Implementar GA, SA, DE y el híbrido GA-SA.</p></div>
+      <div class="card" style="margin-bottom:6px;"><p style="font-size:.68em;margin:0;"><strong>OE3.</strong> Calibrar hiperparámetros con Optuna (TPE).</p></div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:6px;"><p style="font-size:.68em;margin:0;"><strong>OE4.</strong> Comparar rendimiento en 9 instancias con 30 semillas.</p></div>
+      <div class="card" style="margin-bottom:6px;"><p style="font-size:.68em;margin:0;"><strong>OE5.</strong> Validar con datos FENAVI/DANE y análisis de sensibilidad.</p></div>
+    </div>
+  </div>
+  <div class="footer"></div>
+</section>
+
+<!-- S7: MARCO TEÓRICO -->
+<section style="display:flex; flex-direction:column; justify-content:center; height:100%;">
+  <h2>6. Marco Teórico</h2>
+  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
+    <div class="card">
+      <h3 style="margin-top:0;font-size:.78em;">Producción Conjunta</h3>
+      <ul style="font-size:.60em; line-height:1.35;">
+        <li>Despiece genera <strong>P coproductos</strong> en <strong>proporciones fijas</strong> &alpha;<sub>p</sub>.</li>
+        <li>Decisión sobre un corte implica producción de todos los demás.</li>
+        <li>Clasificación OR: <em>mezcla multi-producto con restricciones de co-producción</em> (Gicquel &amp; Miègeville, 2017).</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0;font-size:.78em;">CLSP Estocástico + Perecibilidad</h3>
+      <ul style="font-size:.60em; line-height:1.35;">
+        <li><strong>NP-hard</strong> demostrado formalmente (Florian et al. 1980; Bitran &amp; Yanasse 1982).</li>
+        <li>Extensión estocástica preserva NP-hardness (Rahmani et al. 2025).</li>
+        <li>Variables: setup binario y<sub>t</sub>, lote continuo q<sub>t</sub>, inventario I<sub>ptω</sub>.</li>
+        <li><strong>Perecibilidad:</strong> vida útil L<sub>p</sub> con política FIFO (Entrup et al. 2005).</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0;font-size:.78em;">Prog. Estocástica 2 Etapas</h3>
+      <ul style="font-size:.60em; line-height:1.35;">
+        <li><strong>1ª etapa</strong> (<em>here-and-now</em>): setup y<sub>t</sub> y producción q<sub>t</sub>.</li>
+        <li><strong>2ª etapa</strong> (<em>wait-and-see</em>): ventas v<sub>ptω</sub>, inventario I<sub>ptω</sub> por escenario &omega; &in; &Omega;.</li>
+        <li>F.O.: maximizar <strong>beneficio esperado</strong> sobre todos los escenarios (Birge &amp; Louveaux, 2011).</li>
+      </ul>
+    </div>
+  </div>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px;">
+    <div class="card">
+      <h3 style="margin-top:0;font-size:.78em;">Metaheurísticas (Clasificación)</h3>
+      <ul style="font-size:.60em; line-height:1.35;">
+        <li><strong>Trayectoria</strong> (SA): intensificación local, aceptación probabilística de Boltzmann.</li>
+        <li><strong>Población</strong> (GA, DE): diversificación global, operadores evolutivos.</li>
+        <li><strong>Híbridos meméticos</strong> (GA-SA): exploración GA + explotación SA cada <em>k</em> generaciones.</li>
+      </ul>
+    </div>
+    <div class="callout">
+      <h3 style="margin-top:0;font-size:.78em;">Justificación del enfoque</h3>
+      <p style="font-size:.60em; line-height:1.35; margin:0;">Lote mínimo + setup + perecibilidad + estocasticidad: el problema es formalmente <strong>NP-hard</strong> (Mahdieh et al. 2018), haciendo intratables los solvers exactos en instancias grandes (72,060 variables). Las metaheurísticas ofrecen soluciones de alta calidad en tiempo polinomial.</p>
+    </div>
+  </div>
+  <div class="footer"></div>
+</section>
+
+<!-- S8: ESTADO DEL ARTE -->
+<section style="display:flex; flex-direction:column; justify-content:center; height:100%;">
+  <h2>7. Estado del Arte</h2>
+  <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:8px;">
+    <p style="font-size:.58em; margin:0;"><strong>Búsqueda sistemática Scopus (feb. 2026):</strong> 8 queries temáticas → 478 resultados → <strong>13 papers</strong> en la intersección directa.</p>
+    <p style="font-size:.52em; margin:0; color:var(--muted);"><em>Q7 (reviews multi-product lot-sizing estocástico) = 0 resultados.</em></p>
+  </div>
+  <div class="grid2">
+    <div class="card" style="padding:8px;">
+      <h3 style="margin-top:0; font-size:.70em;">Queries Scopus y Resultados</h3>
+      <table style="font-size:.48em; width:100%; border-collapse:collapse;">
+        <tr style="border-bottom:1px solid #ccc;"><th style="text-align:center;">Q</th><th>Tema</th><th style="text-align:center;">#</th></tr>
+        <tr style="border-bottom:1px solid #f0f0f0;"><td style="text-align:center;">Q1</td><td>Lot-sizing estocástico + NP-hard</td><td style="text-align:center;">9</td></tr>
+        <tr style="border-bottom:1px solid #f0f0f0;"><td style="text-align:center;">Q2</td><td>MH + Setup estocástico</td><td style="text-align:center;">11</td></tr>
+        <tr style="border-bottom:1px solid #f0f0f0;"><td style="text-align:center;">Q3</td><td>Perecibilidad + Lot-sizing</td><td style="text-align:center;">20</td></tr>
+        <tr style="border-bottom:1px solid #f0f0f0;"><td style="text-align:center;">Q4</td><td>Optimización avícola/cárnica</td><td style="text-align:center;">186</td></tr>
+        <tr style="border-bottom:1px solid #f0f0f0;"><td style="text-align:center;">Q5</td><td>Prog. estocástica + MH</td><td style="text-align:center;">218</td></tr>
+        <tr style="border-bottom:1px solid #f0f0f0;"><td style="text-align:center;">Q6</td><td>CLSP + Complejidad</td><td style="text-align:center;">30</td></tr>
+        <tr style="border-bottom:1px solid #f0f0f0;"><td style="text-align:center;">Q7</td><td>Reviews multi-product estocástico</td><td style="text-align:center;font-weight:700;color:var(--orange);">0</td></tr>
+        <tr><td style="text-align:center;">Q8</td><td>Lote mínimo + Prog. entera</td><td style="text-align:center;">4</td></tr>
+        <tr style="border-top:2px solid var(--teal);"><td></td><td><strong>Total</strong></td><td style="text-align:center;"><strong>478</strong></td></tr>
+      </table>
+    </div>
+    <div>
+      <table style="font-size:.50em; width:100%; border-collapse:collapse;">
+        <tr style="border-bottom:1px solid #ccc;"><th>Autor</th><th>Año</th><th>Enfoque</th><th>Vacío</th></tr>
+        <tr style="border-bottom:1px solid #f0f0f0;"><td>Solano-Blanco et al.</td><td>2022</td><td>MILP estocástico avícola</td><td>Sin MH</td></tr>
+        <tr style="border-bottom:1px solid #f0f0f0;"><td>Akbari-Aghghaleh et al.</td><td>2025</td><td>GA-SA SC avícola</td><td>Determinista</td></tr>
+        <tr style="border-bottom:1px solid #f0f0f0;"><td>Tahraoui et al.</td><td>2025</td><td>MILP CPLEX avícola</td><td>Sin MH</td></tr>
+        <tr style="border-bottom:1px solid #f0f0f0;"><td>Rahmani et al.</td><td>2025</td><td>Híbrido CLSP estoc.</td><td>No avícola</td></tr>
+        <tr style="border-bottom:1px solid #f0f0f0;"><td>Claassen</td><td>2016</td><td>Lot-sizing + decay FPI</td><td>Determinista</td></tr>
+        <tr><td>Slama et al.</td><td>2021</td><td>GA + Monte Carlo CLSP</td><td>Sin coprod.</td></tr>
+      </table>
+      <div class="callout" style="margin-top:8px; padding:8px 12px;">
+        <h3 style="margin-top:0; font-size:.68em;">Brecha central</h3>
+        <p style="font-size:.58em; margin:0;">Solo <strong>2.7% de 478 papers</strong> (13) tocan simultáneamente lot-sizing estocástico + perecibilidad + MH + avícola. <strong>Ninguno</strong> combina las 4 dimensiones con coproductos.</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer"></div>
+</section>
+
+<!-- S9: MODELO MATEMÁTICO -->
+<section>
+  <h2>8. Modelo Matemático</h2>
+  <div class="card" style="margin-bottom:8px;">
+    <p style="font-size:.72em;"><strong>Función Objetivo:</strong> Maximizar beneficio esperado</p>
+    <p style="font-size:.78em;text-align:center;">\(\max Z = \frac{1}{|\Omega|}\sum_{\omega}\left[\sum_{p,t} r_p \cdot v_{pt\omega} - \sum_t (c_{prod} \cdot q_t + c_{setup} \cdot y_t) - \sum_{p,t} c_{inv} \cdot I_{pt\omega}\right]\)</p>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <h3 style="margin-top:0;font-size:.78em;">Restricciones clave</h3>
+      <ul style="font-size:.75em; line-height: 1.3;">
+        <li style="margin-bottom:6px;">Coproducción: \(x_{pt} = \alpha_p \cdot q_t\)</li>
+        <li style="margin-bottom:6px;">Setup: \(q_t \leq Q^{max} \cdot y_t\)</li>
+        <li style="margin-bottom:6px;">Lote mínimo: \(q_t \geq Q^{min} \cdot y_t\)</li>
+        <li style="margin-bottom:6px;">Balance: \(I_{pt\omega} = I_{p,t-1,\omega} + x_{pt} - v_{pt\omega}\)</li>
+        <li>Perecibilidad: FIFO con vida útil \(L_p\)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0;font-size:.78em;">Dimensiones</h3>
+      <table style="font-size:.64em;width:100%;">
+        <tr><th>Tamaño</th><th>T</th><th>P</th><th>|Ω|</th><th>Variables</th></tr>
+        <tr><td>Small</td><td>6</td><td>8</td><td>10</td><td>912</td></tr>
+        <tr><td>Medium</td><td>12</td><td>8</td><td>15</td><td>6,180</td></tr>
+        <tr><td>Large</td><td>24</td><td>8</td><td>30</td><td>72,060</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="footer"></div>
+</section>
+
+<!-- S10: METAHEURÍSTICAS + GIFs -->
+<section>
+  <h2>9. Metaheurísticas Implementadas</h2>
+  <div class="grid4" style="gap:6px;grid-template-rows:1fr 1fr;">
+    <div class="card gif" style="padding:6px;"><h3 style="margin:0 0 2px;font-size:.78em;">GA</h3><img src="figuras/intuicion_ga.gif" alt="GIF GA" style="max-height:180px;" onerror="this.style.display='none'"><p style="margin:2px 0 0;font-size:.55em;">Población → selección → cruce → mutación.</p></div>
+    <div class="card gif" style="padding:6px;"><h3 style="margin:0 0 2px;font-size:.78em;">SA</h3><img src="figuras/intuicion_sa.gif" alt="GIF SA" style="max-height:180px;" onerror="this.style.display='none'"><p style="margin:2px 0 0;font-size:.55em;">Trayectoria con enfriamiento: T₀→T<sub>min</sub>.</p></div>
+    <div class="card gif" style="padding:6px;"><h3 style="margin:0 0 2px;font-size:.78em;">DE</h3><img src="figuras/intuicion_de.gif" alt="GIF DE" style="max-height:180px;" onerror="this.style.display='none'"><p style="margin:2px 0 0;font-size:.55em;">Mutación: v = x<sub>r1</sub> + F·(x<sub>r2</sub> − x<sub>r3</sub>).</p></div>
+    <div class="card gif" style="padding:6px;"><h3 style="margin:0 0 2px;font-size:.78em;">GA-SA (Híbrido)</h3><img src="figuras/intuicion_ga_sa.gif" alt="GIF GA-SA" style="max-height:180px;" onerror="this.style.display='none'"><p style="margin:2px 0 0;font-size:.55em;">GA global + SA local cada <em>k</em> generaciones.</p></div>
+  </div>
+  <div class="footer"></div>
+</section>
+
+<!-- S11: CODIFICACIÓN -->
+<section style="display:flex; flex-direction:column; justify-content:center; height:100%;">
+  <h2>10. Esquema de Representación y Decodificador</h2>
+  <p style="font-size:.58em; margin:-10px 0 10px 0; color:var(--teal);"><strong>Aplicación Universal:</strong> Este esquema y decodificador es utilizado de manera idéntica por GA, SA, DE y GA-SA.</p>
+  <div class="grid2">
+    <div class="card">
+      <h3 style="margin-top:0;font-size:.85em;">1. Estructura del Cromosoma (Genotipo)</h3>
+      <p style="font-size:.60em; margin-bottom:5px; line-height:1.3;">Vector unificado de <strong>2T genes</strong> (dos puntos de decisión por cada uno de los \(T\) periodos). Combina variables de setup binarias (<span style="font-family:monospace;">y<sub>t</sub></span>) y tamaño de lote continuas (<span style="font-family:monospace;">q<sub>t</sub></span>):</p>
+      <div style="display:flex; justify-content:center; gap:3px; margin: 15px 0;">
+        <div style="padding:6px 10px; border:2px solid #008B8B; background:#e0f2f1; border-radius:4px; font-family:monospace; font-size:.7em;">y₁</div>
+        <div style="padding:6px 10px; border:2px solid #008B8B; background:#e0f2f1; border-radius:4px; font-family:monospace; font-size:.7em;">y₂</div>
+        <div style="padding:6px 10px; border:2px dashed #64748b; font-size:.7em;">...</div>
+        <div style="padding:6px 10px; border:2px solid #008B8B; background:#e0f2f1; border-radius:4px; font-family:monospace; font-size:.7em;">y<sub>T</sub></div>
+        <div style="padding:6px 10px; border:2px solid #EB8A3E; background:#fef3c7; border-radius:4px; font-family:monospace; font-size:.7em;">q₁</div>
+        <div style="padding:6px 10px; border:2px solid #EB8A3E; background:#fef3c7; border-radius:4px; font-family:monospace; font-size:.7em;">q₂</div>
+        <div style="padding:6px 10px; border:2px dashed #64748b; font-size:.7em;">...</div>
+        <div style="padding:6px 10px; border:2px solid #EB8A3E; background:#fef3c7; border-radius:4px; font-family:monospace; font-size:.7em;">q<sub>T</sub></div>
+      </div>
+      <p style="font-size:.55em; margin:0;">Restricciones físicas mapeadas a cotas: <strong>q<sub>t</sub> ∈ [Q<sup>min</sup>, Q<sup>max</sup>]</strong>.</p>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0;font-size:.85em;">2. Decodificador Greedy (Fenotipo)</h3>
+      <ol style="font-size:.65em; padding-left:20px;">
+        <li><strong style="color:var(--color-primary-teal);">Reparación factibilidad:</strong> Forzar <span style="font-family:monospace;">y<sub>t</sub> = 1</span> si la demanda supera stock disponible.</li>
+        <li><strong style="color:var(--color-primary-teal);">Balance de Masas:</strong> Calcular coproductos <span style="font-family:monospace;">x<sub>pt</sub> = α<sub>p</sub> · q<sub>t</sub></span> para cada parte.</li>
+        <li><strong style="color:var(--color-primary-teal);">Simulación Estocástica:</strong> Computar inventario FIFO a través de <span style="font-family:monospace;">|Ω| = 100</span> micro-escenarios de demanda.</li>
+        <li><strong style="color:var(--color-primary-teal);">Perecibilidad:</strong> Descartar producto excediendo vida útil <span style="font-family:monospace;">L<sub>p</sub></span> (Desecho).</li>
+        <li><strong style="color:var(--color-primary-teal);">Fitness:</strong> Esperanza matemática E[Z] de la utilidad neta.</li>
+      </ol>
+    </div>
+  </div>
+  <p style="font-size:.45em; margin-top:12px; text-align:right; color:var(--muted);"><em>Fuentes empíricas: Adaptado de la representación clásica de Lot-Sizing en agroindustrias.</em></p>
+  <div class="footer"></div>
+</section>
+
+<!-- S11b: REPRESENTACIÓN CROMOSÓMICA (DETALLADA) -->
+<section>
+  <h2>10b. Representación del Cromosoma</h2>
+  <div class="grid2">
+    <div class="card gif" style="padding:10px;">
+      <img src="figuras/chromosome_build.gif" alt="Construcción del cromosoma" style="width:100%; max-height:320px; object-fit:contain; border-radius:8px; border:1px solid rgba(15,118,110,.2);" onerror="this.style.display='none'">
+    </div>
+    <div class="card" style="padding:12px;">
+      <h3 style="margin-top:0;font-size:.82em;">Estructura formal</h3>
+      <p style="font-size:.62em; margin-bottom:8px; line-height:1.35;">Cada cromosoma <strong>s = (y, q)</strong> codifica exclusivamente las <strong>decisiones de primera etapa</strong>:</p>
+      <ul style="font-size:.58em; line-height:1.35;">
+        <li><strong style="color:var(--teal);">Vector binario y</strong>: setup de la línea por periodo — \(y_t \in \{0, 1\}\)</li>
+        <li><strong style="color:var(--teal);">Vector entero q</strong>: carcasas a procesar — \(q_t \in [Q^{min}, Q^{max}]\)</li>
+        <li><strong>Consistencia</strong>: si \(y_t = 0 \Rightarrow q_t = 0\). Si \(y_t = 1 \Rightarrow Q^{min} \leq q_t \leq Q^{max}\)</li>
+      </ul>
+      <div class="callout" style="margin-top:10px; padding:8px;">
+        <p style="font-size:.55em; margin:0;"><strong>Espacio de búsqueda:</strong> \(|\mathcal{S}| = (1 + Q^{max} - Q^{min} + 1)^{T} \approx 8.7 \times 10^{35}\) para T=12. Enumeración exhaustiva es imposible.</p>
+      </div>
+      <p style="font-size:.50em; margin-top:8px; color:var(--muted);">Las variables de 2ª etapa (\(v_{pt\omega}\), \(I_{pt\omega}\), \(u_{pt\omega}\)) <strong>no</strong> forman parte del cromosoma — se calculan por el decodificador greedy.</p>
+    </div>
+  </div>
+  <div class="footer"></div>
+</section>
+
+<!-- S11c: OPERADORES DE VECINDAD -->
+<section>
+  <h2>10c. Operadores de Vecindad</h2>
+  <p style="font-size:.55em; margin:-5px 0 8px 0; color:var(--teal);"><strong>Mecanismos que definen qué soluciones son alcanzables</strong> desde una solución dada en un solo movimiento.</p>
+  <div class="grid2">
+    <div class="card gif" style="padding:10px;">
+      <img src="figuras/neighborhood_operators.gif" alt="Operadores de vecindad" style="width:100%; max-height:310px; object-fit:contain; border-radius:8px; border:1px solid rgba(15,118,110,.2);" onerror="this.style.display='none'">
+    </div>
+    <div style="display:flex; flex-direction:column; gap:8px;">
+      <div class="card" style="padding:8px; border-left:4px solid var(--teal2);">
+        <h3 style="margin:0 0 2px;font-size:.72em;">N<sub>toggle</sub> — Exploración estructural</h3>
+        <p style="font-size:.55em; margin:0; line-height:1.3;">Invierte \(k\) bits aleatorios del vector de setup. Modifica <strong>qué periodos producen</strong>. Genera saltos largos en el espacio de soluciones.</p>
+      </div>
+      <div class="card" style="padding:8px; border-left:4px solid var(--teal);">
+        <h3 style="margin:0 0 2px;font-size:.72em;">N<sub>quantity</sub> — Explotación local</h3>
+        <p style="font-size:.55em; margin:0; line-height:1.3;">Perturbación gaussiana \(\mathcal{N}(0, \delta \cdot Q^{max})\) en periodos activos. Ajustes finos en cantidades <strong>sin modificar estructura</strong>.</p>
+      </div>
+      <div class="card" style="padding:8px; border-left:4px solid var(--teal);">
+        <h3 style="margin:0 0 2px;font-size:.72em;">N<sub>mixta</sub> — Balance adaptativo</h3>
+        <p style="font-size:.55em; margin:0; line-height:1.3;">Selección probabilística: con \(p_{toggle}\) aplica toggle, con \(p_{quantity}\) aplica cantidad, y con \(1 - p_t - p_q\) aplica ambas. Usado por <strong>SA</strong> y <strong>GA-SA</strong>.</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer"></div>
+</section>
+
+<!-- S11d: EXPLORACIÓN VS EXPLOTACIÓN -->
+<section>
+  <h2>10d. Balance Exploración–Explotación</h2>
+  <div class="grid2">
+    <div class="card gif" style="padding:10px;">
+      <img src="figuras/exploration_exploitation.gif" alt="Exploración vs Explotación" style="width:100%; max-height:310px; object-fit:contain; border-radius:8px; border:1px solid rgba(15,118,110,.2);" onerror="this.style.display='none'">
+    </div>
+    <div style="display:flex; flex-direction:column; gap:6px;">
+      <div class="card" style="padding:8px;">
+        <h3 style="margin:0 0 4px;font-size:.72em;">Perfil de búsqueda por algoritmo</h3>
+        <table style="font-size:.52em; width:100%; border-collapse:collapse;">
+          <tr style="border-bottom:1px solid #ccc;"><th style="text-align:left;">Algoritmo</th><th style="text-align:left;">Exploración</th><th style="text-align:left;">Explotación</th></tr>
+          <tr style="border-bottom:1px solid #f0f0f0;"><td><strong>SA</strong></td><td>Alta T: aceptación amplia</td><td>Baja T: enfriamiento</td></tr>
+          <tr style="border-bottom:1px solid #f0f0f0;"><td><strong>GA</strong></td><td>Población + cruce + mutación</td><td>Elitismo + torneo</td></tr>
+          <tr style="border-bottom:1px solid #f0f0f0;"><td><strong>DE</strong></td><td>Vectores de diferencia</td><td>Selección greedy</td></tr>
+          <tr><td><strong>GA-SA</strong></td><td>GA global (explorar)</td><td>SA local cada <em>k</em> gen.</td></tr>
+        </table>
+      </div>
+      <div class="callout" style="padding:8px;">
+        <p style="font-size:.58em; margin:0;"><strong>Hallazgo clave:</strong> GA-SA logra el <strong>balance óptimo</strong> combinando la diversificación del GA (exploración) con la intensificación del SA (explotación periódica sobre los top-k individuos).</p>
+      </div>
+      <div class="card" style="padding:6px;">
+        <p style="font-size:.50em; margin:0; color:var(--muted);"><strong>Criterio de Metropolis</strong> \(P = e^{\Delta/T}\) actúa como mecanismo de <em>balance adaptativo</em>: acepta empeoramientos controlados para escapar de óptimos locales.</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer"></div>
+</section>
+
+<!-- S12: DISEÑO EXPERIMENTAL -->
+<section>
+  <h2>11. Diseño Experimental</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3 style="margin-top:0;">Factores y niveles</h3>
+      <table style="font-size:.64em;width:100%;">
+        <tr><th>Factor</th><th>Niveles</th></tr>
+        <tr><td>Algoritmo</td><td>6 (GA, SA, DE, GA-SA, Baseline, CBC)</td></tr>
+        <tr><td>Tamaño</td><td>3 (Small, Medium, Large)</td></tr>
+        <tr><td>Semilla</td><td>30 réplicas independientes</td></tr>
+        <tr><td><strong>Total</strong></td><td><strong>1,098 ejecuciones</strong></td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0;">Calibración (Optuna TPE)</h3>
+      <ul style="font-size:.64em;">
+        <li>30 trials por algoritmo sobre 5 instancias de calibración.</li>
+        <li>Función objetivo: maximizar Z promedio (3 small + 2 medium).</li>
+        <li>Timeout por trial: 900 s, con registro completo de trazabilidad.</li>
+      </ul>
+      <h3 style="font-size:.78em;">Pruebas estadísticas</h3>
+      <ul style="font-size:.64em;">
+        <li>ANOVA + Tukey HSD (vista por corridas)</li>
+        <li>Friedman + Wilcoxon-Holm (bloques por instancia)</li>
+        <li>Contrastes one-sided contra umbral para H1/H2/H3</li>
+        <li>α = 0.05</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer"></div>
+</section>
+
+<!-- S13: ANÁLISIS DESCRIPTIVO -->
+<section>
+  <h2>12. Análisis Estadístico Descriptivo</h2>
+  <div class="grid2">
+    <div class="card" style="display:flex; flex-direction:column; justify-content:center;">
+       <h3 style="margin-top:0;font-size:.85em;">Distribución Empírica (Z Global)</h3>
+       <ul style="font-size:.65em;">
+         <li><strong>Varianza inter-instancia:</strong> El valor objetivo Z es altamente heterocedástico, dependiendo críticamente de la demanda pico y el tamaño de la instancia.</li>
+         <li><strong>Dispersión entre semillas:</strong> GA/GA-SA/DE muestran baja variación en small/medium; SA mantiene mayor dispersión en las 9 instancias.</li>
+         <li><strong>Ranking práctico:</strong> GA-SA y DE lideran en media, con diferencias prácticas pequeñas entre ambos.</li>
+       </ul>
+       <div class="callout" style="margin-top:10px;">
+         <p style="font-size:.65em;margin:0;"><strong>Dato analítico:</strong> frente a CBC exacto, el gap medio de GA-SA/DE/GA es ~8.1–8.5% (mediana 3.43%); en H2, GA-SA vs mejor MH es -0.02%.</p>
+       </div>
+    </div>
+    <div class="chartbox" style="padding:0; box-shadow:none; background:transparent;">
+      <img src="figuras/boxplot_fitness.png" alt="Boxplot Fitness" style="width:100%; object-fit:contain; max-height:430px; border-radius:8px;">
+    </div>
+  </div>
+  <div class="footer"></div>
+</section>
+
+<!-- S-RESULTADOS NUMÉRICOS (NEW) -->
+<section style="display:flex; flex-direction:column; justify-content:center; height:100%;">
+  <h2>13. Resultados Principales</h2>
+  <table style="font-size:.68em; width:100%; border-collapse:collapse; margin-bottom:12px;">
+    <tr style="border-bottom:2px solid var(--teal);">
+      <th style="text-align:left;">Algoritmo</th>
+      <th style="text-align:center;">Z̄ (COP)</th>
+      <th style="text-align:center;">Std Z</th>
+      <th style="text-align:center;">Rank</th>
+      <th style="text-align:center;">N</th>
+    </tr>
+    <tr style="border-bottom:1px solid #eee; background:#e0f2f1;">
+      <td><strong>GA-SA</strong></td>
+      <td style="text-align:center;"><strong>916,865,520</strong></td>
+      <td style="text-align:center;">512,578,412</td>
+      <td style="text-align:center;"><strong>1</strong></td>
+      <td style="text-align:center;">270</td>
+    </tr>
+    <tr style="border-bottom:1px solid #eee;">
+      <td>DE</td>
+      <td style="text-align:center;">916,484,283</td>
+      <td style="text-align:center;">512,072,980</td>
+      <td style="text-align:center;">2</td>
+      <td style="text-align:center;">270</td>
+    </tr>
+    <tr style="border-bottom:1px solid #eee;">
+      <td>GA</td>
+      <td style="text-align:center;">908,817,120</td>
+      <td style="text-align:center;">501,216,075</td>
+      <td style="text-align:center;">3</td>
+      <td style="text-align:center;">270</td>
+    </tr>
+    <tr>
+      <td>SA</td>
+      <td style="text-align:center;">883,217,511</td>
+      <td style="text-align:center;">522,140,338</td>
+      <td style="text-align:center;">4</td>
+      <td style="text-align:center;">270</td>
+    </tr>
+  </table>
+  <div class="grid2">
+    <div class="callout" style="padding:10px;">
+      <p style="font-size:.62em; margin:0;"><strong>Lectura estadística:</strong> ANOVA por corridas p=0.855 (no significativo), pero <strong>Friedman bloqueado por instancia p=0.0011</strong> (significativo). Comparaciones Wilcoxon-Holm: SA vs {DE, GA-SA} significativas (p &lt; 0.024). GA-SA ≈ DE en magnitud de efecto (Δ ≈ 0.024%).</p>
+    </div>
+    <div class="card" style="padding:10px;">
+      <p style="font-size:.62em; margin:0;"><strong>Ranking práctico:</strong> GA-SA ≈ DE &gt; GA &gt; SA. La varianza inter-instancia domina (~10×) frente a la varianza inter-algoritmo.</p>
+    </div>
+  </div>
+  <div class="footer"></div>
+</section>
+
+<!-- S14: ANÁLISIS INFERENCIAL -->
+<section>
+  <h2>14. Análisis Inferencial: Contrastación Formal</h2>
+  <div class="grid2">
+    <div class="card" style="padding: 10px;">
+      <h3 style="margin-top:0;font-size:.70em;">Pruebas Globales</h3>
+      <table style="font-size:.50em;width:100%; border-collapse:collapse; text-align:left;">
+        <tr style="border-bottom:1px solid #ccc;"><th>Dócima</th><th>Estadístico</th><th>P-valor</th><th>Significancia (α=0.05)</th></tr>
+        <tr style="border-bottom:1px solid #eee;"><td>ANOVA 1-way (corridas)</td><td>F = 0.259</td><td><strong>0.8550</strong></td><td>No significativo</td></tr>
+        <tr style="border-bottom:1px solid #eee;"><td>Friedman (instancia)</td><td>χ² = 16.07</td><td><strong>0.0011</strong></td><td>Significativo</td></tr>
+        <tr style="border-bottom:1px solid #eee;"><td>Wilcoxon-Holm (pares)</td><td>SA vs DE / GA-SA</td><td><strong>&lt; 0.024</strong></td><td>Significativo</td></tr>
+        <tr><td>Shapiro-Wilk</td><td>varía</td><td>&lt; 0.05 (varios casos)</td><td>No normalidad global</td></tr>
+      </table>
+      <p style="font-size:.45em; margin-top:10px; color:var(--color-secondary-slate);"><em>Nota: la vista por corridas queda dominada por heterogeneidad entre instancias; la vista bloqueada por instancia mejora la inferencia para ranking.</em></p>
+    </div>
+    <div class="chartbox" style="padding:10px; display:flex; flex-direction:column; justify-content:space-evenly; background:#fff;">
+      <div style="margin-bottom:10px;">
+        <h4 style="margin:0 0 2px; font-size:.60em; color:var(--color-text-main);">H1: Efectividad vs Baseline</h4>
+        <p style="font-size:.48em; margin:0; line-height:1.3;"><strong>No soportada:</strong> mejora por instancia de 0.59%–1.10% (p=1.0 frente al umbral 5%). El baseline de capacidad máxima es competitivo.</p>
+      </div>
+      <div style="margin-bottom:10px;">
+        <h4 style="margin:0 0 2px; font-size:.60em; color:var(--color-text-main);">H2: Sinergia Computacional de GA-SA</h4>
+        <p style="font-size:.48em; margin:0; line-height:1.3;"><strong>Soportada:</strong> gap medio = -0.02% (p=0.002 por instancia; p=7.44e-50 por corrida). Diferencia práctica pequeña, pero consistente frente al umbral 2%.</p>
+      </div>
+      <div>
+        <h4 style="margin:0 0 2px; font-size:.60em; color:var(--color-text-main);">H3: Inventario (primario + secundario)</h4>
+        <p style="font-size:.48em; margin:0; line-height:1.3;"><strong>No soportada (primario):</strong> en inventario promedio total no se alcanza 15%. La lectura de baja rotación se mantiene como endpoint secundario exploratorio por n informativo bajo.</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer"></div>
+</section>
+
+<!-- S15: ESCALABILIDAD COMPUTACIONAL -->
+<section>
+  <h2>15. Perfil Empírico de Complejidad y Escalabilidad</h2>
+  <div class="grid2">
+    <div class="chartbox" style="padding:10px; box-shadow:none; border:1px solid #e2e8f0; background:transparent;">
+      <h3 style="margin:0 0 5px;font-size:.70em; text-align:center;">Dolan-Moré: Performance Profile (Eficiencia/Tiempo)</h3>
+      <img src="figuras/performance_profile.png" alt="Performance Profile Dolan-More" style="width:90%; margin:0 auto; display:block; object-fit:contain; max-height:260px;">
+      <p style="font-size:.5em; line-height:1.2; text-align:center; padding:5px 15px 0;">
+        El perfil de desempeño muestra dominancia de SA en tiempo puro y mejor calidad de GA-SA/DE. La lectura es multi-criterio: rapidez y calidad no coinciden en un único algoritmo.
+      </p>
+    </div>
+    <div class="chartbox" style="padding:10px; box-shadow:none; border:1px solid #e2e8f0; background:transparent;">
+      <h3 style="margin:0 0 5px;font-size:.70em; text-align:center;">Cota Log-Log: Tiempo vs. Dimensión</h3>
+      <img src="figuras/complexity_loglog_scaling.png" alt="Log-log Scaling O(N)" style="width:90%; margin:0 auto; display:block; object-fit:contain; max-height:260px;">
+      <p style="font-size:.5em; line-height:1.2; text-align:center; padding:5px 15px 0;">
+        Ajustes log-log por algoritmo: exponente empírico \(k \in [0.68, 1.28]\). Con solo 3 tamaños, es evidencia indicativa de escalamiento sub-cuadrático, no una ley definitiva.
+      </p>
+    </div>
+  </div>
+  <div class="footer"></div>
+</section>
+
+<section>
+  <h2>16. Convergencia Algorítmica Interactiva</h2>
+  <div class="chartbox">
+    <div class="controls">
+      <label for="algoViewSelector">Vista</label>
+      <select id="algoViewSelector"><option value="convergence">Convergencia normalizada</option><option value="diversity">Diversidad</option></select>
+    </div>
+    <div class="chart"><canvas id="algoDynamicsChart"></canvas></div>
+  </div>
+  <p class="small">Datos reales: `comparison_traces.csv` y `complexity/convergence_profiles.csv`.</p>
+  <div class="footer"></div>
+</section>
+
+<section>
+  <h2>17. Dashboard Comparativo</h2>
+  <div class="grid2">
+    <div class="chartbox">
+      <h3 style="margin-top:0;">Ranking global</h3>
+      <div class="chart-small"><canvas id="rankingChart"></canvas></div>
+    </div>
+    <div class="chartbox">
+      <div class="controls">
+        <label for="sizeMetricSelector">Métrica</label>
+        <select id="sizeMetricSelector"><option value="mean_z_mcop">Z medio (M COP)</option><option value="mean_elapsed_seconds">Tiempo medio (s)</option><option value="mean_gap_percent">Gap medio (%)</option></select>
+      </div>
+      <div class="chart-small"><canvas id="bySizeChart"></canvas></div>
+    </div>
+  </div>
+  <div class="footer"></div>
+</section>
+
+<section>
+  <h2>18. Trazabilidad de Hiperparámetros (Optuna TPE)</h2>
+  <div class="grid2">
+    <div class="card" style="padding:8px;">
+      <h3 style="margin-top:0;font-size:.72em;">Hiperparámetros Óptimos (Tabla 5 tesis)</h3>
+      <table style="font-size:.44em; width:100%; border-collapse:collapse;">
+        <tr style="border-bottom:1px solid #ccc;"><th style="text-align:left;">Parámetro</th><th>GA</th><th>SA</th><th>DE</th><th>GA-SA</th></tr>
+        <tr style="border-bottom:1px solid #f0f0f0;"><td>pop_size</td><td>80</td><td>—</td><td>51</td><td>39</td></tr>
+        <tr style="border-bottom:1px solid #f0f0f0;"><td>crossover_rate</td><td>0.744</td><td>—</td><td>—</td><td>0.859</td></tr>
+        <tr style="border-bottom:1px solid #f0f0f0;"><td>mutation_rate</td><td>0.089</td><td>—</td><td>—</td><td>0.051</td></tr>
+        <tr style="border-bottom:1px solid #f0f0f0;"><td>T₀ / cooling</td><td>—</td><td>203,952 / 0.782</td><td>—</td><td>—</td></tr>
+        <tr style="border-bottom:1px solid #f0f0f0;"><td>F (scale) / CR</td><td>—</td><td>—</td><td>0.317 / 0.511</td><td>—</td></tr>
+        <tr style="border-bottom:1px solid #f0f0f0;"><td>LS freq / top_k</td><td>—</td><td>—</td><td>—</td><td>9 / 10</td></tr>
+        <tr><td>stagnation_limit</td><td>50</td><td>54</td><td>50</td><td>50</td></tr>
+      </table>
+      <p style="font-size:.42em; margin-top:5px; color:var(--muted);"><em>30 trials × 5 instancias calibración × timeout 900 s/trial.</em></p>
+    </div>
+    <div class="chartbox">
+      <div class="controls">
+        <label for="optunaAlgoSelector">Algoritmo</label>
+        <select id="optunaAlgoSelector">
+          <option value="ga">GA</option>
+          <option value="sa">SA</option>
+          <option value="de">DE</option>
+          <option value="ga_sa">GA-SA</option>
+        </select>
+        <label for="optunaParamSelector">Hiperparámetro</label>
+        <select id="optunaParamSelector"></select>
+      </div>
+      <div class="grid2">
+        <div class="chart-small"><canvas id="optunaEvolutionChart"></canvas></div>
+        <div class="chart-small"><canvas id="optunaParamChart"></canvas></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"></div>
+</section>
+
+<section>
+  <h2>19. Superficie Analítica de Desempeño (Heatmap)</h2>
+  <div class="chartbox">
+    <div class="controls">
+      <label for="heatmapMetricSelector">Métrica</label>
+      <select id="heatmapMetricSelector">
+        <option value="mean_gap_percent">Gap medio (%)</option>
+        <option value="mean_elapsed_seconds">Tiempo medio (s)</option>
+        <option value="mean_service_level">Nivel de servicio medio (%)</option>
+        <option value="mean_z_mcop">Z medio (M COP)</option>
+      </select>
+    </div>
+    <div class="chart"><canvas id="heatmapChart"></canvas></div>
+  </div>
+  <p class="small">Vista matricial interactiva por combinación algoritmo-instancia (promedios de corridas).</p>
+  <div class="footer"></div>
+</section>
+
+<section>
+  <h2>20. Dinámica Estructural del Inventario (Baja Rotación)</h2>
+  <div class="chartbox">
+    <div class="controls">
+      <label for="lowRotSizeSelector">Tamaño de instancia</label>
+      <select id="lowRotSizeSelector">
+        <option value="all">Todas</option>
+        <option value="small">Small</option>
+        <option value="medium">Medium</option>
+        <option value="large">Large</option>
+      </select>
+    </div>
+    <div class="chart"><canvas id="lowRotationChart"></canvas></div>
+  </div>
+  <p class="small">Caja intercuartil (Q25-Q75), mediana y bigotes P10-P90 por algoritmo.</p>
+  <div class="footer"></div>
+</section>
+
+<section>
+  <h2>21. Frontera de Pareto (Calidad vs. Cómputo)</h2>
+  <div class="chartbox">
+    <div class="controls">
+      <label for="paretoSizeSelector">Tamaño</label>
+      <select id="paretoSizeSelector">
+        <option value="all">Todos</option>
+        <option value="small">Small</option>
+        <option value="medium">Medium</option>
+        <option value="large">Large</option>
+      </select>
+      <label for="paretoAlgoSelector">Algoritmo</label>
+      <select id="paretoAlgoSelector">
+        <option value="all">Todos</option>
+        <option value="ga_sa">GA-SA</option>
+        <option value="de">DE</option>
+        <option value="ga">GA</option>
+        <option value="sa">SA</option>
+        <option value="baseline">Baseline</option>
+        <option value="cbc_exact">CBC exacto</option>
+      </select>
+    </div>
+    <div class="chart"><canvas id="paretoChart"></canvas></div>
+  </div>
+  <p class="small">Cada punto representa una corrida; filtros en vivo por tamaño y algoritmo.</p>
+  <div class="footer"></div>
+</section>
+
+<section>
+  <h2>22. Análisis de Sensibilidad (Stress-Testing Económico)</h2>
+  <div class="chartbox">
+    <div class="controls">
+      <label for="sensitivityParamSelector">Parámetro</label>
+      <select id="sensitivityParamSelector"><option value="prices">Precios</option><option value="costs">Costos</option><option value="demand_variability">Variabilidad demanda</option></select>
+      <label for="sensitivityMetricSelector">Métrica</label>
+      <select id="sensitivityMetricSelector"><option value="mean_gap_percent">Gap medio (%)</option><option value="mean_z_mcop">Z medio (M COP)</option><option value="mean_elapsed_seconds">Tiempo medio (s)</option></select>
+    </div>
+    <div class="chart"><canvas id="sensitivityChart"></canvas></div>
+  </div>
+  <p class="small">Factibilidad 100% en sensibilidad y respuesta consistente ante variaciones.</p>
+  <div class="footer"></div>
+</section>
+
+<section>
+  <h2>23. Robustez Operativa de la Arquitectura</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3 style="margin-top:0;">Checklist técnico</h3>
+      <ul>
+        <li>Reparación de factibilidad (y,q) en GA, SA, DE y GA-SA.</li>
+        <li>Registro de convergencia en todos los algoritmos.</li>
+        <li>Control por estancamiento en GA, DE y GA-SA.</li>
+        <li>Factibilidad empírica: 100% en comparación y sensibilidad.</li>
+      </ul>
+      <h3 style="margin-top:8px;">Alertas de validez</h3>
+      <ul id="scientificWarnings" style="font-size:.66em;">
+        <li>Sin alertas críticas cargadas.</li>
+      </ul>
+    </div>
+    <div class="chartbox">
+      <h3 style="margin-top:0;">Indicadores operativos</h3>
+      <div class="chart-small"><canvas id="robustnessChart"></canvas></div>
+    </div>
+  </div>
+  <div class="footer"></div>
+</section>
+
+<!-- S-LIMITACIONES (NEW) -->
+<section style="display:flex; flex-direction:column; justify-content:center; height:100%;">
+  <h2>24. Limitaciones del Estudio</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3 style="margin-top:0;font-size:.78em;">Limitaciones Metodológicas</h3>
+      <ol style="font-size:.62em; line-height:1.45;">
+        <li style="margin-bottom:6px;"><strong>Datos sintéticos:</strong> Instancias calibradas con FENAVI/DANE, pero no son datos operativos reales de planta. La correlación temporal sin desfase es baja (|ρ| ≈ 0.19); con lags mejora a |ρ<sub>lag</sub>| ≈ 0.65.</li>
+        <li style="margin-bottom:6px;"><strong>Baseline fuerte:</strong> Producir a Q<sup>max</sup> resulta ser casi óptimo cuando demanda &gt; capacidad, reduciendo el margen de mejora de MH.</li>
+        <li style="margin-bottom:6px;"><strong>Proporciones fijas:</strong> Se asume α<sub>p</sub> constante; no se modela variabilidad inter-lote en rendimiento de carcasa.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0;font-size:.78em;">Limitaciones Técnicas</h3>
+      <ol start="4" style="font-size:.62em; line-height:1.45;">
+        <li style="margin-bottom:6px;"><strong>Sin scheduling:</strong> Solo se aborda lot-sizing diario; no el scheduling detallado de la línea de despiece.</li>
+        <li style="margin-bottom:6px;"><strong>Perecibilidad simplificada:</strong> Vida útil discreta (FIFO) sin deterioro gradual de calidad.</li>
+      </ol>
+      <div class="callout" style="margin-top:8px; padding:8px 10px;">
+        <p style="font-size:.58em; margin:0;"><strong>Implicación:</strong> Estas limitaciones no invalidan los hallazgos, pero definen el alcance de generalidad. La validación con datos operativos reales de planta sigue siendo necesaria.</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer"></div>
+</section>
+
+<!-- S-CONCLUSIONES -->
+<section>
+  <h2>25. Síntesis y Conclusiones Finales</h2>
+  <div class="card" style="margin-bottom:6px;">
+    <p style="font-size:.68em;margin:0;"><strong>OE1 (Formular):</strong> Modelo MILP multi-periodo validado con CBC. 912–72,060 variables.</p>
+  </div>
+  <div class="card" style="margin-bottom:6px;">
+    <p style="font-size:.68em;margin:0;"><strong>OE2 (Implementar):</strong> GA, SA, DE, GA-SA con reparación de factibilidad y convergencia.</p>
+  </div>
+  <div class="card" style="margin-bottom:6px;">
+    <p style="font-size:.68em;margin:0;"><strong>OE3 (Calibrar):</strong> 30 trials Optuna por algoritmo, evaluados en 5 instancias de calibración.</p>
+  </div>
+  <div class="card" style="margin-bottom:6px;">
+    <p style="font-size:.68em;margin:0;"><strong>OE4 (Comparar):</strong> 1,098 ejecuciones. ANOVA p=0.855, pero Friedman por instancia p=0.0011. Resultado práctico: GA-SA ≈ DE, ambos por encima de SA.</p>
+  </div>
+  <div class="card" style="margin-bottom:6px;">
+    <p style="font-size:.68em;margin:0;"><strong>OE5 (Validar):</strong> Sensibilidad estable (precios ±12.67%, demanda ±0.35% en gap) y validación externa FENAVI útil: correlación mensual baja sin desfase, pero mejora al considerar lags temporales.</p>
+  </div>
+  <div class="callout" style="margin-top:6px;">
+    <p style="font-size:.72em;margin:0;"><strong>Hallazgo principal:</strong> producir a Q<sup>max</sup> explica gran parte de la estructura óptima. Las metaheurísticas mejoran consistencia respecto al baseline, pero no superan en tiempo al exacto CBC en este conjunto.</p>
+  </div>
+  <div class="footer"></div>
+</section>
+
+<!-- S-CONTRIBUCIONES -->
+<section style="display:flex; flex-direction:column; justify-content:center; height:100%;">
+  <h2>26. Contribuciones y Proyección</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3 style="margin-top:0;">Contribuciones</h3>
+      <ol style="font-size:.62em; line-height:1.4;">
+        <li style="margin-bottom:4px;">Modelo MILP original para coproductos avícolas con perecibilidad.</li>
+        <li style="margin-bottom:4px;">Framework comparativo con 4 metaheurísticas y baseline riguroso.</li>
+        <li style="margin-bottom:4px;">Evidencia empírica sobre GA-SA: confirmación en contexto real de la ventaja híbrida reportada por Akbari-Aghghaleh et al. (2025).</li>
+        <li style="margin-bottom:4px;">Conjunto de 9 instancias calibradas con datos FENAVI/DANE, disponibles para benchmarking.</li>
+        <li>Código abierto Python reproducible con tests y pipeline Pandoc→PDF.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0;">Trabajo Futuro</h3>
+      <ul style="font-size:.62em; line-height:1.4;">
+        <li style="margin-bottom:4px;"><strong>Híbrido DE-SA:</strong> Evaluar combinación DE + SA local (Akbari-Aghghaleh 2025).</li>
+        <li style="margin-bottom:4px;"><strong>Multi-objetivo:</strong> NSGA-II/MOEA-D (costo vs nivel de servicio).</li>
+        <li style="margin-bottom:4px;"><strong>Datos reales:</strong> Validación con datos operativos de planta procesadora.</li>
+        <li style="margin-bottom:4px;"><strong>Scheduling integrado:</strong> Lot-sizing + programación detallada (Claassen 2016).</li>
+        <li style="margin-bottom:4px;"><strong>Aprendizaje por refuerzo:</strong> Deep RL para ajuste dinámico de hiperparámetros (Tan et al. 2026; Wang et al. 2026).</li>
+        <li><strong>Rolling horizon:</strong> Planificación semanal + integración ERP/MRP.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer"></div>
+</section>
+
+<!-- S-PREGUNTAS -->
+<section class="title">
+  <h1>¿Preguntas?</h1>
+  <p>Gracias por su atención</p>
+  <p><strong>Daniel Andrés Castañeda Rodríguez</strong></p>
+  <p class="small">Directora: Ing. Eliana Mirledy Ocampo Toro, PhD.</p>
+  <img src="figuras/logo_utp.png" alt="Logo UTP" style="max-height:56px;" onerror="this.style.display='none'">
+  <div class="footer"></div>
+</section>
+
+</div></div>
+
+<script src="libs/reveal.min.js"></script>
+<script>
+Reveal.initialize({ hash:true, slideNumber:'c/t', transition:'fade', width:1280, height:720, margin:0.03, center:false, progress:true, history:true });
+
+const palette = { ga_sa:'#008B8B', de:'#00b3b3', ga:'#365660', sa:'#F28C28', baseline:'#64748b', cbc_exact:'#111827' };
+const labels = { ga_sa:'GA-SA', de:'DE', ga:'GA', sa:'SA', baseline:'Baseline', cbc_exact:'CBC exacto' };
+const store = window.PRESENTATION_DATA || {};
+
+let cBaseline, cDyn, cRank, cSize, cSens, cRob, cOptunaEvo, cOptunaParam, cHeatmap, cLowRot, cPareto;
+const summary = () => Array.isArray(store.algorithm_summary) ? store.algorithm_summary : [];
+const bySize = () => Array.isArray(store.algorithm_by_size) ? store.algorithm_by_size : [];
+const isFiniteNumber = (v) => Number.isFinite(v) && !Number.isNaN(v);
+const fmtNum = (v, d=2) => isFiniteNumber(v) ? Number(v).toFixed(d) : v;
+const tickFmt = (d=2) => ({ callback: (v) => fmtNum(v, d) });
+
+function colorScale(value, min, max) {
+  if (!isFiniteNumber(value)) return 'rgba(148,163,184,0.55)';
+  if (!isFiniteNumber(min) || !isFiniteNumber(max) || max <= min) return 'rgba(15,118,110,0.65)';
+  const t = (value - min) / (max - min);
+  const hue = 185 - (185 - 28) * Math.max(0, Math.min(1, t));
+  return `hsla(${hue}, 75%, 45%, 0.75)`;
+}
+
+function renderBaseline() {
+  const el = document.getElementById('baselineSizeChart');
+  if (!el || cBaseline) return;
+  const rows = bySize().filter(r => ['baseline','ga_sa','cbc_exact'].includes(r.algorithm));
+  const sizes = ['small','medium','large']; const name = {small:'Small',medium:'Medium',large:'Large'};
+  cBaseline = new Chart(el, { type:'bar', data:{ labels:sizes.map(s=>name[s]), datasets:['baseline','ga_sa','cbc_exact'].map(a=>({
+    label:labels[a], backgroundColor:palette[a], borderRadius:6, data:sizes.map(s=>{const r=rows.find(x=>x.algorithm===a&&x.size===s); return r?r.mean_z_mcop:null;})
+  }))}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10}}}},scales:{y:{title:{display:true,text:'Z medio (M COP)',font:{size:10}}}}} });
+}
+
+function dynData(algo,view){
+  if(view==='diversity'){ const d=store.diversity_profiles&&store.diversity_profiles[algo]; if(!d)return null;
+    return {x:d.iteration,y:d.diversity_mean,tX:'Iteración',tY:'Diversidad media',color:d.color||palette[algo],label:`${labels[algo]} - diversidad`}; }
+  const c=store.convergence_profiles&&store.convergence_profiles[algo]; if(!c)return null;
+  return {x:c.n_evaluations,y:c.mean_norm_z,tX:'Evaluaciones',tY:'Z normalizado',color:c.color||palette[algo],label:`${labels[algo]} - convergencia`};
+}
+
+function renderDyn(){
+  const el=document.getElementById('algoDynamicsChart'), vSel=document.getElementById('algoViewSelector');
+  if(!el||!vSel) return;
+  const algos=['ga_sa','de','ga','sa'];
+  const paint=()=>{
+    const view=vSel.value;
+    const datasets=algos.map(a=>{const d=dynData(a,view);if(!d)return null;return{label:d.label,data:d.y,borderColor:d.color,backgroundColor:'transparent',fill:false,tension:.2,pointRadius:0,borderWidth:2.2};}).filter(Boolean);
+    const refData=dynData('ga_sa',view);
+    if(!refData||!datasets.length) return;
+    if(cDyn){cDyn.data.labels=refData.x;cDyn.data.datasets=datasets;cDyn.options.scales.x.title.text=refData.tX;cDyn.options.scales.y.title.text=refData.tY;cDyn.update();return;}
+    cDyn=new Chart(el,{type:'line',data:{labels:refData.x,datasets},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{font:{size:10}}}},scales:{x:{title:{display:true,text:refData.tX,font:{size:10}},ticks:{maxTicksLimit:10,callback:(v)=>isFiniteNumber(v)?Math.round(v):v}},y:{title:{display:true,text:refData.tY,font:{size:10}},ticks:tickFmt(2)}}}});
+  };
+  if(!vSel.dataset.bound){vSel.addEventListener('change',paint);vSel.dataset.bound='1';}
+  paint();
+}
+
+function renderRank(){
+  const el=document.getElementById('rankingChart'); if(!el||cRank) return;
+  const rows=summary().filter(r=>['ga_sa','de','ga','sa'].includes(r.algorithm));
+  cRank = new Chart(el,{type:'bar',data:{labels:rows.map(r=>r.label),datasets:[{label:'Z medio (M COP)',data:rows.map(r=>r.mean_z_mcop),backgroundColor:rows.map(r=>r.color||palette[r.algorithm]),borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:false,title:{display:true,text:'Millones COP',font:{size:10}},ticks:tickFmt(1)}}}});
+}
+
+function renderSize(){
+  const el=document.getElementById('bySizeChart'), mSel=document.getElementById('sizeMetricSelector'); if(!el||!mSel) return;
+  const sizes=['small','medium','large'], sName={small:'Small',medium:'Medium',large:'Large'}, algos=['ga_sa','de','ga','sa'];
+  const yTitle={mean_z_mcop:'Z medio (M COP)',mean_elapsed_seconds:'Tiempo medio (s)',mean_gap_percent:'Gap medio (%)'};
+  const paint=()=>{
+    const metric=mSel.value, rows=bySize(), datasets=algos.map(a=>({label:labels[a],backgroundColor:palette[a],borderRadius:5,data:sizes.map(s=>{const r=rows.find(x=>x.algorithm===a&&x.size===s);return r?r[metric]:null;})}));
+    if(cSize){ cSize.data.labels=sizes.map(s=>sName[s]); cSize.data.datasets=datasets; cSize.options.scales.y.title.text=yTitle[metric]; cSize.update(); return; }
+    cSize=new Chart(el,{type:'bar',data:{labels:sizes.map(s=>sName[s]),datasets},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10}}}},scales:{y:{title:{display:true,text:yTitle[metric],font:{size:10}}}}}});
+  };
+  if(!mSel.dataset.bound){ mSel.addEventListener('change',paint); mSel.dataset.bound='1'; }
+  paint();
+}
+
+function renderOptuna(){
+  const evoEl = document.getElementById('optunaEvolutionChart');
+  const prmEl = document.getElementById('optunaParamChart');
+  const algoSel = document.getElementById('optunaAlgoSelector');
+  const paramSel = document.getElementById('optunaParamSelector');
+  if(!evoEl || !prmEl || !algoSel || !paramSel) return;
+
+  const tuning = store.optuna_trials || {};
+  const toMcop = (v) => isFiniteNumber(v) ? (v / 1e6) : null;
+
+  const setParamOptions = (algo) => {
+    const params = tuning[algo] ? tuning[algo].param_names || [] : [];
+    const current = paramSel.value;
+    paramSel.innerHTML = '';
+    params.forEach((p) => {
+      const opt = document.createElement('option');
+      opt.value = p;
+      opt.textContent = p;
+      paramSel.appendChild(opt);
+    });
+    if(params.includes(current)) paramSel.value = current;
+  };
+
+  const paint = () => {
+    const algo = algoSel.value;
+    const data = tuning[algo] ? tuning[algo].trials || [] : [];
+    const ordered = data
+      .filter((r) => r && r.trial !== null && r.trial !== undefined)
+      .slice()
+      .sort((a,b) => a.trial - b.trial);
+
+    const labelsTrial = ordered.map((r) => r.trial);
+    const bestSeries = ordered.map((r) => toMcop(r.best_so_far));
+    const valueSeries = ordered.map((r) => toMcop(r.value));
+
+    if(cOptunaEvo){
+      cOptunaEvo.data.labels = labelsTrial;
+      cOptunaEvo.data.datasets[0].data = bestSeries;
+      cOptunaEvo.data.datasets[0].label = `${labels[algo]} best-so-far`;
+      cOptunaEvo.data.datasets[0].borderColor = palette[algo] || '#0f766e';
+      cOptunaEvo.data.datasets[1].data = valueSeries;
+      cOptunaEvo.data.datasets[1].label = `${labels[algo]} valor trial`;
+      cOptunaEvo.update();
+    } else {
+      cOptunaEvo = new Chart(evoEl, {
+        type: 'line',
+        data: {
+          labels: labelsTrial,
+          datasets: [
+            {
+              label: `${labels[algo]} best-so-far`,
+              data: bestSeries,
+              borderColor: palette[algo] || '#0f766e',
+              backgroundColor: (palette[algo] || '#0f766e') + '22',
+              tension: 0.2,
+              fill: true,
+              pointRadius: 0,
+              borderWidth: 2.2,
+            },
+            {
+              label: `${labels[algo]} valor trial`,
+              data: valueSeries,
+              type: 'scatter',
+              pointRadius: 3,
+              pointBackgroundColor: '#f28c28',
+              showLine: false,
+            }
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { position:'top', labels: { font: { size:10 } } } },
+          scales: {
+            x: { title: { display:true, text:'Trial', font:{ size:10 } } },
+            y: { title: { display:true, text:'Objetivo (M COP)', font:{ size:10 } } }
+          }
+        }
+      });
+    }
+
+    const param = paramSel.value;
+    const scatter = ordered
+      .filter((r) => r.params && isFiniteNumber(r.params[param]) && isFiniteNumber(r.value) && r.value > -1e11)
+      .map((r) => ({ x: r.params[param], y: toMcop(r.value) }));
+
+    if(cOptunaParam){
+      cOptunaParam.data.datasets[0].data = scatter;
+      cOptunaParam.data.datasets[0].label = `${labels[algo]}: ${param} vs objetivo`;
+      cOptunaParam.options.scales.x.title.text = param || 'Hiperparámetro';
+      cOptunaParam.update();
+    } else {
+      cOptunaParam = new Chart(prmEl, {
+        type: 'scatter',
+        data: {
+          datasets: [{
+            label: `${labels[algo]}: ${param} vs objetivo`,
+            data: scatter,
+            pointRadius: 3,
+            pointBackgroundColor: palette[algo] || '#0f766e',
+          }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { position:'top', labels: { font: { size:10 } } } },
+          scales: {
+            x: { title: { display:true, text:param || 'Hiperparámetro', font:{ size:10 } } },
+            y: { title: { display:true, text:'Objetivo (M COP)', font:{ size:10 } } }
+          }
+        }
+      });
+    }
+  };
+
+  if(!algoSel.dataset.boundOptuna){
+    algoSel.addEventListener('change', () => { setParamOptions(algoSel.value); paint(); });
+    paramSel.addEventListener('change', paint);
+    algoSel.dataset.boundOptuna = '1';
+  }
+  // Preselect ga_sa instead of ga
+  if(tuning['ga_sa']) algoSel.value = 'ga_sa';
+  setParamOptions(algoSel.value);
+  paint();
+}
+
+function renderHeatmap(){
+  const el = document.getElementById('heatmapChart');
+  const metricSel = document.getElementById('heatmapMetricSelector');
+  if(!el || !metricSel) return;
+  const rows = Array.isArray(store.instance_heatmap) ? store.instance_heatmap : [];
+
+  const metricTitle = {
+    mean_gap_percent: 'Gap medio (%)',
+    mean_elapsed_seconds: 'Tiempo medio (s)',
+    mean_service_level: 'Nivel de servicio medio (%)',
+    mean_z_mcop: 'Z medio (M COP)',
+  };
+
+  const paint = () => {
+    const metric = metricSel.value;
+    const sizeRank=(name)=>{if(name.startsWith('small'))return 0;if(name.startsWith('medium'))return 1;if(name.startsWith('large'))return 2;return 3;};
+    const instances = Array.from(new Set(rows.map(r => r.instance))).sort((a,b)=>sizeRank(a)-sizeRank(b)||a.localeCompare(b));
+    const algos = Array.from(new Set(rows.map(r => r.algorithm)))
+      .sort((a,b) => {
+        const order = ['ga_sa','de','ga','sa','baseline','cbc_exact'];
+        return order.indexOf(a) - order.indexOf(b);
+      });
+
+    const values = rows.map(r => r[metric]).filter(v => isFiniteNumber(v));
+    const min = values.length ? Math.min(...values) : 0;
+    const max = values.length ? Math.max(...values) : 1;
+
+    const points = rows.map((r) => ({
+      x: r.instance,
+      y: labels[r.algorithm] || r.algorithm,
+      r: 9,
+      value: r[metric],
+      backgroundColor: colorScale(r[metric], min, max),
+      instance: r.instance,
+      algorithm: labels[r.algorithm] || r.algorithm,
+    }));
+
+    if(cHeatmap){
+      cHeatmap.data.datasets[0].data = points;
+      cHeatmap.options.scales.x.labels = instances;
+      cHeatmap.options.scales.y.labels = algos.map(a => labels[a] || a);
+      cHeatmap.options.plugins.title.text = `Heatmap ${metricTitle[metric]}`;
+      cHeatmap.update();
+      return;
+    }
+
+    cHeatmap = new Chart(el, {
+      type: 'bubble',
+      data: {
+        datasets: [{
+          label: 'Algoritmo x Instancia',
+          data: points,
+          parsing: false,
+          pointRadius: (ctx) => ctx.raw.r,
+          pointBackgroundColor: (ctx) => ctx.raw.backgroundColor,
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: `Heatmap ${metricTitle[metric]}`, font: { size: 12 } },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => `${ctx.raw.algorithm} | ${ctx.raw.instance}: ${Number(ctx.raw.value).toFixed(3)}`
+            }
+          }
+        },
+        scales: {
+          x: { type: 'category', labels: instances, title: { display: true, text: 'Instancia', font: { size: 10 } } },
+          y: { type: 'category', labels: algos.map(a => labels[a] || a), title: { display: true, text: 'Algoritmo', font: { size: 10 } } },
+        }
+      }
+    });
+  };
+
+  if(!metricSel.dataset.boundHeatmap){
+    metricSel.addEventListener('change', paint);
+    metricSel.dataset.boundHeatmap = '1';
+  }
+  paint();
+}
+
+function renderLowRotation(){
+  const el = document.getElementById('lowRotationChart');
+  const sizeSel = document.getElementById('lowRotSizeSelector');
+  if(!el || !sizeSel) return;
+  const allData = store.low_rotation_quantiles || {};
+  const order = ['ga_sa','de','ga','sa','baseline','cbc_exact'];
+
+  const paint = () => {
+    const size = sizeSel.value;
+    const rows = (Array.isArray(allData[size]) ? allData[size] : []).slice()
+      .sort((a,b) => order.indexOf(a.algorithm) - order.indexOf(b.algorithm));
+    const lbls = rows.map(r => r.label);
+    const iqr = rows.map(r => [r.q25, r.q75]);
+    const q10 = rows.map(r => r.q10);
+    const q50 = rows.map(r => r.q50);
+    const q90 = rows.map(r => r.q90);
+
+    if(cLowRot){
+      cLowRot.data.labels = lbls;
+      cLowRot.data.datasets[0].data = iqr;
+      cLowRot.data.datasets[1].data = q50;
+      cLowRot.data.datasets[2].data = q10;
+      cLowRot.data.datasets[3].data = q90;
+      cLowRot.update();
+      return;
+    }
+
+    cLowRot = new Chart(el, {
+      type: 'bar',
+      data: {
+        labels: lbls,
+        datasets: [
+          {
+            label: 'IQR (Q25-Q75)',
+            data: iqr,
+            backgroundColor: 'rgba(15,118,110,0.28)',
+            borderColor: '#0f766e',
+            borderWidth: 1.2,
+            borderRadius: 4,
+          },
+          {
+            type: 'line',
+            label: 'Mediana (Q50)',
+            data: q50,
+            borderColor: '#f28c28',
+            pointBackgroundColor: '#f28c28',
+            pointRadius: 3,
+            tension: 0,
+          },
+          {
+            type: 'line',
+            label: 'P10',
+            data: q10,
+            borderColor: '#64748b',
+            borderDash: [4, 4],
+            pointRadius: 0,
+            tension: 0,
+          },
+          {
+            type: 'line',
+            label: 'P90',
+            data: q90,
+            borderColor: '#334155',
+            borderDash: [4, 4],
+            pointRadius: 0,
+            tension: 0,
+          }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { position: 'top', labels: { font: { size: 10 } } } },
+        scales: {
+          y: { title: { display: true, text: 'Inventario baja rotación', font: { size: 10 } } }
+        }
+      }
+    });
+  };
+
+  if(!sizeSel.dataset.boundLowRot){
+    sizeSel.addEventListener('change', paint);
+    sizeSel.dataset.boundLowRot = '1';
+  }
+  paint();
+}
+
+function renderPareto(){
+  const el = document.getElementById('paretoChart');
+  const sizeSel = document.getElementById('paretoSizeSelector');
+  const algoSel = document.getElementById('paretoAlgoSelector');
+  if(!el || !sizeSel || !algoSel) return;
+  const points = Array.isArray(store.pareto_points) ? store.pareto_points : [];
+
+  const paint = () => {
+    const size = sizeSel.value;
+    const algo = algoSel.value;
+    const filtered = points.filter((p) => {
+      const sizeOk = size === 'all' ? true : p.size === size;
+      const algoOk = algo === 'all' ? true : p.algorithm === algo;
+      return sizeOk && algoOk;
+    });
+
+    const groups = {};
+    filtered.forEach((p) => {
+      if(!groups[p.algorithm]) groups[p.algorithm] = [];
+      groups[p.algorithm].push({
+        x: p.elapsed_seconds,
+        y: p.z_mcop,
+        instance: p.instance,
+        seed: p.seed,
+        gap: p.gap_percent,
+      });
+    });
+
+    const datasets = Object.keys(groups).map((a) => ({
+      label: labels[a] || a,
+      data: groups[a],
+      pointRadius: 3,
+      pointHoverRadius: 5,
+      backgroundColor: palette[a] || '#334155',
+    }));
+
+    if(cPareto){
+      cPareto.data.datasets = datasets;
+      cPareto.update();
+      return;
+    }
+
+    cPareto = new Chart(el, {
+      type: 'scatter',
+      data: { datasets },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'top', labels: { font: { size: 10 } } },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => {
+                const r = ctx.raw || {};
+                return `${ctx.dataset.label} | t=${Number(r.x).toFixed(2)}s | Z=${Number(r.y).toFixed(2)} M | ${r.instance} s${r.seed}`;
+              }
+            }
+          }
+        },
+        scales: {
+          x: { title: { display: true, text: 'Tiempo (s)', font: { size: 10 } } },
+          y: { title: { display: true, text: 'Z (M COP)', font: { size: 10 } } },
+        }
+      }
+    });
+  };
+
+  if(!sizeSel.dataset.boundPareto){
+    sizeSel.addEventListener('change', paint);
+    algoSel.addEventListener('change', paint);
+    sizeSel.dataset.boundPareto = '1';
+  }
+  paint();
+}
+
+function renderSens(){
+  const el=document.getElementById('sensitivityChart'), pSel=document.getElementById('sensitivityParamSelector'), mSel=document.getElementById('sensitivityMetricSelector');
+  if(!el||!pSel||!mSel) return;
+  const t={mean_gap_percent:'Gap medio (%)',mean_z_mcop:'Z medio (M COP)',mean_elapsed_seconds:'Tiempo medio (s)'};
+  const paint=()=>{ const rows=(store.sensitivity&&store.sensitivity[pSel.value])?store.sensitivity[pSel.value]:[]; const lbl=rows.map(r=>`${(r.delta*100).toFixed(0)}%`), vals=rows.map(r=>r[mSel.value]);
+    if(cSens){ cSens.data.labels=lbl; cSens.data.datasets[0].data=vals; cSens.data.datasets[0].label=`${pSel.value} - ${t[mSel.value]}`; cSens.options.scales.y.title.text=t[mSel.value]; cSens.update(); return; }
+    cSens=new Chart(el,{type:'line',data:{labels:lbl,datasets:[{label:`${pSel.value} - ${t[mSel.value]}`,data:vals,borderColor:'#0f766e',backgroundColor:'rgba(15,118,110,.14)',borderWidth:2.3,fill:true,tension:.2,pointRadius:3,pointBackgroundColor:'#f28c28'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{font:{size:10}}}},scales:{x:{title:{display:true,text:'Variación del parámetro',font:{size:10}}},y:{title:{display:true,text:t[mSel.value],font:{size:10}}}}}});
+  };
+  if(!pSel.dataset.bound){ pSel.addEventListener('change',paint); mSel.addEventListener('change',paint); pSel.dataset.bound='1'; }
+  paint();
+}
+
+function renderRob(){
+  const el=document.getElementById('robustnessChart'); if(!el||cRob) return;
+  const rows=summary().filter(r=>['ga_sa','de','ga','sa'].includes(r.algorithm)); if(!rows.length) return;
+  const minT=Math.min(...rows.map(r=>r.mean_elapsed_seconds)), minE=Math.min(...rows.map(r=>r.mean_n_evaluations));
+  const st=rows.map(r=>1/(1+Math.abs(r.std_z_mcop/Math.max(Math.abs(r.mean_z_mcop),1e-9))));
+  cRob=new Chart(el,{type:'radar',data:{labels:['Factibilidad','Estabilidad','Eficiencia tiempo','Eficiencia evaluaciones'],datasets:rows.map((r,i)=>({label:r.label,data:[(r.feasible_rate_percent||0)/100,st[i],minT/Math.max(r.mean_elapsed_seconds,1e-9),minE/Math.max(r.mean_n_evaluations,1e-9)],borderColor:r.color||palette[r.algorithm],backgroundColor:(r.color||palette[r.algorithm])+'33',borderWidth:2,pointRadius:2}))},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10}}}},scales:{r:{min:0,max:1,ticks:{stepSize:.25,backdropColor:'transparent',font:{size:9}}}}}});
+}
+
+function renderAuditWarnings(){
+  const el=document.getElementById('scientificWarnings');
+  if(!el) return;
+  const warnings=(store.scientific_audit&&Array.isArray(store.scientific_audit.warnings))?store.scientific_audit.warnings:[];
+  const items=warnings.length?warnings:['Sin alertas críticas cargadas.'];
+  el.innerHTML='';
+  items.forEach((w)=>{
+    const li=document.createElement('li');
+    li.textContent=String(w);
+    el.appendChild(li);
+  });
+}
+
+function renderAll(){ renderBaseline(); renderDyn(); renderRank(); renderSize(); renderOptuna(); renderHeatmap(); renderLowRotation(); renderPareto(); renderSens(); renderRob(); renderAuditWarnings(); }
+Reveal.on('ready',renderAll); Reveal.on('slidechanged',renderAll);
+</script>
+</body></html>

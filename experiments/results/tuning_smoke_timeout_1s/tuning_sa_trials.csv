@@ -1,0 +1,2 @@
+trial,state,value,best_so_far,duration_seconds,param_p_toggle,param_p_quantity,param_T_initial,param_T_final,param_cooling_rate,param_max_iterations,param_delta,param_reheat_factor,param_reheat_threshold,user_eval_status
+0,COMPLETE,-1000000000000.0,-1000000000000.0,3.31662,0.249816047538945,0.5753571532049581,157029.7088405539,1575.132049977973,0.5702083881990965,13,0.06452090304204987,1.8795585311974417,56,timeout

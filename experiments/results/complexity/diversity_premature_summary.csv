@@ -1,0 +1,4 @@
+algorithm,premature_rate,n_runs
+de,100.0,270
+ga,0.0,270
+ga_sa,0.0,270

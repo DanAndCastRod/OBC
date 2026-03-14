@@ -1,0 +1,2 @@
+ref_product,n_months,spearman_rho,spearman_p_value,rmse_index,ks_statistic,ks_p_value,wasserstein_distance
+medio_pollo,168,-0.018986443215640636,0.8070162117916881,0.18045918812935707,0.5178571428571429,6.569841860686701e-21,0.15221811871577606

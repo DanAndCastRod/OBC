@@ -1,0 +1,24 @@
+{
+  "n_instances": 15,
+  "n_price_obs": 99,
+  "n_demand_obs": 852900,
+  "price_within_range_pct": 100.0,
+  "profiles": [
+    "industrial",
+    "large",
+    "medium",
+    "small",
+    "toy"
+  ],
+  "fenavi_csv_used": "data\\references\\fenavi_monthly_reference_extended.csv",
+  "fenavi_variable_type": null,
+  "external_comparison_products": 4,
+  "external_comparison_series": 5,
+  "external_variable_types": [
+    "price_cop_kg",
+    "production_tons"
+  ],
+  "external_spearman_rho_abs_mean": 0.1902097902097902,
+  "external_best_lag_spearman_abs_mean": 0.649090909090909,
+  "external_peak_month_shift_abs_mean": 4.8
+}

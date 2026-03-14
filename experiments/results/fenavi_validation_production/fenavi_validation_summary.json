@@ -1,0 +1,16 @@
+{
+  "n_instances": 15,
+  "n_price_obs": 99,
+  "n_demand_obs": 852900,
+  "price_within_range_pct": 100.0,
+  "profiles": [
+    "industrial",
+    "large",
+    "medium",
+    "small",
+    "toy"
+  ],
+  "fenavi_csv_used": "data\\references\\fenavi_monthly_reference_extended.csv",
+  "fenavi_variable_type": "production_tons",
+  "external_comparison_products": 1
+}

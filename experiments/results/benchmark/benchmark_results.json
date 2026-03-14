@@ -1,0 +1,105 @@
+{
+  "generated_at_epoch": 1772403475.8090878,
+  "rows": [
+    {
+      "instance": "small_seed100",
+      "algorithm": "Exact (CBC)",
+      "z_value": 276224919.8394943,
+      "time_seconds": 0.5586307048797607,
+      "gap_percent": 0.0,
+      "feasible": true,
+      "evaluations": "-",
+      "status": "optimal"
+    },
+    {
+      "instance": "small_seed100",
+      "algorithm": "GA",
+      "z_value": 272999662.3033473,
+      "time_seconds": 2.2367677688598633,
+      "gap_percent": 1.1676200460194162,
+      "feasible": true,
+      "evaluations": "4096",
+      "status": "n/a"
+    },
+    {
+      "instance": "small_seed100",
+      "algorithm": "SA",
+      "z_value": 272788177.2154946,
+      "time_seconds": 0.5219311714172363,
+      "gap_percent": 1.244182684891971,
+      "feasible": true,
+      "evaluations": "1031",
+      "status": "n/a"
+    },
+    {
+      "instance": "small_seed100",
+      "algorithm": "DE",
+      "z_value": 273264567.17534333,
+      "time_seconds": 1.6569106578826904,
+      "gap_percent": 1.0717181729552578,
+      "feasible": true,
+      "evaluations": "2640",
+      "status": "n/a"
+    },
+    {
+      "instance": "small_seed100",
+      "algorithm": "GA-SA",
+      "z_value": 273094164.06548774,
+      "time_seconds": 1.9410014152526855,
+      "gap_percent": 1.133408157318221,
+      "feasible": true,
+      "evaluations": "3348",
+      "status": "n/a"
+    },
+    {
+      "instance": "medium_seed200",
+      "algorithm": "Exact (CBC)",
+      "z_value": 652401240.960731,
+      "time_seconds": 0.8356375694274902,
+      "gap_percent": 0.0,
+      "feasible": true,
+      "evaluations": "-",
+      "status": "optimal"
+    },
+    {
+      "instance": "medium_seed200",
+      "algorithm": "GA",
+      "z_value": 590510894.8803496,
+      "time_seconds": 12.215131521224976,
+      "gap_percent": 9.486546345197198,
+      "feasible": true,
+      "evaluations": "4104",
+      "status": "n/a"
+    },
+    {
+      "instance": "medium_seed200",
+      "algorithm": "SA",
+      "z_value": 590382152.4600472,
+      "time_seconds": 1.9416837692260742,
+      "gap_percent": 9.50627997110398,
+      "feasible": true,
+      "evaluations": "814",
+      "status": "n/a"
+    },
+    {
+      "instance": "medium_seed200",
+      "algorithm": "DE",
+      "z_value": 590575999.3236737,
+      "time_seconds": 9.773046493530273,
+      "gap_percent": 9.476567142332987,
+      "feasible": true,
+      "evaluations": "2698",
+      "status": "n/a"
+    },
+    {
+      "instance": "medium_seed200",
+      "algorithm": "GA-SA",
+      "z_value": 590559921.1258122,
+      "time_seconds": 9.836255311965942,
+      "gap_percent": 9.479031606967954,
+      "feasible": true,
+      "evaluations": "3367",
+      "status": "n/a"
+    }
+  ]
+}

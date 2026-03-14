@@ -1,178 +1,141 @@
-# 🐔 DLBP Avícola - Optimización del Balanceo de Carcasa
+# OBC — Optimización de Coproductos en la Industria Avícola
 
-![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
-![Tests](https://img.shields.io/badge/Tests-50%20passing-brightgreen.svg)
-![Status](https://img.shields.io/badge/Status-Completed-success.svg)
-![License](https://img.shields.io/badge/License-MIT-yellow.svg)
+**Tesis de Maestría en Investigación de Operaciones y Estadística (MIOE)**  
+Universidad Tecnológica de Pereira, 2026
 
-> **Modelo de Optimización DLBP con Metaheurísticas para la Industria Avícola Colombiana**
-
-- Documentos en formato Markdown que describen el problema, la metodología de investigación y las guías de implementación.
-- Código en `src/` para gestionar referencias bibliográficas de forma manual mediante un módulo de base de datos SQLite.
-- Pruebas automáticas en `test/` que verifican la inserción de artículos en la base de datos.
-- Guía consolidada en `development_guide.md` con pasos de investigación, implementación y recomendaciones para el anteproyecto.
-## 📋 Descripción
-
-Este proyecto desarrolla un modelo de optimización para el **Problema de Balanceo de Líneas de Desensamble (DLBP)** aplicado a la industria avícola colombiana. Implementa tres técnicas metaheurísticas (Algoritmo Genético, Búsqueda Tabú, y un Híbrido) para minimizar el número de estaciones de trabajo respetando restricciones de precedencia y tiempo de ciclo.
-
-### 📊 Resultados Principales
-
-| Algoritmo | Eficiencia Línea | Tiempo Promedio | Recomendación |
-|-----------|------------------|-----------------|---------------|
-| **Híbrido** | 89.1% | 3.41s | ⭐ Mejor calidad |
-| GA | 87.5% | 2.34s | Balance calidad/tiempo |
-| TS | 84.3% | 0.89s | Menor tiempo |
-
-**Hallazgo clave:** Gap = 0% vs óptimo exacto en instancias probadas.
+**Autor:** Daniel Andrés Castañeda Rodríguez  
+**Directora:** Ing. Eliana Mirledy Ocampo Toro, PhD.
 
 ---
 
-## 🚀 Quick Start
+## Descripción
 
-### Prerrequisitos
-- Python 3.10 o superior
-- PuLP (para solver MILP)
+Modelo de optimización para la planificación de coproductos en la industria avícola colombiana, resuelto mediante metaheurísticas (GA, SA, DE, GA-SA). Aborda el desbalance estructural entre la oferta rígida de coproductos —determinada por la anatomía del ave— y la demanda estocástica del mercado.
+
+Se formula un modelo de **Programación Lineal Entera Mixta (MILP)** multi-periodo con estructura de **lot-sizing estocástico**, incluyendo decisiones binarias de setup, lote mínimo y restricciones de perecibilidad. El problema se resuelve mediante cuatro metaheurísticas calibradas con **Optuna/TPE** y evaluadas en un diseño experimental de **1,098 ejecuciones** sobre **9 instancias** calibradas con datos del sector avícola colombiano (FENAVI, DANE).
+
+## Resultados Principales
+
+| Algoritmo | Rank | Gap vs CBC |
+|-----------|:----:|:----------:|
+| **GA-SA** (híbrido) | 🥇 1 | ≤ 2% |
+| DE | 🥈 2 | ≤ 2% |
+| GA | 🥉 3 | ≤ 3% |
+| SA | 4 | ≤ 5% |
+
+## Estructura del Repositorio
+
+```
+OBC/
+├── src/                   # Código fuente principal
+│   ├── model/             # Modelo MILP estocástico (PuLP/CBC)
+│   │   ├── parameters.py  # ProblemInstance y datos de entrada
+│   │   ├── decoder.py     # Decodificador greedy FIFO
+│   │   ├── solver.py      # Solver exacto (CBC)
+│   │   ├── objective.py   # Función objetivo Z
+│   │   └── constraints.py # Restricciones del modelo
+│   ├── metaheuristics/    # GA, SA, DE, GA-SA
+│   │   ├── ga.py          # Algoritmo Genético
+│   │   ├── sa.py          # Recocido Simulado
+│   │   ├── de.py          # Evolución Diferencial
+│   │   ├── ga_sa.py       # Híbrido GA-SA
+│   │   ├── base.py        # Clase base MetaheuristicBase
+│   │   └── encoding.py    # Codificación de soluciones
+│   ├── instances/         # Generación de instancias sintéticas
+│   │   ├── generator.py   # InstanceGenerator
+│   │   ├── calibration.py # Calibración FENAVI/DANE
+│   │   └── distributions.py
+│   └── utils/             # Utilidades compartidas
+├── experiments/           # Diseño experimental
+│   ├── config/            # Configuraciones YAML
+│   ├── scripts/           # Scripts de ejecución
+│   │   ├── run_comparison.py
+│   │   ├── run_sensitivity.py
+│   │   └── run_complexity_analysis.py
+│   └── results/           # Resultados (CSV, JSON, PNG)
+├── tests/                 # Tests unitarios (pytest)
+├── tesis/                 # Documento de tesis (Markdown → PDF)
+├── anteproyecto/          # Documento del anteproyecto
+├── docs/presentacion/     # Presentación de sustentación (Reveal.js)
+├── data/                  # Papers e instancias
+│   ├── instances/
+│   └── references/
+├── documentacion/         # Planes y reportes
+└── LEGACY/                # Código del proyecto anterior (DLBP)
+```
+
+## Reproducción Rápida
+
+### Requisitos Previos
+
+- Python 3.11+
+- Pandoc 3.x + XeLaTeX (para compilar tesis)
+- mermaid-filter (opcional, para diagramas)
 
 ### Instalación
 
 ```bash
-# Clonar el repositorio
-git clone https://github.com/usuario/OBC.git
+git clone https://github.com/DanAndCastRod/OBC.git
 cd OBC
-
-# Instalar dependencias
 pip install -r requirements.txt
 ```
 
-### Ejecución Rápida
+### Ejecución de Tests
 
 ```bash
-# Ejecutar algoritmo genético
-python src/algorithms/genetic_algorithm.py
-
-# Ejecutar comparación de algoritmos
-python src/experiments/comparar_algoritmos.py
-
-# Ejecutar experimento completo (30 réplicas × 4 instancias × 3 algoritmos)
-python src/experiments/experimento_final.py
-
-# Comparar con benchmarks (vs solver exacto MILP)
-python src/experiments/benchmark_comparison.py
+pytest tests/ -v
 ```
 
-### Ejecutar Tests
+### Reproducción Completa
 
 ```bash
-# Ejecutar todos los tests
-python -m unittest discover -s tests -v
-
-# Resultado esperado: 50 tests, 50 passed
+# Generar instancias → resolver con CBC → ejecutar metaheurísticas → estadísticas
+python reproduce.py
 ```
 
----
+### Ejecución Individual
 
-## 📁 Estructura del Repositorio
+```bash
+# Comparación de algoritmos (1,098 ejecuciones)
+python experiments/scripts/run_comparison.py
 
-Este repositorio contiene tanto el **código fuente reutilizable** como los **entregables académicos** de la maestría.
+# Análisis de sensibilidad (450 ejecuciones)
+python experiments/scripts/run_sensitivity.py
 
-```
-OBC/
-├── src/                      # 🛠️ CÓDIGO FUENTE (Framework DLBP)
-│   ├── algorithms/           # Implementación de metaheurísticas (GA, TS, Híbrido, NSGA-II)
-│   ├── models/               # Modelos matemáticos (MILP)
-│   └── experiments/          # Scripts de experimentación
-│
-├── tests/                    # ✅ SUITE DE TESTS (Validación del código)
-│
-├── docs/                     # 📚 DOCUMENTACIÓN
-│   ├── GUIA_USO_CODIGO.md    # -> Manual Técnico para desarrolladores
-│   ├── tesis/                # -> Informe Final de Investigación (LaTeX/Markdown)
-│   ├── presentacion/         # -> Diapositivas de Sustentación
-│   └── planes/               # -> Planes de trabajo y bitácoras
-│
-└── results/                  # 📊 RESULTADOS EXPERIMENTALES
+# Análisis de complejidad
+python experiments/scripts/run_complexity_analysis.py
 ```
 
----
+### Compilación de la Tesis
 
-## 📚 Documentación Disponible
-
-### Para Desarrolladores / Reutilización
-*   **[Manual Técnico de Uso](docs/GUIA_USO_CODIGO.md):** Guía práctica para importar los algoritmos, configurar instancias y extender el framework para nuevos problemas. Lee esto si quieres usar el código.
-
-### Entregables Académicos
-*   **[Informe Final de Investigación](docs/tesis/INFORME_FINAL_COMPLETO.md):** Documento completo de la tesis.
-*   **[Diapositivas de Sustentación](docs/presentacion/sustentacion_dlbp.html):** Presentación interactiva Reveal.js.
-*   **Anexos Técnicos:**
-    * [Anexo E: Sensibilidad](docs/tesis/anexo_sensibilidad.md)
-    * [Anexo F: Tests](docs/tesis/anexo_tests.md)
-    * [Anexo G: Benchmarks](docs/tesis/anexo_benchmarks.md)
-    * [Anexo H: Extensiones](docs/tesis/anexo_extensiones.md)
-
----
-
----
-
-## 🔧 Configuración de Algoritmos
-
-### Parámetros Calibrados (Optuna, 30 trials)
-
-```yaml
-GA:
-  poblacion_size: 75
-  prob_cruce: 0.93
-  prob_mutacion: 0.20
-  tamano_torneo: 4
-
-TS:
-  tamano_lista_tabu: 15
-  tamano_vecindario: 49
-
-Hybrid:
-  generaciones_ga: 100
-  aplicar_ts_cada: 24
+```bash
+cd tesis
+python generar_tesis.py
+# Genera: tesis_coproductos.pdf
 ```
 
----
+### Presentación de Sustentación
 
-## 📊 Validación con Benchmarks
+Abrir directamente en el navegador:
 
-| Instancia | n | Óptimo | GA | TS | Gap |
-|-----------|---|--------|----|----|-----|
-| demo_15t | 15 | 5 | 5.0 | 5.0 | **0%** |
-| lineal_10t | 10 | 4 | 4.0 | 4.0 | **0%** |
-| paralelo_12t | 12 | 4 | 4.0 | 4.0 | **0%** |
-
----
-
-## 👨‍🎓 Información Académica
-
-**Programa:** Maestría en Investigación de Operaciones y Estadística  
-**Institución:** Universidad Tecnológica de Pereira  
-**Autor:** Daniel Castañeda  
-**Directora:** Eliana Mirledy Ocampo Toro, PhD.  
-**Fecha:** Enero 2026
-
----
-
-## 📄 Citación
-
-```bibtex
-@mastersthesis{castaneda2026dlbp,
-  author = {Castañeda, Daniel},
-  title = {Modelo de Optimización DLBP con Metaheurísticas para la Industria Avícola Colombiana},
-  school = {Universidad Tecnológica de Pereira},
-  year = {2026},
-  type = {Tesis de Maestría}
-}
+```
+docs/presentacion/sustentacion_coproductos.html
 ```
 
----
+## Stack Tecnológico
 
-## 📄 Licencia
+| Herramienta | Versión | Uso |
+|-------------|---------|-----|
+| Python | 3.11+ | Lenguaje principal |
+| PuLP | 2.9.0 | Solver exacto (CBC) |
+| NumPy | 1.26.4 | Operaciones numéricas |
+| Pandas | 2.2.0 | Manejo de datos |
+| SciPy | 1.12.0 | Tests estadísticos |
+| Optuna | 3.5.0 | Calibración de hiperparámetros |
+| Matplotlib | 3.8.0 | Visualización |
+| Seaborn | 0.13.0 | Gráficos estadísticos |
+| Pytest | 8.0.0 | Testing |
 
-Este proyecto está bajo la Licencia MIT. Ver [LICENSE](LICENSE) para más detalles.
+## Licencia
 
----
-
-*Desarrollado como parte de la investigación de maestría en Investigación de Operaciones y Estadística.*
+Este proyecto está bajo la licencia MIT. Ver [LICENCE](LICENCE) para más detalles.

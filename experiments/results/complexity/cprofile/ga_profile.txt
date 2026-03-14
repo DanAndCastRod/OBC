@@ -1,0 +1,68 @@
+         132267720 function calls in 221.157 seconds
+
+   Ordered by: cumulative time
+   List reduced from 94 to 60 due to restriction <60>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.046    0.046  221.216  221.216 C:\Users\facem\OneDrive\Documentos\Maestría\OBC\src\metaheuristics\ga.py:74(solve)
+       99    0.001    0.000  218.849    2.211 C:\Users\facem\OneDrive\Documentos\Maestría\OBC\src\metaheuristics\ga.py:185(_evaluate_population)
+       99    0.074    0.001  218.847    2.211 C:\Users\facem\OneDrive\Documentos\Maestría\OBC\src\metaheuristics\ga.py:191(<listcomp>)
+     7920    0.106    0.000  218.773    0.028 C:\Users\facem\OneDrive\Documentos\Maestría\OBC\src\metaheuristics\base.py:69(evaluate_fitness)
+     7948  178.248    0.022  217.549    0.027 C:\Users\facem\OneDrive\Documentos\Maestría\OBC\src\model\decoder.py:24(decode)
+ 57225600   14.695    0.000   14.695    0.000 {built-in method builtins.sum}
+ 28918646   10.857    0.000   10.857    0.000 {built-in method builtins.min}
+ 37184227    5.608    0.000    5.608    0.000 {method 'append' of 'list' objects}
+  4800672    3.921    0.000    3.921    0.000 {built-in method numpy.zeros}
+   331476    0.524    0.000    2.878    0.000 C:\Users\facem\AppData\Roaming\Python\Python311\site-packages\numpy\core\fromnumeric.py:2836(min)
+   341963    0.884    0.000    2.495    0.000 C:\Users\facem\AppData\Roaming\Python\Python311\site-packages\numpy\core\fromnumeric.py:71(_wrapreduction)
+     7948    0.446    0.000    1.566    0.000 C:\Users\facem\OneDrive\Documentos\Maestría\OBC\src\model\objective.py:101(evaluate_vectorized)
+   358354    1.307    0.000    1.307    0.000 {method 'reduce' of 'numpy.ufunc' objects}
+    23844    0.051    0.000    0.814    0.000 C:\Users\facem\AppData\Roaming\Python\Python311\site-packages\numpy\core\einsumfunc.py:1009(einsum)
+       28    0.000    0.000    0.809    0.029 C:\Users\facem\OneDrive\Documentos\Maestría\OBC\src\metaheuristics\base.py:99(evaluate_and_get_solution)
+    21278    0.494    0.000    0.785    0.000 C:\Users\facem\OneDrive\Documentos\Maestría\OBC\src\metaheuristics\encoding.py:75(repair_lot_sizing)
+    23844    0.762    0.000    0.762    0.000 {built-in method numpy.core._multiarray_umath.c_einsum}
+     7644    0.233    0.000    0.748    0.000 C:\Users\facem\OneDrive\Documentos\Maestría\OBC\src\metaheuristics\encoding.py:218(mutate)
+   397400    0.521    0.000    0.521    0.000 C:\Users\facem\OneDrive\Documentos\Maestría\OBC\src\model\decoder.py:82(<listcomp>)
+   341963    0.417    0.000    0.417    0.000 C:\Users\facem\AppData\Roaming\Python\Python311\site-packages\numpy\core\fromnumeric.py:72(<dictcomp>)
+     7948    0.071    0.000    0.382    0.000 C:\Users\facem\OneDrive\Documentos\Maestría\OBC\src\model\decoder.py:133(_build_cut_activation)
+     7644    0.057    0.000    0.351    0.000 C:\Users\facem\OneDrive\Documentos\Maestría\OBC\src\metaheuristics\ga.py:197(_tournament_select)
+     2843    0.068    0.000    0.330    0.000 C:\Users\facem\OneDrive\Documentos\Maestría\OBC\src\metaheuristics\encoding.py:190(crossover_two_point)
+    10487    0.156    0.000    0.318    0.000 {method 'choice' of 'numpy.random.mtrand.RandomState' objects}
+     7948    0.170    0.000    0.289    0.000 C:\Users\facem\AppData\Roaming\Python\Python311\site-packages\numpy\lib\shape_base.py:1185(tile)
+    15896    0.032    0.000    0.238    0.000 {method 'sum' of 'numpy.ndarray' objects}
+    15896    0.018    0.000    0.206    0.000 C:\Users\facem\AppData\Roaming\Python\Python311\site-packages\numpy\core\_methods.py:47(_sum)
+   129589    0.194    0.000    0.194    0.000 {method 'astype' of 'numpy.ndarray' objects}
+    10487    0.018    0.000    0.159    0.000 C:\Users\facem\AppData\Roaming\Python\Python311\site-packages\numpy\core\fromnumeric.py:2979(prod)
+   174977    0.156    0.000    0.156    0.000 {method 'random' of 'numpy.random.mtrand.RandomState' objects}
+     8046    0.034    0.000    0.135    0.000 C:\Users\facem\AppData\Roaming\Python\Python311\site-packages\numpy\core\fromnumeric.py:1025(argsort)
+    15789    0.045    0.000    0.125    0.000 C:\Users\facem\AppData\Roaming\Python\Python311\site-packages\numpy\core\fromnumeric.py:53(_wrapfunc)
+    66697    0.110    0.000    0.110    0.000 {built-in method numpy.array}
+   305846    0.100    0.000    0.100    0.000 {built-in method builtins.max}
+   331476    0.099    0.000    0.099    0.000 C:\Users\facem\AppData\Roaming\Python\Python311\site-packages\numpy\core\multiarray.py:346(where)
+   331476    0.090    0.000    0.090    0.000 C:\Users\facem\AppData\Roaming\Python\Python311\site-packages\numpy\core\fromnumeric.py:2831(_min_dispatcher)
+   341963    0.064    0.000    0.064    0.000 {method 'items' of 'dict' objects}
+       99    0.006    0.000    0.064    0.001 C:\Users\facem\OneDrive\Documentos\Maestría\OBC\src\metaheuristics\ga.py:208(_population_diversity)
+     8046    0.059    0.000    0.059    0.000 {method 'argsort' of 'numpy.ndarray' objects}
+    61760    0.052    0.000    0.052    0.000 {method 'copy' of 'numpy.ndarray' objects}
+   143064    0.052    0.000    0.052    0.000 C:\Users\facem\AppData\Roaming\Python\Python311\site-packages\numpy\core\einsumfunc.py:1001(_einsum_dispatcher)
+    15896    0.048    0.000    0.048    0.000 <string>:2(__init__)
+     7743    0.016    0.000    0.041    0.000 C:\Users\facem\AppData\Roaming\Python\Python311\site-packages\numpy\core\fromnumeric.py:1140(argmax)
+     7948    0.035    0.000    0.035    0.000 {method 'repeat' of 'numpy.ndarray' objects}
+    15896    0.028    0.000    0.028    0.000 {method 'reshape' of 'numpy.ndarray' objects}
+    26573    0.024    0.000    0.024    0.000 {built-in method builtins.getattr}
+     6974    0.019    0.000    0.019    0.000 {method 'normal' of 'numpy.random.mtrand.RandomState' objects}
+     7948    0.010    0.000    0.018    0.000 {built-in method builtins.all}
+    23844    0.017    0.000    0.017    0.000 C:\Users\facem\AppData\Roaming\Python\Python311\site-packages\numpy\lib\shape_base.py:1257(<genexpr>)
+    51277    0.016    0.000    0.016    0.000 {built-in method builtins.len}
+    23844    0.015    0.000    0.015    0.000 C:\Users\facem\AppData\Roaming\Python\Python311\site-packages\numpy\lib\shape_base.py:1267(<genexpr>)
+    15896    0.015    0.000    0.015    0.000 C:\Users\facem\OneDrive\Documentos\Maestría\OBC\src\model\solution.py:32(total)
+      297    0.001    0.000    0.014    0.000 C:\Users\facem\AppData\Roaming\Python\Python311\site-packages\numpy\core\fromnumeric.py:3385(mean)
+       99    0.005    0.000    0.014    0.000 C:\Users\facem\OneDrive\Documentos\Maestría\OBC\src\metaheuristics\ga.py:218(<listcomp>)
+      297    0.004    0.000    0.013    0.000 C:\Users\facem\AppData\Roaming\Python\Python311\site-packages\numpy\core\_methods.py:101(_mean)
+       99    0.004    0.000    0.012    0.000 C:\Users\facem\OneDrive\Documentos\Maestría\OBC\src\metaheuristics\ga.py:219(<listcomp>)
+     7743    0.011    0.000    0.011    0.000 {method 'argmax' of 'numpy.ndarray' objects}
+       99    0.000    0.000    0.010    0.000 C:\Users\facem\AppData\Roaming\Python\Python311\site-packages\numpy\core\fromnumeric.py:3513(std)
+       99    0.001    0.000    0.009    0.000 C:\Users\facem\AppData\Roaming\Python\Python311\site-packages\numpy\core\_methods.py:204(_std)
+     2843    0.009    0.000    0.009    0.000 {built-in method builtins.sorted}
+
+

@@ -1,0 +1,100 @@
+instance,profile,seed,instance_path,cut_form_name,ref_product,synthetic_price,fenavi_min,fenavi_max,fenavi_default,within_fenavi_range,outside_distance_pct,deviation_vs_default_pct
+industrial_seed123,industrial,123,data\instances\industrial_seed123.yaml,Pechuga entera,pechuga,14000.0,12000.0,15000.0,14000.0,True,0.0,0.0
+industrial_seed123,industrial,123,data\instances\industrial_seed123.yaml,Filete pechuga,filete_pechuga,16000.0,14000.0,18000.0,16000.0,True,0.0,0.0
+industrial_seed123,industrial,123,data\instances\industrial_seed123.yaml,Pernil completo,pernil_completo,11000.0,9500.0,12000.0,11000.0,True,0.0,0.0
+industrial_seed123,industrial,123,data\instances\industrial_seed123.yaml,Muslo solo,muslo,9000.0,8000.0,10000.0,9000.0,True,0.0,0.0
+industrial_seed123,industrial,123,data\instances\industrial_seed123.yaml,Contramuslo solo,contramuslo,8500.0,7500.0,9500.0,8500.0,True,0.0,0.0
+industrial_seed123,industrial,123,data\instances\industrial_seed123.yaml,Ala entera,ala,6000.0,5000.0,7500.0,6000.0,True,0.0,0.0
+industrial_seed123,industrial,123,data\instances\industrial_seed123.yaml,Menudencias,menudencias,4000.0,3000.0,5000.0,4000.0,True,0.0,0.0
+industrial_seed123,industrial,123,data\instances\industrial_seed123.yaml,Subproducto fresco,subproducto_fresco,1500.0,1000.0,2500.0,1500.0,True,0.0,0.0
+industrial_seed123,industrial,123,data\instances\industrial_seed123.yaml,Harina avicola,harina_avicola,2200.0,1800.0,3000.0,2200.0,True,0.0,0.0
+industrial_seed123,industrial,123,data\instances\industrial_seed123.yaml,Medio pollo,medio_pollo,12000.0,10000.0,13000.0,12000.0,True,0.0,0.0
+industrial_seed42,industrial,42,data\instances\industrial_seed42.yaml,Pechuga entera,pechuga,14000.0,12000.0,15000.0,14000.0,True,0.0,0.0
+industrial_seed42,industrial,42,data\instances\industrial_seed42.yaml,Filete pechuga,filete_pechuga,16000.0,14000.0,18000.0,16000.0,True,0.0,0.0
+industrial_seed42,industrial,42,data\instances\industrial_seed42.yaml,Pernil completo,pernil_completo,11000.0,9500.0,12000.0,11000.0,True,0.0,0.0
+industrial_seed42,industrial,42,data\instances\industrial_seed42.yaml,Muslo solo,muslo,9000.0,8000.0,10000.0,9000.0,True,0.0,0.0
+industrial_seed42,industrial,42,data\instances\industrial_seed42.yaml,Contramuslo solo,contramuslo,8500.0,7500.0,9500.0,8500.0,True,0.0,0.0
+industrial_seed42,industrial,42,data\instances\industrial_seed42.yaml,Ala entera,ala,6000.0,5000.0,7500.0,6000.0,True,0.0,0.0
+industrial_seed42,industrial,42,data\instances\industrial_seed42.yaml,Menudencias,menudencias,4000.0,3000.0,5000.0,4000.0,True,0.0,0.0
+industrial_seed42,industrial,42,data\instances\industrial_seed42.yaml,Subproducto fresco,subproducto_fresco,1500.0,1000.0,2500.0,1500.0,True,0.0,0.0
+industrial_seed42,industrial,42,data\instances\industrial_seed42.yaml,Harina avicola,harina_avicola,2200.0,1800.0,3000.0,2200.0,True,0.0,0.0
+industrial_seed42,industrial,42,data\instances\industrial_seed42.yaml,Medio pollo,medio_pollo,12000.0,10000.0,13000.0,12000.0,True,0.0,0.0
+industrial_seed456,industrial,456,data\instances\industrial_seed456.yaml,Pechuga entera,pechuga,14000.0,12000.0,15000.0,14000.0,True,0.0,0.0
+industrial_seed456,industrial,456,data\instances\industrial_seed456.yaml,Filete pechuga,filete_pechuga,16000.0,14000.0,18000.0,16000.0,True,0.0,0.0
+industrial_seed456,industrial,456,data\instances\industrial_seed456.yaml,Pernil completo,pernil_completo,11000.0,9500.0,12000.0,11000.0,True,0.0,0.0
+industrial_seed456,industrial,456,data\instances\industrial_seed456.yaml,Muslo solo,muslo,9000.0,8000.0,10000.0,9000.0,True,0.0,0.0
+industrial_seed456,industrial,456,data\instances\industrial_seed456.yaml,Contramuslo solo,contramuslo,8500.0,7500.0,9500.0,8500.0,True,0.0,0.0
+industrial_seed456,industrial,456,data\instances\industrial_seed456.yaml,Ala entera,ala,6000.0,5000.0,7500.0,6000.0,True,0.0,0.0
+industrial_seed456,industrial,456,data\instances\industrial_seed456.yaml,Menudencias,menudencias,4000.0,3000.0,5000.0,4000.0,True,0.0,0.0
+industrial_seed456,industrial,456,data\instances\industrial_seed456.yaml,Subproducto fresco,subproducto_fresco,1500.0,1000.0,2500.0,1500.0,True,0.0,0.0
+industrial_seed456,industrial,456,data\instances\industrial_seed456.yaml,Harina avicola,harina_avicola,2200.0,1800.0,3000.0,2200.0,True,0.0,0.0
+industrial_seed456,industrial,456,data\instances\industrial_seed456.yaml,Medio pollo,medio_pollo,12000.0,10000.0,13000.0,12000.0,True,0.0,0.0
+large_seed123,large,123,data\instances\large_seed123.yaml,Pechuga,pechuga,14000.0,12000.0,15000.0,14000.0,True,0.0,0.0
+large_seed123,large,123,data\instances\large_seed123.yaml,Pernil completo,pernil_completo,11000.0,9500.0,12000.0,11000.0,True,0.0,0.0
+large_seed123,large,123,data\instances\large_seed123.yaml,Muslo solo,muslo,9000.0,8000.0,10000.0,9000.0,True,0.0,0.0
+large_seed123,large,123,data\instances\large_seed123.yaml,Contramuslo solo,contramuslo,8500.0,7500.0,9500.0,8500.0,True,0.0,0.0
+large_seed123,large,123,data\instances\large_seed123.yaml,Ala,ala,6000.0,5000.0,7500.0,6000.0,True,0.0,0.0
+large_seed123,large,123,data\instances\large_seed123.yaml,Menudencias,menudencias,4000.0,3000.0,5000.0,4000.0,True,0.0,0.0
+large_seed123,large,123,data\instances\large_seed123.yaml,Subproducto fresco,subproducto_fresco,1500.0,1000.0,2500.0,1500.0,True,0.0,0.0
+large_seed123,large,123,data\instances\large_seed123.yaml,Harina avicola,harina_avicola,2200.0,1800.0,3000.0,2200.0,True,0.0,0.0
+large_seed42,large,42,data\instances\large_seed42.yaml,Pechuga,pechuga,14000.0,12000.0,15000.0,14000.0,True,0.0,0.0
+large_seed42,large,42,data\instances\large_seed42.yaml,Pernil completo,pernil_completo,11000.0,9500.0,12000.0,11000.0,True,0.0,0.0
+large_seed42,large,42,data\instances\large_seed42.yaml,Muslo solo,muslo,9000.0,8000.0,10000.0,9000.0,True,0.0,0.0
+large_seed42,large,42,data\instances\large_seed42.yaml,Contramuslo solo,contramuslo,8500.0,7500.0,9500.0,8500.0,True,0.0,0.0
+large_seed42,large,42,data\instances\large_seed42.yaml,Ala,ala,6000.0,5000.0,7500.0,6000.0,True,0.0,0.0
+large_seed42,large,42,data\instances\large_seed42.yaml,Menudencias,menudencias,4000.0,3000.0,5000.0,4000.0,True,0.0,0.0
+large_seed42,large,42,data\instances\large_seed42.yaml,Subproducto fresco,subproducto_fresco,1500.0,1000.0,2500.0,1500.0,True,0.0,0.0
+large_seed42,large,42,data\instances\large_seed42.yaml,Harina avicola,harina_avicola,2200.0,1800.0,3000.0,2200.0,True,0.0,0.0
+large_seed456,large,456,data\instances\large_seed456.yaml,Pechuga,pechuga,14000.0,12000.0,15000.0,14000.0,True,0.0,0.0
+large_seed456,large,456,data\instances\large_seed456.yaml,Pernil completo,pernil_completo,11000.0,9500.0,12000.0,11000.0,True,0.0,0.0
+large_seed456,large,456,data\instances\large_seed456.yaml,Muslo solo,muslo,9000.0,8000.0,10000.0,9000.0,True,0.0,0.0
+large_seed456,large,456,data\instances\large_seed456.yaml,Contramuslo solo,contramuslo,8500.0,7500.0,9500.0,8500.0,True,0.0,0.0
+large_seed456,large,456,data\instances\large_seed456.yaml,Ala,ala,6000.0,5000.0,7500.0,6000.0,True,0.0,0.0
+large_seed456,large,456,data\instances\large_seed456.yaml,Menudencias,menudencias,4000.0,3000.0,5000.0,4000.0,True,0.0,0.0
+large_seed456,large,456,data\instances\large_seed456.yaml,Subproducto fresco,subproducto_fresco,1500.0,1000.0,2500.0,1500.0,True,0.0,0.0
+large_seed456,large,456,data\instances\large_seed456.yaml,Harina avicola,harina_avicola,2200.0,1800.0,3000.0,2200.0,True,0.0,0.0
+medium_seed123,medium,123,data\instances\medium_seed123.yaml,Pechuga,pechuga,14000.0,12000.0,15000.0,14000.0,True,0.0,0.0
+medium_seed123,medium,123,data\instances\medium_seed123.yaml,Pernil completo,pernil_completo,11000.0,9500.0,12000.0,11000.0,True,0.0,0.0
+medium_seed123,medium,123,data\instances\medium_seed123.yaml,Muslo solo,muslo,9000.0,8000.0,10000.0,9000.0,True,0.0,0.0
+medium_seed123,medium,123,data\instances\medium_seed123.yaml,Contramuslo solo,contramuslo,8500.0,7500.0,9500.0,8500.0,True,0.0,0.0
+medium_seed123,medium,123,data\instances\medium_seed123.yaml,Ala,ala,6000.0,5000.0,7500.0,6000.0,True,0.0,0.0
+medium_seed123,medium,123,data\instances\medium_seed123.yaml,Subproducto,subproducto_fresco,1500.0,1000.0,2500.0,1500.0,True,0.0,0.0
+medium_seed42,medium,42,data\instances\medium_seed42.yaml,Pechuga,pechuga,14000.0,12000.0,15000.0,14000.0,True,0.0,0.0
+medium_seed42,medium,42,data\instances\medium_seed42.yaml,Pernil completo,pernil_completo,11000.0,9500.0,12000.0,11000.0,True,0.0,0.0
+medium_seed42,medium,42,data\instances\medium_seed42.yaml,Muslo solo,muslo,9000.0,8000.0,10000.0,9000.0,True,0.0,0.0
+medium_seed42,medium,42,data\instances\medium_seed42.yaml,Contramuslo solo,contramuslo,8500.0,7500.0,9500.0,8500.0,True,0.0,0.0
+medium_seed42,medium,42,data\instances\medium_seed42.yaml,Ala,ala,6000.0,5000.0,7500.0,6000.0,True,0.0,0.0
+medium_seed42,medium,42,data\instances\medium_seed42.yaml,Subproducto,subproducto_fresco,1500.0,1000.0,2500.0,1500.0,True,0.0,0.0
+medium_seed456,medium,456,data\instances\medium_seed456.yaml,Pechuga,pechuga,14000.0,12000.0,15000.0,14000.0,True,0.0,0.0
+medium_seed456,medium,456,data\instances\medium_seed456.yaml,Pernil completo,pernil_completo,11000.0,9500.0,12000.0,11000.0,True,0.0,0.0
+medium_seed456,medium,456,data\instances\medium_seed456.yaml,Muslo solo,muslo,9000.0,8000.0,10000.0,9000.0,True,0.0,0.0
+medium_seed456,medium,456,data\instances\medium_seed456.yaml,Contramuslo solo,contramuslo,8500.0,7500.0,9500.0,8500.0,True,0.0,0.0
+medium_seed456,medium,456,data\instances\medium_seed456.yaml,Ala,ala,6000.0,5000.0,7500.0,6000.0,True,0.0,0.0
+medium_seed456,medium,456,data\instances\medium_seed456.yaml,Subproducto,subproducto_fresco,1500.0,1000.0,2500.0,1500.0,True,0.0,0.0
+small_seed123,small,123,data\instances\small_seed123.yaml,Pechuga,pechuga,14000.0,12000.0,15000.0,14000.0,True,0.0,0.0
+small_seed123,small,123,data\instances\small_seed123.yaml,Pernil completo,pernil_completo,11000.0,9500.0,12000.0,11000.0,True,0.0,0.0
+small_seed123,small,123,data\instances\small_seed123.yaml,Muslo solo,muslo,9000.0,8000.0,10000.0,9000.0,True,0.0,0.0
+small_seed123,small,123,data\instances\small_seed123.yaml,Contramuslo solo,contramuslo,8500.0,7500.0,9500.0,8500.0,True,0.0,0.0
+small_seed123,small,123,data\instances\small_seed123.yaml,Ala,ala,6000.0,5000.0,7500.0,6000.0,True,0.0,0.0
+small_seed123,small,123,data\instances\small_seed123.yaml,Subproducto,subproducto_fresco,1500.0,1000.0,2500.0,1500.0,True,0.0,0.0
+small_seed42,small,42,data\instances\small_seed42.yaml,Pechuga,pechuga,14000.0,12000.0,15000.0,14000.0,True,0.0,0.0
+small_seed42,small,42,data\instances\small_seed42.yaml,Pernil completo,pernil_completo,11000.0,9500.0,12000.0,11000.0,True,0.0,0.0
+small_seed42,small,42,data\instances\small_seed42.yaml,Muslo solo,muslo,9000.0,8000.0,10000.0,9000.0,True,0.0,0.0
+small_seed42,small,42,data\instances\small_seed42.yaml,Contramuslo solo,contramuslo,8500.0,7500.0,9500.0,8500.0,True,0.0,0.0
+small_seed42,small,42,data\instances\small_seed42.yaml,Ala,ala,6000.0,5000.0,7500.0,6000.0,True,0.0,0.0
+small_seed42,small,42,data\instances\small_seed42.yaml,Subproducto,subproducto_fresco,1500.0,1000.0,2500.0,1500.0,True,0.0,0.0
+small_seed456,small,456,data\instances\small_seed456.yaml,Pechuga,pechuga,14000.0,12000.0,15000.0,14000.0,True,0.0,0.0
+small_seed456,small,456,data\instances\small_seed456.yaml,Pernil completo,pernil_completo,11000.0,9500.0,12000.0,11000.0,True,0.0,0.0
+small_seed456,small,456,data\instances\small_seed456.yaml,Muslo solo,muslo,9000.0,8000.0,10000.0,9000.0,True,0.0,0.0
+small_seed456,small,456,data\instances\small_seed456.yaml,Contramuslo solo,contramuslo,8500.0,7500.0,9500.0,8500.0,True,0.0,0.0
+small_seed456,small,456,data\instances\small_seed456.yaml,Ala,ala,6000.0,5000.0,7500.0,6000.0,True,0.0,0.0
+small_seed456,small,456,data\instances\small_seed456.yaml,Subproducto,subproducto_fresco,1500.0,1000.0,2500.0,1500.0,True,0.0,0.0
+toy_seed123,toy,123,data\instances\toy_seed123.yaml,Pechuga,pechuga,14000.0,12000.0,15000.0,14000.0,True,0.0,0.0
+toy_seed123,toy,123,data\instances\toy_seed123.yaml,Muslo,muslo,9000.0,8000.0,10000.0,9000.0,True,0.0,0.0
+toy_seed123,toy,123,data\instances\toy_seed123.yaml,Subproducto,subproducto_fresco,1500.0,1000.0,2500.0,1500.0,True,0.0,0.0
+toy_seed42,toy,42,data\instances\toy_seed42.yaml,Pechuga,pechuga,14000.0,12000.0,15000.0,14000.0,True,0.0,0.0
+toy_seed42,toy,42,data\instances\toy_seed42.yaml,Muslo,muslo,9000.0,8000.0,10000.0,9000.0,True,0.0,0.0
+toy_seed42,toy,42,data\instances\toy_seed42.yaml,Subproducto,subproducto_fresco,1500.0,1000.0,2500.0,1500.0,True,0.0,0.0
+toy_seed456,toy,456,data\instances\toy_seed456.yaml,Pechuga,pechuga,14000.0,12000.0,15000.0,14000.0,True,0.0,0.0
+toy_seed456,toy,456,data\instances\toy_seed456.yaml,Muslo,muslo,9000.0,8000.0,10000.0,9000.0,True,0.0,0.0
+toy_seed456,toy,456,data\instances\toy_seed456.yaml,Subproducto,subproducto_fresco,1500.0,1000.0,2500.0,1500.0,True,0.0,0.0

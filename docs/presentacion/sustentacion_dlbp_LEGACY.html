@@ -1,0 +1,1696 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modelo DLBP con Metaheurísticas - Industria Avícola | Sustentación</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/white.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+    <style>
+        :root {
+            --utp-green: #006633;
+            --utp-green-light: #00994d;
+            --utp-gold: #d4af37;
+            --dark-gray: #2a2a2a;
+            --light-bg: #f8fafb;
+            --glass-bg: rgba(255, 255, 255, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --shadow-soft: 0 8px 32px rgba(0, 102, 51, 0.08);
+            --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.06);
+        }
+        
+        .reveal {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            font-size: 28px;
+        }
+        
+        .reveal .slides {
+            text-align: left;
+        }
+        
+        .reveal .slides section {
+            padding: 20px 40px;
+        }
+        
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+            font-family: 'Outfit', 'Inter', sans-serif;
+            color: var(--utp-green);
+            font-weight: 600;
+            text-transform: none;
+            letter-spacing: -0.02em;
+        }
+        
+        .reveal h1 { font-size: 1.8em; }
+        .reveal h2 {
+            font-size: 1.4em;
+            margin-bottom: 0.5em;
+            border-bottom: 3px solid var(--utp-gold);
+            padding-bottom: 10px;
+        }
+        .reveal h3 { font-size: 1.1em; margin-bottom: 0.3em; }
+        .reveal h4 { font-size: 0.95em; color: var(--utp-green); margin: 0.5em 0 0.3em; }
+        
+        .reveal p, .reveal li {
+            font-size: 0.85em;
+            line-height: 1.4;
+        }
+        
+        .reveal .slide-background {
+            background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
+        }
+        
+        .title-slide {
+            text-align: center;
+        }
+        
+        .title-slide h1 {
+            font-size: 1.8em;
+            margin-bottom: 0.5em;
+            line-height: 1.2;
+        }
+        
+        .title-slide .subtitle {
+            font-size: 1.1em;
+            color: var(--dark-gray);
+            margin-bottom: 1.5em;
+        }
+        
+        .title-slide .author {
+            font-size: 1em;
+            color: var(--dark-gray);
+            margin: 0.3em 0;
+        }
+        
+        .title-slide .institution {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 1.5em;
+        }
+        
+        .utp-header {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            font-size: 0.5em;
+            color: var(--utp-green);
+            font-weight: bold;
+        }
+        
+        .slide-number {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            font-size: 0.7em;
+            color: #999;
+        }
+        
+        .two-column {
+            display: flex;
+            gap: 40px;
+        }
+        
+        .two-column > div {
+            flex: 1;
+        }
+        
+        .reveal table {
+            font-size: 0.75em;
+            border-collapse: collapse;
+            margin: 0.5em auto;
+            width: auto;
+        }
+        
+        .reveal table th {
+            background-color: var(--utp-green);
+            color: white;
+            padding: 8px 12px;
+            font-weight: 600;
+        }
+        
+        .reveal table td {
+            padding: 6px 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .reveal table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, var(--utp-green) 0%, #004d26 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 15px 0;
+            box-shadow: 0 12px 40px rgba(0, 102, 51, 0.25);
+        }
+        
+        .highlight-box h3 {
+            color: white;
+            margin-top: 0;
+        }
+        
+        .stat-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            padding: 18px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 10px;
+            box-shadow: var(--shadow-card);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-soft);
+        }
+        
+        .stat-card .number {
+            font-size: 2.5em;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            color: var(--utp-green);
+            line-height: 1.1;
+        }
+        
+        .stat-card .label {
+            font-size: 0.8em;
+            color: #666;
+        }
+        
+        .algorithm-box {
+            background: var(--glass-bg);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-left: 4px solid var(--utp-green);
+            padding: 18px;
+            margin: 10px 0;
+            text-align: left;
+            border-radius: 8px;
+            box-shadow: var(--shadow-card);
+            transition: transform 0.3s ease;
+        }
+
+        .algorithm-box:hover {
+            transform: translateY(-2px);
+        }
+        
+        .algorithm-box h4 {
+            color: var(--utp-green);
+            margin: 0 0 10px 0;
+            font-size: 1em;
+            font-weight: 600;
+        }
+        
+        .pros-cons {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .pros, .cons {
+            flex: 1;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .pros {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+        }
+        
+        .cons {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+        }
+        
+        .conclusion-item {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .conclusion-item .icon {
+            font-size: 1.5em;
+        }
+        
+        .timeline {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px 0;
+        }
+        
+        .timeline-item {
+            text-align: center;
+            position: relative;
+        }
+        
+        .timeline-item::after {
+            content: '→';
+            position: absolute;
+            right: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5em;
+            color: var(--utp-green);
+        }
+        
+        .timeline-item:last-child::after {
+            display: none;
+        }
+        
+        .timeline-item .phase {
+            background: var(--utp-green);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        
+        .reveal ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .reveal ul li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .reveal ul li::before {
+            content: '▸';
+            color: var(--utp-green);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        .reveal img {
+            max-height: 380px;
+            max-width: 100%;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .fragment.highlight-green.visible {
+            color: var(--utp-green);
+            font-weight: bold;
+        }
+        
+        .math-formula {
+            background: #f5f5f5;
+            padding: 15px 25px;
+            border-radius: 8px;
+            font-family: 'Times New Roman', serif;
+            font-size: 1.1em;
+            margin: 15px 0;
+        }
+        
+        .footer-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--utp-green) 0%, var(--utp-gold) 100%);
+        }
+        
+        .references {
+            font-size: 0.6em;
+            text-align: left;
+            column-count: 2;
+            column-gap: 30px;
+        }
+        
+        /* ========================================
+           ELEMENTOS INTERACTIVOS Y ANIMACIONES
+           ======================================== */
+        
+        /* Código con syntax highlighting */
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.7em;
+            text-align: left;
+            overflow-x: auto;
+            position: relative;
+        }
+        
+        .code-block::before {
+            content: attr(data-lang);
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 0.7em;
+            color: #888;
+            text-transform: uppercase;
+        }
+        
+        .code-block .keyword { color: #569cd6; }
+        .code-block .string { color: #ce9178; }
+        .code-block .number { color: #b5cea8; }
+        .code-block .comment { color: #6a9955; font-style: italic; }
+        .code-block .function { color: #dcdcaa; }
+        .code-block .class { color: #4ec9b0; }
+        
+        /* Contadores animados */
+        .counter-container {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px 0;
+        }
+        
+        .counter {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .counter-value {
+            font-size: 3em;
+            font-weight: bold;
+            color: var(--utp-green);
+            display: inline-block;
+        }
+        
+        .counter-label {
+            font-size: 0.8em;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        /* Progress bars animados */
+        .progress-container {
+            margin: 15px 0;
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 0.8em;
+        }
+        
+        .progress-bar {
+            background: #e0e0e0;
+            border-radius: 10px;
+            height: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 1.5s ease-out;
+            background: linear-gradient(90deg, var(--utp-green) 0%, #4caf50 100%);
+        }
+        
+        /* Animación de pulso */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        /* Animación de aparición */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-in {
+            opacity: 0;
+        }
+        
+        .animate-in.visible {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        
+        /* Gráfico container */
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+            margin: 10px 0;
+        }
+        
+        /* Diagrama de flujo animado */
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            padding: 15px;
+        }
+        
+        .flow-step {
+            background: #f5f5f5;
+            border: 2px solid var(--utp-green);
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 0.75em;
+            transition: all 0.3s ease;
+            min-width: 120px;
+            text-align: center;
+        }
+        
+        .flow-step:hover {
+            background: var(--utp-green);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .flow-step.active {
+            background: var(--utp-green);
+            color: white;
+            box-shadow: 0 0 15px rgba(0, 102, 51, 0.4);
+        }
+        
+        .flow-arrow {
+            font-size: 1.5em;
+            color: var(--utp-green);
+        }
+        
+        /* Tarjetas de resultado */
+        .result-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            padding: 22px;
+            box-shadow: var(--shadow-soft);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 5px solid var(--utp-green);
+        }
+        
+        .result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 102, 51, 0.15);
+        }
+        
+        .result-card .value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: var(--utp-green);
+        }
+        
+        .result-card .metric {
+            font-size: 0.85em;
+            color: #666;
+        }
+        
+        /* Badge de algoritmo ganador */
+        .winner-badge {
+            background: linear-gradient(135deg, #ffd700 0%, #ffb700 100%);
+            color: #333;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.75em;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        
+        /* Typing animation */
+        .typing-text {
+            overflow: hidden;
+            border-right: 2px solid var(--utp-green);
+            white-space: nowrap;
+            animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: var(--utp-green); }
+        }
+        
+        /* Comparación visual lado a lado */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .comparison-item {
+            background: #f8f8f8;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .comparison-item:hover {
+            background: var(--utp-green);
+            color: white;
+        }
+        
+        .comparison-item:hover h4 {
+            color: white;
+        }
+    </style>
+    
+    <!-- Chart.js para gráficos interactivos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <!-- Highlight.js para código -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs2015.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            
+            <!-- SLIDE 1: PORTADA -->
+            <section class="title-slide">
+                <div class="utp-header">UNIVERSIDAD TECNOLÓGICA DE PEREIRA</div>
+                <h1>Modelo de Optimización DLBP con Metaheurísticas para la Industria Avícola Colombiana</h1>
+                <p class="subtitle">Informe Final de Investigación</p>
+                <p class="author"><strong>Daniel Castañeda</strong></p>
+                <p class="author">Directora: Ing. Eliana Mirledy Ocampo Toro, PhD.</p>
+                <p class="institution">
+                    Facultad de Ingeniería Industrial<br>
+                    Maestría en Investigación de Operaciones y Estadística<br>
+                    Febrero, 2026
+                </p>
+                <img src="figuras/logo_utp.png" alt="Logo UTP" style="max-height: 80px; margin-top: 10px;" onerror="this.style.display='none'">
+                <div class="footer-bar"></div>
+            </section>
+
+            <!-- SLIDE 2: AGENDA -->
+            <section>
+                <h2>Agenda</h2>
+                <div class="two-column">
+                    <div>
+                        <ol>
+                            <li>Contexto y Problema</li>
+                            <li>Objetivos de Investigación</li>
+                            <li>Marco Teórico y Estado del Arte</li>
+                            <li>Formulación Matemática</li>
+                            <li>Metodología de Solución</li>
+                        </ol>
+                    </div>
+                    <div>
+                        <ol start="6">
+                            <li>Diseño Experimental</li>
+                            <li>Resultados y Validación</li>
+                            <li>Conclusiones</li>
+                            <li>Contribuciones y Trabajo Futuro</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="footer-bar"></div>
+            </section>
+
+            <!-- SLIDE 3: CONTEXTO -->
+            <section>
+                <h2>1. Contexto del Problema</h2>
+                <h3>La Industria Avícola Colombiana</h3>
+                <div class="two-column">
+                    <div>
+                        <div class="stat-card">
+                            <div class="number">1.7M</div>
+                            <div class="label">Toneladas de pollo/año</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="number">600K+</div>
+                            <div class="label">Empleos generados</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="number">0.52%</div>
+                            <div class="label">del PIB agropecuario</div>
+                        </div>
+                    </div>
+                    <div>
+                        <p><strong>Fuentes:</strong> FENAVI 2024, DANE 2024</p>
+                        <p>Colombia es uno de los principales productores avícolas de América Latina.</p>
+                        <p>El sector enfrenta desafíos operativos significativos en la gestión de coproductos.</p>
+                    </div>
+                </div>
+                <div class="footer-bar"></div>
+            </section>
+
+            <!-- SLIDE 4: PROBLEMA -->
+            <section>
+                <h2>El Problema del Balanceo de Carcasa</h2>
+                <div class="highlight-box">
+                    <h3>Dinámica Push-Pull</h3>
+                    <div class="two-column" style="color: white;">
+                        <div>
+                            <strong>🔄 PUSH (Empuje)</strong>
+                            <p>Oferta fija de coproductos determinada por la anatomía del ave</p>
+                            <p>~30% pechuga, ~20% muslos, ~10% alas...</p>
+                        </div>
+                        <div>
+                            <strong>📊 PULL (Tracción)</strong>
+                            <p>Demanda variable y estocástica del mercado</p>
+                            <p>Estacional, promocional, preferencias regionales</p>
+                        </div>
+                    </div>
+                </div>
+                <p><strong>Consecuencia:</strong> Desbalance que genera pérdidas por inventario, liquidación y desperdicio.</p>
+                <div class="footer-bar"></div>
+            </section>
+
+            <!-- SLIDE 5: MANIFESTACIONES -->
+            <section>
+                <h2>Manifestaciones del Desbalance</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Manifestación</th>
+                            <th>Descripción</th>
+                            <th>Impacto Estimado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Excedentes de Inventario</strong></td>
+                            <td>Sobreoferta de cortes de menor demanda</td>
+                            <td>+15-25% costos almacenamiento</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Faltantes</strong></td>
+                            <td>Demanda insatisfecha de cortes premium</td>
+                            <td>Ventas perdidas</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ventas de Liquidación</strong></td>
+                            <td>Productos vendidos bajo costo</td>
+                            <td>-20-40% margen</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Desperdicio</strong></td>
+                            <td>Productos sin comprador</td>
+                            <td>5-10% producción</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="fragment"><em>Fuente: Solano-Blanco et al. (2022) demostró mejoras de 7-57% en utilidad con planificación integrada.</em></p>
+                <div class="footer-bar"></div>
+            </section>
+
+            <!-- SLIDE 6: PREGUNTA DE INVESTIGACIÓN -->
+            <section>
+                <h2>2. Pregunta de Investigación</h2>
+                <div class="highlight-box">
+                    <p style="font-size: 1.1em; text-align: center;">
+                        ¿Cómo puede un modelo de optimización <strong>DLBP</strong>, resuelto mediante técnicas <strong>metaheurísticas</strong>, minimizar las pérdidas económicas asociadas al desbalance entre la oferta de coproductos y la demanda del mercado en una planta de procesamiento avícola colombiana?
+                    </p>
+                </div>
+                <div class="footer-bar"></div>
+            </section>
+
+            <!-- SLIDE 7: OBJETIVOS -->
+            <section>
+                <h2>Objetivos de Investigación</h2>
+                <h3>Objetivo General</h3>
+                <p>Desarrollar un modelo de optimización basado en el DLBP que, mediante técnicas metaheurísticas, minimice las pérdidas económicas.</p>
+                
+                <h3>Objetivos Específicos</h3>
+                <ol style="font-size: 0.85em;">
+                    <li><strong>Formular</strong> modelo matemático del DLBP adaptado al procesamiento avícola</li>
+                    <li><strong>Implementar</strong> GA, TS y algoritmo híbrido</li>
+                    <li><strong>Diseñar</strong> generador de instancias sintéticas calibradas</li>
+                    <li><strong>Comparar</strong> desempeño mediante diseño experimental riguroso</li>
+                    <li><strong>Validar</strong> cuantificando mejoras potenciales</li>
+                </ol>
+                <div class="footer-bar"></div>
+            </section>
+
+            <!-- SLIDE 8: DLBP -->
+            <section>
+                <h2>3. Marco Teórico: DLBP</h2>
+                <h3>Problema de Balanceo de Líneas de Desensamble</h3>
+                <div class="two-column">
+                    <div>
+                        <ul>
+                            <li>Problema de optimización combinatoria</li>
+                            <li>Clasificado como <strong>NP-Hard</strong></li>
+                            <li>Inverso al ALBP (divergente vs convergente)</li>
+                            <li>Restricciones de precedencia tecnológica</li>
+                        </ul>
+                        <p class="fragment"><em>Becker & Scholl (2006) - Referencia fundamental</em></p>
+                    </div>
+                    <div>
+                        <img src="figuras/proceso_desensamble.png" alt="Proceso de Desensamble" style="max-height: 350px;">
+                    </div>
+                </div>
+                <div class="footer-bar"></div>
+            </section>
+
+            <!-- SLIDE 9: METAHEURÍSTICAS CON ANIMACIONES -->
+            <section>
+                <h2>Metaheurísticas para DLBP</h2>
+                <div class="two-column">
+                    <div class="algorithm-box fragment fade-in" data-fragment-index="1">
+                        <h4>🧬 Algoritmo Genético (GA)</h4>
+                        <ul>
+                            <li class="fragment" data-fragment-index="2">Exploración global del espacio</li>
+                            <li class="fragment" data-fragment-index="3">Operadores evolutivos (cruce, mutación)</li>
+                            <li class="fragment" data-fragment-index="4">Holland (1975), Goldberg (1989)</li>
+                        </ul>
+                    </div>
+                    <div class="algorithm-box fragment fade-in" data-fragment-index="5">
+                        <h4>🔍 Búsqueda Tabú (TS)</h4>
+                        <ul>
+                            <li class="fragment" data-fragment-index="6">Explotación local intensiva</li>
+                            <li class="fragment" data-fragment-index="7">Memoria de corto plazo (lista tabú)</li>
+                            <li class="fragment" data-fragment-index="8">Glover & Laguna (1997)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="algorithm-box fragment fade-up" style="margin-top: 20px;" data-fragment-index="9">
+                    <h4>🔗 Algoritmo Híbrido (Memético)</h4>
+                    <ul>
+                        <li class="fragment" data-fragment-index="10">Combina exploración global (GA) + intensificación local (TS)</li>
+                        <li class="fragment" data-fragment-index="11">Balance entre diversificación y convergencia</li>
+                        <li class="fragment" data-fragment-index="12">Moscato (1989) - Algoritmos Meméticos</li>
+                    </ul>
+                </div>
+                <div class="footer-bar"></div>
+            </section>
+
+            <!-- SLIDE: ESTADO DEL ARTE Y BRECHAS -->
+            <section>
+                <h2>Estado del Arte: Análisis de Brechas</h2>
+                <table style="font-size: 0.6em;">
+                    <thead>
+                        <tr>
+                            <th>Brecha Identificada</th>
+                            <th>Estado Actual</th>
+                            <th>Contribución de Esta Investigación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>DLBP limitado a manufactura/electrónica</td>
+                            <td>Sin aplicaciones a industria alimentaria</td>
+                            <td><strong>✅ Primera aplicación a industria avícola</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Sin restricciones sanitarias en DLBP</td>
+                            <td>Modelos estándar ignoran zonificación</td>
+                            <td><strong>✅ Restricciones zona limpia/sucia</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Poca comparación sistemática GA vs TS</td>
+                            <td>Trabajos individuales, sin benchmark</td>
+                            <td><strong>✅ Comparación rigurosa + Híbrido</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Calibración manual de parámetros</td>
+                            <td>Trial-and-error predominante</td>
+                            <td><strong>✅ Optuna con TPE bayesiano</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="footer-bar"></div>
+            </section>
+
+            <!-- SLIDE: TENDENCIAS EMERGENTES -->
+            <section>
+                <h2>Tendencias Emergentes 2025-2026</h2>
+                <div class="two-column">
+                    <div>
+                        <div class="algorithm-box fragment fade-in">
+                            <h4>🤖 Deep Reinforcement Learning</h4>
+                            <p style="font-size: 0.8em;">Wang et al. (2026): DRL para scheduling adaptativo de desensamble con incertidumbre.</p>
+                        </div>
+                        <div class="algorithm-box fragment fade-in">
+                            <h4>🌀 Keplerian Optimization + Q-Learning</h4>
+                            <p style="font-size: 0.8em;">Tan et al. (2026): Algoritmo bio-inspirado híbrido para DLBP con tiempos estocásticos.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="algorithm-box fragment fade-in">
+                            <h4>🐔 MILP Avícola Directo</h4>
+                            <p style="font-size: 0.8em;">Tahraoui et al. (2025): Optimización exacta de líneas de corte avícola.</p>
+                        </div>
+                        <div class="highlight-box fragment fade-in" style="padding: 15px; margin-top: 10px;">
+                            <p style="font-size: 0.85em; text-align: center; margin: 0;">
+                                <strong>Convergencia:</strong> IO Clásica + IA + Aplicación Sectorial
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bar"></div>
+            </section>
+            <!-- SLIDE 10: FORMULACIÓN MATEMÁTICA -->
+            <section>
+                <h2>4. Formulación Matemática</h2>
+                <h3>Modelo MILP con Zonificación Sanitaria</h3>
+                <div class="math-formula">
+                    <strong>Minimizar:</strong> \( Z = \sum_{s \in S} y_s \) (número de estaciones)
+                </div>
+                <h4>Restricciones Principales:</h4>
+                <table style="font-size: 0.75em;">
+                    <tr>
+                        <td><strong>Asignación Única:</strong></td>
+                        <td>\( \sum_{s} x_{is} = 1 \quad \forall i \in I \)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tiempo de Ciclo:</strong></td>
+                        <td>\( \sum_{i} t_i \cdot x_{is} \leq C \cdot y_s \quad \forall s \in S \)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Precedencia:</strong></td>
+                        <td>\( \sum_{s' \leq s} x_{js'} \geq x_{is} \quad \forall (j \prec i) \)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Zonificación:</strong></td>
+                        <td>\( x_{is} + x_{js} \leq 1 \quad \forall i \in Z_{\text{sucia}}, j \in Z_{\text{limpia}} \)</td>
+                    </tr>
+                </table>
+                <div class="footer-bar"></div>
+            </section>
+
+            <!-- SLIDE 11: REPRESENTACIÓN DE SOLUCIONES -->
+            <section>
+                <h2>5. Metodología de Solución</h2>
+                <h3>Representación y Decodificación</h3>
+                <div class="two-column">
+                    <div>
+                        <h4>Codificación Cromosómica</h4>
+                        <p>Permutación de tareas:</p>
+                        <p style="font-family: monospace; background: #f5f5f5; padding: 10px;">
+                            π = (T₃, T₁, T₂, T₅, T₄)
+                        </p>
+                        <p>Indica orden de prioridad para asignación a estaciones.</p>
+                    </div>
+                    <div>
+                        <h4>Decodificador First-Fit</h4>
+                        <ol style="font-size: 0.8em;">
+                            <li>Recorrer tareas en orden π</li>
+                            <li>Si cabe en estación actual → asignar</li>
+                            <li>Si no cabe → abrir nueva estación</li>
+                            <li>Retornar asignación y #estaciones</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="footer-bar"></div>
+            </section>
+
+            <!-- SLIDE 12: ALGORITMO GENÉTICO CON ANIMACIONES -->
+            <section>
+                <h2>Algoritmo Genético (GA)</h2>
+                <div class="two-column">
+                    <div>
+                        <img src="figuras/flujo_ga.png" alt="Flujo GA" style="max-height: 400px;">
+                    </div>
+                    <div>
+                        <h4 class="fragment" data-fragment-index="1">Operadores Implementados</h4>
+                        <ul>
+                            <li class="fragment" data-fragment-index="2"><strong>Selección:</strong> Torneo (k=4)</li>
+                            <li class="fragment" data-fragment-index="3"><strong>Cruce:</strong> Order Crossover (OX)</li>
+                            <li class="fragment" data-fragment-index="4"><strong>Mutación:</strong> Swap aleatorio</li>
+                            <li class="fragment" data-fragment-index="5"><strong>Elitismo:</strong> k=1 (preservar mejor)</li>
+                        </ul>
+                        <h4 class="fragment" data-fragment-index="6">Parámetros Calibrados (Optuna)</h4>
+                        <table style="font-size: 0.7em;" class="fragment" data-fragment-index="7">
+                            <tr><td>Población</td><td><strong>75</strong></td></tr>
+                            <tr><td>Prob. Cruce</td><td><strong>0.93</strong></td></tr>
+                            <tr><td>Prob. Mutación</td><td><strong>0.20</strong></td></tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="footer-bar"></div>
+            </section>
+
+            <!-- SLIDE 13: ARQUITECTURA SOFTWARE -->
+            <section>
+                <h2>Arquitectura de Software</h2>
+                <img src="figuras/arquitectura_software.png" alt="Arquitectura UML" style="max-height: 500px;">
+                <p style="font-size: 0.8em;">Framework modular en Python (~2,700 líneas de código)</p>
+                <div class="footer-bar"></div>
+            </section>
+
+            <!-- SLIDE 14: DISEÑO EXPERIMENTAL -->
+            <section>
+                <h2>6. Diseño Experimental</h2>
+                <img src="figuras/metodologia_experimental.png" alt="Metodología" style="max-height: 300px;">
+                <div class="two-column" style="margin-top: 20px;">
+                    <div>
+                        <h4>Instancias Sintéticas</h4>
+                        <table style="font-size: 0.7em;">
+                            <tr><th>Instancia</th><th>Tareas</th><th>Ciclo</th></tr>
+                            <tr><td>Pequeña</td><td>20</td><td>30s</td></tr>
+                            <tr><td>Mediana</td><td>40</td><td>40s</td></tr>
+                            <tr><td>Grande</td><td>70</td><td>45s</td></tr>
+                            <tr><td>Muy Grande</td><td>100</td><td>50s</td></tr>
+                        </table>
+                    </div>
+                    <div>
+                        <h4>Protocolo</h4>
+                        <ul style="font-size: 0.8em;">
+                            <li>30 réplicas por combinación</li>
+                            <li>Semillas: 42 + i×1000</li>
+                            <li>Calibración: Optuna (30 trials)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-bar"></div>
+            </section>
+
+            <!-- SLIDE 15: CALIBRACIÓN OPTUNA -->
+            <section>
+                <h2>Calibración con Optuna</h2>
+                <div class="two-column">
+                    <div>
+                        <img src="figuras/calibracion_optuna.png" alt="Calibración Optuna" style="max-height: 400px;">
+                    </div>
+                    <div>
+                        <h4>Resultados de Calibración</h4>
+                        <table style="font-size: 0.8em;">
+                            <tr>
+                                <th>Algoritmo</th>
+                                <th>Fitness</th>
+                            </tr>
+                            <tr>
+                                <td>GA</td>
+                                <td><strong>10.0</strong></td>
+                            </tr>
+                            <tr>
+                                <td>TS</td>
+                                <td>10.67</td>
+                            </tr>
+                            <tr>
+                                <td>Híbrido</td>
+                                <td><strong>10.0</strong></td>
+                            </tr>
+                        </table>
+                        <p style="font-size: 0.8em; margin-top: 20px;">
+                            Optimización bayesiana (TPE sampler) para encontrar configuraciones óptimas.
+                        </p>
+                    </div>
+                </div>
+                <div class="footer-bar"></div>
+            </section>
+
+            <!-- SLIDE 16: RESULTADOS COMPARACIÓN -->
+            <section>
+                <h2>7. Resultados: Comparación</h2>
+                <img src="figuras/comparacion_estaciones.png" alt="Comparación" style="max-height: 450px;">
+                <p>El algoritmo <strong>Híbrido</strong> obtiene consistentemente los mejores resultados.</p>
+                <div class="footer-bar"></div>
+            </section>
+
+            <!-- SLIDE 17: EFICIENCIA -->
+            <section>
+                <h2>Eficiencia de Línea</h2>
+                <div class="two-column">
+                    <div>
+                        <img src="figuras/eficiencia_linea.png" alt="Eficiencia" style="max-height: 350px;">
+                    </div>
+                    <div>
+                        <div class="stat-card">
+                            <div class="number">89.1%</div>
+                            <div class="label">Eficiencia Híbrido</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="number">87.5%</div>
+                            <div class="label">Eficiencia GA</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="number">84.3%</div>
+                            <div class="label">Eficiencia TS</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bar"></div>
+            </section>
+
+            <!-- SLIDE 18: CONVERGENCIA -->
+            <section>
+                <h2>Curvas de Convergencia</h2>
+                <img src="figuras/convergencia.png" alt="Convergencia" style="max-height: 400px;">
+                <ul style="font-size: 0.85em;">
+                    <li><strong>GA:</strong> Convergencia gradual y estable</li>
+                    <li><strong>TS:</strong> Rápida inicial, luego meseta</li>
+                    <li><strong>Híbrido:</strong> Saltos de mejora al aplicar intensificación</li>
+                </ul>
+                <div class="footer-bar"></div>
+            </section>
+
+            <!-- SLIDE 19: BOXPLOT -->
+            <section>
+                <h2>Estabilidad de Resultados</h2>
+                <div class="two-column">
+                    <div>
+                        <img src="figuras/boxplot_estabilidad.png" alt="Boxplot" style="max-height: 400px;">
+                    </div>
+                    <div>
+                        <h4>Desviación Estándar (σ)</h4>
+                        <table>
+                            <tr><th>Algoritmo</th><th>σ</th></tr>
+                            <tr><td><strong>Híbrido</strong></td><td><strong>0.18</strong></td></tr>
+                            <tr><td>GA</td><td>0.67</td></tr>
+                            <tr><td>TS</td><td>1.02</td></tr>
+                        </table>
+                        <p class="fragment" style="margin-top: 20px;">
+                            <strong>El Híbrido es el más estable</strong> (menor variabilidad entre réplicas)
+                        </p>
+                    </div>
+                </div>
+                <div class="footer-bar"></div>
+            </section>
+
+            <!-- SLIDE 20: ANÁLISIS ESTADÍSTICO -->
+            <section>
+                <h2>Análisis Estadístico</h2>
+                <h3>Test de Friedman + Post-hoc Nemenyi</h3>
+                <div class="two-column">
+                    <div>
+                        <img src="figuras/ranking_friedman.png" alt="Friedman" style="max-height: 350px;">
+                    </div>
+                    <div>
+                        <table style="font-size: 0.8em;">
+                            <tr>
+                                <th>Estadístico</th>
+                                <th>Valor</th>
+                            </tr>
+                            <tr>
+                                <td>χ² calculado</td>
+                                <td>18.4</td>
+                            </tr>
+                            <tr>
+                                <td>p-valor</td>
+                                <td><strong>p < 0.001</strong></td>
+                            </tr>
+                        </table>
+                        <div class="highlight-box" style="margin-top: 20px; padding: 15px;">
+                            <strong>Híbrido vs TS:</strong> Diferencia significativa (p<0.05)
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bar"></div>
+            </section>
+
+            <!-- SLIDE 21: IMPACTO EN NEGOCIO -->
+            <section>
+                <h2>Impacto en el Negocio</h2>
+                <div class="two-column">
+                    <div>
+                        <div class="stat-card">
+                            <div class="number">2-3</div>
+                            <div class="label">Estaciones reducidas (10-15%)</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="number">$1.0-1.5M</div>
+                            <div class="label">Ahorro mensual (COP)</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="number">+5.2%</div>
+                            <div class="label">Mejora en eficiencia</div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4>Proyección de Beneficios</h4>
+                        <ul>
+                            <li>Reducción de costos de operación</li>
+                            <li>Menor inventario de baja rotación</li>
+                            <li>Mayor competitividad</li>
+                            <li>Alineación con ODS 12 (producción responsable)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-bar"></div>
+            </section>
+
+            <!-- SLIDE 22: CONCLUSIONES -->
+            <section>
+                <h2>8. Conclusiones</h2>
+                <div class="conclusion-item">
+                    <div class="icon">🏆</div>
+                    <div><strong>El Algoritmo Híbrido (GA+TS) ofrece la mejor calidad de solución</strong> con eficiencia del 89.1% y menor variabilidad.</div>
+                </div>
+                <div class="conclusion-item">
+                    <div class="icon">⚖️</div>
+                    <div><strong>El GA puro ofrece buen balance calidad-tiempo</strong>, recomendable para aplicaciones en tiempo real.</div>
+                </div>
+                <div class="conclusion-item">
+                    <div class="icon">🔧</div>
+                    <div><strong>La calibración automática con Optuna mejoró el desempeño 8-12%</strong> vs configuraciones por defecto.</div>
+                </div>
+                <div class="conclusion-item">
+                    <div class="icon">✅</div>
+                    <div><strong>Hipótesis H2 confirmada:</strong> El híbrido es estadísticamente superior a TS (p<0.05).</div>
+                </div>
+                <div class="footer-bar"></div>
+            </section>
+
+            <!-- SLIDE 22.5: ANÁLISIS DE SENSIBILIDAD - METODOLOGÍA -->
+            <section>
+                <h2>Análisis de Sensibilidad</h2>
+                <h3>Metodología One-at-a-Time (OAT)</h3>
+                <div class="two-column">
+                    <div>
+                        <h4>Procedimiento</h4>
+                        <ol style="font-size: 0.8em;">
+                            <li><strong>Fijar</strong> parámetros en valores base</li>
+                            <li><strong>Variar</strong> un parámetro (4 niveles)</li>
+                            <li><strong>Ejecutar</strong> 10 réplicas por nivel</li>
+                            <li><strong>Medir</strong> impacto en # estaciones</li>
+                        </ol>
+                        <h4>Configuración</h4>
+                        <ul style="font-size: 0.8em;">
+                            <li>6 parámetros × 4 niveles × 10 rep.</li>
+                            <li>= <strong>240 ejecuciones</strong></li>
+                            <li>Instancia: 15 tareas, ciclo=40s</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <table style="font-size: 0.65em;">
+                            <thead><tr><th>Algoritmo</th><th>Parámetro</th><th>Rango</th></tr></thead>
+                            <tbody>
+                                <tr><td>GA</td><td>poblacion_size</td><td>50-125</td></tr>
+                                <tr><td>GA</td><td>prob_cruce</td><td>0.80-0.95</td></tr>
+                                <tr><td>GA</td><td>prob_mutacion</td><td>0.10-0.25</td></tr>
+                                <tr><td>TS</td><td>tamano_lista_tabu</td><td>10-25</td></tr>
+                                <tr><td>TS</td><td>tamano_vecindario</td><td>30-60</td></tr>
+                                <tr><td>Híbrido</td><td>aplicar_ts_cada</td><td>15-30</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="footer-bar"></div>
+            </section>
+
+            <!-- SLIDE 22.6: ANÁLISIS DE SENSIBILIDAD - RESULTADOS -->
+            <section>
+                <h2>Análisis de Sensibilidad</h2>
+                <h3>Resultados: Todos los Parámetros son Robustos</h3>
+                <div class="two-column">
+                    <div>
+                        <img src="figuras/sensibilidad_resumen.png" alt="Sensibilidad" style="max-height: 300px;">
+                    </div>
+                    <div>
+                        <h4>Hallazgos Principales</h4>
+                        <ul style="font-size: 0.85em;">
+                            <li><strong>Rango de variación = 0</strong> para todos</li>
+                            <li>Óptimo de <strong>5 estaciones</strong> siempre encontrado</li>
+                            <li>Umbral crítico (0.5 est.) nunca superado</li>
+                        </ul>
+                        <h4>Impacto en Tiempo</h4>
+                        <ul style="font-size: 0.85em;">
+                            <li>poblacion_size: 50→125 = <strong>+133%</strong> tiempo</li>
+                            <li>aplicar_ts_cada: 15→30 = <strong>-41%</strong> tiempo</li>
+                            <li>Calidad constante, tiempo variable</li>
+                        </ul>
+                        <div class="highlight" style="background: #e8f5e9; padding: 10px; margin-top: 10px; border-radius: 5px;">
+                            <strong>✅ Parámetros de Optuna validados</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bar"></div>
+            </section>
+
+            <!-- SLIDE: VALIDACIÓN CON BENCHMARKS -->
+            <section>
+                <h2>Validación con Benchmarks</h2>
+                <h3>Comparación con Solver Exacto (MILP)</h3>
+                <table style="font-size: 0.8em; margin-top: 20px;">
+                    <thead>
+                        <tr><th>Instancia</th><th>n</th><th>Óptimo</th><th>GA</th><th>TS</th><th>Híbrido</th><th>Gap</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>demo_15t</td><td>15</td><td>5</td><td>5.0</td><td>5.0</td><td>5.0</td><td style="color: green;"><strong>0%</strong></td></tr>
+                        <tr><td>lineal_10t</td><td>10</td><td>4</td><td>4.0</td><td>4.0</td><td>5.0</td><td style="color: green;"><strong>0%</strong></td></tr>
+                        <tr><td>paralelo_12t</td><td>12</td><td>4</td><td>4.0</td><td>4.0</td><td>4.0</td><td style="color: green;"><strong>0%</strong></td></tr>
+                    </tbody>
+                </table>
+                <div class="two-column" style="margin-top: 20px;">
+                    <div>
+                        <h4>Hallazgos</h4>
+                        <ul style="font-size: 0.8em;">
+                            <li>GA y TS alcanzan <strong>óptimo exacto</strong></li>
+                            <li>Gap promedio = <strong>0%</strong></li>
+                            <li>Implementación validada</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Tiempos</h4>
+                        <ul style="font-size: 0.8em;">
+                            <li>MILP: 0.5s promedio</li>
+                            <li>TS: 0.14s (más rápido)</li>
+                            <li>GA: 0.41s (buen balance)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-bar"></div>
+            </section>
+
+            <!-- SLIDE 23: CUMPLIMIENTO OBJETIVOS -->
+            <section>
+                <h2>Cumplimiento de Objetivos</h2>
+                <table style="font-size: 0.85em;">
+                    <thead>
+                        <tr>
+                            <th>Objetivo</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Formular modelo MILP con zonificación</td>
+                            <td>✅ Cumplido</td>
+                        </tr>
+                        <tr>
+                            <td>Implementar GA, TS, Híbrido</td>
+                            <td>✅ Cumplido</td>
+                        </tr>
+                        <tr>
+                            <td>Diseñar generador de instancias</td>
+                            <td>✅ Cumplido</td>
+                        </tr>
+                        <tr>
+                            <td>Comparar mediante experimento riguroso</td>
+                            <td>✅ Cumplido</td>
+                        </tr>
+                        <tr>
+                            <td>Validar cuantificando mejoras</td>
+                            <td>✅ Cumplido</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="footer-bar"></div>
+            </section>
+
+            <!-- SLIDE 24: LIMITACIONES Y TRABAJO FUTURO -->
+            <section>
+                <h2>Limitaciones y Trabajo Futuro</h2>
+                <div class="pros-cons">
+                    <div class="cons">
+                        <h4>Limitaciones</h4>
+                        <ul style="font-size: 0.85em;">
+                            <li>Datos sintéticos (no validados en planta real)</li>
+                            <li>Enfoque monoobjetivo</li>
+                            <li>Sin validación de campo</li>
+                        </ul>
+                    </div>
+                    <div class="pros">
+                        <h4>Trabajo Futuro</h4>
+                        <ul style="font-size: 0.85em;">
+                            <li>Optimización Multi-Objetivo</li>
+                            <li>Piloto en planta colombiana</li>
+                            <li>Aprendizaje por Refuerzo</li>
+                            <li>Digital Twin</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-bar"></div>
+            </section>
+
+            <!-- SLIDE 25: CONTRIBUCIONES -->
+            <section>
+                <h2>Contribuciones</h2>
+                <div class="two-column">
+                    <div>
+                        <h4>🎯 Teóricas</h4>
+                        <ul>
+                            <li>Extensión del DLBP al sector alimentario</li>
+                            <li>Modelo con restricciones de zonificación sanitaria</li>
+                            <li>Validación empírica de metaheurísticas híbridas</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>🛠️ Prácticas</h4>
+                        <ul>
+                            <li>Framework de software reutilizable (Python)</li>
+                            <li>Generador de instancias para benchmarking</li>
+                            <li>Guía de calibración con Optuna</li>
+                        </ul>
+                    </div>
+                </div>
+                <div style="margin-top: 20px; text-align: center;">
+                    <div class="highlight-box" style="display: inline-block; padding: 12px 30px;">
+                        <p style="margin: 0; font-size: 0.85em;">
+                            📂 <strong>Código abierto:</strong>
+                            <a href="https://github.com/DanAndCastRod/OBC" target="_blank" style="color: var(--utp-gold); text-decoration: underline;">github.com/DanAndCastRod/OBC</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="footer-bar"></div>
+            </section>
+
+            <!-- SLIDE INTERACTIVA: RESULTADOS EN NÚMEROS (Chart.js) -->
+            <section>
+                <h2>Resultados en Números</h2>
+                <h3>Comparación Visual de Algoritmos</h3>
+                <div class="chart-container" style="max-width: 700px; margin: 0 auto;">
+                    <canvas id="resultChart"></canvas>
+                </div>
+                <div class="counter-container" style="margin-top: 15px;">
+                    <div class="counter">
+                        <span class="counter-value" data-target="5">0</span>
+                        <div class="counter-label">Estaciones Óptimas</div>
+                    </div>
+                    <div class="counter">
+                        <span class="counter-value" data-target="100">0</span><span style="font-size: 1.5em; color: var(--utp-green);">%</span>
+                        <div class="counter-label">Tasa de Éxito GA</div>
+                    </div>
+                    <div class="counter">
+                        <span class="counter-value" data-target="0">0</span><span style="font-size: 1.5em; color: var(--utp-green);">%</span>
+                        <div class="counter-label">Gap vs Óptimo</div>
+                    </div>
+                </div>
+                <div class="footer-bar"></div>
+            </section>
+
+            <!-- SLIDE INTERACTIVA: FLUJO DEL ALGORITMO HÍBRIDO -->
+            <section>
+                <h2>Flujo del Algoritmo Híbrido</h2>
+                <h3>Proceso de Optimización Paso a Paso</h3>
+                <div class="flow-diagram" style="margin-top: 30px;">
+                    <div class="flow-step fragment highlight-current-green" data-fragment-index="1">
+                        <strong>📊 Inicialización</strong><br>
+                        <span style="font-size: 0.7em;">Población aleatoria</span>
+                    </div>
+                    <span class="flow-arrow fragment" data-fragment-index="2">→</span>
+                    <div class="flow-step fragment highlight-current-green" data-fragment-index="2">
+                        <strong>🧬 GA</strong><br>
+                        <span style="font-size: 0.7em;">10 generaciones</span>
+                    </div>
+                    <span class="flow-arrow fragment" data-fragment-index="3">→</span>
+                    <div class="flow-step fragment highlight-current-green" data-fragment-index="3">
+                        <strong>🔍 TS</strong><br>
+                        <span style="font-size: 0.7em;">Intensificación</span>
+                    </div>
+                    <span class="flow-arrow fragment" data-fragment-index="4">→</span>
+                    <div class="flow-step fragment highlight-current-green" data-fragment-index="4">
+                        <strong>🔄 Iteración</strong><br>
+                        <span style="font-size: 0.7em;">Repetir ciclo</span>
+                    </div>
+                    <span class="flow-arrow fragment" data-fragment-index="5">→</span>
+                    <div class="flow-step fragment highlight-current-green pulse-animation" data-fragment-index="5">
+                        <strong>✅ Solución</strong><br>
+                        <span style="font-size: 0.7em;">5 estaciones</span>
+                    </div>
+                </div>
+                <div class="progress-container fragment" data-fragment-index="6" style="max-width: 600px; margin: 20px auto;">
+                    <div class="progress-label">
+                        <span>Progreso de Optimización</span>
+                        <span>100%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+                    </div>
+                </div>
+                <div class="footer-bar"></div>
+            </section>
+
+            <!-- SLIDE INTERACTIVA: CÓDIGO DE IMPLEMENTACIÓN -->
+            <section>
+                <h2>Implementación en Python</h2>
+                <h3>Fragmento del Algoritmo Híbrido</h3>
+                <pre class="code-block" data-lang="Python"><code class="language-python"><span class="keyword">def</span> <span class="function">algoritmo_hibrido</span>(instancia, params):
+    <span class="comment"># Inicialización</span>
+    poblacion = <span class="function">generar_poblacion</span>(params[<span class="string">'size'</span>])
+    mejor = <span class="keyword">None</span>
+    
+    <span class="keyword">for</span> gen <span class="keyword">in</span> <span class="function">range</span>(params[<span class="string">'max_gen'</span>]):
+        <span class="comment"># Fase GA: exploración global</span>
+        poblacion = <span class="function">seleccion_torneo</span>(poblacion)
+        poblacion = <span class="function">cruce_PMX</span>(poblacion, params[<span class="string">'prob_cruce'</span>])
+        poblacion = <span class="function">mutacion</span>(poblacion, params[<span class="string">'prob_mut'</span>])
+        
+        <span class="comment"># Fase TS: intensificación local</span>
+        <span class="keyword">if</span> gen % params[<span class="string">'ts_cada'</span>] == <span class="number">0</span>:
+            mejor_actual = <span class="function">mejor_individuo</span>(poblacion)
+            mejor_actual = <span class="function">tabu_search</span>(mejor_actual)
+        
+        mejor = <span class="function">actualizar_mejor</span>(mejor, poblacion)
+    
+    <span class="keyword">return</span> mejor  <span class="comment"># Solución: 5 estaciones ✅</span></code></pre>
+                <div style="margin-top: 15px; font-size: 0.8em;">
+                    <span class="winner-badge">🏆 Framework completo disponible en GitHub</span>
+                </div>
+                <div class="footer-bar"></div>
+            </section>
+
+            <!-- SLIDE INTERACTIVA: MÉTRICAS DEL PROYECTO -->
+            <section>
+                <h2>Métricas del Proyecto</h2>
+                <h3>Impacto y Alcance de la Investigación</h3>
+                <div class="comparison-grid" style="margin-top: 30px;">
+                    <div class="comparison-item fragment">
+                        <h4 style="color: var(--utp-green); margin: 0;">Algoritmos</h4>
+                        <div style="font-size: 3em; font-weight: bold; color: var(--utp-green);">3</div>
+                        <div style="font-size: 0.8em;">GA + TS + Híbrido</div>
+                    </div>
+                    <div class="comparison-item fragment">
+                        <h4 style="color: var(--utp-green); margin: 0;">Instancias</h4>
+                        <div style="font-size: 3em; font-weight: bold; color: var(--utp-green);">27</div>
+                        <div style="font-size: 0.8em;">9 escalas × 3 réplicas</div>
+                    </div>
+                    <div class="comparison-item fragment">
+                        <h4 style="color: var(--utp-green); margin: 0;">Tests</h4>
+                        <div style="font-size: 3em; font-weight: bold; color: var(--utp-green);">50</div>
+                        <div style="font-size: 0.8em;">100% pasaron ✅</div>
+                    </div>
+                </div>
+                <div class="comparison-grid" style="margin-top: 20px;">
+                    <div class="comparison-item fragment">
+                        <h4 style="color: var(--utp-green); margin: 0;">Parámetros</h4>
+                        <div style="font-size: 3em; font-weight: bold; color: #ff9800;">6</div>
+                        <div style="font-size: 0.8em;">Calibrados con Optuna</div>
+                    </div>
+                    <div class="comparison-item fragment">
+                        <h4 style="color: var(--utp-green); margin: 0;">Mejora</h4>
+                        <div style="font-size: 3em; font-weight: bold; color: #4caf50;">40%</div>
+                        <div style="font-size: 0.8em;">Reducción estaciones</div>
+                    </div>
+                    <div class="comparison-item fragment">
+                        <h4 style="color: var(--utp-green); margin: 0;">Referencias</h4>
+                        <div style="font-size: 3em; font-weight: bold; color: var(--utp-green);">45+</div>
+                        <div style="font-size: 0.8em;">Bibliografía</div>
+                    </div>
+                </div>
+                <div class="footer-bar"></div>
+            </section>
+
+            <!-- SLIDE: RESUMEN DEL PROYECTO -->
+            <section>
+                <h2>Resumen del Proyecto</h2>
+                <h3>Estado Actual y Métricas Clave</h3>
+                <img src="figuras/resumen_proyecto.png" alt="Resumen" style="max-height: 450px; margin: 0 auto; display: block;">
+                <div class="footer-bar"></div>
+            </section>
+
+            <!-- SLIDE: CIERRE -->
+            <section class="title-slide">
+                <h1>¡Gracias!</h1>
+                <h3>Preguntas y Comentarios</h3>
+                <div style="margin-top: 40px;">
+                    <p><strong>Daniel Castañeda</strong></p>
+                    <p>Maestría en Investigación de Operaciones y Estadística</p>
+                    <p>Universidad Tecnológica de Pereira</p>
+                    <p style="margin-top: 20px; font-size: 0.85em;">
+                        📂 <a href="https://github.com/DanAndCastRod/OBC" target="_blank" style="color: var(--utp-green);">github.com/DanAndCastRod/OBC</a>
+                    </p>
+                    <p style="margin-top: 20px;">Febrero, 2026</p>
+                </div>
+                <div class="footer-bar"></div>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+    <script>
+        // Chart.js configuration
+        let resultChart = null;
+        
+        function createResultChart() {
+            const ctx = document.getElementById('resultChart');
+            if (!ctx) return;
+            
+            if (resultChart) {
+                resultChart.destroy();
+            }
+            
+            resultChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['GA', 'TS', 'Híbrido', 'MILP'],
+                    datasets: [
+                        {
+                            label: 'Estaciones (demo_15t)',
+                            data: [5, 5, 5, 5],
+                            backgroundColor: [
+                                'rgba(0, 102, 51, 0.8)',
+                                'rgba(76, 175, 80, 0.8)',
+                                'rgba(255, 193, 7, 0.8)',
+                                'rgba(33, 150, 243, 0.8)'
+                            ],
+                            borderColor: [
+                                'rgba(0, 102, 51, 1)',
+                                'rgba(76, 175, 80, 1)',
+                                'rgba(255, 193, 7, 1)',
+                                'rgba(33, 150, 243, 1)'
+                            ],
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Tiempo (s)',
+                            data: [0.41, 0.14, 0.35, 0.50],
+                            backgroundColor: [
+                                'rgba(0, 102, 51, 0.4)',
+                                'rgba(76, 175, 80, 0.4)',
+                                'rgba(255, 193, 7, 0.4)',
+                                'rgba(33, 150, 243, 0.4)'
+                            ],
+                            borderColor: [
+                                'rgba(0, 102, 51, 1)',
+                                'rgba(76, 175, 80, 1)',
+                                'rgba(255, 193, 7, 1)',
+                                'rgba(33, 150, 243, 1)'
+                            ],
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: {
+                        duration: 1500,
+                        easing: 'easeOutQuart'
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: { font: { size: 12 } }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Rendimiento por Algoritmo',
+                            font: { size: 14 }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'Valor' }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Animated counters
+        function animateCounters() {
+            const counters = document.querySelectorAll('.counter-value');
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const duration = 2000;
+                const step = target / (duration / 16);
+                let current = 0;
+                
+                const updateCounter = () => {
+                    current += step;
+                    if (current < target) {
+                        counter.textContent = Math.floor(current);
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.textContent = target;
+                    }
+                };
+                
+                counter.textContent = '0';
+                updateCounter();
+            });
+        }
+        
+        // Progress bar animation
+        function animateProgressBar() {
+            const progressFill = document.getElementById('progressFill');
+            if (progressFill) {
+                setTimeout(() => {
+                    progressFill.style.width = '100%';
+                }, 500);
+            }
+        }
+        
+        // Initialize Reveal.js
+        Reveal.initialize({
+            hash: true,
+            slideNumber: 'c/t',
+            transition: 'slide',
+            transitionSpeed: 'default',
+            backgroundTransition: 'fade',
+            center: true,
+            width: 1280,
+            height: 720,
+            margin: 0.1,
+            progress: true,
+            overview: true,
+            controlsTutorial: true,
+            touch: true,
+        });
+        
+        // Handle slide changes
+        Reveal.on('slidechanged', event => {
+            // Find chart slide and initialize
+            const currentSlide = event.currentSlide;
+            if (currentSlide.querySelector('#resultChart')) {
+                setTimeout(createResultChart, 500);
+                setTimeout(animateCounters, 800);
+            }
+            
+            // Animate progress bar when its slide is shown
+            if (currentSlide.querySelector('#progressFill')) {
+                const progressFill = document.getElementById('progressFill');
+                if (progressFill) progressFill.style.width = '0%';
+            }
+        });
+        
+        // Handle fragment shown (for progress bar)
+        Reveal.on('fragmentshown', event => {
+            const fragment = event.fragment;
+            if (fragment.querySelector('#progressFill') || fragment.id === 'progressFill' || 
+                fragment.classList.contains('progress-container')) {
+                animateProgressBar();
+            }
+        });
+        
+        // Initialize highlight.js
+        if (typeof hljs !== 'undefined') {
+            hljs.highlightAll();
+        }
+    </script>
+</body>
+</html>

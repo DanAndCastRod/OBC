@@ -1,0 +1,53 @@
+# ============================================================
+# Smoke config: contraste rapido (validacion de pipeline)
+# ============================================================
+
+experiment:
+  name: "data_profile_contrast_smoke"
+  size_profiles: ["small"]
+  demand_profiles: ["stable", "seasonal"]
+  instance_seeds: [42]
+  run_seeds: [1, 2]
+  n_replicas: 2
+  deterministic_algorithms: ["cbc_exact"]
+  checkpoint_every: 5
+
+generation:
+  distribution: "lognormal"
+
+algorithms:
+  baseline:
+    class: "Baseline"
+    params:
+      strategy: "best"
+
+  ga_sa:
+    class: "HybridGASA"
+    params:
+      pop_size: 20
+      crossover_rate: 0.85
+      mutation_rate: 0.06
+      elitism_count: 1
+      selection_size: 3
+      local_search_T: 1200.0
+      local_search_cooling: 0.75
+      local_search_freq: 5
+      local_search_iters: 10
+      local_search_top_k: 5
+      n_generations: 20
+      stagnation_limit: 10
+
+  cbc_exact:
+    class: "ExactSolver"
+    params:
+      time_limit: 60
+      solver: "cbc"
+
+output:
+  runs_csv: "experiments/results/data_profile_contrast_smoke_runs.csv"
+  summary_csv: "experiments/results/data_profile_contrast_smoke_summary.csv"
+  paired_csv: "experiments/results/data_profile_contrast_smoke_paired.csv"
+  paired_summary_csv: "experiments/results/data_profile_contrast_smoke_paired_summary.csv"
+  hypotheses_json: "experiments/results/data_profile_contrast_smoke_hypotheses.json"
+  report_md: "experiments/results/data_profile_contrast_smoke_report.md"
+  checkpoint_json: "experiments/results/checkpoints/data_profile_contrast_smoke_checkpoint.json"

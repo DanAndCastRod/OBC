@@ -2,6 +2,8 @@
 venv/
 env/
 .env
+.venv/
+
 
 # Python
 __pycache__/
@@ -11,8 +13,9 @@ __pycache__/
 .pytest_cache/
 .coverage
 htmlcov/
+.ruff_cache/
 
-# Archivos pesados y multimedia (No subir al repo)
+# Archivos pesados y multimedia
 *.m4a
 *.mp4
 *.mov
@@ -21,13 +24,29 @@ htmlcov/
 *.iso
 *.tar.gz
 *.zip
-seminario de investigación/
 
-# Datos grandes (Opcional, descomentar si se quiere ignorar todos los datos)
-# data/
-# !data/.gitkeep
+# Compilación de anteproyecto (regenerable)
+anteproyecto/anteproyecto_coproductos.pdf
+anteproyecto/mermaid-filter.err
+anteproyecto/_mermaid_wrapper.bat
+
+# Resultados experimentales grandes
+experiments/results/*.csv
+experiments/results/*.json
+!experiments/results/.gitkeep
+
+# Instancias generadas
+data/instances/*.json
+!data/instances/.gitkeep
 
 # IDEs
 .vscode/
 .idea/
 *.swp
+
+# Notebooks checkpoints
+notebooks/.ipynb_checkpoints/
+
+# OS
+Thumbs.db
+.DS_Store

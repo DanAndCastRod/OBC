@@ -1,0 +1,43 @@
+{
+  "hypothesis_tests": [],
+  "ranking": {
+    "algorithms": [
+      {
+        "algorithm": "de",
+        "mean_z": 552277686.7837336,
+        "std_z": 0.0,
+        "count": 1,
+        "rank": 1
+      },
+      {
+        "algorithm": "ga",
+        "mean_z": 552277686.7837336,
+        "std_z": 0.0,
+        "count": 1,
+        "rank": 2
+      },
+      {
+        "algorithm": "ga_sa",
+        "mean_z": 552277686.7837336,
+        "std_z": 0.0,
+        "count": 1,
+        "rank": 3
+      },
+      {
+        "algorithm": "sa",
+        "mean_z": 514861522.9600281,
+        "std_z": 0.0,
+        "count": 1,
+        "rank": 4
+      }
+    ],
+    "anova_f": NaN,
+    "anova_p": NaN,
+    "tukey": []
+  },
+  "summary": {
+    "H1": "NO_DATA",
+    "H2": "NO_DATA",
+    "H3": "NO_DATA"
+  }
+}

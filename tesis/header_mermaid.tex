@@ -1,0 +1,7 @@
+% Header LaTeX para controlar tamaño de imágenes Mermaid
+% Limita TODAS las imágenes a max 75% del ancho de texto
+\usepackage[export]{adjustbox}
+\let\oldincludegraphics\includegraphics
+\renewcommand{\includegraphics}[2][]{%
+  \oldincludegraphics[max width=0.75\textwidth,center,#1]{#2}%
+}

@@ -1,0 +1,53 @@
+{
+  "fecha": "2026-02-10T20:46:32.609125",
+  "resultados": {
+    "pequeña_20t": {
+      "n_tareas": 20,
+      "tiempo_ciclo": 30,
+      "tiempo_total": 135,
+      "milp": {
+        "status": "Optimal",
+        "tiempo_segundos": 4.87,
+        "timeout": 120,
+        "estaciones": 5,
+        "es_optimo": true
+      }
+    },
+    "mediana_40t": {
+      "n_tareas": 40,
+      "tiempo_ciclo": 40,
+      "tiempo_total": 362,
+      "milp": {
+        "status": "Optimal",
+        "tiempo_segundos": 300.9,
+        "timeout": 300,
+        "estaciones": 11,
+        "es_optimo": true
+      }
+    },
+    "grande_70t": {
+      "n_tareas": 70,
+      "tiempo_ciclo": 45,
+      "tiempo_total": 740,
+      "milp": {
+        "status": "Not Solved",
+        "tiempo_segundos": 300.69,
+        "timeout": 300,
+        "estaciones": null,
+        "es_optimo": false
+      }
+    },
+    "muy_grande_100t": {
+      "n_tareas": 100,
+      "tiempo_ciclo": 50,
+      "tiempo_total": 1076,
+      "milp": {
+        "status": "Not Solved",
+        "tiempo_segundos": 300.0,
+        "timeout": 300,
+        "estaciones": null,
+        "es_optimo": false
+      }
+    }
+  }
+}

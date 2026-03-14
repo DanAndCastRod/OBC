@@ -1,0 +1,126 @@
+{
+  "fecha": "2026-02-10T21:00:00",
+  "instancias": {
+    "pequeña_20t": {
+      "friedman": {
+        "estadistico_chi2": 0.0,
+        "p_valor": 1.0,
+        "significativo_005": false,
+        "significativo_001": false,
+        "n_muestras": 30,
+        "algoritmos": [
+          "GA",
+          "Hybrid",
+          "TS"
+        ],
+        "medias": {
+          "GA": 5.0,
+          "Hybrid": 5.0,
+          "TS": 5.0
+        },
+        "medianas": {
+          "GA": 5.0,
+          "Hybrid": 5.0,
+          "TS": 5.0
+        },
+        "nota": "Todos los algoritmos obtuvieron el mismo resultado"
+      },
+      "posthoc": {}
+    },
+    "mediana_40t": {
+      "friedman": {
+        "estadistico_chi2": 0.0,
+        "p_valor": 1.0,
+        "significativo_005": false,
+        "significativo_001": false,
+        "n_muestras": 30,
+        "algoritmos": [
+          "GA",
+          "Hybrid",
+          "TS"
+        ],
+        "medias": {
+          "GA": 10.0,
+          "Hybrid": 10.0,
+          "TS": 10.0
+        },
+        "medianas": {
+          "GA": 10.0,
+          "Hybrid": 10.0,
+          "TS": 10.0
+        },
+        "nota": "Todos los algoritmos obtuvieron el mismo resultado"
+      },
+      "posthoc": {}
+    },
+    "grande_70t": {
+      "friedman": {
+        "estadistico_chi2": 0.0,
+        "p_valor": 1.0,
+        "significativo_005": false,
+        "significativo_001": false,
+        "n_muestras": 30,
+        "algoritmos": [
+          "GA",
+          "Hybrid",
+          "TS"
+        ],
+        "medias": {
+          "GA": 19.0,
+          "Hybrid": 19.0,
+          "TS": 19.0
+        },
+        "medianas": {
+          "GA": 19.0,
+          "Hybrid": 19.0,
+          "TS": 19.0
+        },
+        "nota": "Todos los algoritmos obtuvieron el mismo resultado"
+      },
+      "posthoc": {}
+    },
+    "muy_grande_100t": {
+      "friedman": {
+        "estadistico_chi2": 0.0,
+        "p_valor": 1.0,
+        "significativo_005": false,
+        "significativo_001": false,
+        "n_muestras": 30,
+        "algoritmos": [
+          "GA",
+          "Hybrid",
+          "TS"
+        ],
+        "medias": {
+          "GA": 25.0,
+          "Hybrid": 25.0,
+          "TS": 25.0
+        },
+        "medianas": {
+          "GA": 25.0,
+          "Hybrid": 25.0,
+          "TS": 25.0
+        },
+        "nota": "Todos los algoritmos obtuvieron el mismo resultado"
+      },
+      "posthoc": {}
+    }
+  },
+  "rankings_globales": {
+    "GA": {
+      "ranking_medio": 1.0,
+      "ranking_std": 0.0,
+      "n_observaciones": 120
+    },
+    "Hybrid": {
+      "ranking_medio": 2.0,
+      "ranking_std": 0.0,
+      "n_observaciones": 120
+    },
+    "TS": {
+      "ranking_medio": 3.0,
+      "ranking_std": 0.0,
+      "n_observaciones": 120
+    }
+  }
+}

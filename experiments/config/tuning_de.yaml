@@ -1,0 +1,23 @@
+algorithm: de
+best_fitness: 397086620.9877216
+best_params:
+  CR: 0.5111806322234641
+  F: 0.31649568907101266
+  pop_size: 51
+  strategy: best/1/bin
+elapsed_seconds: 4784.066982984543
+history_csv: experiments\results\tuning\tuning_de_trials.csv
+history_json: experiments\results\tuning\tuning_de_history.json
+history_plot: experiments\results\tuning\tuning_de_evolution.png
+instance_names:
+- small_seed100
+- small_seed101
+- small_seed102
+- medium_seed200
+- medium_seed201
+n_error_trials: 0
+n_instances: 5
+n_timeout_trials: 0
+n_trials: 30
+seed: 42
+trial_timeout_seconds: 900

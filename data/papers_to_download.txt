@@ -1,0 +1,14 @@
+Q1|Taş2025370|Taş|2025|10.1007/978-3-031-92575-7_53|Solution Approaches for a Stochastic Lot Sizing Problem with Limited Inventory
+Q1|Slama2021|Slama|2021|10.1016/j.cie.2021.107468|Genetic algorithm and Monte Carlo simulation for a stochastic capacitated disass
+Q2|Rahmani202555|Rahmani|2025|10.22060/AJMC.2023.22698.1184|Two-stage stochastic capacitated Lot-Sizing problem by Lot-Size adaptation appro
+Q2|Taş2025370|Taş|2025|10.1007/978-3-031-92575-7_53|Solution Approaches for a Stochastic Lot Sizing Problem with Limited Inventory
+Q2|Slama2021|Slama|2021|10.1016/j.cie.2021.107468|Genetic algorithm and Monte Carlo simulation for a stochastic capacitated disass
+Q4|González-Neira20252327|González-Neira|2025|10.1016/j.ifacol.2025.09.391|A novel MILP model for the operation of the poultry supply chain
+Q4|Akbari-Aghghaleh2025|Akbari-Aghghaleh|2025|10.1007/s10668-025-06675-6|Designing a perishable closed-loop poultry supply chain: metaheuristic approache
+Q4|Dadaneh20241328|Dadaneh|2024|10.1007/s12063-024-00507-y|A stochastic chance-constraint framework for poultry planning and egg inventory 
+Q4|Juwitaa202413|Juwitaa|2024|10.1109/ICELTICs62730.2024.10776298|Optimizing Broiler Chicken Supply Chains Under Uncertain Average Growth Rate Acc
+Q5|Geiger2025121|Geiger|2025|10.1007/s10100-024-00913-4|A sample average approximation-based heuristic for the stochastic production rou
+Q5|Taş2025370|Taş|2025|10.1007/978-3-031-92575-7_53|Solution Approaches for a Stochastic Lot Sizing Problem with Limited Inventory
+Q5|Ghasemi20246903|Ghasemi|2024|10.1080/00207543.2024.2314712|Model and solution approach to coordinate production-inventory strategies consid
+Q6|Rahmani202555|Rahmani|2025|10.22060/AJMC.2023.22698.1184|Two-stage stochastic capacitated Lot-Sizing problem by Lot-Size adaptation appro
+Q8|Mahdieh2018884|Mahdieh|2018|10.1007/s10696-017-9279-5|A novel flexible model for lot sizing and scheduling with non-triangular, period

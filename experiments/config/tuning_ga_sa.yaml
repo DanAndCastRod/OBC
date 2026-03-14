@@ -1,0 +1,29 @@
+algorithm: ga_sa
+best_fitness: 396887162.33994377
+best_params:
+  crossover_rate: 0.8588740327008654
+  elitism_count: 1
+  local_search_T: 3226.5959783560097
+  local_search_cooling: 0.712573557817774
+  local_search_freq: 9
+  local_search_iters: 26
+  local_search_top_k: 10
+  mutation_rate: 0.05051348696541303
+  pop_size: 39
+  selection_size: 3
+elapsed_seconds: 62929.77930355072
+history_csv: experiments\results\tuning\tuning_ga_sa_trials.csv
+history_json: experiments\results\tuning\tuning_ga_sa_history.json
+history_plot: experiments\results\tuning\tuning_ga_sa_evolution.png
+instance_names:
+- small_seed100
+- small_seed101
+- small_seed102
+- medium_seed200
+- medium_seed201
+n_error_trials: 0
+n_instances: 5
+n_timeout_trials: 0
+n_trials: 30
+seed: 42
+trial_timeout_seconds: 900

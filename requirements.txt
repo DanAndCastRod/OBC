@@ -1,15 +1,28 @@
-pulp
-pytest
-gurobipy
-numpy
-pandas
-scipy
-matplotlib
-seaborn
-scikit-learn
-statsmodels
-networkx
-python-dotenv
-bibtexparser
-sqlalchemy
-pyodbc
+# Dependencias del proyecto OBC
+# Modelo de Optimización de Coproductos con Metaheurísticas
+# Versiones pineadas para reproducibilidad (Sprint 5.1)
+
+# --- Core: Modelo y Solver ---
+pulp==2.7.0            # Interfaz MILP (CBC, HiGHS, Gurobi)
+numpy==1.26.0          # Arrays, algebra lineal
+scipy==1.11.2          # Distribuciones, tests estadisticos
+
+# --- Datos ---
+pandas==2.3.2          # DataFrames para resultados
+pyyaml==6.0.1          # Lectura/escritura de instancias YAML
+
+# --- Visualizacion ---
+matplotlib==3.8.0      # Graficos base
+seaborn==0.13.0        # Graficos estadisticos
+
+# --- Calibracion de Hiperparametros ---
+optuna==4.7.0          # TPE sampler para tuning
+
+# --- Testing ---
+pytest==8.4.1          # Framework de testing
+
+# --- Utilidades ---
+tqdm==4.66.1           # Barras de progreso para experimentos
+
+# --- Opcional: Solver Gurobi (licencia academica) ---
+# gurobipy>=11.0.0

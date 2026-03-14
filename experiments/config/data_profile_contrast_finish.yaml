@@ -1,0 +1,38 @@
+﻿experiment:
+  name: "data_profile_contrast_finish_medium_seasonal_gasa"
+  size_profiles: ["medium"]
+  demand_profiles: ["seasonal"]
+  instance_seeds: [42]
+  run_seeds: [3, 4, 5]
+  n_replicas: 3
+  deterministic_algorithms: []
+  checkpoint_every: 1
+
+generation:
+  distribution: "lognormal"
+
+algorithms:
+  ga_sa:
+    class: "HybridGASA"
+    params:
+      pop_size: 39
+      crossover_rate: 0.8589
+      mutation_rate: 0.0505
+      elitism_count: 1
+      selection_size: 3
+      local_search_T: 3226.60
+      local_search_cooling: 0.7126
+      local_search_freq: 9
+      local_search_iters: 26
+      local_search_top_k: 10
+      n_generations: 120
+      stagnation_limit: 40
+
+output:
+  runs_csv: "experiments/results/data_profile_contrast_runs.csv"
+  summary_csv: "experiments/results/data_profile_contrast_summary.csv"
+  paired_csv: "experiments/results/data_profile_contrast_paired.csv"
+  paired_summary_csv: "experiments/results/data_profile_contrast_paired_summary.csv"
+  hypotheses_json: "experiments/results/data_profile_contrast_hypotheses.json"
+  report_md: "experiments/results/data_profile_contrast_report.md"
+  checkpoint_json: "experiments/results/checkpoints/data_profile_contrast_checkpoint.json"

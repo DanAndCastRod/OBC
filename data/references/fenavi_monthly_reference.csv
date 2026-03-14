@@ -1,0 +1,177 @@
+product,date,month,year,value,variable_type,source_file
+ala,2018-01-01,1,2018,6.213,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2018-02-01,2,2018,6.513,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2018-03-01,3,2018,6.263,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2018-04-01,4,2018,6.446,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2018-05-01,5,2018,6.237,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2018-06-01,6,2018,6.133,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2018-07-01,7,2018,6.121,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2018-08-01,8,2018,5.933,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2018-09-01,9,2018,6.283,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2018-10-01,10,2018,6.313,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2018-11-01,11,2018,6.258,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2018-12-01,12,2018,6.209,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2019-01-01,1,2019,6.19,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2019-02-01,2,2019,6.326,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2019-03-01,3,2019,6.358,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2019-04-01,4,2019,6.167,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2019-05-01,5,2019,5.981,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2019-06-01,6,2019,5.813,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2019-07-01,7,2019,5.922,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2019-08-01,8,2019,6.0,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2019-09-01,9,2019,6.251,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2019-10-01,10,2019,6.12,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2019-11-01,11,2019,6.412,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2019-12-01,12,2019,6.287,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2020-01-01,1,2020,6.233,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2020-02-01,2,2020,6.079,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2020-03-01,3,2020,6.346,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2020-04-01,4,2020,6.633,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2020-05-01,5,2020,6.384,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2020-06-01,6,2020,7.121,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2020-07-01,7,2020,7.882,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2020-08-01,8,2020,7.708,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2020-09-01,9,2020,7.05,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2020-10-01,10,2020,6.75,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2020-11-01,11,2020,7.194,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2020-12-01,12,2020,7.583,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2021-01-01,1,2021,7.7,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2021-02-01,2,2021,7.831,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2021-03-01,3,2021,7.738,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2021-04-01,4,2021,7.646,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2021-05-01,5,2021,8.147,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2021-06-01,6,2021,8.29,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2021-07-01,7,2021,7.73,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+ala,2021-08-01,8,2021,9.033,price_cop_kg,Precios Mayorista Alas sin Costillar Bog.csv
+medio_pollo,2018-01-01,1,2018,5.875,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2018-02-01,2,2018,5.908,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2018-03-01,3,2018,6.147,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2018-04-01,4,2018,6.188,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2018-05-01,5,2018,6.16,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2018-06-01,6,2018,6.206,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2018-07-01,7,2018,6.2,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2018-08-01,8,2018,5.95,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2018-09-01,9,2018,6.056,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2018-10-01,10,2018,6.191,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2018-11-01,11,2018,6.088,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2018-12-01,12,2018,6.167,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2019-01-01,1,2019,6.107,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2019-02-01,2,2019,6.175,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2019-03-01,3,2019,6.15,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2019-04-01,4,2019,6.046,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2019-05-01,5,2019,5.915,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2019-06-01,6,2019,6.016,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2019-07-01,7,2019,6.051,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2019-08-01,8,2019,6.05,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2019-09-01,9,2019,6.229,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2019-10-01,10,2019,6.287,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2019-11-01,11,2019,6.504,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2019-12-01,12,2019,6.51,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2020-01-01,1,2020,6.44,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2020-02-01,2,2020,6.496,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2020-03-01,3,2020,6.475,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2020-04-01,4,2020,5.97,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2020-05-01,5,2020,5.725,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2020-06-01,6,2020,7.163,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2020-07-01,7,2020,7.6,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2020-08-01,8,2020,7.348,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2020-09-01,9,2020,7.15,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2020-10-01,10,2020,6.775,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2020-11-01,11,2020,7.106,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2020-12-01,12,2020,7.145,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2021-01-01,1,2021,7.506,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2021-02-01,2,2021,7.438,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2021-03-01,3,2021,7.3,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2021-04-01,4,2021,7.465,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2021-05-01,5,2021,8.128,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2021-06-01,6,2021,8.804,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2021-07-01,7,2021,8.555,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+medio_pollo,2021-08-01,8,2021,8.95,price_cop_kg,Precios Mayorista Pollo Entero Bog.csv
+pechuga,2018-01-01,1,2018,8.465,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2018-02-01,2,2018,8.275,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2018-03-01,3,2018,8.267,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2018-04-01,4,2018,8.26,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2018-05-01,5,2018,8.097,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2018-06-01,6,2018,7.875,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2018-07-01,7,2018,7.896,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2018-08-01,8,2018,7.78,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2018-09-01,9,2018,7.884,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2018-10-01,10,2018,7.91,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2018-11-01,11,2018,8.259,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2018-12-01,12,2018,8.679,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2019-01-01,1,2019,8.437,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2019-02-01,2,2019,8.416,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2019-03-01,3,2019,8.558,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2019-04-01,4,2019,7.858,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2019-05-01,5,2019,7.981,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2019-06-01,6,2019,8.133,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2019-07-01,7,2019,8.412,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2019-08-01,8,2019,8.161,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2019-09-01,9,2019,8.628,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2019-10-01,10,2019,8.534,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2019-11-01,11,2019,8.746,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2019-12-01,12,2019,8.65,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2020-01-01,1,2020,8.863,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2020-02-01,2,2020,8.604,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2020-03-01,3,2020,8.308,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2020-04-01,4,2020,7.007,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2020-05-01,5,2020,6.704,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2020-06-01,6,2020,8.675,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2020-07-01,7,2020,8.703,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2020-08-01,8,2020,8.5,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2020-09-01,9,2020,7.956,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2020-10-01,10,2020,7.885,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2020-11-01,11,2020,8.225,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2020-12-01,12,2020,8.602,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2021-01-01,1,2021,9.131,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2021-02-01,2,2021,8.888,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2021-03-01,3,2021,9.48,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2021-04-01,4,2021,9.538,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2021-05-01,5,2021,10.581,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2021-06-01,6,2021,11.511,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2021-07-01,7,2021,11.76,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pechuga,2021-08-01,8,2021,12.567,price_cop_kg,Precios Mayorista Pechuga Bog.csv
+pernil_completo,2018-01-01,1,2018,6.954,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2018-02-01,2,2018,7.146,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2018-03-01,3,2018,6.871,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2018-04-01,4,2018,6.621,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2018-05-01,5,2018,6.353,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2018-06-01,6,2018,6.392,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2018-07-01,7,2018,6.517,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2018-08-01,8,2018,6.204,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2018-09-01,9,2018,6.734,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2018-10-01,10,2018,6.943,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2018-11-01,11,2018,7.128,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2018-12-01,12,2018,6.753,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2019-01-01,1,2019,6.833,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2019-02-01,2,2019,6.687,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2019-03-01,3,2019,6.892,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2019-04-01,4,2019,6.754,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2019-05-01,5,2019,6.505,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2019-06-01,6,2019,6.52,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2019-07-01,7,2019,6.772,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2019-08-01,8,2019,6.777,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2019-09-01,9,2019,7.352,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2019-10-01,10,2019,7.018,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2019-11-01,11,2019,7.246,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2019-12-01,12,2019,7.179,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2020-01-01,1,2020,7.34,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2020-02-01,2,2020,7.384,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2020-03-01,3,2020,7.708,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2020-04-01,4,2020,7.463,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2020-05-01,5,2020,7.029,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2020-06-01,6,2020,8.283,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2020-07-01,7,2020,8.525,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2020-08-01,8,2020,8.565,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2020-09-01,9,2020,7.488,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2020-10-01,10,2020,7.04,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2020-11-01,11,2020,7.438,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2020-12-01,12,2020,7.65,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2021-01-01,1,2021,8.075,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2021-02-01,2,2021,8.325,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2021-03-01,3,2021,8.287,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2021-04-01,4,2021,8.14,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2021-05-01,5,2021,9.206,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2021-06-01,6,2021,9.206,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2021-07-01,7,2021,8.475,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv
+pernil_completo,2021-08-01,8,2021,9.777,price_cop_kg,Precios Mayorista Pierna Pernil Bog.csv

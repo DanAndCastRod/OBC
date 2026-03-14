@@ -1,0 +1,225 @@
+
+
+===== PAGE 1 =====
+MAESTRÍA EN INVESTIGACIÓN OPERATIVA Y ESTADÍSITICA 
+INSTRUMENTO PARA EVALUAR LOS ANTEPROYECTOS DE GRADO 
+ 
+ 
+TÍTULO DEL 
+ANTEPROYECTO 
+Modelo de Optimización para la Planificación de Coproductos con Metaheurísticas en la Industria 
+Avícola 
+ESTUDIANTE(S) 
+Daniel Andrés Castañeda Rodríguez 
+DIRECTOR SUGERIDO  
+PhD. Eliana Mirledy Ocampo Toro 
+ 
+ 
+ASPECTO A EVALUAR 
+No lo 
+indica Alto 
+Medio Bajo 
+No 
+aplica Observaciones 
+Relación con los objetivos de la Maestría  
+ 
+X 
+ 
+ 
+ 
+ 
+Relación con los resultados de aprendizaje de la 
+Maestría 
+ 
+X 
+ 
+ 
+ 
+ 
+Coherencia con los perfiles de formación y 
+profesional 
+ 
+X 
+ 
+ 
+ 
+ 
+Pertinencia con las líneas de investigación 
+ 
+X 
+ 
+ 
+ 
+ 
+Claridad del título (tema, problema, tiempo, 
+espacio) 
+ 
+X 
+ 
+ 
+ 
+ 
+Relación entre el título y el contenido 
+ 
+X 
+ 
+ 
+ 
+ 
+Congruencia del problema planteado/objetivo(s) 
+con la formación como magister 
+ 
+X 
+ 
+ 
+ 
+ 
+Relevancia del problema/objetivo(s) 
+ 
+ 
+X 
+ 
+ 
+ 
+Grado de relación entre el problema/objetivo(s) y el 
+marco de referencia 
+ 
+X 
+ 
+ 
+ 
+ 
+Consistencia entre la hipótesis y el problema 
+ 
+ 
+X 
+ 
+ 
+ 
+Vigencia y pertinencia de las fuentes (balance 
+cualitativo) 
+ 
+X 
+ 
+ 
+ 
+ 
+Cobertura y adecuación de la revisión bibliográfica 
+ 
+ 
+X 
+ 
+ 
+En el documento se afirma que el problema 
+abordado es de tipo NP-hard; sin embargo, las 
+referencias citadas corresponden a problemas 
+diferentes que incluyen variables de distribución, 
+tiempos de setup, tiempos de entrega variables y 
+aprovisionamiento, aspectos que no son 
+
+
+===== PAGE 2 =====
+ASPECTO A EVALUAR 
+No lo 
+indica Alto 
+Medio Bajo 
+No 
+aplica Observaciones 
+considerados en esta investigación. Por lo tanto, 
+sería conveniente justificar o demostrar la 
+complejidad del problema objeto de estudio. Por 
+otro lado, las referencias más actuales muestran 
+que abordan el problema con un enfoque 
+multiobjetivo; por tal motivo, las metaheurísticas 
+podrían emplearse principalmente en un contexto 
+de optimización multiobjetivo. No es claro que el 
+problema objeto de estudio sea un problema de 
+optimización combinatoria, ya que solo se habla 
+de un solo producto. 
+Pertinencia del método de investigación, tipo de 
+investigación y tipo de estudio seleccionada 
+ 
+X 
+ 
+ 
+ 
+ 
+Pertinencia del diseño metodológico a emplear 
+ 
+ 
+X 
+ 
+ 
+ 
+Propiedad del modo de levantamiento de la 
+información 
+ 
+X 
+ 
+ 
+ 
+ 
+Procedencia de la(s) técnica(s) para el análisis de la 
+información 
+ 
+X 
+ 
+ 
+ 
+ 
+Logro de la redacción 
+ 
+X 
+ 
+ 
+ 
+ 
+Cumplimiento a los aspectos formales del 
+documento 
+ 
+X 
+ 
+ 
+ 
+ 
+Factibilidad de la realización de la investigación 
+ 
+X 
+ 
+ 
+ 
+ 
+ 
+Por favor, marque una de las tres (3) alternativas  
+EVALUACIÓN GLOBAL 
+El anteproyecto debe ser: 
+Aceptado 
+X 
+ 
+ 
+Devuelto para modificaciones 
+ 
+ 
+ 
+Rechazado 
+ 
+ 
+ 
+ 
+ 
+John Andrés Muñoz Guevara 
+ 
+ 
+ 
+      9/03/2026 
+Nombre del evaluador 
+ 
+Firma 
+ 
+Fecha 
+ 
+Firmado digitalmente 
+por John Andrés Muñoz 
+Guevara 
+Fecha: 2026.03.09 
+15:05:47 -05'00'
