@@ -1,0 +1,71 @@
+{
+  "experiment": "data_profile_contrast_smoke",
+  "generated_at_epoch": 1773058915.9195676,
+  "config_path": "experiments\\config\\data_profile_contrast_smoke.yaml",
+  "runs_csv": "experiments\\results\\data_profile_contrast_smoke_runs.csv",
+  "summary_csv": "experiments\\results\\data_profile_contrast_smoke_summary.csv",
+  "paired_csv": "experiments\\results\\data_profile_contrast_smoke_paired.csv",
+  "paired_summary_csv": "experiments\\results\\data_profile_contrast_smoke_paired_summary.csv",
+  "total_completed": 10,
+  "new_runs": 10,
+  "errors": [],
+  "elapsed_seconds": 20.342265367507935,
+  "profiles": {
+    "seasonal": {
+      "n_rows": 5,
+      "algorithms": [
+        "baseline",
+        "cbc_exact",
+        "ga_sa"
+      ],
+      "hypothesis_tests": [],
+      "ranking": {
+        "algorithms": [
+          {
+            "algorithm": "ga_sa",
+            "mean_z": 584110236.4333019,
+            "std_z": 41266770.1829666,
+            "count": 2,
+            "rank": 1
+          }
+        ],
+        "anova_f": NaN,
+        "anova_p": NaN,
+        "tukey": []
+      },
+      "summary": {
+        "H1_supported_count": 0,
+        "H2_supported_count": 0,
+        "H3_supported_count": 0
+      }
+    },
+    "stable": {
+      "n_rows": 5,
+      "algorithms": [
+        "baseline",
+        "cbc_exact",
+        "ga_sa"
+      ],
+      "hypothesis_tests": [],
+      "ranking": {
+        "algorithms": [
+          {
+            "algorithm": "ga_sa",
+            "mean_z": 491316104.18152833,
+            "std_z": 22038502.127790328,
+            "count": 2,
+            "rank": 1
+          }
+        ],
+        "anova_f": NaN,
+        "anova_p": NaN,
+        "tukey": []
+      },
+      "summary": {
+        "H1_supported_count": 0,
+        "H2_supported_count": 0,
+        "H3_supported_count": 0
+      }
+    }
+  }
+}

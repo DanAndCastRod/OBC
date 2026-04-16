@@ -1,0 +1,9 @@
+{
+  "experiment": "comparison_smoke",
+  "generated_at_epoch": 1772426938.0772674,
+  "total_planned": 1,
+  "completed_count": 1,
+  "new_successful_runs": 1,
+  "new_errors_count": 0,
+  "errors": []
+}

@@ -1,0 +1,385 @@
+{
+  "protocol": {
+    "version": "v2.1",
+    "updated_at": "2026-03-10",
+    "alpha": 0.05,
+    "primary_analysis_unit": "instance",
+    "secondary_analysis_unit": "run",
+    "multiple_testing": "Holm (pairwise Wilcoxon in ranking)",
+    "h3_primary_endpoint": "avg_inventory",
+    "h3_secondary_endpoint": "low_rotation_inventory (exploratory)",
+    "h3_min_informative_n": 5
+  },
+  "hypothesis_tests": [
+    {
+      "hypothesis": "H1",
+      "description": "GA vs Baseline: mejora >= 5% (promedio por instancia)",
+      "test_name": "Wilcoxon one-sided",
+      "statistic": 0.0,
+      "p_value": 1.0,
+      "effect_size": 0.01784975475675277,
+      "effect_label": "negligible",
+      "ci_lower": -0.09087832705455712,
+      "ci_upper": 1.2678650990230858,
+      "metric_value": 0.5884933859842643,
+      "threshold": 5.0,
+      "verdict": "NOT_SUPPORTED",
+      "normality_p": 0.0002625598572194576,
+      "used_parametric": false
+    },
+    {
+      "hypothesis": "H1",
+      "description": "SA vs Baseline: mejora >= 5% (promedio por instancia)",
+      "test_name": "Wilcoxon one-sided",
+      "statistic": 0.0,
+      "p_value": 1.0,
+      "effect_size": -0.030396524915966068,
+      "effect_label": "negligible",
+      "ci_lower": -7.680877643834085,
+      "ci_upper": -0.6203627924196646,
+      "metric_value": -4.150620218126875,
+      "threshold": 5.0,
+      "verdict": "NOT_SUPPORTED",
+      "normality_p": 0.0002689813554752618,
+      "used_parametric": false
+    },
+    {
+      "hypothesis": "H1",
+      "description": "DE vs Baseline: mejora >= 5% (promedio por instancia)",
+      "test_name": "Wilcoxon one-sided",
+      "statistic": 0.0,
+      "p_value": 1.0,
+      "effect_size": 0.03213229954723286,
+      "effect_label": "negligible",
+      "ci_lower": -0.1655333375961725,
+      "ci_upper": 2.3068162672718273,
+      "metric_value": 1.0706414648378273,
+      "threshold": 5.0,
+      "verdict": "NOT_SUPPORTED",
+      "normality_p": 0.00018925512267742306,
+      "used_parametric": false
+    },
+    {
+      "hypothesis": "H1",
+      "description": "GA_SA vs Baseline: mejora >= 5% (promedio por instancia)",
+      "test_name": "Wilcoxon one-sided",
+      "statistic": 0.0,
+      "p_value": 1.0,
+      "effect_size": 0.0328346093503566,
+      "effect_label": "negligible",
+      "ci_lower": -0.1675946843343732,
+      "ci_upper": 2.3581183173374836,
+      "metric_value": 1.0952618165015553,
+      "threshold": 5.0,
+      "verdict": "NOT_SUPPORTED",
+      "normality_p": 0.00016227079322561622,
+      "used_parametric": false
+    },
+    {
+      "hypothesis": "H2",
+      "description": "GA-SA vs best{GA,SA,DE}: gap <= 2% (promedio por instancia)",
+      "test_name": "Wilcoxon one-sided",
+      "statistic": 0.0,
+      "p_value": 0.001953125,
+      "effect_size": 0.0006942984285789505,
+      "effect_label": "negligible",
+      "ci_lower": -0.05942900151393238,
+      "ci_upper": 0.013329051021356671,
+      "metric_value": -0.023049975246287855,
+      "threshold": 2.0,
+      "verdict": "SUPPORTED",
+      "normality_p": 6.416426913347095e-05,
+      "used_parametric": false
+    },
+    {
+      "hypothesis": "H2-run",
+      "description": "GA-SA vs best{GA,SA,DE}: gap <= 2% (por corrida instance-seed)",
+      "test_name": "Wilcoxon one-sided",
+      "statistic": 0.0,
+      "p_value": 7.447300039090533e-50,
+      "effect_size": 0.00019522228062024652,
+      "effect_label": "negligible",
+      "ci_lower": -0.03467484852428007,
+      "ci_upper": 0.021350310826516106,
+      "metric_value": -0.006662268848881984,
+      "threshold": 2.0,
+      "verdict": "SUPPORTED",
+      "normality_p": 7.53890158950692e-25,
+      "used_parametric": false
+    },
+    {
+      "hypothesis": "H2-time",
+      "description": "GA-SA time <= 50% CBC time (ratio=52.48)",
+      "test_name": "ratio",
+      "statistic": 52.48224033311027,
+      "p_value": NaN,
+      "effect_size": 0.0,
+      "effect_label": "n/a",
+      "ci_lower": 29.393056899841817,
+      "ci_upper": 119.55542316066814,
+      "metric_value": 5248.224033311027,
+      "threshold": 50.0,
+      "verdict": "NOT_SUPPORTED",
+      "normality_p": NaN,
+      "used_parametric": false
+    },
+    {
+      "hypothesis": "H3",
+      "description": "GA vs Baseline: reduccion inventario >= 15% (endpoint primario: inventario promedio total por instancia)",
+      "test_name": "Wilcoxon one-sided",
+      "statistic": 24.0,
+      "p_value": 0.455078125,
+      "effect_size": 0.41028951669791475,
+      "effect_label": "small",
+      "ci_lower": -2.110550611094345,
+      "ci_upper": 29.677766247592395,
+      "metric_value": 13.783607818249024,
+      "threshold": 15.0,
+      "verdict": "NOT_SUPPORTED",
+      "normality_p": 0.0001795547577785328,
+      "used_parametric": false
+    },
+    {
+      "hypothesis": "H3",
+      "description": "SA vs Baseline: reduccion inventario >= 15% (endpoint primario: inventario promedio total por instancia)",
+      "test_name": "Wilcoxon one-sided",
+      "statistic": 24.0,
+      "p_value": 0.455078125,
+      "effect_size": 0.43421584901640475,
+      "effect_label": "small",
+      "ci_lower": 3.3043070203392837,
+      "ci_upper": 31.724822416510417,
+      "metric_value": 17.51456471842485,
+      "threshold": 15.0,
+      "verdict": "NOT_SUPPORTED",
+      "normality_p": 0.0001990187301998958,
+      "used_parametric": false
+    },
+    {
+      "hypothesis": "H3",
+      "description": "DE vs Baseline: reduccion inventario >= 15% (endpoint primario: inventario promedio total por instancia)",
+      "test_name": "Wilcoxon one-sided",
+      "statistic": 24.0,
+      "p_value": 0.455078125,
+      "effect_size": 0.3643537963870751,
+      "effect_label": "small",
+      "ci_lower": -1.9079762684110921,
+      "ci_upper": 26.865011844855395,
+      "metric_value": 12.478517788222153,
+      "threshold": 15.0,
+      "verdict": "NOT_SUPPORTED",
+      "normality_p": 0.0001571229804540053,
+      "used_parametric": false
+    },
+    {
+      "hypothesis": "H3",
+      "description": "GA_SA vs Baseline: reduccion inventario >= 15% (endpoint primario: inventario promedio total por instancia)",
+      "test_name": "Wilcoxon one-sided",
+      "statistic": 24.0,
+      "p_value": 0.455078125,
+      "effect_size": 0.35460218589442094,
+      "effect_label": "small",
+      "ci_lower": -1.8666679714665868,
+      "ci_upper": 26.258628937328158,
+      "metric_value": 12.195980482930786,
+      "threshold": 15.0,
+      "verdict": "NOT_SUPPORTED",
+      "normality_p": 0.00017047645815182477,
+      "used_parametric": false
+    },
+    {
+      "hypothesis": "H3-lowrot",
+      "description": "GA vs Baseline: reduccion inventario >= 15% (endpoint secundario: baja rotacion por instancia (baseline>0))",
+      "test_name": "deterministic-constant",
+      "statistic": 0.0,
+      "p_value": 1.0,
+      "effect_size": 0.0,
+      "effect_label": "negligible",
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "metric_value": 0.0,
+      "threshold": 15.0,
+      "verdict": "NOT_SUPPORTED",
+      "normality_p": 1.0,
+      "used_parametric": false
+    },
+    {
+      "hypothesis": "H3-lowrot",
+      "description": "SA vs Baseline: reduccion inventario >= 15% (endpoint secundario: baja rotacion por instancia (baseline>0))",
+      "test_name": "one-sample t-test (one-sided)",
+      "statistic": 3.2427311324272328,
+      "p_value": 0.041689061076809066,
+      "effect_size": 0.43942149750648113,
+      "effect_label": "small",
+      "ci_lower": 12.62692179224325,
+      "ci_upper": 31.893500477184638,
+      "metric_value": 22.260211134713945,
+      "threshold": 15.0,
+      "verdict": "NOT_SUPPORTED",
+      "normality_p": 0.9783541639451608,
+      "used_parametric": true
+    },
+    {
+      "hypothesis": "H3-lowrot",
+      "description": "DE vs Baseline: reduccion inventario >= 15% (endpoint secundario: baja rotacion por instancia (baseline>0))",
+      "test_name": "one-sample t-test (one-sided)",
+      "statistic": -11082.793279460337,
+      "p_value": 0.9999999959292771,
+      "effect_size": 6.16157924981733e-05,
+      "effect_label": "negligible",
+      "ci_lower": -0.0033619326595602573,
+      "ci_upper": 0.008283002420325807,
+      "metric_value": 0.0024605348803827744,
+      "threshold": 15.0,
+      "verdict": "NOT_SUPPORTED",
+      "normality_p": 0.8204612669517323,
+      "used_parametric": true
+    },
+    {
+      "hypothesis": "H3-lowrot",
+      "description": "GA_SA vs Baseline: reduccion inventario >= 15% (endpoint secundario: baja rotacion por instancia (baseline>0))",
+      "test_name": "deterministic-constant",
+      "statistic": 0.0,
+      "p_value": 1.0,
+      "effect_size": 0.0,
+      "effect_label": "negligible",
+      "ci_lower": 0.0,
+      "ci_upper": 0.0,
+      "metric_value": 0.0,
+      "threshold": 15.0,
+      "verdict": "NOT_SUPPORTED",
+      "normality_p": 1.0,
+      "used_parametric": false
+    }
+  ],
+  "ranking": {
+    "algorithms": [
+      {
+        "algorithm": "ga_sa",
+        "mean_z": 916865519.7144644,
+        "std_z": 512578412.2529246,
+        "count": 270,
+        "rank": 1
+      },
+      {
+        "algorithm": "de",
+        "mean_z": 916484282.8500581,
+        "std_z": 512072980.2078875,
+        "count": 270,
+        "rank": 2
+      },
+      {
+        "algorithm": "ga",
+        "mean_z": 908817120.0177647,
+        "std_z": 501216074.73829806,
+        "count": 270,
+        "rank": 3
+      },
+      {
+        "algorithm": "sa",
+        "mean_z": 883217511.0146991,
+        "std_z": 522140338.33808446,
+        "count": 270,
+        "rank": 4
+      }
+    ],
+    "anova_f": 0.25897346483495143,
+    "anova_p": 0.8549598616769353,
+    "tukey": [
+      {
+        "group1": "de",
+        "group2": "ga",
+        "p_adj": 0.998128782280418,
+        "reject": false
+      },
+      {
+        "group1": "de",
+        "group2": "ga_sa",
+        "p_adj": 0.9999997673357608,
+        "reject": false
+      },
+      {
+        "group1": "de",
+        "group2": "sa",
+        "p_adj": 0.8746005817567762,
+        "reject": false
+      },
+      {
+        "group1": "ga",
+        "group2": "ga_sa",
+        "p_adj": 0.9978380463062589,
+        "reject": false
+      },
+      {
+        "group1": "ga",
+        "group2": "sa",
+        "p_adj": 0.9378400246716861,
+        "reject": false
+      },
+      {
+        "group1": "ga_sa",
+        "group2": "sa",
+        "p_adj": 0.8708491205018067,
+        "reject": false
+      }
+    ],
+    "friedman_chi2": 16.07142857142857,
+    "friedman_p": 0.001096380191112724,
+    "wilcoxon_holm": [
+      {
+        "group1": "ga",
+        "group2": "sa",
+        "statistic": 6.0,
+        "p_raw": 0.0546875,
+        "p_adj_holm": 0.1640625,
+        "reject": false
+      },
+      {
+        "group1": "ga",
+        "group2": "de",
+        "statistic": 21.0,
+        "p_raw": 0.91015625,
+        "p_adj_holm": 0.91015625,
+        "reject": false
+      },
+      {
+        "group1": "ga",
+        "group2": "ga_sa",
+        "statistic": 0.0,
+        "p_raw": 0.10880943004054569,
+        "p_adj_holm": 0.21761886008109138,
+        "reject": false
+      },
+      {
+        "group1": "sa",
+        "group2": "de",
+        "statistic": 0.0,
+        "p_raw": 0.00390625,
+        "p_adj_holm": 0.0234375,
+        "reject": true
+      },
+      {
+        "group1": "sa",
+        "group2": "ga_sa",
+        "statistic": 0.0,
+        "p_raw": 0.00390625,
+        "p_adj_holm": 0.01953125,
+        "reject": true
+      },
+      {
+        "group1": "de",
+        "group2": "ga_sa",
+        "statistic": 0.0,
+        "p_raw": 0.00390625,
+        "p_adj_holm": 0.015625,
+        "reject": true
+      }
+    ]
+  },
+  "summary": {
+    "H1": "NOT_SUPPORTED",
+    "H2": "SUPPORTED",
+    "H3": "NOT_SUPPORTED",
+    "H3_lowrot": "NOT_SUPPORTED"
+  }
+}

@@ -1,0 +1,161 @@
+{
+  "experiment": "sensitivity_v1",
+  "generated_at_epoch": 1772821597.5252013,
+  "source_csv": "experiments\\results\\sensitivity.csv",
+  "total_planned": 450,
+  "completed_count": 450,
+  "resume": true,
+  "workers": 0,
+  "parameter_delta_summary": [
+    {
+      "parameter": "costs",
+      "delta": -0.1,
+      "count": 30,
+      "feasible_rate_percent": 100.0,
+      "mean_z_value": 566365516.0359998,
+      "mean_gap_percent": -2.6746932831218406,
+      "mean_elapsed_seconds": 365.449196600914,
+      "mean_n_evaluations": 6041.733333333334
+    },
+    {
+      "parameter": "costs",
+      "delta": -0.2,
+      "count": 30,
+      "feasible_rate_percent": 100.0,
+      "mean_z_value": 581119434.3881704,
+      "mean_gap_percent": -5.349386566243681,
+      "mean_elapsed_seconds": 140.76577440897623,
+      "mean_n_evaluations": 6012.7
+    },
+    {
+      "parameter": "costs",
+      "delta": 0.0,
+      "count": 30,
+      "feasible_rate_percent": 100.0,
+      "mean_z_value": 551611597.6838301,
+      "mean_gap_percent": 0.0,
+      "mean_elapsed_seconds": 122.09229661623637,
+      "mean_n_evaluations": 6180.1
+    },
+    {
+      "parameter": "costs",
+      "delta": 0.1,
+      "count": 30,
+      "feasible_rate_percent": 100.0,
+      "mean_z_value": 536857679.3316594,
+      "mean_gap_percent": 2.6746932831218104,
+      "mean_elapsed_seconds": 290.080264878273,
+      "mean_n_evaluations": 6114.433333333333
+    },
+    {
+      "parameter": "costs",
+      "delta": 0.2,
+      "count": 30,
+      "feasible_rate_percent": 100.0,
+      "mean_z_value": 522103760.9794889,
+      "mean_gap_percent": 5.349386566243626,
+      "mean_elapsed_seconds": 143.47757283846536,
+      "mean_n_evaluations": 6072.933333333333
+    },
+    {
+      "parameter": "demand_variability",
+      "delta": -0.25,
+      "count": 30,
+      "feasible_rate_percent": 100.0,
+      "mean_z_value": 551741183.795033,
+      "mean_gap_percent": -0.023492274590953707,
+      "mean_elapsed_seconds": 125.09797970453899,
+      "mean_n_evaluations": 6119.466666666666
+    },
+    {
+      "parameter": "demand_variability",
+      "delta": -0.5,
+      "count": 30,
+      "feasible_rate_percent": 100.0,
+      "mean_z_value": 551742773.3859555,
+      "mean_gap_percent": -0.023780446726686996,
+      "mean_elapsed_seconds": 141.53533568382264,
+      "mean_n_evaluations": 6141.6
+    },
+    {
+      "parameter": "demand_variability",
+      "delta": 0.0,
+      "count": 30,
+      "feasible_rate_percent": 100.0,
+      "mean_z_value": 551611597.6838301,
+      "mean_gap_percent": 0.0,
+      "mean_elapsed_seconds": 66.37634297211964,
+      "mean_n_evaluations": 6180.1
+    },
+    {
+      "parameter": "demand_variability",
+      "delta": 0.25,
+      "count": 30,
+      "feasible_rate_percent": 100.0,
+      "mean_z_value": 550856531.4594746,
+      "mean_gap_percent": 0.1368836745865533,
+      "mean_elapsed_seconds": 112.55539242426555,
+      "mean_n_evaluations": 6073.066666666667
+    },
+    {
+      "parameter": "demand_variability",
+      "delta": 0.5,
+      "count": 30,
+      "feasible_rate_percent": 100.0,
+      "mean_z_value": 549659210.83285,
+      "mean_gap_percent": 0.3539423136093139,
+      "mean_elapsed_seconds": 115.07142653465272,
+      "mean_n_evaluations": 5977.966666666666
+    },
+    {
+      "parameter": "prices",
+      "delta": -0.1,
+      "count": 30,
+      "feasible_rate_percent": 100.0,
+      "mean_z_value": 481696519.5632768,
+      "mean_gap_percent": 12.67469328312171,
+      "mean_elapsed_seconds": 222.10416523615518,
+      "mean_n_evaluations": 6136.5
+    },
+    {
+      "parameter": "prices",
+      "delta": -0.2,
+      "count": 30,
+      "feasible_rate_percent": 100.0,
+      "mean_z_value": 411781441.44272476,
+      "mean_gap_percent": 25.349386566243343,
+      "mean_elapsed_seconds": 96.8735780398051,
+      "mean_n_evaluations": 5956.9
+    },
+    {
+      "parameter": "prices",
+      "delta": 0.0,
+      "count": 30,
+      "feasible_rate_percent": 100.0,
+      "mean_z_value": 551611597.6838301,
+      "mean_gap_percent": 0.0,
+      "mean_elapsed_seconds": 100.73238921165466,
+      "mean_n_evaluations": 6180.1
+    },
+    {
+      "parameter": "prices",
+      "delta": 0.1,
+      "count": 30,
+      "feasible_rate_percent": 100.0,
+      "mean_z_value": 621526675.8043857,
+      "mean_gap_percent": -12.674693283122204,
+      "mean_elapsed_seconds": 116.5234082142512,
+      "mean_n_evaluations": 6041.733333333334
+    },
+    {
+      "parameter": "prices",
+      "delta": 0.2,
+      "count": 30,
+      "feasible_rate_percent": 100.0,
+      "mean_z_value": 691441753.9249368,
+      "mean_gap_percent": -25.34938656624369,
+      "mean_elapsed_seconds": 127.93629021644593,
+      "mean_n_evaluations": 6037.3
+    }
+  ]
+}

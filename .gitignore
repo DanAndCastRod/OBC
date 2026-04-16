@@ -25,15 +25,15 @@ htmlcov/
 *.tar.gz
 *.zip
 
-# Compilación de anteproyecto (regenerable)
-anteproyecto/anteproyecto_coproductos.pdf
-anteproyecto/mermaid-filter.err
-anteproyecto/_mermaid_wrapper.bat
+# # Compilación de anteproyecto (regenerable)
+# anteproyecto/anteproyecto_coproductos.pdf
+# anteproyecto/mermaid-filter.err
+# anteproyecto/_mermaid_wrapper.bat
 
-# Resultados experimentales grandes
-experiments/results/*.csv
-experiments/results/*.json
-!experiments/results/.gitkeep
+# # Resultados experimentales grandes
+# experiments/results/*.csv
+# experiments/results/*.json
+# !experiments/results/.gitkeep
 
 # Instancias generadas
 data/instances/*.json

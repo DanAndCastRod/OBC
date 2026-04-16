@@ -1,0 +1,484 @@
+{
+  "experiment": "data_profile_contrast_v1",
+  "generated_at_epoch": 1773074082.1798968,
+  "config_path": "experiments\\config\\data_profile_contrast.yaml",
+  "runs_csv": "experiments\\results\\data_profile_contrast_runs.csv",
+  "summary_csv": "experiments\\results\\data_profile_contrast_summary.csv",
+  "paired_csv": "experiments\\results\\data_profile_contrast_paired.csv",
+  "paired_summary_csv": "experiments\\results\\data_profile_contrast_paired_summary.csv",
+  "total_completed": 104,
+  "new_runs": 0,
+  "errors": [],
+  "duplicates_removed": 22,
+  "elapsed_seconds": 0.0,
+  "profiles": {
+    "seasonal": {
+      "n_rows": 52,
+      "algorithms": [
+        "baseline",
+        "cbc_exact",
+        "de",
+        "ga",
+        "ga_sa",
+        "sa"
+      ],
+      "hypothesis_tests": [
+        {
+          "hypothesis": "H1",
+          "description": "GA vs Baseline: mejora >= 5%",
+          "test_name": "t-test pareado",
+          "statistic": NaN,
+          "p_value": NaN,
+          "effect_size": 0.0,
+          "effect_label": "negligible",
+          "ci_lower": 0.0,
+          "ci_upper": 0.0,
+          "metric_value": 0.0,
+          "threshold": 5.0,
+          "verdict": "NOT_SUPPORTED",
+          "normality_p": 1.0,
+          "used_parametric": true
+        },
+        {
+          "hypothesis": "H1",
+          "description": "SA vs Baseline: mejora >= 5%",
+          "test_name": "Wilcoxon",
+          "statistic": 0.0,
+          "p_value": 0.001953125,
+          "effect_size": -1.5585889453357051,
+          "effect_label": "large",
+          "ci_lower": -12.554242490575605,
+          "ci_upper": -2.671556300755052,
+          "metric_value": -7.612899395665329,
+          "threshold": 5.0,
+          "verdict": "NOT_SUPPORTED",
+          "normality_p": 0.004511254373937845,
+          "used_parametric": false
+        },
+        {
+          "hypothesis": "H1",
+          "description": "DE vs Baseline: mejora >= 5%",
+          "test_name": "Wilcoxon",
+          "statistic": 0.0,
+          "p_value": 0.31731050786291415,
+          "effect_size": -0.011125250146517236,
+          "effect_label": "negligible",
+          "ci_lower": -0.0008022692655399127,
+          "ci_upper": 0.0003104050017925372,
+          "metric_value": -0.0002459321318736878,
+          "threshold": 5.0,
+          "verdict": "NOT_SUPPORTED",
+          "normality_p": 1.0036932707180313e-07,
+          "used_parametric": false
+        },
+        {
+          "hypothesis": "H1",
+          "description": "GA_SA vs Baseline: mejora >= 5%",
+          "test_name": "t-test pareado",
+          "statistic": NaN,
+          "p_value": NaN,
+          "effect_size": 0.0,
+          "effect_label": "negligible",
+          "ci_lower": 0.0,
+          "ci_upper": 0.0,
+          "metric_value": 0.0,
+          "threshold": 5.0,
+          "verdict": "NOT_SUPPORTED",
+          "normality_p": 1.0,
+          "used_parametric": true
+        },
+        {
+          "hypothesis": "H2",
+          "description": "GA-SA vs best{GA,SA,DE}: gap <= 2%",
+          "test_name": "deterministic-constant",
+          "statistic": 0.0,
+          "p_value": 0.0,
+          "effect_size": 0.0,
+          "effect_label": "negligible",
+          "ci_lower": 0.0,
+          "ci_upper": 0.0,
+          "metric_value": 0.0,
+          "threshold": 2.0,
+          "verdict": "SUPPORTED",
+          "normality_p": 1.0,
+          "used_parametric": false
+        },
+        {
+          "hypothesis": "H3",
+          "description": "GA vs Baseline: reduccion inventario >= 15% (solo casos con baseline>0)",
+          "test_name": "NO_DATA",
+          "statistic": NaN,
+          "p_value": NaN,
+          "effect_size": NaN,
+          "effect_label": "n/a",
+          "ci_lower": NaN,
+          "ci_upper": NaN,
+          "metric_value": NaN,
+          "threshold": 15.0,
+          "verdict": "NOT_SUPPORTED",
+          "normality_p": NaN,
+          "used_parametric": false
+        },
+        {
+          "hypothesis": "H3",
+          "description": "SA vs Baseline: reduccion inventario >= 15% (solo casos con baseline>0)",
+          "test_name": "NO_DATA",
+          "statistic": NaN,
+          "p_value": NaN,
+          "effect_size": NaN,
+          "effect_label": "n/a",
+          "ci_lower": NaN,
+          "ci_upper": NaN,
+          "metric_value": NaN,
+          "threshold": 15.0,
+          "verdict": "NOT_SUPPORTED",
+          "normality_p": NaN,
+          "used_parametric": false
+        },
+        {
+          "hypothesis": "H3",
+          "description": "DE vs Baseline: reduccion inventario >= 15% (solo casos con baseline>0)",
+          "test_name": "NO_DATA",
+          "statistic": NaN,
+          "p_value": NaN,
+          "effect_size": NaN,
+          "effect_label": "n/a",
+          "ci_lower": NaN,
+          "ci_upper": NaN,
+          "metric_value": NaN,
+          "threshold": 15.0,
+          "verdict": "NOT_SUPPORTED",
+          "normality_p": NaN,
+          "used_parametric": false
+        },
+        {
+          "hypothesis": "H3",
+          "description": "GA_SA vs Baseline: reduccion inventario >= 15% (solo casos con baseline>0)",
+          "test_name": "NO_DATA",
+          "statistic": NaN,
+          "p_value": NaN,
+          "effect_size": NaN,
+          "effect_label": "n/a",
+          "ci_lower": NaN,
+          "ci_upper": NaN,
+          "metric_value": NaN,
+          "threshold": 15.0,
+          "verdict": "NOT_SUPPORTED",
+          "normality_p": NaN,
+          "used_parametric": false
+        }
+      ],
+      "ranking": {
+        "algorithms": [
+          {
+            "algorithm": "ga",
+            "mean_z": 629129833.2634202,
+            "std_z": 138189.0301952612,
+            "count": 10,
+            "rank": 1
+          },
+          {
+            "algorithm": "ga_sa",
+            "mean_z": 629129833.2634202,
+            "std_z": 138189.0301952612,
+            "count": 10,
+            "rank": 2
+          },
+          {
+            "algorithm": "de",
+            "mean_z": 629128286.3534203,
+            "std_z": 139895.6598823957,
+            "count": 10,
+            "rank": 3
+          },
+          {
+            "algorithm": "sa",
+            "mean_z": 581234905.6950186,
+            "std_z": 43458099.65147749,
+            "count": 10,
+            "rank": 4
+          }
+        ],
+        "anova_f": 12.145487325619882,
+        "anova_p": 1.2158285326404914e-05,
+        "tukey": [
+          {
+            "group1": "de",
+            "group2": "ga",
+            "p_adj": 0.9999999999985216,
+            "reject": false
+          },
+          {
+            "group1": "de",
+            "group2": "ga_sa",
+            "p_adj": 0.9999999999985216,
+            "reject": false
+          },
+          {
+            "group1": "de",
+            "group2": "sa",
+            "p_adj": 0.00010639593917227685,
+            "reject": true
+          },
+          {
+            "group1": "ga",
+            "group2": "ga_sa",
+            "p_adj": 1.0,
+            "reject": false
+          },
+          {
+            "group1": "ga",
+            "group2": "sa",
+            "p_adj": 0.00010634480265692137,
+            "reject": true
+          },
+          {
+            "group1": "ga_sa",
+            "group2": "sa",
+            "p_adj": 0.00010634480265692137,
+            "reject": true
+          }
+        ]
+      },
+      "summary": {
+        "H1_supported_count": 0,
+        "H2_supported_count": 1,
+        "H3_supported_count": 0
+      }
+    },
+    "stable": {
+      "n_rows": 52,
+      "algorithms": [
+        "baseline",
+        "cbc_exact",
+        "de",
+        "ga",
+        "ga_sa",
+        "sa"
+      ],
+      "hypothesis_tests": [
+        {
+          "hypothesis": "H1",
+          "description": "GA vs Baseline: mejora >= 5%",
+          "test_name": "t-test pareado",
+          "statistic": NaN,
+          "p_value": NaN,
+          "effect_size": 0.0,
+          "effect_label": "negligible",
+          "ci_lower": 0.0,
+          "ci_upper": 0.0,
+          "metric_value": 0.0,
+          "threshold": 5.0,
+          "verdict": "NOT_SUPPORTED",
+          "normality_p": 1.0,
+          "used_parametric": true
+        },
+        {
+          "hypothesis": "H1",
+          "description": "SA vs Baseline: mejora >= 5%",
+          "test_name": "Wilcoxon",
+          "statistic": 0.0,
+          "p_value": 0.001953125,
+          "effect_size": -1.5332839564651886,
+          "effect_label": "large",
+          "ci_lower": -14.331796962112303,
+          "ci_upper": -2.9345969918975596,
+          "metric_value": -8.633196977004932,
+          "threshold": 5.0,
+          "verdict": "NOT_SUPPORTED",
+          "normality_p": 0.0006198135670274496,
+          "used_parametric": false
+        },
+        {
+          "hypothesis": "H1",
+          "description": "DE vs Baseline: mejora >= 5%",
+          "test_name": "Wilcoxon",
+          "statistic": 0.0,
+          "p_value": 0.17971249487899976,
+          "effect_size": -0.015406448458180367,
+          "effect_label": "negligible",
+          "ci_lower": -0.002574773611594412,
+          "ci_upper": 0.0006083805984094992,
+          "metric_value": -0.0009831965065924563,
+          "threshold": 5.0,
+          "verdict": "NOT_SUPPORTED",
+          "normality_p": 8.11750942375511e-06,
+          "used_parametric": false
+        },
+        {
+          "hypothesis": "H1",
+          "description": "GA_SA vs Baseline: mejora >= 5%",
+          "test_name": "t-test pareado",
+          "statistic": NaN,
+          "p_value": NaN,
+          "effect_size": 0.0,
+          "effect_label": "negligible",
+          "ci_lower": 0.0,
+          "ci_upper": 0.0,
+          "metric_value": 0.0,
+          "threshold": 5.0,
+          "verdict": "NOT_SUPPORTED",
+          "normality_p": 1.0,
+          "used_parametric": true
+        },
+        {
+          "hypothesis": "H2",
+          "description": "GA-SA vs best{GA,SA,DE}: gap <= 2%",
+          "test_name": "deterministic-constant",
+          "statistic": 0.0,
+          "p_value": 0.0,
+          "effect_size": 0.0,
+          "effect_label": "negligible",
+          "ci_lower": 0.0,
+          "ci_upper": 0.0,
+          "metric_value": 0.0,
+          "threshold": 2.0,
+          "verdict": "SUPPORTED",
+          "normality_p": 1.0,
+          "used_parametric": false
+        },
+        {
+          "hypothesis": "H3",
+          "description": "GA vs Baseline: reduccion inventario >= 15% (solo casos con baseline>0)",
+          "test_name": "deterministic-constant",
+          "statistic": 0.0,
+          "p_value": 1.0,
+          "effect_size": 0.0,
+          "effect_label": "negligible",
+          "ci_lower": 0.0,
+          "ci_upper": 0.0,
+          "metric_value": 0.0,
+          "threshold": 15.0,
+          "verdict": "NOT_SUPPORTED",
+          "normality_p": 1.0,
+          "used_parametric": false
+        },
+        {
+          "hypothesis": "H3",
+          "description": "SA vs Baseline: reduccion inventario >= 15% (solo casos con baseline>0)",
+          "test_name": "one-sample t-test (one-sided)",
+          "statistic": 0.9208969085517285,
+          "p_value": 0.1905630577693072,
+          "effect_size": 1.5353497935397629,
+          "effect_label": "large",
+          "ci_lower": 9.0812941959227,
+          "ci_upper": 29.046163336018523,
+          "metric_value": 19.063728765970612,
+          "threshold": 15.0,
+          "verdict": "NOT_SUPPORTED",
+          "normality_p": 0.7227973937988281,
+          "used_parametric": true
+        },
+        {
+          "hypothesis": "H3",
+          "description": "DE vs Baseline: reduccion inventario >= 15% (solo casos con baseline>0)",
+          "test_name": "deterministic-constant",
+          "statistic": 0.0,
+          "p_value": 1.0,
+          "effect_size": 0.0,
+          "effect_label": "negligible",
+          "ci_lower": 0.0,
+          "ci_upper": 0.0,
+          "metric_value": 0.0,
+          "threshold": 15.0,
+          "verdict": "NOT_SUPPORTED",
+          "normality_p": 1.0,
+          "used_parametric": false
+        },
+        {
+          "hypothesis": "H3",
+          "description": "GA_SA vs Baseline: reduccion inventario >= 15% (solo casos con baseline>0)",
+          "test_name": "deterministic-constant",
+          "statistic": 0.0,
+          "p_value": 1.0,
+          "effect_size": 0.0,
+          "effect_label": "negligible",
+          "ci_lower": 0.0,
+          "ci_upper": 0.0,
+          "metric_value": 0.0,
+          "threshold": 15.0,
+          "verdict": "NOT_SUPPORTED",
+          "normality_p": 1.0,
+          "used_parametric": false
+        }
+      ],
+      "ranking": {
+        "algorithms": [
+          {
+            "algorithm": "ga",
+            "mean_z": 551944642.2337817,
+            "std_z": 351059.78005127807,
+            "count": 10,
+            "rank": 1
+          },
+          {
+            "algorithm": "ga_sa",
+            "mean_z": 551944642.2337817,
+            "std_z": 351059.78005127807,
+            "count": 10,
+            "rank": 2
+          },
+          {
+            "algorithm": "de",
+            "mean_z": 551939216.6757817,
+            "std_z": 353259.7841679031,
+            "count": 10,
+            "rank": 3
+          },
+          {
+            "algorithm": "sa",
+            "mean_z": 504292761.8682661,
+            "std_z": 43949971.200745985,
+            "count": 10,
+            "rank": 4
+          }
+        ],
+        "anova_f": 11.752397333475702,
+        "anova_p": 1.6216504220638616e-05,
+        "tukey": [
+          {
+            "group1": "de",
+            "group2": "ga",
+            "p_adj": 0.9999999999383312,
+            "reject": false
+          },
+          {
+            "group1": "de",
+            "group2": "ga_sa",
+            "p_adj": 0.9999999999383312,
+            "reject": false
+          },
+          {
+            "group1": "de",
+            "group2": "sa",
+            "p_adj": 0.00013570183583933026,
+            "reject": true
+          },
+          {
+            "group1": "ga",
+            "group2": "ga_sa",
+            "p_adj": 1.0,
+            "reject": false
+          },
+          {
+            "group1": "ga",
+            "group2": "sa",
+            "p_adj": 0.00013547644402389647,
+            "reject": true
+          },
+          {
+            "group1": "ga_sa",
+            "group2": "sa",
+            "p_adj": 0.00013547644402389647,
+            "reject": true
+          }
+        ]
+      },
+      "summary": {
+        "H1_supported_count": 0,
+        "H2_supported_count": 1,
+        "H3_supported_count": 0
+      }
+    }
+  }
+}

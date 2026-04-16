@@ -1,0 +1,9 @@
+{
+  "experiment": "comparison_v1",
+  "generated_at_epoch": 1772738602.8913298,
+  "total_planned": 1098,
+  "completed_count": 1098,
+  "new_successful_runs": 1098,
+  "new_errors_count": 0,
+  "errors": []
+}

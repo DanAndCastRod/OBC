@@ -1,0 +1,2 @@
+algorithm,instance,seed,z_value,gap_percent,service_level,avg_inventory,low_rotation_inventory,elapsed_seconds,n_evaluations,is_feasible
+sa,small_seed42,1,514861522.9600281,nan,54.84201446379766,16753.084546356567,397.9738151740946,7.869848012924194,788,True

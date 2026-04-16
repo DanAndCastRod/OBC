@@ -26,7 +26,7 @@ def verificar_dependencias():
     # Pandoc
     try:
         result = subprocess.run(
-            ["pandoc", "--version"], capture_output=True, text=True
+            ["pandoc", "--version"], capture_output=True, text=True, encoding="utf-8"
         )
         if result.returncode == 0:
             version = result.stdout.split("\n")[0]
@@ -42,7 +42,7 @@ def verificar_dependencias():
     # XeLaTeX
     try:
         result = subprocess.run(
-            ["xelatex", "--version"], capture_output=True, text=True
+            ["xelatex", "--version"], capture_output=True, text=True, encoding="utf-8"
         )
         if result.returncode == 0:
             version = result.stdout.split("\n")[0]
@@ -99,11 +99,12 @@ def generar_pdf():
         "--variable=lang=es",
         "--highlight-style=tango",
         f"--include-in-header={HEADER_TEX}",
-        f"--output={THESIS_PDF}",
+        f"--output=tesis_coproductos.tex",
     ]
 
     # Mermaid filter (optional)
     import shutil
+    import re
 
     mermaid_path = shutil.which("mermaid-filter")
     if mermaid_path:
@@ -122,18 +123,43 @@ def generar_pdf():
         )
         print("    → npm install -g mermaid-filter")
 
-    print(f"\n  Generando PDF...")
+    print(f"\n  Generando código LaTeX...")
     print(f"  Comando: {' '.join(comando)}")
 
     try:
-        result = subprocess.run(comando, capture_output=True, text=True)
+        result = subprocess.run(comando, capture_output=True, text=True, encoding="utf-8")
 
         if result.returncode == 0:
-            size_kb = Path(THESIS_PDF).stat().st_size / 1024
-            print(f"  ✓ PDF generado: {THESIS_PDF} ({size_kb:.0f} KB)")
-            return True
+            print("  ✓ LaTeX generado. Ajustando captions cortos...")
+            tex_file = "tesis_coproductos.tex"
+            with open(tex_file, "r", encoding="utf-8") as f:
+                tex_content = f.read()
+            
+            # Buscar y reemplazar captions
+            # Busca \caption{@@SHORT@@(corto)@@ENDSHORT@@ (largo)} y lo vuelve \caption[corto]{largo}
+            tex_content = re.sub(
+                r"\\caption(?:\[.*?\])?\{@@SHORT@@(.*?)@@ENDSHORT@@\s*(.*?)\}",
+                r"\\caption[\1]{\2}",
+                tex_content,
+                flags=re.DOTALL
+            )
+            with open(tex_file, "w", encoding="utf-8") as f:
+                f.write(tex_content)
+                
+            print("  Compilando a PDF con XeLaTeX (paso 1/2)...")
+            subprocess.run(["xelatex", "-interaction=nonstopmode", tex_file], capture_output=True)
+            print("  Compilando a PDF con XeLaTeX (paso 2/2)...")
+            result_pdf = subprocess.run(["xelatex", "-interaction=nonstopmode", tex_file], capture_output=True)
+            
+            if result_pdf.returncode == 0:
+                size_kb = Path(THESIS_PDF).stat().st_size / 1024
+                print(f"  ✓ PDF generado: {THESIS_PDF} ({size_kb:.0f} KB)")
+                return True
+            else:
+                print("  ✗ Error al generar PDF con XeLaTeX.")
+                return False
         else:
-            print(f"  ✗ Error al generar PDF:")
+            print(f"  ✗ Error al procesar Pandoc:")
             if result.stdout:
                 print(f"  STDOUT: {result.stdout[:500]}")
             if result.stderr:
@@ -141,16 +167,25 @@ def generar_pdf():
             return False
 
     except Exception as e:
-        print(f"  ✗ Error ejecutando Pandoc: {e}")
+        print(f"  ✗ Error ejecutando Pandoc/XeLaTeX: {e}")
         return False
 
 
 def generar_docx():
     """Genera el documento Word de la tesis."""
 
+    import re
+    # Limpiar los marcadores cortos para docx
+    tmp_md = "tesis_coproductos_temp.md"
+    with open(THESIS_MD, "r", encoding="utf-8") as f:
+        md_content = f.read()
+    md_content = re.sub(r"@@SHORT@@.*?@@ENDSHORT@@\s*", "", md_content)
+    with open(tmp_md, "w", encoding="utf-8") as f:
+        f.write(md_content)
+
     comando = [
         "pandoc",
-        THESIS_MD,
+        tmp_md,
         f"--bibliography={BIB_FILE}",
         f"--csl={CSL_FILE}",
         "--citeproc",
@@ -160,7 +195,7 @@ def generar_docx():
     print("  Generando documento Word...")
 
     try:
-        result = subprocess.run(comando, capture_output=True, text=True)
+        result = subprocess.run(comando, capture_output=True, text=True, encoding="utf-8")
 
         if result.returncode == 0:
             size_kb = Path(THESIS_DOCX).stat().st_size / 1024

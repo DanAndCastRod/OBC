@@ -158,16 +158,20 @@ Este conflicto genera ineficiencias operativas significativas, como la acumulaci
 
 La Figura 1 describe el problema como un sistema de entrada/salida: dado un conjunto de datos de entrada (demanda del mercado, proporciones anatómicas, costos y capacidad de la planta), el modelo de optimización —resuelto mediante metaheurísticas— genera como salida un plan óptimo de producción que indica cuántas aves procesar, cómo distribuir los coproductos y qué niveles de inventario mantener.
 
+::: {#fig:fig_1}
 ```mermaid
 %%{init: {'theme': 'neutral', 'flowchart': {'nodeSpacing': 15, 'rankSpacing': 30}}}%%
 flowchart LR
     E["ENTRADAS\nDemanda, proporciones,\ncostos, capacidad"] --> M["MODELO\nGA | SA | DE | GA-SA"] --> S["PLAN OPTIMO\nCarcasas, ventas,\ninventarios, utilidad"]
 ```
 
-***Figura 1.** Representación del problema como sistema de entrada/salida. El modelo de optimización recibe datos de demanda, proporciones anatómicas y parámetros operativos, y genera un plan de producción óptimo.*
+@@SHORT@@Representación del problema como sistema de entrada/salida@@ENDSHORT@@ Representación del problema como sistema de entrada/salida. El modelo de optimización recibe datos de demanda, proporciones anatómicas y parámetros operativos, y genera un plan de producción óptimo.
+:::
+
 
 A nivel sistémico, el problema se enmarca en la dinámica **Push/Pull** de la cadena avícola (Figura 2). La granja "empuja" lotes de aves que deben procesarse al alcanzar su peso de mercado (Push), generando coproductos en proporciones fijas. Simultáneamente, el mercado "jala" productos específicos con demanda variable y estacional (Pull). El **desbalance** ocurre cuando estas dos fuerzas no están alineadas, y la planta de procesamiento debe tomar decisiones de producción, inventario y ventas bajo incertidumbre.
 
+::: {#fig:fig_2}
 ```mermaid
 %%{init: {'theme': 'neutral'}}%%
 flowchart LR
@@ -195,7 +199,9 @@ flowchart LR
     PLANTA -.->|"Oferta ≠ Demanda"| DESBALANCE
 ```
 
-***Figura 2.** Sistema global Push/Pull de la cadena avícola. La granja empuja lotes de aves (Push), la planta genera coproductos en proporciones fijas, y el mercado jala productos con demanda variable (Pull). El desbalance entre oferta y demanda genera excedentes y faltantes.*
+@@SHORT@@Sistema global Push/Pull de la cadena avícola@@ENDSHORT@@ Sistema global Push/Pull de la cadena avícola. La granja empuja lotes de aves (Push), la planta genera coproductos en proporciones fijas, y el mercado jala productos con demanda variable (Pull). El desbalance entre oferta y demanda genera excedentes y faltantes.
+:::
+
 
 ### 1.2. Relevancia Económica y Contexto Nacional
 
@@ -269,8 +275,6 @@ El desbalance entre la oferta conjunta y la demanda del mercado se manifiesta en
 
 2.  **Faltantes de inventario (subproducción):** De forma simultánea, la demanda de cortes de alto valor (pechuga) puede exceder la capacidad de producción balanceada, resultando en oportunidades de venta perdidas y una potencial insatisfacción del cliente.
 
-***Tabla 1.** Magnitud del problema en la industria avícola colombiana*
-
 | Indicador | Valor | Fuente |
 |-----------|-------|--------|
 | Producción anual de pollo | 1.7 millones de toneladas | FENAVI 2024 |
@@ -280,6 +284,8 @@ El desbalance entre la oferta conjunta y la demanda del mercado se manifiesta en
 | Costos de almacenamiento refrigerado | +15–25% del costo operativo | Solano-Blanco et al. 2022; Sel et al. 2015 |
 | Pérdidas por ventas de liquidación | −20–40% del margen | Amorim et al. 2014 |
 | Desperdicio de producto perecedero | 5–10% de la producción total | Claassen 2016; Akbari-Aghghaleh et al. 2025 |
+
+: Magnitud del problema en la industria avícola colombiana {#tbl:tabla_1}
 
 *Fuente: Elaboración propia con datos de [@FENAVI2024; @DANE2024; @SolanoBlanco2022; @Sel2015; @Amorim2014; @Claassen2016; @AkbariAghghaleh2025]*
 
@@ -472,8 +478,6 @@ A pesar de la creciente investigación en optimización de cadenas de suministro
 
 Una búsqueda sistemática realizada en Scopus (febrero 2026) utilizando ecuaciones de búsqueda centradas en lot-sizing estocástico, perecibilidad, optimización avícola y metaheurísticas arrojó los siguientes resultados:
 
-***Tabla 2.** Resultados de la búsqueda sistemática en Scopus (febrero 2026)*
-
 | Query | Tema | Base de datos | Periodo | # Resultados |
 |:-----:|------|:-------------:|:-------:|:------------:|
 | Q1 | Lot-sizing estocástico + NP-hard + Setup | Scopus | 2014–2026 | 9 |
@@ -486,11 +490,11 @@ Una búsqueda sistemática realizada en Scopus (febrero 2026) utilizando ecuacio
 | Q8 | Lote mínimo + Setup + Prog. entera | Scopus | 2015–2026 | 4 |
 | | | | **Total** | **478** |
 
+: Resultados de la búsqueda sistemática en Scopus (febrero 2026) {#tbl:tabla_2}
+
 De los 478 resultados, solo 13 papers abordan directamente la intersección entre lot-sizing estocástico con setup, perecibilidad y metaheurísticas—confirmando la brecha que esta investigación busca llenar. Notablemente, la Query Q7 (reviews sobre multi-product lot-sizing estocástico) no arrojó ningún resultado, evidenciando la ausencia de trabajos de revisión del estado del arte para este tema específico.
 
 La Tabla 3 resume los trabajos más relevantes y su posicionamiento respecto a esta propuesta.
-
-***Tabla 3.** Resumen del estado del arte y brechas identificadas*
 
 | Autor(es) | Técnica | Objetivo | Incertidumbre | Aplicación |
 |-----------|---------|----------|---------------|------------|
@@ -510,6 +514,9 @@ La Tabla 3 resume los trabajos más relevantes y su posicionamiento respecto a e
 | González-Neira et al. [-@GonzalezNeira2025] | MILP | Scheduling + transp. | Determinista | Avícola (Col.) |
 | **→ Propuesta** | **GA, SA, DE, GA-SA** | **Max profit** | **Estoc. (demanda)** | **Avícola (coprod., Col.)** |
 
+: Resumen del estado del arte y brechas identificadas {#tbl:tabla_3}
+
+::: {#fig:fig_3}
 ```mermaid
 %%{init: {'theme': 'neutral'}}%%
 graph TD
@@ -521,7 +528,9 @@ graph TD
     E --> G["→ PROPUESTA:\nGA, SA, DE, GA-SA\n+ estocástico\n+ perecibilidad\n+ avícola Colombia"]
 ```
 
-***Figura 3.** Diagrama de intersección de brechas de investigación. De 478 resultados en las 8 queries de búsqueda, solo 13 papers abordan la intersección directa entre lot-sizing estocástico, perecibilidad, metaheurísticas e industria avícola. La ausencia de reviews (Q7=0) confirma la novedad del área.*
+@@SHORT@@Diagrama de intersección de brechas de investigación@@ENDSHORT@@ Diagrama de intersección de brechas de investigación. De 478 resultados en las 8 queries de búsqueda, solo 13 papers abordan la intersección directa entre lot-sizing estocástico, perecibilidad, metaheurísticas e industria avícola. La ausencia de reviews (Q7=0) confirma la novedad del área.
+:::
+
 
 Los principales vacíos identificados son:
 
@@ -568,13 +577,13 @@ El modelo propuesto se formula como un problema de **Programación Lineal Entera
 - $I_{pt\omega}$: Inventario del coproducto $p$ al final de $t$, escenario $\omega$
 - $u_{pt\omega}$: Demanda no satisfecha del coproducto $p$ en $t$, escenario $\omega$
 
-***Tabla 4.** Conteo de variables y restricciones por tamaño de instancia*
-
 | Perfil | $n_p$ | $n_t$ | $n_\omega$ | Variables 1ª etapa | Variables 2ª etapa | Total variables | Restricciones |
 |--------|:-----:|:-----:|:----------:|:------------------:|:------------------:|:---------------:|:-------------:|
 | Small | 5 | 6 | 10 | 12 | 900 | 912 | ~1,080 |
 | Medium | 8 | 12 | 50 | 24 | 14,400 | 14,424 | ~16,800 |
 | Large | 8 | 30 | 100 | 60 | 72,000 | 72,060 | ~84,000 |
+
+: Conteo de variables y restricciones por tamaño de instancia {#tbl:tabla_4}
 
 ### 5.2. Función Objetivo
 
@@ -648,6 +657,7 @@ El modelo sigue la estructura clásica de programación estocástica de dos etap
 *   **Primera etapa (*here-and-now*):** Las decisiones de setup $y_t$ y producción $q_t$ se toman **antes** de conocer la demanda real. Estas son las variables que las metaheurísticas optimizan directamente.
 *   **Segunda etapa (*wait-and-see*):** Las decisiones de venta $v_{pt\omega}$, inventario $I_{pt\omega}$ y demanda insatisfecha $u_{pt\omega}$ se determinan **después** de observar cada escenario $\omega$. En la implementación, estas variables se calculan mediante un decodificador greedy determinista (§6.2).
 
+::: {#fig:fig_4}
 ```mermaid
 %%{init: {'theme': 'neutral'}}%%
 flowchart TD
@@ -661,7 +671,9 @@ flowchart TD
     D3 --> E
 ```
 
-***Figura 4.** Estructura de programación estocástica de dos etapas. Las decisiones de primera etapa (setup y producción) se toman antes de conocer la demanda; las de segunda etapa (ventas, inventario) se adaptan a cada escenario.*
+@@SHORT@@Estructura de programación estocástica de dos etapas@@ENDSHORT@@ Estructura de programación estocástica de dos etapas. Las decisiones de primera etapa (setup y producción) se toman antes de conocer la demanda; las de segunda etapa (ventas, inventario) se adaptan a cada escenario.
+:::
+
 
 ### 5.5. Validación con Solver Exacto (CBC)
 
@@ -692,15 +704,16 @@ Las **variables de segunda etapa** ($v_{pt\omega}$, $I_{pt\omega}$, $u_{pt\omega
 
 **Ejemplo numérico.** Para una instancia con $n_t = 6$ periodos, $Q^{min} = 100$ y $Q^{max} = 1000$, un cromosoma válido podría ser:
 
-***Tabla 5a.** Ejemplo de cromosoma para $n_t = 6$*
-
 | Periodo $t$ | 1 | 2 | 3 | 4 | 5 | 6 |
 |:--|:--:|:--:|:--:|:--:|:--:|:--:|
 | $y_t$ (setup) | 1 | 1 | 0 | 1 | 0 | 1 |
 | $q_t$ (carcasas) | 750 | 420 | 0 | 1000 | 0 | 300 |
 
+: Ejemplo de cromosoma para $n_t = 6$ {#tbl:tabla_5a}
+
 En este ejemplo, la línea se activa en los periodos 1, 2, 4 y 6. Nótese la **consistencia** entre vectores: cuando $y_t = 0$ (periodos 3 y 5), necesariamente $q_t = 0$. Cuando $y_t = 1$, la cantidad respeta $100 \leq q_t \leq 1000$.
 
+::: {#fig:fig_5}
 ```mermaid
 %%{init: {'theme': 'neutral'}}%%
 block-beta
@@ -722,11 +735,12 @@ block-beta
     C6["300"]
 ```
 
-***Figura 5.** Estructura del cromosoma como par de vectores. El vector superior (binario) codifica las decisiones de setup y el inferior (entero) las cantidades de producción. Los genes son posicionalmente correspondientes: el gen $q_t$ es coherente con $y_t$.*
+@@SHORT@@Estructura del cromosoma como par de vectores@@ENDSHORT@@ Estructura del cromosoma como par de vectores. El vector superior (binario) codifica las decisiones de setup y el inferior (entero) las cantidades de producción. Los genes son posicionalmente correspondientes: el gen $q_t$ es coherente con $y_t$.
+:::
 
-![Representación visual del cromosoma como par de vectores (y, q)](figuras/fig_chromosome_representation.png){width=85%}
 
-***Figura 5b.** Representación visual del cromosoma. Las celdas activas ($y_t = 1$) se destacan con fondo cian para el vector de setup y verde para el vector de cantidad Periodos inactivos ($y_t = 0$, $q_t = 0$) se muestran en gris. La correspondencia posicional garantiza la consistencia: si $y_t = 0$, necesariamente $q_t = 0$; si $y_t = 1$, entonces $Q^{min} \leq q_t \leq Q^{max}$.*
+![@@SHORT@@Representación visual del cromosoma@@ENDSHORT@@ Representación visual del cromosoma. Las celdas activas ($y_t = 1$) se destacan con fondo cian para el vector de setup y verde para el vector de cantidad Periodos inactivos ($y_t = 0$, $q_t = 0$) se muestran en gris. La correspondencia posicional garantiza la consistencia: si $y_t = 0$, necesariamente $q_t = 0$; si $y_t = 1$, entonces $Q^{min} \leq q_t \leq Q^{max}$.](figuras/fig_chromosome_representation.png){width=85% #fig:fig_5b}
+
 
 **Tamaño del espacio de búsqueda.** El espacio de soluciones factibles $\mathcal{S}$ tiene cardinalidad:
 
@@ -769,19 +783,18 @@ El SA utiliza una selección probabilística entre las tres opciones en cada ite
 
 Este mecanismo permite al SA alternar entre movimientos exploratorios (cambiar estructura) y explotatorios (refinar cantidades) de manera adaptativa.
 
-***Tabla 5b.** Ejemplo de aplicación de operadores de vecindad sobre un cromosoma con $n_t = 6$*
-
-| | $t=1$ | $t=2$ | $t=3$ | $t=4$ | $t=5$ | $t=6$ | Movimiento |
+| | $t=1$ | $t=2$ | $t=3$ | $t=4$ | $t=5$ | $t=6$ | Acción |
 |:--|:--:|:--:|:--:|:--:|:--:|:--:|:--|
-| **Original** $\mathbf{y}$ | 1 | 1 | 0 | 1 | 0 | 1 | — |
-| **Original** $\mathbf{q}$ | 750 | 420 | 0 | 1000 | 0 | 300 | — |
-| **Toggle** ($k=1$, $t_1=3$) $\mathbf{y}'$ | 1 | 1 | **1** | 1 | 0 | 1 | Activa $t=3$ |
-| **Toggle** $\mathbf{q}'$ | 750 | 420 | **537** | 1000 | 0 | 300 | Genera $q_3 \sim U[100, 1000]$ |
-| **Cantidad** ($\delta=0.15$) $\mathbf{q}'$ | **712** | **480** | 0 | **955** | 0 | **328** | Perturbación gaussiana |
+| $\mathbf{y}$ Original | 1 | 1 | 0 | 1 | 0 | 1 | — |
+| $\mathbf{q}$ Original | 750 | 420 | 0 | 1000 | 0 | 300 | — |
+| $\mathbf{y}'$ Toggle ($t_1=3$) | 1 | 1 | **1** | 1 | 0 | 1 | Activar $t=3$ |
+| $\mathbf{q}'$ Toggle | 750 | 420 | **537** | 1000 | 0 | 300 | $q'_3 \sim U[100, 1000]$ |
+| $\mathbf{q}'$ Cantidad ($\delta=0.15$)| **712** | **480** | 0 | **955** | 0 | **328** | Perturbación global |
 
-![Operadores de vecindad: toggle (exploración), cantidad (explotación) y mixta (balance)](figuras/fig_neighborhood_operators.png){width=90%}
+: Ejemplo de aplicación de operadores de vecindad sobre un cromosoma con $n_t = 6$ {#tbl:tabla_5b}
 
-***Figura 5c.** Representación visual de los tres operadores de vecindad. El operador toggle ($N_{toggle}$) modifica la estructura de periodos activos invirtiendo bits del vector de setup. El operador de cantidad ($N_{quantity}$) perturba las cantidades de producción con ruido gaussiano. El operador mixto ($N_{mixta}$) selecciona probabilísticamente entre ambos, logrando un balance entre exploración y explotación.*
+![@@SHORT@@Representación visual de los tres operadores de vecindad@@ENDSHORT@@ Representación visual de los tres operadores de vecindad. El operador toggle ($N_{toggle}$) modifica la estructura de periodos activos invirtiendo bits del vector de setup. El operador de cantidad ($N_{quantity}$) perturba las cantidades de producción con ruido gaussiano. El operador mixto ($N_{mixta}$) selecciona probabilísticamente entre ambos, logrando un balance entre exploración y explotación.](figuras/fig_neighborhood_operators.png){width=90% #fig:fig_5c}
+
 
 ### 6.3. Operadores Genéticos
 
@@ -797,8 +810,6 @@ El cruce de dos puntos genera dos hijos intercambiando un segmento central entre
 
 El mismo patrón de intercambio se aplica al vector $\mathbf{q}$. Tras el cruce, se aplica el mecanismo de reparación (§6.4) para garantizar factibilidad.
 
-***Tabla 5c.** Ejemplo de cruce de dos puntos con $p_1 = 2$, $p_2 = 4$*
-
 | | $t=1$ | $t=2$ | $t=3$ | $t=4$ | $t=5$ | $t=6$ |
 |:--|:--:|:--:|:--:|:--:|:--:|:--:|
 | **Padre 1** $\mathbf{y}$ | 1 | 1 | 0 | 1 | 0 | 1 |
@@ -809,6 +820,8 @@ El mismo patrón de intercambio se aplica al vector $\mathbf{q}$. Tras el cruce,
 | **Hijo 1** $\mathbf{q}$ | 750 | 420 | **350** | **0** | 0 | 300 |
 | **Hijo 2** $\mathbf{y}$ | 0 | 1 | **0** | **1** | 1 | 1 |
 | **Hijo 2** $\mathbf{q}$ | 0 | 600 | **0** | **1000** | 800 | 500 |
+
+: Ejemplo de cruce de dos puntos con $p_1 = 2$, $p_2 = 4$ {#tbl:tabla_5c}
 
 #### 6.3.2. Mutación Mixta
 
@@ -836,8 +849,6 @@ Este mecanismo garantiza que **todo cromosoma generado durante la búsqueda es f
 
 La eficacia de una metaheurística depende crucialmente del **balance entre exploración** (diversificación: visitar regiones nuevas del espacio de búsqueda) y **explotación** (intensificación: refinar soluciones prometedoras en la vecindad de un óptimo local). La Tabla 5d resume cómo cada mecanismo y algoritmo contribuye a este balance.
 
-***Tabla 5d.** Clasificación de mecanismos según su contribución a exploración vs. explotación*
-
 | Mecanismo | Tipo | Algoritmos | Efecto en el espacio de búsqueda |
 |:----------|:----:|:----------:|:---------------------------------|
 | Toggle de setup ($N_{toggle}$) | Exploración | SA, GA-SA | Modifica estructura de periodos activos; saltos largos |
@@ -853,6 +864,8 @@ La eficacia de una metaheurística depende crucialmente del **balance entre expl
 | Selección greedy (trial vs. target) | Explotación | DE | Solo acepta mejoras; presión selectiva fuerte |
 | Búsqueda local SA periódica | Explotación | GA-SA | Refina los mejores individuos de la población |
 
+: @@SHORT@@Clasificación de mecanismos según su contribución a exploración vs@@ENDSHORT@@ Clasificación de mecanismos según su contribución a exploración vs. explotación {#tbl:tabla_5d}
+
 La **combinación de estos mecanismos** es lo que confiere a cada algoritmo su perfil de búsqueda característico:
 
 *   **GA (§6.7):** Exploración predominante mediante población diversa y operadores genéticos (cruce + mutación), con explotación limitada por elitismo y presión de torneo.
@@ -860,9 +873,8 @@ La **combinación de estos mecanismos** es lo que confiere a cada algoritmo su p
 *   **DE (§6.9):** Exploración dirigida mediante vectores de diferencia, combinada con explotación fuerte por selección greedy (el trial solo sobrevive si supera al target).
 *   **GA-SA (§6.10):** Balance óptimo — la exploración global del GA se complementa con la explotación local del SA aplicado periódicamente a los mejores individuos (Figura 19 confirma que GA-SA mantiene mayor diversidad que GA puro).
 
-![Espectro de exploración vs explotación para los cuatro algoritmos](figuras/fig_exploration_exploitation.png){width=90%}
+![@@SHORT@@Posicionamiento de los cuatro algoritmos en el espectro exploración–explotación@@ENDSHORT@@ Posicionamiento de los cuatro algoritmos en el espectro exploración–explotación. SA se ubica hacia la exploración (alta temperatura inicial) con transición gradual a explotación (enfriamiento). GA prioriza diversificación mediante población y operadores genéticos. DE combina exploración dirigida con selección greedy. GA-SA logra el balance óptimo al complementar la exploración global del GA con la explotación local del SA.](figuras/fig_exploration_exploitation.png){width=90% #fig:fig_5d}
 
-***Figura 5d.** Posicionamiento de los cuatro algoritmos en el espectro exploración–explotación. SA se ubica hacia la exploración (alta temperatura inicial) con transición gradual a explotación (enfriamiento). GA prioriza diversificación mediante población y operadores genéticos. DE combina exploración dirigida con selección greedy. GA-SA logra el balance óptimo al complementar la exploración global del GA con la explotación local del SA.*
 
 ### 6.6. Decodificador Greedy
 
@@ -884,6 +896,7 @@ El GA opera sobre una población de $N$ individuos, cada uno codificado como $(\
 *   **Elitismo:** Los $e$ mejores individuos pasan directamente a la siguiente generación.
 *   **Criterio de parada:** Estancamiento (sin mejora durante $s$ generaciones consecutivas).
 
+::: {#fig:fig_6}
 ```mermaid
 %%{init: {'theme': 'neutral'}}%%
 flowchart TD
@@ -898,7 +911,9 @@ flowchart TD
     C -->|No| I["Retornar mejor solución"]
 ```
 
-***Figura 6.** Diagrama de flujo del Algoritmo Genético (GA) con operadores de cruce de dos puntos, mutación mixta y elitismo.*
+Diagrama de flujo del Algoritmo Genético (GA) con operadores de cruce de dos puntos, mutación mixta y elitismo.
+:::
+
 
 ### 6.8. Recocido Simulado (SA)
 
@@ -910,6 +925,7 @@ El SA utiliza un esquema de enfriamiento geométrico con *reheating* adaptativo:
 *   **Criterio de Metropolis:** Acepta una solución peor $s'$ con probabilidad $\exp(\Delta / T)$ donde $\Delta = f(s') - f(s)$.
 *   **Reheating:** Cuando se estanca por $r$ iteraciones sin mejora, la temperatura se multiplica por un factor $> 1$ para reactivar la exploración.
 
+::: {#fig:fig_7}
 ```mermaid
 %%{init: {'theme': 'neutral'}}%%
 flowchart TD
@@ -929,7 +945,9 @@ flowchart TD
     C -->|No| L["Retornar best"]
 ```
 
-***Figura 7.** Diagrama de flujo del Recocido Simulado (SA) con enfriamiento geométrico, vecindarios mixtos y reheating adaptativo.*
+Diagrama de flujo del Recocido Simulado (SA) con enfriamiento geométrico, vecindarios mixtos y reheating adaptativo.
+:::
+
 
 ### 6.9. Evolución Diferencial (DE)
 
@@ -940,6 +958,7 @@ El DE opera sobre una población de vectores continuos en $[0, 1]^{2n_t}$ que se
 *   **Cruce binomial:** Cada componente del vector trial se toma del mutante con probabilidad $CR$ o del target con $1-CR$.
 *   **Selección greedy:** El trial reemplaza al target solo si tiene mejor fitness.
 
+::: {#fig:fig_8}
 ```mermaid
 %%{init: {'theme': 'neutral'}}%%
 flowchart TD
@@ -957,7 +976,9 @@ flowchart TD
     C -->|No| K["Retornar mejor"]
 ```
 
-***Figura 8.** Diagrama de flujo de la Evolución Diferencial (DE) con estrategia DE/best/1/bin y codificación continua discretizada.*
+Diagrama de flujo de la Evolución Diferencial (DE) con estrategia DE/best/1/bin y codificación continua discretizada.
+:::
+
 
 ### 6.10. Algoritmo Híbrido GA-SA
 
@@ -966,6 +987,7 @@ El GA-SA es un **algoritmo memético** que combina la exploración global del GA
 *   **Fase GA (global):** Idéntica al GA estándar (selección, cruce, mutación, elitismo).
 *   **Fase SA (local):** Cada $f_{LS}$ generaciones, se aplica un SA corto (pocas iteraciones, temperatura baja) a los $k$ mejores individuos de la población, mejorando localmente las mejores soluciones encontradas.
 
+::: {#fig:fig_9}
 ```mermaid
 %%{init: {'theme': 'neutral'}}%%
 flowchart TD
@@ -980,13 +1002,13 @@ flowchart TD
     C -->|No| H["Retornar mejor solución"]
 ```
 
-***Figura 9.** Diagrama de flujo del algoritmo híbrido GA-SA. La búsqueda local SA se activa periódicamente sobre los mejores individuos de la población.*
+@@SHORT@@Diagrama de flujo del algoritmo híbrido GA-SA@@ENDSHORT@@ Diagrama de flujo del algoritmo híbrido GA-SA. La búsqueda local SA se activa periódicamente sobre los mejores individuos de la población.
+:::
+
 
 ### 6.11. Calibración de Hiperparámetros (Optuna/TPE)
 
 Los hiperparámetros de cada metaheurística se calibraron mediante **Optuna** con el sampler **Tree-structured Parzen Estimator (TPE)**, evaluando sobre **5 instancias de calibración** (`small_seed100`, `small_seed101`, `small_seed102`, `medium_seed200`, `medium_seed201`). Se ejecutaron **30 trials por algoritmo** (timeout de 900 s por trial), con objetivo de maximizar $Z$ promedio.
-
-***Tabla 5e.** Hiperparámetros calibrados por algoritmo (resultado de Optuna/TPE)*
 
 | Parámetro | GA | SA | DE | GA-SA |
 |-----------|:--:|:--:|:--:|:-----:|
@@ -1014,9 +1036,10 @@ Los hiperparámetros de cada metaheurística se calibraron mediante **Optuna** c
 | `local_search_cooling` | — | — | — | 0.713 |
 | `stagnation_limit` | 50 | 54 | 50 | 50 |
 
-![Evolución del score de Optuna durante calibración](figuras/tuning_evolution_comparison.png){width=80%}
+: Hiperparámetros calibrados por algoritmo (resultado de Optuna/TPE) {#tbl:tabla_5e}
 
-***Figura 10.** Evolución del mejor fitness durante la calibración con Optuna/TPE para cada algoritmo. GA-SA alcanza la convergencia más rápida, seguida por DE, GA y SA.*
+![@@SHORT@@Evolución del mejor fitness durante la calibración con Optuna/TPE para cada algoritmo@@ENDSHORT@@ Evolución del mejor fitness durante la calibración con Optuna/TPE para cada algoritmo. GA-SA alcanza la convergencia más rápida, seguida por DE, GA y SA.](figuras/tuning_evolution_comparison.png){width=80% #fig:fig_10}
+
 
 ---
 
@@ -1037,19 +1060,17 @@ Cada ejecución tiene un límite de tiempo de 300 segundos. Los experimentos se 
 
 ### 7.2. Perfiles de Instancias
 
-***Tabla 6.** Perfiles de instancias de prueba*
-
 | Perfil | $n_p$ | $n_t$ | $n_\omega$ | $Q^{min}$ | $Q^{max}$ | Seeds | Descripción |
 |--------|:-----:|:-----:|:----------:|:---------:|:---------:|:-----:|-------------|
 | Small | 5 | 6 | 10 | 100 | 1,000 | 42, 123, 456 | Validación contra CBC óptimo |
 | Medium | 8 | 12 | 50 | 100 | 1,000 | 42, 123, 456 | Escala intermedia |
 | Large | 8 | 30 | 100 | 100 | 1,000 | 42, 123, 456 | Escala industrial |
 
+: Perfiles de instancias de prueba {#tbl:tabla_6}
+
 Las instancias fueron generadas con datos calibrados de la industria avícola colombiana: proporciones anatómicas basadas en literatura, precios de mercado FENAVI, y demanda con distribución log-normal estacional.
 
 ### 7.3. Resultados Principales
-
-***Tabla 7.** Resultados principales por algoritmo (promedio sobre 270 ejecuciones c/u)*
 
 | Algoritmo | $\bar{Z}$ (COP) | Std $Z$ | Rank | N |
 |-----------|:----------------:|:-------:|:----:|:---:|
@@ -1058,29 +1079,28 @@ Las instancias fueron generadas con datos calibrados de la industria avícola co
 | GA | 908,817,120 | 501,216,075 | 3 | 270 |
 | SA | 883,217,511 | 522,140,338 | 4 | 270 |
 
+: Resultados principales por algoritmo (promedio sobre 270 ejecuciones c/u) {#tbl:tabla_7}
+
 El híbrido **GA-SA obtiene el mejor rendimiento promedio**, seguido por DE, GA y SA. La lectura estadística depende del nivel de agregación: en vista por corridas (ANOVA) no se observa diferencia global ($F = 0.259$, $p = 0.855$), pero al bloquear por instancia sí aparece diferencia global (Friedman $\chi^2 = 16.07$, $p = 0.0011$). Las comparaciones pareadas con corrección Holm muestran diferencia consistente entre SA y {DE, GA-SA}, mientras que **GA-SA y DE permanecen prácticamente empatados en magnitud de efecto** (diferencia media relativa \(\approx 0.024\%\)).
 
-![Boxplot de fitness por algoritmo](figuras/boxplot_fitness.png){width=80%}
+![@@SHORT@@Distribución de fitness ($Z$) por algoritmo@@ENDSHORT@@ Distribución de fitness ($Z$) por algoritmo. GA-SA y DE muestran las medianas más altas, mientras SA presenta la mayor variabilidad.](figuras/boxplot_fitness.png){width=80% #fig:fig_11}
 
-***Figura 11.** Distribución de fitness ($Z$) por algoritmo. GA-SA y DE muestran las medianas más altas, mientras SA presenta la mayor variabilidad.*
 
-![Pareto calidad vs tiempo](figuras/pareto_quality_time.png){width=80%}
+![@@SHORT@@Frente de Pareto calidad ($Z$) vs@@ENDSHORT@@ Frente de Pareto calidad ($Z$) vs. tiempo computacional. GA-SA ofrece el mejor compromiso calidad-velocidad.](figuras/pareto_quality_time.png){width=80% #fig:fig_12}
 
-***Figura 12.** Frente de Pareto calidad ($Z$) vs. tiempo computacional. GA-SA ofrece el mejor compromiso calidad-velocidad.*
 
-![Nivel de servicio por algoritmo](figuras/service_level_comparison.png){width=80%}
+![Comparación del nivel de servicio (% de demanda satisfecha) por algoritmo.](figuras/service_level_comparison.png){width=80% #fig:fig_13}
 
-***Figura 13.** Comparación del nivel de servicio (% de demanda satisfecha) por algoritmo.*
 
 ### 7.4. Validación de Hipótesis
-
-***Tabla 8.** Veredicto de hipótesis de investigación*
 
 | Hipótesis | Descripción | Test | Estadístico | p-valor | Veredicto |
 |:---------:|-------------|------|:-----------:|:-------:|:---------:|
 | **H1** | Mejora ≥ 5% vs baseline (promedio por instancia) | Wilcoxon one-sided | 0.0 | 1.000 | **NO SOPORTADA** |
 | **H2** | GA-SA gap ≤ 2% vs mejor MH (promedio por instancia) | Wilcoxon one-sided | 0.0 | 1.95×10⁻³ | **SOPORTADA** |
 | **H3** | Reducción inventario promedio ≥ 15% (endpoint primario, por instancia) | Wilcoxon one-sided | 24.0 | 0.455 | **NO SOPORTADA** |
+
+: Veredicto de hipótesis de investigación {#tbl:tabla_8}
 
 **Análisis detallado:**
 
@@ -1093,27 +1113,22 @@ Como lectura secundaria, el endpoint de baja rotación muestra 22.3% para SA con
 
 ### 7.5. Performance Profiles
 
-![Performance profile de Dolan-Moré](figuras/performance_profile.png){width=80%}
+![@@SHORT@@Performance profile de Dolan-Moré@@ENDSHORT@@ Performance profile de Dolan-Moré. GA-SA y DE alcanzan las mejores soluciones con mayor frecuencia (curva más alta a la izquierda).](figuras/performance_profile.png){width=80% #fig:fig_14}
 
-***Figura 14.** Performance profile de Dolan-Moré. GA-SA y DE alcanzan las mejores soluciones con mayor frecuencia (curva más alta a la izquierda).*
 
 ### 7.6. Convergence Profiles
 
-![Convergence profiles normalizados](figuras/convergence_profiles.png){width=80%}
+![@@SHORT@@Perfiles de convergencia normalizados@@ENDSHORT@@ Perfiles de convergencia normalizados. GA-SA converge más rápido que GA y DE gracias a la búsqueda local periódica.](figuras/convergence_profiles.png){width=80% #fig:fig_15}
 
-***Figura 15.** Perfiles de convergencia normalizados. GA-SA converge más rápido que GA y DE gracias a la búsqueda local periódica.*
 
 ### 7.7. Análisis de Escalabilidad
 
-![Escalabilidad empírica log-log](figuras/complexity_loglog_scaling.png){width=80%}
+![@@SHORT@@Escalabilidad empírica (gráfico log-log)@@ENDSHORT@@ Escalabilidad empírica (gráfico log-log). Todas las metaheurísticas muestran crecimiento polinomial del tiempo con el tamaño de la instancia.](figuras/complexity_loglog_scaling.png){width=80% #fig:fig_16}
 
-***Figura 16.** Escalabilidad empírica (gráfico log-log). Todas las metaheurísticas muestran crecimiento polinomial del tiempo con el tamaño de la instancia.*
 
 ### 7.8. Análisis de Sensibilidad
 
 Se realizó un análisis de sensibilidad perturbando tres parámetros clave en el rango ±20%, con 30 réplicas por configuración (450 ejecuciones totales). El algoritmo evaluado fue GA-SA sobre la instancia `medium_seed42`.
-
-***Tabla 9.** Análisis de sensibilidad — impacto de perturbaciones paramétricas en $Z$*
 
 | Parámetro | $\Delta$ | $\bar{Z}$ (COP) | Gap% vs base | Factibilidad |
 |-----------|:--------:|:----------------:|:------------:|:------------:|
@@ -1131,6 +1146,8 @@ Se realizó un análisis de sensibilidad perturbando tres parámetros clave en e
 | Var. demanda | +25% | 550,856,531 | +0.14% | 100% |
 | Var. demanda | +50% | 549,659,211 | +0.35% | 100% |
 
+: Análisis de sensibilidad — impacto de perturbaciones paramétricas en $Z$ {#tbl:tabla_9}
+
 **Hallazgos principales:**
 
 1. **Precios** es el parámetro más sensible: ±10% en precios produce ±12.67% en $Z$. Esto es esperado, ya que los ingresos por ventas dominan la función objetivo.
@@ -1140,15 +1157,13 @@ Se realizó un análisis de sensibilidad perturbando tres parámetros clave en e
 
 ### 7.9. Análisis de Diversidad Poblacional
 
-![Diversity profiles por algoritmo](figuras/diversity_profiles.png){width=80%}
+![@@SHORT@@Perfiles de diversidad poblacional@@ENDSHORT@@ Perfiles de diversidad poblacional. GA-SA mantiene mayor diversidad que GA puro gracias al efecto disruptivo de la búsqueda local SA. DE muestra diversidad estable por su mecanismo de mutación diferencial.](figuras/diversity_profiles.png){width=80% #fig:fig_17}
 
-***Figura 17.** Perfiles de diversidad poblacional. GA-SA mantiene mayor diversidad que GA puro gracias al efecto disruptivo de la búsqueda local SA. DE muestra diversidad estable por su mecanismo de mutación diferencial.*
 
 ### 7.10. Análisis de Complejidad Computacional
 
-![cProfile breakdown por componente](figuras/cprofile_component_breakdown.png){width=85%}
+![@@SHORT@@Desglose del tiempo computacional por componente (cProfile)@@ENDSHORT@@ Desglose del tiempo computacional por componente (cProfile). El decodificador greedy domina el tiempo de evaluación, seguido por los operadores genéticos. La calibración de temperatura en SA tiene un costo fijo significativo.](figuras/cprofile_component_breakdown.png){width=85% #fig:fig_18}
 
-***Figura 18.** Desglose del tiempo computacional por componente (cProfile). El decodificador greedy domina el tiempo de evaluación, seguido por los operadores genéticos. La calibración de temperatura en SA tiene un costo fijo significativo.*
 
 ### 7.11. Discusión
 
@@ -1164,25 +1179,20 @@ La validación de robustez confirmó que la mejor solución GA-SA es factible ba
 
 ### 7.12. Síntesis Gráfica de Resultados
 
-![Heatmap de Z medio por algoritmo y tamaño de instancia](figuras/heatmap_z_by_algo_size.png){width=85%}
+![@@SHORT@@Beneficio esperado $Z$ por algoritmo y tamaño de instancia@@ENDSHORT@@ Beneficio esperado $Z$ por algoritmo y tamaño de instancia. El gradiente de color permite identificar que las diferencias entre algoritmos son marginales dentro de cada tamaño, mientras que el efecto del tamaño de instancia domina la variabilidad. Las instancias Large generan beneficios del orden de $10^9$ COP.](figuras/heatmap_z_by_algo_size.png){width=85% #fig:fig_19}
 
-***Figura 19.** Beneficio esperado $Z$ por algoritmo y tamaño de instancia. El gradiente de color permite identificar que las diferencias entre algoritmos son marginales dentro de cada tamaño, mientras que el efecto del tamaño de instancia domina la variabilidad. Las instancias Large generan beneficios del orden de $10^9$ COP.*
 
-![Distribución de gaps por algoritmo](figuras/gap_distribution_by_algo.png){width=80%}
+![@@SHORT@@Distribución de gaps respecto al solver exacto CBC@@ENDSHORT@@ Distribución de gaps respecto al solver exacto CBC. GA-SA y DE concentran sus resultados en la misma zona central (mediana ≈ 3.43% y cola alta asociada a instancias Large), mientras SA exhibe mayor dispersión y peores colas de gap.](figuras/gap_distribution_by_algo.png){width=80% #fig:fig_20}
 
-***Figura 20.** Distribución de gaps respecto al solver exacto CBC. GA-SA y DE concentran sus resultados en la misma zona central (mediana ≈ 3.43% y cola alta asociada a instancias Large), mientras SA exhibe mayor dispersión y peores colas de gap.*
 
-![Tornado de sensibilidad](figuras/sensitivity_tornado.png){width=85%}
+![@@SHORT@@Diagrama tornado del análisis de sensibilidad@@ENDSHORT@@ Diagrama tornado del análisis de sensibilidad. Los precios de venta son el parámetro dominante (±12.67% de impacto en $Z$ ante perturbaciones de ±10%), seguidos por los costos (±2.67%). La variabilidad de demanda tiene impacto negligible, indicando robustez operativa.](figuras/sensitivity_tornado.png){width=85% #fig:fig_21}
 
-***Figura 21.** Diagrama tornado del análisis de sensibilidad. Los precios de venta son el parámetro dominante (±12.67% de impacto en $Z$ ante perturbaciones de ±10%), seguidos por los costos (±2.67%). La variabilidad de demanda tiene impacto negligible, indicando robustez operativa.*
 
-![Convergencia promedio por algoritmo](figuras/convergence_comparison.png){width=80%}
+![@@SHORT@@Curvas de convergencia promedio normalizadas@@ENDSHORT@@ Curvas de convergencia promedio normalizadas. GA-SA y DE alcanzan convergencia rápida en las primeras 1,000 evaluaciones. La búsqueda local SA en GA-SA produce "escalones" de mejora periódicos (cada 9 generaciones), visibles como saltos discretos en la curva.](figuras/convergence_comparison.png){width=80% #fig:fig_22}
 
-***Figura 22.** Curvas de convergencia promedio normalizadas. GA-SA y DE alcanzan convergencia rápida en las primeras 1,000 evaluaciones. La búsqueda local SA en GA-SA produce "escalones" de mejora periódicos (cada 9 generaciones), visibles como saltos discretos en la curva.*
 
-![Veredicto de hipótesis — umbral vs resultado real](figuras/hypothesis_verdicts_visual.png){width=100%}
+![@@SHORT@@Comparación visual entre los umbrales definidos a priori y los resultados obtenidos@@ENDSHORT@@ Comparación visual entre los umbrales definidos a priori y los resultados obtenidos. H2 (gap ≤ 2%) es la única hipótesis soportada. H1 permanece por debajo del umbral (0.59–1.10%). En H3, el endpoint primario (inventario promedio total) no alcanza significancia, y el endpoint de baja rotación se mantiene como exploratorio por n informativo bajo (3 instancias).](figuras/hypothesis_verdicts_visual.png){width=100% #fig:fig_23}
 
-***Figura 23.** Comparación visual entre los umbrales definidos a priori y los resultados obtenidos. H2 (gap ≤ 2%) es la única hipótesis soportada. H1 permanece por debajo del umbral (0.59–1.10%). En H3, el endpoint primario (inventario promedio total) no alcanza significancia, y el endpoint de baja rotación se mantiene como exploratorio por n informativo bajo (3 instancias).*
 
 ---
 
@@ -1202,13 +1212,13 @@ La validación de robustez confirmó que la mejor solución GA-SA es factible ba
 
 ### 8.2. Veredicto de Hipótesis
 
-***Tabla 10.** Resumen de veredictos de hipótesis*
-
 | Hipótesis | Umbral | Resultado observado | p-valor | Veredicto |
 |:---------:|:------:|:-------------------:|:-------:|:---------:|
 | **H1**: Mejora ≥ 5% vs baseline | 5% | 0.59–1.10% | 1.000 (por instancia) | **No soportada** |
 | **H2**: GA-SA gap ≤ 2% vs mejor MH | 2% | −0.02% | 1.95×10⁻³ (por instancia) | **Soportada** |
 | **H3**: Reducción inventario promedio ≥ 15% | 15% | 12.2%–17.5% (por algoritmo) | 0.455 (por instancia) | **No soportada** |
+
+: Resumen de veredictos de hipótesis {#tbl:tabla_10}
 
 La hipótesis H2 se confirma en la vista bloqueada por instancia: el GA-SA produce soluciones equivalentes a la mejor metaheurística individual. H1 no se soporta por la fortaleza del baseline. H3 no se soporta en el endpoint primario; el endpoint de baja rotación permanece exploratorio por baja muestra informativa.
 

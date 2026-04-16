@@ -1,0 +1,79 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {subsection}{Agradecimientos}{1}{section*.1}%
+\contentsline {subsection}{Resumen}{2}{section*.2}%
+\contentsline {subsection}{Abstract}{3}{section*.3}%
+\contentsline {subsection}{1. Introducción}{9}{section*.7}%
+\contentsline {subsubsection}{1.1. El Problema de Producción Conjunta en la Industria Avícola}{9}{section*.8}%
+\contentsline {subsubsection}{1.2. Relevancia Económica y Contexto Nacional}{10}{section*.11}%
+\contentsline {subsubsection}{1.3. Preguntas de Investigación}{11}{section*.12}%
+\contentsline {subsubsection}{1.4. Hipótesis de Investigación}{11}{section*.13}%
+\contentsline {subsubsection}{1.5. Alcance y Limitaciones}{11}{section*.14}%
+\contentsline {subsection}{2. Justificación}{12}{section*.15}%
+\contentsline {subsubsection}{2.1. Conveniencia y Relevancia Económica}{12}{section*.16}%
+\contentsline {subsubsection}{2.2. Relevancia Social y Ambiental (ODS 9, ODS 12)}{13}{section*.17}%
+\contentsline {subsubsection}{2.3. Implicaciones Prácticas}{13}{section*.18}%
+\contentsline {subsubsection}{2.4. Valor Teórico y Científico}{14}{section*.19}%
+\contentsline {subsection}{3. Objetivos}{15}{section*.20}%
+\contentsline {subsubsection}{3.1. Objetivo General}{15}{section*.21}%
+\contentsline {subsubsection}{3.2. Objetivos Específicos}{15}{section*.22}%
+\contentsline {subsection}{4. Marco Referencial}{15}{section*.23}%
+\contentsline {subsubsection}{4.1. Marco Conceptual}{15}{section*.24}%
+\contentsline {paragraph}{4.1.1. Producción Conjunta (Joint Production)}{15}{section*.25}%
+\contentsline {paragraph}{4.1.2. Lot-Sizing Capacitado (CLSP)}{16}{section*.26}%
+\contentsline {paragraph}{4.1.3. Programación Estocástica de Dos Etapas}{16}{section*.27}%
+\contentsline {paragraph}{4.1.4. Perecibilidad en la Industria Alimentaria}{16}{section*.28}%
+\contentsline {paragraph}{4.1.5. Metaheurísticas: Definición y Clasificación}{17}{section*.29}%
+\contentsline {subsubsection}{4.2. Marco Teórico y Estado del Arte}{17}{section*.30}%
+\contentsline {paragraph}{4.2.1. Complejidad NP-hard del CLSP}{17}{section*.31}%
+\contentsline {paragraph}{4.2.2. Lot-Sizing con Perecibilidad en FPI}{17}{section*.32}%
+\contentsline {paragraph}{4.2.3. Optimización en la Cadena de Suministro Avícola}{18}{section*.33}%
+\contentsline {paragraph}{4.2.4. Metaheurísticas para Lot-Sizing y SC Avícola}{19}{section*.34}%
+\contentsline {paragraph}{4.2.5. Optimización Multi-Objetivo en Industria Alimentaria}{19}{section*.35}%
+\contentsline {paragraph}{4.2.6. Modelos Deterministas de Referencia}{20}{section*.36}%
+\contentsline {paragraph}{4.2.7. Tecnologías Habilitadoras}{20}{section*.37}%
+\contentsline {subsubsection}{4.3. Vacíos de Investigación Identificados}{20}{section*.38}%
+\contentsline {subsection}{5. Formulación del Modelo Matemático}{23}{section*.40}%
+\contentsline {subsubsection}{5.1. Conjuntos, Parámetros y Variables de Decisión}{23}{section*.41}%
+\contentsline {subsubsection}{5.2. Función Objetivo}{24}{section*.42}%
+\contentsline {subsubsection}{5.3. Restricciones}{25}{section*.43}%
+\contentsline {subsubsection}{5.4. Estructura de Programación Estocástica de Dos Etapas}{26}{section*.44}%
+\contentsline {subsubsection}{5.5. Validación con Solver Exacto (CBC)}{26}{section*.46}%
+\contentsline {subsection}{6. Diseño e Implementación de Metaheurísticas}{26}{section*.47}%
+\contentsline {subsubsection}{6.1. Representación Cromosómica}{27}{section*.48}%
+\contentsline {subsubsection}{6.2. Operadores de Vecindad}{28}{section*.50}%
+\contentsline {subsubsection}{6.3. Operadores Genéticos}{29}{section*.51}%
+\contentsline {paragraph}{6.3.1. Cruce de Dos Puntos}{29}{section*.52}%
+\contentsline {paragraph}{6.3.2. Mutación Mixta}{31}{section*.53}%
+\contentsline {subsubsection}{6.4. Mecanismo de Reparación}{31}{section*.54}%
+\contentsline {subsubsection}{6.5. Balance Exploración--Explotación del Espacio de Soluciones}{31}{section*.55}%
+\contentsline {subsubsection}{6.6. Decodificador Greedy}{33}{section*.56}%
+\contentsline {subsubsection}{6.7. Algoritmo Genético (GA)}{33}{section*.57}%
+\contentsline {subsubsection}{6.8. Recocido Simulado (SA)}{34}{section*.59}%
+\contentsline {subsubsection}{6.9. Evolución Diferencial (DE)}{34}{section*.61}%
+\contentsline {subsubsection}{6.10. Algoritmo Híbrido GA-SA}{35}{section*.63}%
+\contentsline {subsubsection}{6.11. Calibración de Hiperparámetros (Optuna/TPE)}{35}{section*.65}%
+\contentsline {subsection}{7. Resultados Computacionales}{36}{section*.66}%
+\contentsline {subsubsection}{7.1. Diseño Experimental}{36}{section*.67}%
+\contentsline {subsubsection}{7.2. Perfiles de Instancias}{36}{section*.68}%
+\contentsline {subsubsection}{7.3. Resultados Principales}{37}{section*.69}%
+\contentsline {subsubsection}{7.4. Validación de Hipótesis}{37}{section*.70}%
+\contentsline {subsubsection}{7.5. Performance Profiles}{40}{section*.71}%
+\contentsline {subsubsection}{7.6. Convergence Profiles}{40}{section*.72}%
+\contentsline {subsubsection}{7.7. Análisis de Escalabilidad}{40}{section*.73}%
+\contentsline {subsubsection}{7.8. Análisis de Sensibilidad}{40}{section*.74}%
+\contentsline {subsubsection}{7.9. Análisis de Diversidad Poblacional}{42}{section*.75}%
+\contentsline {subsubsection}{7.10. Análisis de Complejidad Computacional}{42}{section*.76}%
+\contentsline {subsubsection}{7.11. Discusión}{42}{section*.77}%
+\contentsline {subsubsection}{7.12. Síntesis Gráfica de Resultados}{44}{section*.78}%
+\contentsline {subsection}{8. Conclusiones y Trabajo Futuro}{44}{section*.79}%
+\contentsline {subsubsection}{8.1. Conclusiones por Objetivo Específico}{44}{section*.80}%
+\contentsline {subsubsection}{8.2. Veredicto de Hipótesis}{46}{section*.81}%
+\contentsline {subsubsection}{8.3. Contribuciones Principales}{47}{section*.82}%
+\contentsline {subsubsection}{8.4. Limitaciones del Estudio}{47}{section*.83}%
+\contentsline {subsubsection}{8.5. Trabajo Futuro}{48}{section*.84}%
+\contentsline {subsection}{Referencias}{48}{section*.85}%
+\contentsline {subsection}{Anexos}{51}{section*.87}%
+\contentsline {subsubsection}{Anexo A: Formulación Matemática Completa}{51}{section*.88}%
+\contentsline {subsubsection}{Anexo B: Pseudocódigos de Algoritmos}{51}{section*.89}%
+\contentsline {subsubsection}{Anexo C: Resultados Detallados por Instancia}{51}{section*.90}%
+\contentsline {subsubsection}{Anexo D: Herramientas Tecnológicas}{51}{section*.91}%
