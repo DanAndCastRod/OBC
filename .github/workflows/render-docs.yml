@@ -1,15 +1,15 @@
-name: Render Academic Documents (PDF)
+name: Render Tesis Coproductos (PDF)
 
 on:
   push:
     branches: [main, master]
     paths:
-      - 'anteproyecto_dlbp_coproductos.md'
-      - 'docs/tesis/INFORME_FINAL_COMPLETO.md'
-      - 'referencias_dlbp.bib'
-      - 'ieee.csl'
+      - 'tesis/tesis_coproductos.md'
+      - 'tesis/referencias_coproductos.bib'
+      - 'tesis/ieee.csl'
+      - 'tesis/logo_utp.png'
       - '.github/workflows/render-docs.yml'
-  workflow_dispatch:  # Permite ejecución manual
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -17,7 +17,7 @@ permissions:
 jobs:
   render-pdf:
     runs-on: ubuntu-latest
-    name: Render Anteproyecto & Informe Final
+    name: Render Tesis Coproductos
 
     steps:
       - name: Checkout repository
@@ -50,43 +50,28 @@ jobs:
           sudo npm install -g @mermaid-js/mermaid-cli
           pip install pandoc-mermaid-filter || true
 
-      - name: Render Anteproyecto (PDF)
+      - name: Render tesis_coproductos.md (PDF)
         run: |
-          pandoc anteproyecto_dlbp_coproductos.md \
+          mkdir -p output
+          cd tesis
+          pandoc tesis_coproductos.md \
             --pdf-engine=xelatex \
             --citeproc \
-            --bibliography=referencias_dlbp.bib \
+            --bibliography=referencias_coproductos.bib \
             --csl=ieee.csl \
-            --resource-path=.:docs/tesis \
+            --resource-path=. \
             -V geometry:margin=2.5cm \
             -V fontsize=12pt \
             -V lang=es \
             -V mainfont="Liberation Serif" \
             -V sansfont="Liberation Sans" \
             -V monofont="Liberation Mono" \
-            -o output/ANTEPROYECTO_DLBP.pdf
-
-      - name: Render Informe Final (PDF)
-        run: |
-          cd docs/tesis
-          pandoc INFORME_FINAL_COMPLETO.md \
-            --pdf-engine=xelatex \
-            --citeproc \
-            --bibliography=../../referencias_dlbp.bib \
-            --csl=../../ieee.csl \
-            --resource-path=.:../.. \
-            -V geometry:margin=2.5cm \
-            -V fontsize=12pt \
-            -V lang=es \
-            -V mainfont="Liberation Serif" \
-            -V sansfont="Liberation Sans" \
-            -V monofont="Liberation Mono" \
-            -o ../../output/INFORME_FINAL_INVESTIGACION.pdf
+            -o ../output/tesis_coproductos.pdf
 
       - name: Upload PDFs as artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: documentos-academicos-pdf
+          name: tesis-coproductos-pdf
           path: output/*.pdf
           retention-days: 90
 
