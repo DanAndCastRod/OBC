@@ -1,0 +1,14 @@
+%%{init: {'theme': 'neutral'}}%%
+flowchart TD
+    A["Inicializar población\ncontinua [0,1]^2n_t"] --> B["Discretizar y evaluar"]
+    B --> C{"gen ≤ G_max?"}
+    C -->|Sí| D["Para cada individuo i:"]
+    D --> E["Mutación DE/best/1/bin\nv = x_best + F*(x_r1 - x_r2)"]
+    E --> F["Cruce binomial\n(prob = CR)"]
+    F --> G["Discretizar trial\n→ (y, q)"]
+    G --> H{"f(trial) > f(target)?"}
+    H -->|Sí| I["Reemplazar target"]
+    H -->|No| J["Mantener target"]
+    I --> C
+    J --> C
+    C -->|No| K["Retornar mejor"]

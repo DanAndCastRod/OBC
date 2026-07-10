@@ -1,0 +1,8 @@
+%%{init: {'theme': 'neutral'}}%%
+graph TD
+    A["Lot-sizing estocástico\n(Q1: 9, Q2: 11, Q5: 218)"] --> E["INTERSECCIÓN\n13 papers"]
+    B["Perecibilidad + Setup\n(Q3: 20, Q8: 4)"] --> E
+    C["Metaheurísticas\n(Q2: 11, Q5: 218)"] --> E
+    D["Industria avícola\n(Q4: 186)"] --> E
+    E --> F["BRECHA: 0 reviews\n(Q7 = 0 resultados)"]
+    E --> G["→ PROPUESTA:\nGA, SA, DE, GA-SA\n+ estocástico\n+ perecibilidad\n+ avícola Colombia"]

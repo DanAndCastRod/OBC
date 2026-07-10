@@ -5,3 +5,12 @@
 \renewcommand{\includegraphics}[2][]{%
   \oldincludegraphics[max width=0.75\textwidth,center,#1]{#2}%
 }
+
+% Nombres en español coherentes con el texto (babel usa "Cuadro" e
+% "Índice de ..." por defecto). Se define aquí en LaTeX crudo porque
+% en header-includes del YAML el parser markdown mutila los comandos.
+\addto\captionsspanish{%
+  \renewcommand{\tablename}{Tabla}%
+  \renewcommand{\listtablename}{Lista de Tablas}%
+  \renewcommand{\listfigurename}{Lista de Figuras}%
+}

@@ -129,8 +129,12 @@ def check_sales_limit(sol: Solution, inst: ProblemInstance) -> ConstraintResult:
 def check_perishability(sol: Solution, inst: ProblemInstance) -> ConstraintResult:
     """Eq. 7: Perishability.
 
-    Inventory must be zero after L[f] consecutive periods with no production
-    for that specific form.
+    End-of-period inventory cannot exceed the production accumulated over the
+    last L[f] periods (same bound the exact MILP enforces):
+        I[f,t,w] <= sum_{s=t-L[f]+1}^{t} p[f,s]
+    This is stricter than the previous "L consecutive periods without
+    production" check, which never triggered under continuous production and
+    therefore let the greedy decoder hold stock the exact model forbids.
     """
     violations = []
     p = _get_production(sol, inst)
@@ -138,17 +142,13 @@ def check_perishability(sol: Solution, inst: ProblemInstance) -> ConstraintResul
     for w in range(inst.n_scenarios):
         for f in range(inst.n_cut_forms):
             l_f = int(inst.shelf_life[f])
-            consecutive_no_prod = 0
             for t in range(inst.n_periods):
-                if p[f, t] > TOL:
-                    consecutive_no_prod = 0
-                else:
-                    consecutive_no_prod += 1
-
-                if consecutive_no_prod >= l_f and sol.I[f, t, w] > TOL:
+                start = max(0, t - l_f + 1)
+                fresh_supply = float(np.sum(p[f, start : t + 1]))
+                if sol.I[f, t, w] > fresh_supply + TOL:
                     violations.append(
-                        f"f={f},t={t},w={w}: I={sol.I[f,t,w]:.4f} > 0 "
-                        f"with no production for {l_f} periods"
+                        f"f={f},t={t},w={w}: I={sol.I[f,t,w]:.4f} > "
+                        f"{fresh_supply:.4f} (production in last {l_f} periods)"
                     )
 
     return ConstraintResult("Eq.7 Perishability", len(violations) == 0, violations)

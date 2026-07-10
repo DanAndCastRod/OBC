@@ -1,0 +1,24 @@
+%%{init: {'theme': 'neutral'}}%%
+flowchart LR
+    subgraph PUSH["PUSH — Granja"]
+        G1["Lotes de pollos\n2.0-2.5 kg, ciclo 42d"]
+    end
+
+    subgraph PLANTA["PLANTA DE BENEFICIO"]
+        P1["Despiece"]
+        P2["Coproducción fija:\nPech 30% | Mus 20%\nAlas 10% | Otros 40%"]
+        P1 --> P2
+    end
+
+    subgraph PULL["PULL — Mercado"]
+        D1["Demanda variable\ny estacional"]
+    end
+
+    subgraph DESBALANCE["⚠ DESBALANCE"]
+        X1["Excedentes → Inventario"]
+        X2["Faltantes → Ventas perdidas"]
+    end
+
+    PUSH -->|"Oferta fija"| PLANTA
+    PLANTA -->|"Coproductos"| PULL
+    PLANTA -.->|"Oferta ≠ Demanda"| DESBALANCE

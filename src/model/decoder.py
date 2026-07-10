@@ -75,22 +75,39 @@ def decode(
     I = np.zeros((f_count, t_count, w_count), dtype=np.float64)
     u = np.zeros((f_count, t_count, w_count), dtype=np.float64)
 
+    shelf_life = instance.shelf_life.astype(np.int64)
+
     for w in range(w_count):
-        # Inventory layers per form (FIFO by production period).
-        # Keep quantities only: explicit spoilage is not modeled in Eq.2.
-        inv_layers: list[list[float]] = [[] for _ in range(f_count)]
+        # Inventory layers per form as [production_period, quantity] pairs
+        # (FIFO by production period). Layers older than the shelf life are
+        # discarded so the decoded solution respects the same perishability
+        # bound the exact MILP enforces (Eq.7: I[f,t,w] <= sum of production
+        # over the last L[f] periods). Without this, the greedy decoder would
+        # accumulate perishable stock the exact model forbids.
+        inv_layers: list[list[list[float]]] = [[] for _ in range(f_count)]
 
         for t in range(t_count):
-            # 1) Add current-period production
+            # 0) Expire layers beyond their shelf life: a layer produced at
+            #    period s survives in end-of-period inventory through s+L-1,
+            #    so at the start of period t drop any layer with s <= t - L[f].
+            for f in range(f_count):
+                l_f = int(shelf_life[f])
+                oldest_valid = t - l_f + 1
+                if inv_layers[f]:
+                    inv_layers[f] = [
+                        layer for layer in inv_layers[f] if layer[0] >= oldest_valid
+                    ]
+
+            # 1) Add current-period production (never expired: age 0)
             for f in range(f_count):
                 prod_ft = p[f, t]
                 if prod_ft > TOL:
-                    inv_layers[f].append(float(prod_ft))
+                    inv_layers[f].append([float(t), float(prod_ft)])
 
             # 2) Available inventory by form
             available = np.zeros(f_count, dtype=np.float64)
             for f in range(f_count):
-                available[f] = float(sum(inv_layers[f]))
+                available[f] = float(sum(layer[1] for layer in inv_layers[f]))
 
             # 3) Greedy sales by descending price
             for f in priority_order:
@@ -101,21 +118,21 @@ def decode(
 
                 # FIFO consumption: oldest layers are at the front
                 remaining_to_sell = sell
-                new_layers: list[float] = []
+                new_layers: list[list[float]] = []
                 for layer in inv_layers[f]:
+                    s_period, qty = layer
                     if remaining_to_sell <= TOL:
                         new_layers.append(layer)
-                    elif layer <= remaining_to_sell + TOL:
-                        remaining_to_sell -= layer
+                    elif qty <= remaining_to_sell + TOL:
+                        remaining_to_sell -= qty
                     else:
-                        layer -= remaining_to_sell
+                        new_layers.append([s_period, qty - remaining_to_sell])
                         remaining_to_sell = 0.0
-                        new_layers.append(layer)
                 inv_layers[f] = new_layers
 
             # 4) End-of-period inventory
             for f in range(f_count):
-                I[f, t, w] = float(sum(inv_layers[f]))
+                I[f, t, w] = float(sum(layer[1] for layer in inv_layers[f]))
 
     return Solution(
         y=y_vec,

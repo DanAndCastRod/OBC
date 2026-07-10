@@ -16,12 +16,14 @@ Se formula un modelo de **Programación Lineal Entera Mixta (MILP)** multi-perio
 
 ## Resultados Principales
 
-| Algoritmo | Rank | Gap vs CBC |
-|-----------|:----:|:----------:|
-| **GA-SA** (híbrido) | 🥇 1 | ≤ 2% |
-| DE | 🥈 2 | ≤ 2% |
-| GA | 🥉 3 | ≤ 3% |
-| SA | 4 | ≤ 5% |
+| Algoritmo | Rank | Gap vs CBC (Small/Medium) | Gap vs CBC (promedio global) |
+|-----------|:----:|:-------------------------:|:----------------------------:|
+| **GA-SA** (híbrido) | 🥇 1 | 3.4% | 8.12% |
+| DE | 🥈 2 | 3.4% | 8.14% |
+| GA | 🥉 3 | 3.4% | 8.52% |
+| SA | 4 | 10.4% | 13.11% |
+
+**Notas:** (1) El promedio global está dominado por las instancias Large (~17.6–18.8% para todos los algoritmos), en las que CBC no converge al óptimo dentro del límite de 300 s, por lo que el gap allí es frente al incumbente de CBC. (2) El criterio de la hipótesis H2 (gap ≤ 2%) se evalúa frente a la **mejor metaheurística individual**, no frente a CBC; su resultado fue −0.02% (componente de calidad soportado). Fuente: `experiments/results/main_results_table.csv` e `instance_results_table.csv`.
 
 ## Estructura del Repositorio
 
@@ -89,8 +91,8 @@ pytest tests/ -v
 ### Reproducción Completa
 
 ```bash
-# Generar instancias → resolver con CBC → ejecutar metaheurísticas → estadísticas
-python reproduce.py
+# Verificación rápida de reproducibilidad (GA-SA sobre una instancia small)
+python experiments/scripts/reproduce.py
 ```
 
 ### Ejecución Individual
@@ -127,14 +129,16 @@ docs/presentacion/sustentacion_coproductos.html
 | Herramienta | Versión | Uso |
 |-------------|---------|-----|
 | Python | 3.11+ | Lenguaje principal |
-| PuLP | 2.9.0 | Solver exacto (CBC) |
-| NumPy | 1.26.4 | Operaciones numéricas |
-| Pandas | 2.2.0 | Manejo de datos |
-| SciPy | 1.12.0 | Tests estadísticos |
-| Optuna | 3.5.0 | Calibración de hiperparámetros |
+| PuLP | 2.7.0 | Solver exacto (CBC) |
+| NumPy | 1.26.0 | Operaciones numéricas |
+| Pandas | 2.3.2 | Manejo de datos |
+| SciPy | 1.11.2 | Tests estadísticos |
+| Optuna | 4.7.0 | Calibración de hiperparámetros |
 | Matplotlib | 3.8.0 | Visualización |
 | Seaborn | 0.13.0 | Gráficos estadísticos |
-| Pytest | 8.0.0 | Testing |
+| Pytest | 8.4.1 | Testing |
+
+Las versiones exactas están fijadas en [requirements.txt](requirements.txt).
 
 ## Licencia
 

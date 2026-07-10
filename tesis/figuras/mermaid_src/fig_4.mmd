@@ -1,0 +1,10 @@
+%%{init: {'theme': 'neutral'}}%%
+flowchart TD
+    A["Primera Etapa\n(here-and-now)"] --> B["Decisiones:\ny_t (setup), q_t (lote)"]
+    B --> C{"Escenarios\nω = 1..n_ω"}
+    C --> D1["ω₁: d_pt1\n→ v, I, u"]
+    C --> D2["ω₂: d_pt2\n→ v, I, u"]
+    C --> D3["...\nω_n: d_ptn\n→ v, I, u"]
+    D1 --> E["Z = E[beneficio]\n= Σ π_ω · Z_ω"]
+    D2 --> E
+    D3 --> E

@@ -7,8 +7,20 @@ reference-section-title: "Referencias"
 header-includes:
   - \usepackage{xcolor}
   - \usepackage{graphicx}
-filters:
-  - pandoc-mermaid
+figureTitle: "Figura"
+tableTitle: "Tabla"
+figPrefix:
+  - "Figura"
+  - "Figuras"
+tblPrefix:
+  - "Tabla"
+  - "Tablas"
+eqnPrefix:
+  - "Ecuación"
+  - "Ecuaciones"
+secPrefix:
+  - "Sección"
+  - "Secciones"
 ---
 
 <!-- PRIMERA PORTADA: Simple -->
@@ -118,7 +130,7 @@ A mis compañeros de la maestría, por las discusiones enriquecedoras y el acomp
 
 ## Resumen
 
-Este trabajo presenta el desarrollo de un modelo de optimización para la planificación de coproductos en la industria avícola colombiana, resuelto mediante técnicas metaheurísticas. El problema central aborda el desbalance estructural entre la oferta rígida de coproductos —determinada por la anatomía del ave— y la demanda variable del mercado. Se formula un modelo de Programación Lineal Entera Mixta (MILP) multi-periodo con estructura de lot-sizing estocástico, incluyendo decisiones binarias de setup, lote mínimo y restricciones de perecibilidad. Debido a la complejidad NP-hard del problema, se implementan y comparan cuatro metaheurísticas: Algoritmo Genético (GA), Recocido Simulado (SA), Evolución Diferencial (DE) y un algoritmo híbrido GA-SA. Los algoritmos se calibraron mediante el sampler TPE de Optuna y se evaluaron mediante un diseño experimental completo de 1,098 ejecuciones sobre 9 instancias sintéticas calibradas con datos del sector avícola colombiano. Los resultados muestran que el híbrido GA-SA produce soluciones de alta calidad con gaps $\leq 2\%$ respecto al solver exacto CBC en instancias medianas, confirmando su eficacia para problemas de escala industrial. La solución fue validada operativamente, demostrando robustez ante perturbaciones de $\pm 10\%$ en la demanda con un deterioro máximo de $0.04\%$ en la función objetivo. El código fuente, instancias y resultados están disponibles públicamente en el repositorio del proyecto.
+Este trabajo presenta el desarrollo de un modelo de optimización para la planificación de coproductos en la industria avícola colombiana, resuelto mediante técnicas metaheurísticas. El problema central aborda el desbalance estructural entre la oferta rígida de coproductos —determinada por la anatomía del ave— y la demanda variable del mercado. Se formula un modelo de Programación Lineal Entera Mixta (MILP) multi-periodo con estructura de lot-sizing estocástico, incluyendo decisiones binarias de setup, lote mínimo y restricciones de perecibilidad. Debido a la complejidad NP-hard del problema, se implementan y comparan cuatro metaheurísticas: Algoritmo Genético (GA), Recocido Simulado (SA), Evolución Diferencial (DE) y un algoritmo híbrido GA-SA. Los algoritmos se calibraron mediante el sampler TPE de Optuna y se evaluaron mediante un diseño experimental completo de 1,098 ejecuciones sobre 9 instancias sintéticas calibradas con datos del sector avícola colombiano. Los resultados muestran que el híbrido GA-SA alcanza la mejor calidad promedio entre los algoritmos evaluados, con calidad estadísticamente equivalente a la de la mejor metaheurística individual (gap de $-0.02\%$, $p = 1.95 \times 10^{-3}$) y gaps frente al solver exacto CBC de $\approx 3.4\%$ en instancias pequeñas y medianas y $\approx 17.6\%$ en instancias grandes (8.1% en promedio global), posicionándolo como la alternativa más competitiva entre las metaheurísticas evaluadas. La solución fue validada operativamente, demostrando robustez ante perturbaciones de $\pm 10\%$ en la demanda con un deterioro máximo de $0.04\%$ en la función objetivo. El código fuente, instancias y resultados están disponibles públicamente en el repositorio del proyecto.
 
 **Palabras clave:** optimización, coproductos, metaheurísticas, industria avícola, lot-sizing estocástico
 
@@ -126,7 +138,7 @@ Este trabajo presenta el desarrollo de un modelo de optimización para la planif
 
 ## Abstract
 
-This work presents the development of an optimization model for co-product planning in the Colombian poultry industry, solved using metaheuristic techniques. The central problem addresses the structural imbalance between the rigid supply of co-products —determined by the anatomy of the bird— and the variable market demand. A multi-period Mixed-Integer Linear Programming (MILP) model with stochastic lot-sizing structure is formulated, including binary setup decisions, minimum lot constraints, and perishability restrictions. Due to the NP-hard complexity of the problem, four metaheuristics are implemented and compared: Genetic Algorithm (GA), Simulated Annealing (SA), Differential Evolution (DE), and a hybrid GA-SA algorithm. The algorithms were calibrated using Optuna's TPE sampler and evaluated through a complete experimental design of 1,098 runs over 9 synthetic instances calibrated with Colombian poultry industry data. Results show that the hybrid GA-SA produces high-quality solutions with gaps $\leq 2\%$ relative to the CBC exact solver for medium instances, confirming its effectiveness for industrial-scale problems. The solution was operationally validated, demonstrating robustness against $\pm 10\%$ demand perturbations with a maximum deterioration of $0.04\%$ in the objective function. Source code, instances, and results are publicly available in the project repository.
+This work presents the development of an optimization model for co-product planning in the Colombian poultry industry, solved using metaheuristic techniques. The central problem addresses the structural imbalance between the rigid supply of co-products —determined by the anatomy of the bird— and the variable market demand. A multi-period Mixed-Integer Linear Programming (MILP) model with stochastic lot-sizing structure is formulated, including binary setup decisions, minimum lot constraints, and perishability restrictions. Due to the NP-hard complexity of the problem, four metaheuristics are implemented and compared: Genetic Algorithm (GA), Simulated Annealing (SA), Differential Evolution (DE), and a hybrid GA-SA algorithm. The algorithms were calibrated using Optuna's TPE sampler and evaluated through a complete experimental design of 1,098 runs over 9 synthetic instances calibrated with Colombian poultry industry data. Results show that the hybrid GA-SA achieves the best average solution quality among the evaluated algorithms, statistically equivalent to the best individual metaheuristic (gap of $-0.02\%$, $p = 1.95 \times 10^{-3}$), with gaps relative to the CBC exact solver of $\approx 3.4\%$ for small and medium instances and $\approx 17.6\%$ for large instances (8.1% overall average), positioning it as the most competitive alternative among the evaluated metaheuristics. The solution was operationally validated, demonstrating robustness against $\pm 10\%$ demand perturbations with a maximum deterioration of $0.04\%$ in the objective function. Source code, instances, and results are publicly available in the project repository.
 
 **Keywords:** optimization, co-products, metaheuristics, poultry industry, stochastic lot-sizing
 
@@ -156,51 +168,14 @@ Un plan de ventas que, por ejemplo, prioriza la comercialización de pechuga par
 
 Este conflicto genera ineficiencias operativas significativas, como la acumulación de inventarios de baja rotación, la venta de productos premium a precios de liquidación, y la pérdida de oportunidades de mercado. Estudios recientes en Colombia [@SolanoBlanco2022] y en planificación de plantas de beneficio avícola [@Tahraoui2025] demuestran que la aplicación de modelos matemáticos avanzados de optimización puede mitigar estos efectos y mejorar la sostenibilidad financiera y ambiental del sector.
 
-La Figura 1 describe el problema como un sistema de entrada/salida: dado un conjunto de datos de entrada (demanda del mercado, proporciones anatómicas, costos y capacidad de la planta), el modelo de optimización —resuelto mediante metaheurísticas— genera como salida un plan óptimo de producción que indica cuántas aves procesar, cómo distribuir los coproductos y qué niveles de inventario mantener.
+La [@fig:fig_1] describe el problema como un sistema de entrada/salida: dado un conjunto de datos de entrada (demanda del mercado, proporciones anatómicas, costos y capacidad de la planta), el modelo de optimización —resuelto mediante metaheurísticas— genera como salida un plan óptimo de producción que indica cuántas aves procesar, cómo distribuir los coproductos y qué niveles de inventario mantener.
 
-::: {#fig:fig_1}
-```mermaid
-%%{init: {'theme': 'neutral', 'flowchart': {'nodeSpacing': 15, 'rankSpacing': 30}}}%%
-flowchart LR
-    E["ENTRADAS\nDemanda, proporciones,\ncostos, capacidad"] --> M["MODELO\nGA | SA | DE | GA-SA"] --> S["PLAN OPTIMO\nCarcasas, ventas,\ninventarios, utilidad"]
-```
-
-@@SHORT@@Representación del problema como sistema de entrada/salida@@ENDSHORT@@ Representación del problema como sistema de entrada/salida. El modelo de optimización recibe datos de demanda, proporciones anatómicas y parámetros operativos, y genera un plan de producción óptimo.
-:::
+![Representación del problema como sistema de entrada/salida. El modelo de optimización recibe datos de demanda, proporciones anatómicas y parámetros operativos, y genera un plan de producción óptimo.](figuras/mermaid_fig_1.png){#fig:fig_1 width=95% short-caption="Representación del problema como sistema de entrada/salida"}
 
 
-A nivel sistémico, el problema se enmarca en la dinámica **Push/Pull** de la cadena avícola (Figura 2). La granja "empuja" lotes de aves que deben procesarse al alcanzar su peso de mercado (Push), generando coproductos en proporciones fijas. Simultáneamente, el mercado "jala" productos específicos con demanda variable y estacional (Pull). El **desbalance** ocurre cuando estas dos fuerzas no están alineadas, y la planta de procesamiento debe tomar decisiones de producción, inventario y ventas bajo incertidumbre.
+A nivel sistémico, el problema se enmarca en la dinámica **Push/Pull** de la cadena avícola ([@fig:fig_2]). La granja "empuja" lotes de aves que deben procesarse al alcanzar su peso de mercado (Push), generando coproductos en proporciones fijas. Simultáneamente, el mercado "jala" productos específicos con demanda variable y estacional (Pull). El **desbalance** ocurre cuando estas dos fuerzas no están alineadas, y la planta de procesamiento debe tomar decisiones de producción, inventario y ventas bajo incertidumbre.
 
-::: {#fig:fig_2}
-```mermaid
-%%{init: {'theme': 'neutral'}}%%
-flowchart LR
-    subgraph PUSH["PUSH — Granja"]
-        G1["Lotes de pollos\n2.0-2.5 kg, ciclo 42d"]
-    end
-
-    subgraph PLANTA["PLANTA DE BENEFICIO"]
-        P1["Despiece"]
-        P2["Coproducción fija:\nPech 30% | Mus 20%\nAlas 10% | Otros 40%"]
-        P1 --> P2
-    end
-
-    subgraph PULL["PULL — Mercado"]
-        D1["Demanda variable\ny estacional"]
-    end
-
-    subgraph DESBALANCE["⚠ DESBALANCE"]
-        X1["Excedentes → Inventario"]
-        X2["Faltantes → Ventas perdidas"]
-    end
-
-    PUSH -->|"Oferta fija"| PLANTA
-    PLANTA -->|"Coproductos"| PULL
-    PLANTA -.->|"Oferta ≠ Demanda"| DESBALANCE
-```
-
-@@SHORT@@Sistema global Push/Pull de la cadena avícola@@ENDSHORT@@ Sistema global Push/Pull de la cadena avícola. La granja empuja lotes de aves (Push), la planta genera coproductos en proporciones fijas, y el mercado jala productos con demanda variable (Pull). El desbalance entre oferta y demanda genera excedentes y faltantes.
-:::
+![Sistema global Push/Pull de la cadena avícola. La granja empuja lotes de aves (Push), la planta genera coproductos en proporciones fijas, y el mercado jala productos con demanda variable (Pull). El desbalance entre oferta y demanda genera excedentes y faltantes.](figuras/mermaid_fig_2.png){#fig:fig_2 width=95% short-caption="Sistema global Push/Pull de la cadena avícola"}
 
 
 ### 1.2. Relevancia Económica y Contexto Nacional
@@ -236,12 +211,12 @@ Este trabajo se centra en abordar este desafío mediante el desarrollo de un **m
 ### 1.4. Hipótesis de Investigación
 
 **Hipótesis Principal (H1):**
-La aplicación del modelo de optimización de coproductos con metaheurísticas generará una reducción **≥5%** en el costo total operativo respecto al baseline de planificación proporcional, validada con nivel de significancia α=0.05, tomando como referencia los benchmarks de Solano-Blanco et al. [-@SolanoBlanco2022] (8.6% de reducción) y Tahraoui et al. [-@Tahraoui2025].
+La aplicación del modelo de optimización de coproductos con metaheurísticas generará una reducción **$\geq 5\%$** en el costo total operativo respecto al baseline de planificación proporcional, validada con nivel de significancia $\alpha=0.05$, tomando como referencia los benchmarks de Solano-Blanco et al. [-@SolanoBlanco2022] (8.6% de reducción) y Tahraoui et al. [-@Tahraoui2025].
 
 **Hipótesis Secundarias:**
 
-*   **H2:** El algoritmo híbrido GA-SA obtendrá soluciones con un gap de optimalidad **≤2%** respecto a la mejor metaheurística individual (GA, SA o DE), en un tiempo computacional **≤50%** del requerido por el solver exacto (CBC/PuLP) para instancias medianas ($n_t=12$, $n_\omega=50$) [@AkbariAghghaleh2025].
-*   **H3:** El modelo de optimización permitirá una reducción **≥15%** en el inventario promedio total, comparada con el método de planificación proporcional, evaluada mediante un contraste one-sided bloqueado por instancia (α=0.05). Como análisis secundario exploratorio, se examinará el inventario de baja rotación cuando el baseline sea estrictamente positivo.
+*   **H2:** El algoritmo híbrido GA-SA obtendrá soluciones con un gap de optimalidad **$\leq 2\%$** respecto a la mejor metaheurística individual (GA, SA o DE), en un tiempo computacional **$\leq 50\%$** del requerido por el solver exacto (CBC/PuLP) para instancias medianas ($n_t=12$, $n_\omega=50$) [@AkbariAghghaleh2025].
+*   **H3:** El modelo de optimización permitirá una reducción **$\geq 15\%$** en el inventario promedio total, comparada con el método de planificación proporcional, evaluada mediante un contraste one-sided bloqueado por instancia ($\alpha=0.05$). Como análisis secundario exploratorio, se examinará el inventario de baja rotación cuando el baseline sea estrictamente positivo.
 
 ### 1.5. Alcance y Limitaciones
 
@@ -282,7 +257,7 @@ El desbalance entre la oferta conjunta y la demanda del mercado se manifiesta en
 | Participación en PIB agropecuario | 0.52% | DANE 2024 |
 | Potencial de ahorro en inventario | 30–60% | Solano-Blanco et al. 2022 |
 | Costos de almacenamiento refrigerado | +15–25% del costo operativo | Solano-Blanco et al. 2022; Sel et al. 2015 |
-| Pérdidas por ventas de liquidación | −20–40% del margen | Amorim et al. 2014 |
+| Pérdidas por ventas de liquidación | -20–40% del margen | Amorim et al. 2014 |
 | Desperdicio de producto perecedero | 5–10% de la producción total | Claassen 2016; Akbari-Aghghaleh et al. 2025 |
 
 : Magnitud del problema en la industria avícola colombiana {#tbl:tabla_1}
@@ -494,7 +469,7 @@ Una búsqueda sistemática realizada en Scopus (febrero 2026) utilizando ecuacio
 
 De los 478 resultados, solo 13 papers abordan directamente la intersección entre lot-sizing estocástico con setup, perecibilidad y metaheurísticas—confirmando la brecha que esta investigación busca llenar. Notablemente, la Query Q7 (reviews sobre multi-product lot-sizing estocástico) no arrojó ningún resultado, evidenciando la ausencia de trabajos de revisión del estado del arte para este tema específico.
 
-La Tabla 3 resume los trabajos más relevantes y su posicionamiento respecto a esta propuesta.
+La [@tbl:tabla_3] resume los trabajos más relevantes y su posicionamiento respecto a esta propuesta.
 
 | Autor(es) | Técnica | Objetivo | Incertidumbre | Aplicación |
 |-----------|---------|----------|---------------|------------|
@@ -516,25 +491,12 @@ La Tabla 3 resume los trabajos más relevantes y su posicionamiento respecto a e
 
 : Resumen del estado del arte y brechas identificadas {#tbl:tabla_3}
 
-::: {#fig:fig_3}
-```mermaid
-%%{init: {'theme': 'neutral'}}%%
-graph TD
-    A["Lot-sizing estocástico\n(Q1: 9, Q2: 11, Q5: 218)"] --> E["INTERSECCIÓN\n13 papers"]
-    B["Perecibilidad + Setup\n(Q3: 20, Q8: 4)"] --> E
-    C["Metaheurísticas\n(Q2: 11, Q5: 218)"] --> E
-    D["Industria avícola\n(Q4: 186)"] --> E
-    E --> F["BRECHA: 0 reviews\n(Q7 = 0 resultados)"]
-    E --> G["→ PROPUESTA:\nGA, SA, DE, GA-SA\n+ estocástico\n+ perecibilidad\n+ avícola Colombia"]
-```
-
-@@SHORT@@Diagrama de intersección de brechas de investigación@@ENDSHORT@@ Diagrama de intersección de brechas de investigación. De 478 resultados en las 8 queries de búsqueda, solo 13 papers abordan la intersección directa entre lot-sizing estocástico, perecibilidad, metaheurísticas e industria avícola. La ausencia de reviews (Q7=0) confirma la novedad del área.
-:::
+![Diagrama de intersección de brechas de investigación. De 478 resultados en las 8 queries de búsqueda, solo 13 papers abordan la intersección directa entre lot-sizing estocástico, perecibilidad, metaheurísticas e industria avícola. La ausencia de reviews (Q7=0) confirma la novedad del área.](figuras/mermaid_fig_3.png){#fig:fig_3 width=80% short-caption="Diagrama de intersección de brechas de investigación"}
 
 
 Los principales vacíos identificados son:
 
-1. **Ausencia de metaheurísticas para planificación de coproductos avícolas bajo incertidumbre:** De los 14 trabajos relevantes en la Tabla 3, solo Akbari-Aghghaleh et al. [-@AkbariAghghaleh2025] utilizan metaheurísticas en el contexto avícola, pero con un modelo determinista. Ningún trabajo combina metaheurísticas con programación estocástica de dos etapas para coproductos avícolas.
+1. **Ausencia de metaheurísticas para planificación de coproductos avícolas bajo incertidumbre:** De los 14 trabajos relevantes en la [@tbl:tabla_3], solo Akbari-Aghghaleh et al. [-@AkbariAghghaleh2025] utilizan metaheurísticas en el contexto avícola, pero con un modelo determinista. Ningún trabajo combina metaheurísticas con programación estocástica de dos etapas para coproductos avícolas.
 
 2. **Inexistencia de reviews de multi-product lot-sizing estocástico:** La Query Q7 no arrojó ningún resultado, evidenciando que el campo carece de sistematización. Esto dificulta la identificación de mejores prácticas y líneas de investigación prioritarias.
 
@@ -657,22 +619,7 @@ El modelo sigue la estructura clásica de programación estocástica de dos etap
 *   **Primera etapa (*here-and-now*):** Las decisiones de setup $y_t$ y producción $q_t$ se toman **antes** de conocer la demanda real. Estas son las variables que las metaheurísticas optimizan directamente.
 *   **Segunda etapa (*wait-and-see*):** Las decisiones de venta $v_{pt\omega}$, inventario $I_{pt\omega}$ y demanda insatisfecha $u_{pt\omega}$ se determinan **después** de observar cada escenario $\omega$. En la implementación, estas variables se calculan mediante un decodificador greedy determinista (§6.2).
 
-::: {#fig:fig_4}
-```mermaid
-%%{init: {'theme': 'neutral'}}%%
-flowchart TD
-    A["Primera Etapa\n(here-and-now)"] --> B["Decisiones:\ny_t (setup), q_t (lote)"]
-    B --> C{"Escenarios\nω = 1..n_ω"}
-    C --> D1["ω₁: d_pt1\n→ v, I, u"]
-    C --> D2["ω₂: d_pt2\n→ v, I, u"]
-    C --> D3["...\nω_n: d_ptn\n→ v, I, u"]
-    D1 --> E["Z = E[beneficio]\n= Σ π_ω · Z_ω"]
-    D2 --> E
-    D3 --> E
-```
-
-@@SHORT@@Estructura de programación estocástica de dos etapas@@ENDSHORT@@ Estructura de programación estocástica de dos etapas. Las decisiones de primera etapa (setup y producción) se toman antes de conocer la demanda; las de segunda etapa (ventas, inventario) se adaptan a cada escenario.
-:::
+![Estructura de programación estocástica de dos etapas. Las decisiones de primera etapa (setup y producción) se toman antes de conocer la demanda; las de segunda etapa (ventas, inventario) se adaptan a cada escenario.](figuras/mermaid_fig_4.png){#fig:fig_4 width=75% short-caption="Estructura de programación estocástica de dos etapas"}
 
 
 ### 5.5. Validación con Solver Exacto (CBC)
@@ -713,33 +660,10 @@ Las **variables de segunda etapa** ($v_{pt\omega}$, $I_{pt\omega}$, $u_{pt\omega
 
 En este ejemplo, la línea se activa en los periodos 1, 2, 4 y 6. Nótese la **consistencia** entre vectores: cuando $y_t = 0$ (periodos 3 y 5), necesariamente $q_t = 0$. Cuando $y_t = 1$, la cantidad respeta $100 \leq q_t \leq 1000$.
 
-::: {#fig:fig_5}
-```mermaid
-%%{init: {'theme': 'neutral'}}%%
-block-beta
-    columns 7
-    A["Cromosoma s"]:7
-    B["y (setup)"]
-    B1["1"]
-    B2["1"]
-    B3["0"]
-    B4["1"]
-    B5["0"]
-    B6["1"]
-    C["q (cantidad)"]
-    C1["750"]
-    C2["420"]
-    C3["0"]
-    C4["1000"]
-    C5["0"]
-    C6["300"]
-```
-
-@@SHORT@@Estructura del cromosoma como par de vectores@@ENDSHORT@@ Estructura del cromosoma como par de vectores. El vector superior (binario) codifica las decisiones de setup y el inferior (entero) las cantidades de producción. Los genes son posicionalmente correspondientes: el gen $q_t$ es coherente con $y_t$.
-:::
+![Estructura del cromosoma como par de vectores. El vector superior (binario) codifica las decisiones de setup y el inferior (entero) las cantidades de producción. Los genes son posicionalmente correspondientes: el gen $q_t$ es coherente con $y_t$.](figuras/mermaid_fig_5.png){#fig:fig_5 width=90% short-caption="Estructura del cromosoma como par de vectores"}
 
 
-![@@SHORT@@Representación visual del cromosoma@@ENDSHORT@@ Representación visual del cromosoma. Las celdas activas ($y_t = 1$) se destacan con fondo cian para el vector de setup y verde para el vector de cantidad Periodos inactivos ($y_t = 0$, $q_t = 0$) se muestran en gris. La correspondencia posicional garantiza la consistencia: si $y_t = 0$, necesariamente $q_t = 0$; si $y_t = 1$, entonces $Q^{min} \leq q_t \leq Q^{max}$.](figuras/fig_chromosome_representation.png){width=85% #fig:fig_5b}
+![Representación visual del cromosoma. Las celdas activas ($y_t = 1$) se destacan con fondo cian para el vector de setup y verde para el vector de cantidad Periodos inactivos ($y_t = 0$, $q_t = 0$) se muestran en gris. La correspondencia posicional garantiza la consistencia: si $y_t = 0$, necesariamente $q_t = 0$; si $y_t = 1$, entonces $Q^{min} \leq q_t \leq Q^{max}$.](figuras/fig_chromosome_representation.png){width=85% #fig:fig_5b short-caption="Representación visual del cromosoma"}
 
 
 **Tamaño del espacio de búsqueda.** El espacio de soluciones factibles $\mathcal{S}$ tiene cardinalidad:
@@ -793,7 +717,7 @@ Este mecanismo permite al SA alternar entre movimientos exploratorios (cambiar e
 
 : Ejemplo de aplicación de operadores de vecindad sobre un cromosoma con $n_t = 6$ {#tbl:tabla_5b}
 
-![@@SHORT@@Representación visual de los tres operadores de vecindad@@ENDSHORT@@ Representación visual de los tres operadores de vecindad. El operador toggle ($N_{toggle}$) modifica la estructura de periodos activos invirtiendo bits del vector de setup. El operador de cantidad ($N_{quantity}$) perturba las cantidades de producción con ruido gaussiano. El operador mixto ($N_{mixta}$) selecciona probabilísticamente entre ambos, logrando un balance entre exploración y explotación.](figuras/fig_neighborhood_operators.png){width=90% #fig:fig_5c}
+![Representación visual de los tres operadores de vecindad. El operador toggle ($N_{toggle}$) modifica la estructura de periodos activos invirtiendo bits del vector de setup. El operador de cantidad ($N_{quantity}$) perturba las cantidades de producción con ruido gaussiano. El operador mixto ($N_{mixta}$) selecciona probabilísticamente entre ambos, logrando un balance entre exploración y explotación.](figuras/fig_neighborhood_operators.png){width=90% #fig:fig_5c short-caption="Representación visual de los tres operadores de vecindad"}
 
 
 ### 6.3. Operadores Genéticos
@@ -833,7 +757,7 @@ La mutación opera gen por gen sobre el cromosoma, aplicando dos tipos de pertur
 2. **Perturbación de cantidad:** Para cada gen $q_t$ con $y'_t = 1$, se perturba con probabilidad $p_{quantity}$:
    $$q'_t = \text{clamp}(q_t + \mathcal{N}(0, \delta \cdot Q^{max}), Q^{min}, Q^{max})$$
 
-Los valores típicos calibrados son $p_{toggle} \approx 0.05$–$0.10$ y $\delta \approx 0.07$–$0.15$ (Tabla 5d, §6.11).
+Los valores típicos calibrados son $p_{toggle} \approx 0.05$–$0.10$ y $\delta \approx 0.07$–$0.15$ ([@tbl:tabla_5d], §6.11).
 
 ### 6.4. Mecanismo de Reparación
 
@@ -847,7 +771,7 @@ Este mecanismo garantiza que **todo cromosoma generado durante la búsqueda es f
 
 ### 6.5. Balance Exploración–Explotación del Espacio de Soluciones
 
-La eficacia de una metaheurística depende crucialmente del **balance entre exploración** (diversificación: visitar regiones nuevas del espacio de búsqueda) y **explotación** (intensificación: refinar soluciones prometedoras en la vecindad de un óptimo local). La Tabla 5d resume cómo cada mecanismo y algoritmo contribuye a este balance.
+La eficacia de una metaheurística depende crucialmente del **balance entre exploración** (diversificación: visitar regiones nuevas del espacio de búsqueda) y **explotación** (intensificación: refinar soluciones prometedoras en la vecindad de un óptimo local). La [@tbl:tabla_5d] resume cómo cada mecanismo y algoritmo contribuye a este balance.
 
 | Mecanismo | Tipo | Algoritmos | Efecto en el espacio de búsqueda |
 |:----------|:----:|:----------:|:---------------------------------|
@@ -864,16 +788,16 @@ La eficacia de una metaheurística depende crucialmente del **balance entre expl
 | Selección greedy (trial vs. target) | Explotación | DE | Solo acepta mejoras; presión selectiva fuerte |
 | Búsqueda local SA periódica | Explotación | GA-SA | Refina los mejores individuos de la población |
 
-: @@SHORT@@Clasificación de mecanismos según su contribución a exploración vs@@ENDSHORT@@ Clasificación de mecanismos según su contribución a exploración vs. explotación {#tbl:tabla_5d}
+: Clasificación de mecanismos según su contribución a exploración vs. explotación {#tbl:tabla_5d}
 
 La **combinación de estos mecanismos** es lo que confiere a cada algoritmo su perfil de búsqueda característico:
 
 *   **GA (§6.7):** Exploración predominante mediante población diversa y operadores genéticos (cruce + mutación), con explotación limitada por elitismo y presión de torneo.
 *   **SA (§6.8):** Trayectoria individual que transita de exploración (alta temperatura) a explotación (baja temperatura), con reheating para escapar de óptimos locales.
 *   **DE (§6.9):** Exploración dirigida mediante vectores de diferencia, combinada con explotación fuerte por selección greedy (el trial solo sobrevive si supera al target).
-*   **GA-SA (§6.10):** Balance óptimo — la exploración global del GA se complementa con la explotación local del SA aplicado periódicamente a los mejores individuos (Figura 19 confirma que GA-SA mantiene mayor diversidad que GA puro).
+*   **GA-SA (§6.10):** Balance óptimo — la exploración global del GA se complementa con la explotación local del SA aplicado periódicamente a los mejores individuos ([@fig:fig_17] confirma que GA-SA mantiene mayor diversidad que GA puro).
 
-![@@SHORT@@Posicionamiento de los cuatro algoritmos en el espectro exploración–explotación@@ENDSHORT@@ Posicionamiento de los cuatro algoritmos en el espectro exploración–explotación. SA se ubica hacia la exploración (alta temperatura inicial) con transición gradual a explotación (enfriamiento). GA prioriza diversificación mediante población y operadores genéticos. DE combina exploración dirigida con selección greedy. GA-SA logra el balance óptimo al complementar la exploración global del GA con la explotación local del SA.](figuras/fig_exploration_exploitation.png){width=90% #fig:fig_5d}
+![Posicionamiento de los cuatro algoritmos en el espectro exploración–explotación. SA se ubica hacia la exploración (alta temperatura inicial) con transición gradual a explotación (enfriamiento). GA prioriza diversificación mediante población y operadores genéticos. DE combina exploración dirigida con selección greedy. GA-SA logra el balance óptimo al complementar la exploración global del GA con la explotación local del SA.](figuras/fig_exploration_exploitation.png){width=90% #fig:fig_5d short-caption="Posicionamiento de los cuatro algoritmos en el espectro exploración–explotación"}
 
 
 ### 6.6. Decodificador Greedy
@@ -896,23 +820,7 @@ El GA opera sobre una población de $N$ individuos, cada uno codificado como $(\
 *   **Elitismo:** Los $e$ mejores individuos pasan directamente a la siguiente generación.
 *   **Criterio de parada:** Estancamiento (sin mejora durante $s$ generaciones consecutivas).
 
-::: {#fig:fig_6}
-```mermaid
-%%{init: {'theme': 'neutral'}}%%
-flowchart TD
-    A["Inicializar población\nP₀ (N individuos)"] --> B["Evaluar fitness\nf(y,q) = Z"]
-    B --> C{"gen ≤ G_max\ny sin estancamiento?"}
-    C -->|Sí| D["Elitismo: conservar top-e"]
-    D --> E["Selección por torneo (k)"]
-    E --> F["Cruce de dos puntos\n(prob = cx_rate)"]
-    F --> G["Mutación mixta\n(bit-flip + gaussiana)"]
-    G --> H["Reparar lot-sizing"]
-    H --> B
-    C -->|No| I["Retornar mejor solución"]
-```
-
-Diagrama de flujo del Algoritmo Genético (GA) con operadores de cruce de dos puntos, mutación mixta y elitismo.
-:::
+![Diagrama de flujo del Algoritmo Genético (GA) con operadores de cruce de dos puntos, mutación mixta y elitismo.](figuras/mermaid_fig_6.png){#fig:fig_6 width=70%}
 
 
 ### 6.8. Recocido Simulado (SA)
@@ -925,28 +833,7 @@ El SA utiliza un esquema de enfriamiento geométrico con *reheating* adaptativo:
 *   **Criterio de Metropolis:** Acepta una solución peor $s'$ con probabilidad $\exp(\Delta / T)$ donde $\Delta = f(s') - f(s)$.
 *   **Reheating:** Cuando se estanca por $r$ iteraciones sin mejora, la temperatura se multiplica por un factor $> 1$ para reactivar la exploración.
 
-::: {#fig:fig_7}
-```mermaid
-%%{init: {'theme': 'neutral'}}%%
-flowchart TD
-    A["Solución inicial aleatoria\ny, q"] --> B["Estimar T₀"]
-    B --> C{"T > T_final?"}
-    C -->|Sí| D["Generar vecino\n(toggle/cantidad/ambos)"]
-    D --> E{"Metropolis:\nΔ > 0 o rand < e^(Δ/T)?"}
-    E -->|Aceptar| F["Actualizar solución actual"]
-    E -->|Rechazar| G["Mantener actual"]
-    F --> H{"¿Mejor global?"}
-    G --> H
-    H -->|Sí| I["Actualizar best"]
-    H -->|No| J{"Estancado ≥ r?"}
-    J -->|Sí| K["Reheat: T *= factor"]
-    J -->|No| C
-    K --> C
-    C -->|No| L["Retornar best"]
-```
-
-Diagrama de flujo del Recocido Simulado (SA) con enfriamiento geométrico, vecindarios mixtos y reheating adaptativo.
-:::
+![Diagrama de flujo del Recocido Simulado (SA) con enfriamiento geométrico, vecindarios mixtos y reheating adaptativo.](figuras/mermaid_fig_7.png){#fig:fig_7 width=70%}
 
 
 ### 6.9. Evolución Diferencial (DE)
@@ -958,26 +845,7 @@ El DE opera sobre una población de vectores continuos en $[0, 1]^{2n_t}$ que se
 *   **Cruce binomial:** Cada componente del vector trial se toma del mutante con probabilidad $CR$ o del target con $1-CR$.
 *   **Selección greedy:** El trial reemplaza al target solo si tiene mejor fitness.
 
-::: {#fig:fig_8}
-```mermaid
-%%{init: {'theme': 'neutral'}}%%
-flowchart TD
-    A["Inicializar población\ncontinua [0,1]^2n_t"] --> B["Discretizar y evaluar"]
-    B --> C{"gen ≤ G_max?"}
-    C -->|Sí| D["Para cada individuo i:"]
-    D --> E["Mutación DE/best/1/bin\nv = x_best + F*(x_r1 - x_r2)"]
-    E --> F["Cruce binomial\n(prob = CR)"]
-    F --> G["Discretizar trial\n→ (y, q)"]
-    G --> H{"f(trial) > f(target)?"}
-    H -->|Sí| I["Reemplazar target"]
-    H -->|No| J["Mantener target"]
-    I --> C
-    J --> C
-    C -->|No| K["Retornar mejor"]
-```
-
-Diagrama de flujo de la Evolución Diferencial (DE) con estrategia DE/best/1/bin y codificación continua discretizada.
-:::
+![Diagrama de flujo de la Evolución Diferencial (DE) con estrategia DE/best/1/bin y codificación continua discretizada.](figuras/mermaid_fig_8.png){#fig:fig_8 width=70%}
 
 
 ### 6.10. Algoritmo Híbrido GA-SA
@@ -987,23 +855,7 @@ El GA-SA es un **algoritmo memético** que combina la exploración global del GA
 *   **Fase GA (global):** Idéntica al GA estándar (selección, cruce, mutación, elitismo).
 *   **Fase SA (local):** Cada $f_{LS}$ generaciones, se aplica un SA corto (pocas iteraciones, temperatura baja) a los $k$ mejores individuos de la población, mejorando localmente las mejores soluciones encontradas.
 
-::: {#fig:fig_9}
-```mermaid
-%%{init: {'theme': 'neutral'}}%%
-flowchart TD
-    A["Inicializar población P₀"] --> B["Evaluar fitness"]
-    B --> C{"gen ≤ G_max?"}
-    C -->|Sí| D["--- Fase GA ---\nElitismo + Selección\n+ Cruce + Mutación"]
-    D --> E{"gen mod f_LS = 0?"}
-    E -->|Sí| F["--- Fase SA ---\nSA local sobre top-k\n(T_local, iters_local)"]
-    E -->|No| G["Evaluar población"]
-    F --> G
-    G --> C
-    C -->|No| H["Retornar mejor solución"]
-```
-
-@@SHORT@@Diagrama de flujo del algoritmo híbrido GA-SA@@ENDSHORT@@ Diagrama de flujo del algoritmo híbrido GA-SA. La búsqueda local SA se activa periódicamente sobre los mejores individuos de la población.
-:::
+![Diagrama de flujo del algoritmo híbrido GA-SA. La búsqueda local SA se activa periódicamente sobre los mejores individuos de la población.](figuras/mermaid_fig_9.png){#fig:fig_9 width=70% short-caption="Diagrama de flujo del algoritmo híbrido GA-SA"}
 
 
 ### 6.11. Calibración de Hiperparámetros (Optuna/TPE)
@@ -1038,7 +890,7 @@ Los hiperparámetros de cada metaheurística se calibraron mediante **Optuna** c
 
 : Hiperparámetros calibrados por algoritmo (resultado de Optuna/TPE) {#tbl:tabla_5e}
 
-![@@SHORT@@Evolución del mejor fitness durante la calibración con Optuna/TPE para cada algoritmo@@ENDSHORT@@ Evolución del mejor fitness durante la calibración con Optuna/TPE para cada algoritmo. GA-SA alcanza la convergencia más rápida, seguida por DE, GA y SA.](figuras/tuning_evolution_comparison.png){width=80% #fig:fig_10}
+![Evolución del mejor fitness durante la calibración con Optuna/TPE para cada algoritmo. GA-SA alcanza la convergencia más rápida, seguida por DE, GA y SA.](figuras/tuning_evolution_comparison.png){width=80% #fig:fig_10 short-caption="Evolución del mejor fitness durante la calibración con Optuna/TPE para cada algoritmo"}
 
 
 ---
@@ -1083,10 +935,10 @@ Las instancias fueron generadas con datos calibrados de la industria avícola co
 
 El híbrido **GA-SA obtiene el mejor rendimiento promedio**, seguido por DE, GA y SA. La lectura estadística depende del nivel de agregación: en vista por corridas (ANOVA) no se observa diferencia global ($F = 0.259$, $p = 0.855$), pero al bloquear por instancia sí aparece diferencia global (Friedman $\chi^2 = 16.07$, $p = 0.0011$). Las comparaciones pareadas con corrección Holm muestran diferencia consistente entre SA y {DE, GA-SA}, mientras que **GA-SA y DE permanecen prácticamente empatados en magnitud de efecto** (diferencia media relativa \(\approx 0.024\%\)).
 
-![@@SHORT@@Distribución de fitness ($Z$) por algoritmo@@ENDSHORT@@ Distribución de fitness ($Z$) por algoritmo. GA-SA y DE muestran las medianas más altas, mientras SA presenta la mayor variabilidad.](figuras/boxplot_fitness.png){width=80% #fig:fig_11}
+![Distribución de fitness ($Z$) por algoritmo. GA-SA y DE muestran las medianas más altas, mientras SA presenta la mayor variabilidad.](figuras/boxplot_fitness.png){width=80% #fig:fig_11 short-caption="Distribución de fitness ($Z$) por algoritmo"}
 
 
-![@@SHORT@@Frente de Pareto calidad ($Z$) vs@@ENDSHORT@@ Frente de Pareto calidad ($Z$) vs. tiempo computacional. GA-SA ofrece el mejor compromiso calidad-velocidad.](figuras/pareto_quality_time.png){width=80% #fig:fig_12}
+![Frente de Pareto calidad ($Z$) vs. tiempo computacional. GA-SA ofrece el mejor compromiso calidad-velocidad.](figuras/pareto_quality_time.png){width=80% #fig:fig_12 short-caption="Frente de Pareto calidad vs. tiempo computacional"}
 
 
 ![Comparación del nivel de servicio (% de demanda satisfecha) por algoritmo.](figuras/service_level_comparison.png){width=80% #fig:fig_13}
@@ -1096,9 +948,9 @@ El híbrido **GA-SA obtiene el mejor rendimiento promedio**, seguido por DE, GA 
 
 | Hipótesis | Descripción | Test | Estadístico | p-valor | Veredicto |
 |:---------:|-------------|------|:-----------:|:-------:|:---------:|
-| **H1** | Mejora ≥ 5% vs baseline (promedio por instancia) | Wilcoxon one-sided | 0.0 | 1.000 | **NO SOPORTADA** |
-| **H2** | GA-SA gap ≤ 2% vs mejor MH (promedio por instancia) | Wilcoxon one-sided | 0.0 | 1.95×10⁻³ | **SOPORTADA** |
-| **H3** | Reducción inventario promedio ≥ 15% (endpoint primario, por instancia) | Wilcoxon one-sided | 24.0 | 0.455 | **NO SOPORTADA** |
+| **H1** | Mejora $\geq 5\%$ vs baseline (promedio por instancia) | Wilcoxon one-sided | 0.0 | 1.000 | **NO SOPORTADA** |
+| **H2** | GA-SA gap $\leq 2\%$ vs mejor MH y tiempo $\leq 50\%$ de CBC (promedio por instancia) | Wilcoxon one-sided | 0.0 | $1.95\times 10^{-3}$ | **PARCIALMENTE SOPORTADA** |
+| **H3** | Reducción inventario promedio $\geq 15\%$ (endpoint primario, por instancia) | Wilcoxon one-sided | 24.0 | 0.455 | **NO SOPORTADA** |
 
 : Veredicto de hipótesis de investigación {#tbl:tabla_8}
 
@@ -1106,24 +958,24 @@ El híbrido **GA-SA obtiene el mejor rendimiento promedio**, seguido por DE, GA 
 
 **H1 (NO SOPORTADA):** La mejora promedio por instancia de las metaheurísticas sobre el baseline es de 0.59–1.10%, inferior al umbral del 5%. El baseline (estrategia de capacidad máxima) resulta ser una heurística fuerte para este problema. El tamaño de efecto es negligible ($d < 0.04$).
 
-**H2 (SOPORTADA):** El gap del GA-SA respecto a la mejor metaheurística individual es −0.02% por instancia (IC: [−0.06%, 0.01%]), inferior al umbral del 2% ($p = 1.95 \times 10^{-3}$). La versión por corrida mantiene la misma dirección ($p = 7.4 \times 10^{-50}$), pero se reporta como evidencia complementaria. Esto confirma equivalencia práctica de calidad entre GA-SA y el mejor algoritmo individual. Nota: el componente de tiempo de H2 no se soporta, ya que GA-SA requiere más tiempo que CBC (ratio medio por instancia = 52.5x).
+**H2 (PARCIALMENTE SOPORTADA):** El componente de calidad de la hipótesis sí se soporta: el gap del GA-SA respecto a la mejor metaheurística individual es -0.02% por instancia (IC: [-0.06%, 0.01%]), inferior al umbral del 2% ($p = 1.95 \times 10^{-3}$). La versión por corrida mantiene la misma dirección ($p = 7.4 \times 10^{-50}$), pero se reporta como evidencia complementaria. Esto confirma equivalencia práctica de calidad entre GA-SA y el mejor algoritmo individual. El componente de tiempo, en cambio, **no se soporta**: GA-SA requiere en promedio 52.5 veces el tiempo de CBC por instancia, muy lejos del umbral del 50% planteado en la formulación original de la hipótesis (§2.6).
 
 **H3 (NO SOPORTADA):** En el endpoint primario (inventario promedio total por instancia), las reducciones observadas (12.2%–17.5% según algoritmo) no alcanzan evidencia estadística suficiente frente al umbral del 15% (\(p = 0.455\) en el contraste one-sided por instancia).  
 Como lectura secundaria, el endpoint de baja rotación muestra 22.3% para SA con \(p = 0.0417\), pero solo 3/9 instancias son informativas (\(baseline > 0\)); por protocolo (\(n_{informativo} \geq 5\)) se reporta como evidencia exploratoria y no confirmatoria.
 
 ### 7.5. Performance Profiles
 
-![@@SHORT@@Performance profile de Dolan-Moré@@ENDSHORT@@ Performance profile de Dolan-Moré. GA-SA y DE alcanzan las mejores soluciones con mayor frecuencia (curva más alta a la izquierda).](figuras/performance_profile.png){width=80% #fig:fig_14}
+![Performance profile de Dolan-Moré. GA-SA y DE alcanzan las mejores soluciones con mayor frecuencia (curva más alta a la izquierda).](figuras/performance_profile.png){width=80% #fig:fig_14 short-caption="Performance profile de Dolan-Moré"}
 
 
 ### 7.6. Convergence Profiles
 
-![@@SHORT@@Perfiles de convergencia normalizados@@ENDSHORT@@ Perfiles de convergencia normalizados. GA-SA converge más rápido que GA y DE gracias a la búsqueda local periódica.](figuras/convergence_profiles.png){width=80% #fig:fig_15}
+![Perfiles de convergencia normalizados. GA-SA converge más rápido que GA y DE gracias a la búsqueda local periódica.](figuras/convergence_profiles.png){width=80% #fig:fig_15 short-caption="Perfiles de convergencia normalizados"}
 
 
 ### 7.7. Análisis de Escalabilidad
 
-![@@SHORT@@Escalabilidad empírica (gráfico log-log)@@ENDSHORT@@ Escalabilidad empírica (gráfico log-log). Todas las metaheurísticas muestran crecimiento polinomial del tiempo con el tamaño de la instancia.](figuras/complexity_loglog_scaling.png){width=80% #fig:fig_16}
+![Escalabilidad empírica (gráfico log-log). Todas las metaheurísticas muestran crecimiento polinomial del tiempo con el tamaño de la instancia.](figuras/complexity_loglog_scaling.png){width=80% #fig:fig_16 short-caption="Escalabilidad empírica (gráfico log-log)"}
 
 
 ### 7.8. Análisis de Sensibilidad
@@ -1132,17 +984,17 @@ Se realizó un análisis de sensibilidad perturbando tres parámetros clave en e
 
 | Parámetro | $\Delta$ | $\bar{Z}$ (COP) | Gap% vs base | Factibilidad |
 |-----------|:--------:|:----------------:|:------------:|:------------:|
-| Precios | −20% | 411,781,441 | +25.35% | 100% |
-| Precios | −10% | 481,696,520 | +12.67% | 100% |
+| Precios | -20% | 411,781,441 | +25.35% | 100% |
+| Precios | -10% | 481,696,520 | +12.67% | 100% |
 | Precios | 0% | 551,611,598 | 0.00% | 100% |
-| Precios | +10% | 621,526,676 | −12.67% | 100% |
-| Precios | +20% | 691,441,754 | −25.35% | 100% |
-| Costos | −20% | 581,119,434 | −5.35% | 100% |
-| Costos | −10% | 566,365,516 | −2.67% | 100% |
+| Precios | +10% | 621,526,676 | -12.67% | 100% |
+| Precios | +20% | 691,441,754 | -25.35% | 100% |
+| Costos | -20% | 581,119,434 | -5.35% | 100% |
+| Costos | -10% | 566,365,516 | -2.67% | 100% |
 | Costos | +10% | 536,857,679 | +2.67% | 100% |
 | Costos | +20% | 522,103,761 | +5.35% | 100% |
-| Var. demanda | −50% | 551,742,773 | −0.02% | 100% |
-| Var. demanda | −25% | 551,741,184 | −0.02% | 100% |
+| Var. demanda | -50% | 551,742,773 | -0.02% | 100% |
+| Var. demanda | -25% | 551,741,184 | -0.02% | 100% |
 | Var. demanda | +25% | 550,856,531 | +0.14% | 100% |
 | Var. demanda | +50% | 549,659,211 | +0.35% | 100% |
 
@@ -1157,12 +1009,12 @@ Se realizó un análisis de sensibilidad perturbando tres parámetros clave en e
 
 ### 7.9. Análisis de Diversidad Poblacional
 
-![@@SHORT@@Perfiles de diversidad poblacional@@ENDSHORT@@ Perfiles de diversidad poblacional. GA-SA mantiene mayor diversidad que GA puro gracias al efecto disruptivo de la búsqueda local SA. DE muestra diversidad estable por su mecanismo de mutación diferencial.](figuras/diversity_profiles.png){width=80% #fig:fig_17}
+![Perfiles de diversidad poblacional. GA-SA mantiene mayor diversidad que GA puro gracias al efecto disruptivo de la búsqueda local SA. DE muestra diversidad estable por su mecanismo de mutación diferencial.](figuras/diversity_profiles.png){width=80% #fig:fig_17 short-caption="Perfiles de diversidad poblacional"}
 
 
 ### 7.10. Análisis de Complejidad Computacional
 
-![@@SHORT@@Desglose del tiempo computacional por componente (cProfile)@@ENDSHORT@@ Desglose del tiempo computacional por componente (cProfile). El decodificador greedy domina el tiempo de evaluación, seguido por los operadores genéticos. La calibración de temperatura en SA tiene un costo fijo significativo.](figuras/cprofile_component_breakdown.png){width=85% #fig:fig_18}
+![Desglose del tiempo computacional por componente (cProfile). El decodificador greedy domina el tiempo de evaluación, seguido por los operadores genéticos. La calibración de temperatura en SA tiene un costo fijo significativo.](figuras/cprofile_component_breakdown.png){width=85% #fig:fig_18 short-caption="Desglose del tiempo computacional por componente (cProfile)"}
 
 
 ### 7.11. Discusión
@@ -1179,19 +1031,19 @@ La validación de robustez confirmó que la mejor solución GA-SA es factible ba
 
 ### 7.12. Síntesis Gráfica de Resultados
 
-![@@SHORT@@Beneficio esperado $Z$ por algoritmo y tamaño de instancia@@ENDSHORT@@ Beneficio esperado $Z$ por algoritmo y tamaño de instancia. El gradiente de color permite identificar que las diferencias entre algoritmos son marginales dentro de cada tamaño, mientras que el efecto del tamaño de instancia domina la variabilidad. Las instancias Large generan beneficios del orden de $10^9$ COP.](figuras/heatmap_z_by_algo_size.png){width=85% #fig:fig_19}
+![Beneficio esperado $Z$ por algoritmo y tamaño de instancia. El gradiente de color permite identificar que las diferencias entre algoritmos son marginales dentro de cada tamaño, mientras que el efecto del tamaño de instancia domina la variabilidad. Las instancias Large generan beneficios del orden de $10^9$ COP.](figuras/heatmap_z_by_algo_size.png){width=85% #fig:fig_19 short-caption="Beneficio esperado $Z$ por algoritmo y tamaño de instancia"}
 
 
-![@@SHORT@@Distribución de gaps respecto al solver exacto CBC@@ENDSHORT@@ Distribución de gaps respecto al solver exacto CBC. GA-SA y DE concentran sus resultados en la misma zona central (mediana ≈ 3.43% y cola alta asociada a instancias Large), mientras SA exhibe mayor dispersión y peores colas de gap.](figuras/gap_distribution_by_algo.png){width=80% #fig:fig_20}
+![Distribución de gaps respecto al solver exacto CBC. GA-SA y DE concentran sus resultados en la misma zona central (mediana $\approx$ 3.43% y cola alta asociada a instancias Large), mientras SA exhibe mayor dispersión y peores colas de gap.](figuras/gap_distribution_by_algo.png){width=80% #fig:fig_20 short-caption="Distribución de gaps respecto al solver exacto CBC"}
 
 
-![@@SHORT@@Diagrama tornado del análisis de sensibilidad@@ENDSHORT@@ Diagrama tornado del análisis de sensibilidad. Los precios de venta son el parámetro dominante (±12.67% de impacto en $Z$ ante perturbaciones de ±10%), seguidos por los costos (±2.67%). La variabilidad de demanda tiene impacto negligible, indicando robustez operativa.](figuras/sensitivity_tornado.png){width=85% #fig:fig_21}
+![Diagrama tornado del análisis de sensibilidad. Los precios de venta son el parámetro dominante (±12.67% de impacto en $Z$ ante perturbaciones de ±10%), seguidos por los costos (±2.67%). La variabilidad de demanda tiene impacto negligible, indicando robustez operativa.](figuras/sensitivity_tornado.png){width=85% #fig:fig_21 short-caption="Diagrama tornado del análisis de sensibilidad"}
 
 
-![@@SHORT@@Curvas de convergencia promedio normalizadas@@ENDSHORT@@ Curvas de convergencia promedio normalizadas. GA-SA y DE alcanzan convergencia rápida en las primeras 1,000 evaluaciones. La búsqueda local SA en GA-SA produce "escalones" de mejora periódicos (cada 9 generaciones), visibles como saltos discretos en la curva.](figuras/convergence_comparison.png){width=80% #fig:fig_22}
+![Curvas de convergencia promedio normalizadas. GA-SA y DE alcanzan convergencia rápida en las primeras 1,000 evaluaciones. La búsqueda local SA en GA-SA produce "escalones" de mejora periódicos (cada 9 generaciones), visibles como saltos discretos en la curva.](figuras/convergence_comparison.png){width=80% #fig:fig_22 short-caption="Curvas de convergencia promedio normalizadas"}
 
 
-![@@SHORT@@Comparación visual entre los umbrales definidos a priori y los resultados obtenidos@@ENDSHORT@@ Comparación visual entre los umbrales definidos a priori y los resultados obtenidos. H2 (gap ≤ 2%) es la única hipótesis soportada. H1 permanece por debajo del umbral (0.59–1.10%). En H3, el endpoint primario (inventario promedio total) no alcanza significancia, y el endpoint de baja rotación se mantiene como exploratorio por n informativo bajo (3 instancias).](figuras/hypothesis_verdicts_visual.png){width=100% #fig:fig_23}
+![Comparación visual entre los umbrales definidos a priori y los resultados obtenidos. H2 (gap $\leq 2\%$ vs mejor MH) es la única hipótesis con soporte, y únicamente en su componente de calidad (el componente de tiempo no se cumple). H1 permanece por debajo del umbral (0.59–1.10%). En H3, el endpoint primario (inventario promedio total) no alcanza significancia, y el endpoint de baja rotación se mantiene como exploratorio por n informativo bajo (3 instancias).](figuras/hypothesis_verdicts_visual.png){width=100% #fig:fig_23 short-caption="Comparación visual entre los umbrales definidos a priori y los resultados obtenidos"}
 
 
 ---
@@ -1206,7 +1058,7 @@ La validación de robustez confirmó que la mejor solución GA-SA es factible ba
 
 **Objetivo 3 (Diseñar):** Se diseñó un generador de instancias con tres perfiles de complejidad (Small, Medium, Large) calibrados con datos del sector avícola colombiano. Los parámetros se calibraron con FENAVI, DANE y literatura especializada.
 
-**Objetivo 4 (Comparar):** Se ejecutó un diseño experimental de 1,098 ejecuciones con análisis estadístico completo (ANOVA, Tukey HSD, Friedman y Wilcoxon-Holm por instancia). El ranking resultante es GA-SA ≈ DE > GA > SA, donde la principal diferencia robusta se observa frente a SA.
+**Objetivo 4 (Comparar):** Se ejecutó un diseño experimental de 1,098 ejecuciones con análisis estadístico completo (ANOVA, Tukey HSD, Friedman y Wilcoxon-Holm por instancia). El ranking resultante es GA-SA $\approx$ DE > GA > SA, donde la principal diferencia robusta se observa frente a SA.
 
 **Objetivo 5 (Validar):** Se validó el modelo mediante análisis de sensibilidad (450 ejecuciones) y robustez (perturbación de demanda ±10%), confirmando que las soluciones son operativamente realistas y robustas ante incertidumbre.
 
@@ -1214,13 +1066,13 @@ La validación de robustez confirmó que la mejor solución GA-SA es factible ba
 
 | Hipótesis | Umbral | Resultado observado | p-valor | Veredicto |
 |:---------:|:------:|:-------------------:|:-------:|:---------:|
-| **H1**: Mejora ≥ 5% vs baseline | 5% | 0.59–1.10% | 1.000 (por instancia) | **No soportada** |
-| **H2**: GA-SA gap ≤ 2% vs mejor MH | 2% | −0.02% | 1.95×10⁻³ (por instancia) | **Soportada** |
-| **H3**: Reducción inventario promedio ≥ 15% | 15% | 12.2%–17.5% (por algoritmo) | 0.455 (por instancia) | **No soportada** |
+| **H1**: Mejora $\geq 5\%$ vs baseline | 5% | 0.59–1.10% | 1.000 (por instancia) | **No soportada** |
+| **H2**: GA-SA gap $\leq 2\%$ vs mejor MH y tiempo $\leq 50\%$ de CBC | 2% / 50% | -0.02% (calidad); 52.5x (tiempo) | $1.95\times 10^{-3}$ (por instancia) | **Parcialmente soportada** |
+| **H3**: Reducción inventario promedio $\geq 15\%$ | 15% | 12.2%–17.5% (por algoritmo) | 0.455 (por instancia) | **No soportada** |
 
 : Resumen de veredictos de hipótesis {#tbl:tabla_10}
 
-La hipótesis H2 se confirma en la vista bloqueada por instancia: el GA-SA produce soluciones equivalentes a la mejor metaheurística individual. H1 no se soporta por la fortaleza del baseline. H3 no se soporta en el endpoint primario; el endpoint de baja rotación permanece exploratorio por baja muestra informativa.
+La hipótesis H2 se confirma parcialmente: en su componente de calidad (vista bloqueada por instancia), el GA-SA produce soluciones equivalentes a la mejor metaheurística individual; su componente de tiempo no se cumple, pues GA-SA requiere en promedio 52.5 veces el tiempo de CBC. H1 no se soporta por la fortaleza del baseline. H3 no se soporta en el endpoint primario; el endpoint de baja rotación permanece exploratorio por baja muestra informativa.
 
 ### 8.3. Contribuciones Principales
 
@@ -1228,7 +1080,7 @@ La hipótesis H2 se confirma en la vista bloqueada por instancia: el GA-SA produ
 2. **Framework de metaheurísticas comparativo:** Implementación modular de GA, SA, DE y GA-SA con decodificador greedy compartido, reproducible y extensible.
 3. **Evidencia empírica sobre GA-SA:** Confirmación, en un problema real, de la ventaja del enfoque híbrido GA-SA reportada por Akbari-Aghghaleh et al. [-@AkbariAghghaleh2025].
 4. **Conjunto de instancias calibradas:** 9 instancias con parámetros del sector avícola colombiano, disponibles públicamente para benchmarking.
-5. **Análisis de robustez:** Validación de que las soluciones son operativamente viables y robustas ante perturbaciones de demanda (deterioro ≤ 0.04%).
+5. **Análisis de robustez:** Validación de que las soluciones son operativamente viables y robustas ante perturbaciones de demanda (deterioro $\leq 0.04\%$).
 
 ### 8.4. Limitaciones del Estudio
 
@@ -1263,7 +1115,7 @@ La formulación completa del modelo se presenta en la Sección 5 del presente do
 
 ### Anexo B: Pseudocódigos de Algoritmos
 
-Los pseudocódigos detallados y diagramas de flujo de los cuatro algoritmos se presentan en la Sección 6: GA (§6.7, Figura 6), SA (§6.8, Figura 7), DE (§6.9, Figura 8) y GA-SA (§6.10, Figura 9).
+Los pseudocódigos detallados y diagramas de flujo de los cuatro algoritmos se presentan en la Sección 6: GA (§6.7, [@fig:fig_6]), SA (§6.8, [@fig:fig_7]), DE (§6.9, [@fig:fig_8]) y GA-SA (§6.10, [@fig:fig_9]).
 
 ### Anexo C: Resultados Detallados por Instancia
 
@@ -1272,12 +1124,14 @@ Los resultados completos por instancia están disponibles en el archivo `compari
 ### Anexo D: Herramientas Tecnológicas
 
 *   **Lenguaje de Programación:** Python 3.11+ (con tipado estático)
-*   **Solver Exacto:** PuLP 2.9.0 (CBC — COIN-OR Branch and Cut)
-*   **Calibración:** Optuna 4.3.0 (TPE sampler)
+*   **Solver Exacto:** PuLP 2.7.0 (CBC — COIN-OR Branch and Cut)
+*   **Calibración:** Optuna 4.7.0 (TPE sampler)
 *   **Datos:** NumPy 1.26.0, Pandas 2.3.2
-*   **Visualización:** Matplotlib 3.10.1, Seaborn 0.13.2
-*   **Estadística:** SciPy 1.15.2 (módulo stats)
-*   **Testing:** Pytest 8.3.5
+*   **Visualización:** Matplotlib 3.8.0, Seaborn 0.13.0
+*   **Estadística:** SciPy 1.11.2 (módulo stats)
+*   **Testing:** Pytest 8.4.1
 *   **Control de Versiones:** Git/GitHub
-*   **Documentación:** Pandoc 3.x + XeLaTeX (pipeline Markdown → PDF)
-*   **Generación de instancias:** YAML (PyYAML 6.0.2)
+*   **Documentación:** Pandoc 3.x + pandoc-crossref + XeLaTeX (pipeline Markdown → PDF)
+*   **Generación de instancias:** YAML (PyYAML 6.0.1)
+
+Las versiones corresponden a las fijadas en `requirements.txt` para reproducibilidad.

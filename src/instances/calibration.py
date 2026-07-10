@@ -221,6 +221,94 @@ WEIGHT_REFERENCE: dict[str, float] = {
 
 
 # ================================================================
+# Perfiles de pollo (peso y ajuste de rendimiento)
+# ================================================================
+
+FLOCK_PROFILES: dict[str, dict[str, float]] = {
+    # weight: peso medio de la carcasa (kg)
+    # breast_factor: factor sobre la proporcion de pechuga respecto al estandar.
+    #   Un ave mas pesada rinde proporcionalmente mas pechuga (mayor desarrollo
+    #   del musculo pectoral); una mas liviana, menos. El resto de las piezas se
+    #   renormaliza para que las proporciones sigan sumando 1.
+    # Fuente (direccion del efecto): Cobb/Ross performance guides; el estandar
+    #   coincide con ANATOMICAL_PROPORTIONS. Magnitudes ilustrativas/calibrables.
+    "liviano": {"weight": 2.0, "breast_factor": 0.93},
+    "estándar": {"weight": 2.5, "breast_factor": 1.00},
+    "pesado": {"weight": 3.0, "breast_factor": 1.07},
+}
+
+
+def _breast_index(part_names: list[str]) -> int:
+    """Ubica la pieza 'pechuga' por nombre (fallback: primera pieza)."""
+    for i, name in enumerate(part_names):
+        if str(name).strip().lower().startswith("pech"):
+            return i
+    return 0
+
+
+def _profile_alpha(base_alpha: np.ndarray, breast_idx: int, breast_factor: float) -> np.ndarray:
+    """Ajusta la proporcion de pechuga por breast_factor y renormaliza a suma 1."""
+    alpha = np.asarray(base_alpha, dtype=np.float64).copy()
+    alpha[breast_idx] *= breast_factor
+    total = float(alpha.sum())
+    if total <= 0:
+        raise ValueError("alpha base invalida (suma <= 0)")
+    return alpha / total
+
+
+def blend_flock(
+    base_alpha: np.ndarray,
+    part_names: list[str],
+    flock_mix: dict[str, float],
+    profiles: Optional[dict[str, dict[str, float]]] = None,
+) -> tuple[float, np.ndarray, list[str], list[float]]:
+    """Mezcla perfiles de pollo en un peso y unas proporciones efectivas.
+
+    Cada perfil parte de ``base_alpha`` (el rendimiento canonico del catalogo),
+    ajusta la pechuga por su ``breast_factor`` y renormaliza. El lote es una
+    mezcla de perfiles con fracciones dadas; el resultado efectivo pondera por
+    fraccion y por masa:
+
+        masa_efectiva[a] = sum_k  frac_k * peso_k * alpha_k[a]
+        peso_efectivo    = sum_k  frac_k * peso_k
+        alpha_efectivo[a] = masa_efectiva[a] / peso_efectivo   (suma 1)
+
+    Args:
+        base_alpha: Proporciones anatomicas base del catalogo (suma 1).
+        part_names: Nombres de las piezas (para ubicar la pechuga).
+        flock_mix: Fraccion de cada perfil por nombre (deben sumar 1).
+        profiles: Catalogo de perfiles; por defecto ``FLOCK_PROFILES``.
+
+    Returns:
+        (peso_efectivo, alpha_efectivo, nombres_perfil, fracciones).
+    """
+    profiles = profiles or FLOCK_PROFILES
+    s = float(sum(flock_mix.values()))
+    if abs(s - 1.0) > 1e-6:
+        raise ValueError(f"flock_mix debe sumar 1.0 (suma={s:.4f})")
+
+    breast_idx = _breast_index(part_names)
+    n_parts = len(base_alpha)
+
+    mass_eff = np.zeros(n_parts, dtype=np.float64)
+    weight_eff = 0.0
+    names: list[float] = []
+    fracs: list[float] = []
+    for name, frac in flock_mix.items():
+        if name not in profiles:
+            raise KeyError(f"perfil desconocido: '{name}' (disponibles: {list(profiles)})")
+        w_k = float(profiles[name]["weight"])
+        alpha_k = _profile_alpha(base_alpha, breast_idx, float(profiles[name]["breast_factor"]))
+        mass_eff += frac * w_k * alpha_k
+        weight_eff += frac * w_k
+        names.append(name)
+        fracs.append(float(frac))
+
+    alpha_eff = mass_eff / weight_eff
+    return weight_eff, alpha_eff, names, fracs
+
+
+# ================================================================
 # Correlacion entre coproductos
 # ================================================================
 

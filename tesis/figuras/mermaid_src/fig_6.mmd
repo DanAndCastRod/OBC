@@ -1,0 +1,11 @@
+%%{init: {'theme': 'neutral'}}%%
+flowchart TD
+    A["Inicializar población\nP₀ (N individuos)"] --> B["Evaluar fitness\nf(y,q) = Z"]
+    B --> C{"gen ≤ G_max\ny sin estancamiento?"}
+    C -->|Sí| D["Elitismo: conservar top-e"]
+    D --> E["Selección por torneo (k)"]
+    E --> F["Cruce de dos puntos\n(prob = cx_rate)"]
+    F --> G["Mutación mixta\n(bit-flip + gaussiana)"]
+    G --> H["Reparar lot-sizing"]
+    H --> B
+    C -->|No| I["Retornar mejor solución"]

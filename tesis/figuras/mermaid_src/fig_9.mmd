@@ -1,0 +1,11 @@
+%%{init: {'theme': 'neutral'}}%%
+flowchart TD
+    A["Inicializar población P₀"] --> B["Evaluar fitness"]
+    B --> C{"gen ≤ G_max?"}
+    C -->|Sí| D["--- Fase GA ---\nElitismo + Selección\n+ Cruce + Mutación"]
+    D --> E{"gen mod f_LS = 0?"}
+    E -->|Sí| F["--- Fase SA ---\nSA local sobre top-k\n(T_local, iters_local)"]
+    E -->|No| G["Evaluar población"]
+    F --> G
+    G --> C
+    C -->|No| H["Retornar mejor solución"]

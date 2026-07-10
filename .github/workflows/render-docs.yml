@@ -8,6 +8,9 @@ on:
       - 'tesis/referencias_coproductos.bib'
       - 'tesis/ieee.csl'
       - 'tesis/logo_utp.png'
+      - 'tesis/header_mermaid.tex'
+      - 'tesis/short-captions.lua'
+      - 'tesis/figuras/**'
       - '.github/workflows/render-docs.yml'
   workflow_dispatch:
 
@@ -45,23 +48,35 @@ jobs:
           sudo dpkg -i "pandoc-${PANDOC_VERSION}-1-amd64.deb"
           pandoc --version
 
-      - name: Install pandoc-mermaid filter
+      # pandoc-crossref v0.3.19 está compilado contra Pandoc 3.6.4: si se
+      # actualiza PANDOC_VERSION arriba, actualizar también esta versión.
+      - name: Install pandoc-crossref
         run: |
-          sudo npm install -g @mermaid-js/mermaid-cli
-          pip install pandoc-mermaid-filter || true
+          CROSSREF_VERSION="v0.3.19"
+          wget -q "https://github.com/lierdakil/pandoc-crossref/releases/download/${CROSSREF_VERSION}/pandoc-crossref-Linux-X64.tar.xz"
+          tar -xf pandoc-crossref-Linux-X64.tar.xz
+          sudo mv pandoc-crossref /usr/local/bin/
+          pandoc-crossref --version
 
+      # Los diagramas Mermaid están pre-renderizados como PNG en
+      # tesis/figuras/ (fuentes en tesis/figuras/mermaid_src/), por lo que
+      # no se necesita mermaid-cli ni ningún filtro mermaid en CI.
       - name: Render tesis_coproductos.md (PDF)
         run: |
           mkdir -p output
           cd tesis
           pandoc tesis_coproductos.md \
             --pdf-engine=xelatex \
+            --filter=pandoc-crossref \
+            --lua-filter=short-captions.lua \
             --citeproc \
             --bibliography=referencias_coproductos.bib \
             --csl=ieee.csl \
             --resource-path=. \
+            --include-in-header=header_mermaid.tex \
             -V geometry:margin=2.5cm \
             -V fontsize=12pt \
+            -V documentclass=article \
             -V lang=es \
             -V mainfont="Liberation Serif" \
             -V sansfont="Liberation Sans" \

@@ -441,8 +441,16 @@ def run_comparison(
     sizes: Optional[list[str]] = None,
     resume: bool = False,
     dry_run: bool = False,
+    workers: int = 1,
 ) -> None:
-    """Ejecutar el experimento comparativo completo."""
+    """Ejecutar el experimento comparativo completo.
+
+    Args:
+        workers: Nº de procesos para las corridas de metaheurísticas/baseline.
+            1 = secuencial (por defecto). Las corridas son independientes entre
+            sí, salvo cbc_exact, que se ejecuta primero de forma secuencial para
+            poblar el caché de referencia de gap que leen las metaheurísticas.
+    """
     config = _load_config(config_path)
     exp = config["experiment"]
     output_cfg = config["output"]
@@ -560,7 +568,6 @@ def run_comparison(
 
     cbc_runs = [r for r in runs if r["algorithm"] == "cbc_exact"]
     other_runs = [r for r in runs if r["algorithm"] != "cbc_exact"]
-    ordered_runs = cbc_runs + other_runs
 
     try:
         from tqdm import tqdm
@@ -571,64 +578,108 @@ def run_comparison(
         progress = None
 
     errors: list[str] = []
-    successful_new_runs = 0
-    processed_runs = 0
+    counters = {"success": 0, "processed": 0}
 
-    for run_spec in ordered_runs:
-        algo = run_spec["algorithm"]
-        inst_name = run_spec["instance_name"]
-        seed = int(run_spec["seed"])
-
-        try:
-            payload = _run_single(
-                algo_key=algo,
-                algo_config=run_spec["algo_config"],
-                instance=instances[inst_name],
-                seed=seed,
-                time_limit=time_limit,
-                z_cbc_cache=z_cbc_cache,
+    def _consume(payload: SingleRunPayload, algo: str, inst_name: str, seed: int) -> None:
+        """Persistir el resultado de una corrida (proceso principal)."""
+        _append_csv_row(results_csv, payload.row, CSV_FIELDNAMES)
+        if save_traces:
+            _append_csv_rows(traces_csv, payload.traces, TRACE_FIELDNAMES)
+        completed.add((algo, inst_name, seed))
+        counters["success"] += 1
+        if progress:
+            z = payload.row["z_value"]
+            z_str = f"{z:,.0f}" if not np.isnan(z) else "NaN"
+            progress.set_postfix_str(
+                f"{algo}/{inst_name}/s{seed} Z={z_str} t={payload.row['elapsed_seconds']:.1f}s"
+            )
+            progress.update(1)
+        else:
+            logger.info(
+                "[%d/%d] %s | %s | seed=%d | Z=%.0f | t=%.1fs | ok=%s",
+                counters["success"], total_runs, algo, inst_name, seed,
+                payload.row["z_value"], payload.row["elapsed_seconds"],
+                payload.row["is_feasible"],
             )
 
-            _append_csv_row(results_csv, payload.row, CSV_FIELDNAMES)
-            if save_traces:
-                _append_csv_rows(traces_csv, payload.traces, TRACE_FIELDNAMES)
+    def _checkpoint_tick() -> None:
+        counters["processed"] += 1
+        if counters["processed"] % checkpoint_every == 0:
+            _save_checkpoint(checkpoint_path, completed, total_planned)
+            logger.info(
+                "Checkpoint guardado (%d/%d procesados)", counters["processed"], total_runs
+            )
 
-            completed.add((algo, inst_name, seed))
-            successful_new_runs += 1
-
-            if progress:
-                z = payload.row["z_value"]
-                z_str = f"{z:,.0f}" if not np.isnan(z) else "NaN"
-                progress.set_postfix_str(
-                    f"{algo}/{inst_name}/s{seed} Z={z_str} t={payload.row['elapsed_seconds']:.1f}s"
-                )
-                progress.update(1)
-            else:
-                logger.info(
-                    "[%d/%d] %s | %s | seed=%d | Z=%.0f | t=%.1fs | ok=%s",
-                    successful_new_runs,
-                    total_runs,
-                    algo,
-                    inst_name,
-                    seed,
-                    payload.row["z_value"],
-                    payload.row["elapsed_seconds"],
-                    payload.row["is_feasible"],
-                )
-
+    # --- Fase 1: CBC secuencial (puebla z_cbc_cache para el calculo de gap) ---
+    for run_spec in cbc_runs:
+        algo, inst_name, seed = (
+            run_spec["algorithm"], run_spec["instance_name"], int(run_spec["seed"])
+        )
+        try:
+            payload = _run_single(
+                algo_key=algo, algo_config=run_spec["algo_config"],
+                instance=instances[inst_name], seed=seed,
+                time_limit=time_limit, z_cbc_cache=z_cbc_cache,
+            )
+            _consume(payload, algo, inst_name, seed)
         except Exception as exc:  # pragma: no cover
             msg = f"ERROR {algo}/{inst_name}/seed={seed}: {exc}"
             logger.error(msg)
             errors.append(msg)
             if progress:
                 progress.update(1)
+        _checkpoint_tick()
 
-        processed_runs += 1
-        if processed_runs % checkpoint_every == 0:
-            _save_checkpoint(checkpoint_path, completed, total_planned)
-            logger.info(
-                "Checkpoint guardado (%d/%d procesados)", processed_runs, total_runs
+    # --- Fase 2: metaheuristicas/baseline (secuencial o en paralelo) ---
+    if workers and workers > 1 and other_runs:
+        import concurrent.futures as cf
+
+        logger.info("Ejecutando %d corridas en paralelo (%d procesos)", len(other_runs), workers)
+        cache_snapshot = dict(z_cbc_cache)  # solo lectura en los workers
+        with cf.ProcessPoolExecutor(max_workers=workers) as pool:
+            future_to_spec = {
+                pool.submit(
+                    _run_single, r["algorithm"], r["algo_config"],
+                    instances[r["instance_name"]], int(r["seed"]),
+                    time_limit, cache_snapshot,
+                ): r
+                for r in other_runs
+            }
+            for future in cf.as_completed(future_to_spec):
+                r = future_to_spec[future]
+                algo, inst_name, seed = (
+                    r["algorithm"], r["instance_name"], int(r["seed"])
+                )
+                try:
+                    _consume(future.result(), algo, inst_name, seed)
+                except Exception as exc:  # pragma: no cover
+                    msg = f"ERROR {algo}/{inst_name}/seed={seed}: {exc}"
+                    logger.error(msg)
+                    errors.append(msg)
+                    if progress:
+                        progress.update(1)
+                _checkpoint_tick()
+    else:
+        for run_spec in other_runs:
+            algo, inst_name, seed = (
+                run_spec["algorithm"], run_spec["instance_name"], int(run_spec["seed"])
             )
+            try:
+                payload = _run_single(
+                    algo_key=algo, algo_config=run_spec["algo_config"],
+                    instance=instances[inst_name], seed=seed,
+                    time_limit=time_limit, z_cbc_cache=z_cbc_cache,
+                )
+                _consume(payload, algo, inst_name, seed)
+            except Exception as exc:  # pragma: no cover
+                msg = f"ERROR {algo}/{inst_name}/seed={seed}: {exc}"
+                logger.error(msg)
+                errors.append(msg)
+                if progress:
+                    progress.update(1)
+            _checkpoint_tick()
+
+    successful_new_runs = counters["success"]
 
     if progress:
         progress.close()
@@ -694,6 +745,13 @@ def main() -> None:
         action="store_true",
         help="Mostrar plan sin ejecutar",
     )
+    parser.add_argument(
+        "--workers",
+        type=int,
+        default=1,
+        help="Procesos paralelos para metaheuristicas/baseline (1=secuencial). "
+        "cbc_exact siempre corre secuencial primero.",
+    )
     args = parser.parse_args()
 
     run_comparison(
@@ -702,6 +760,7 @@ def main() -> None:
         sizes=args.sizes,
         resume=args.resume,
         dry_run=args.dry_run,
+        workers=args.workers,
     )
 
 

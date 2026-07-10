@@ -52,6 +52,12 @@ class ProblemInstance:
     profile: str = ""
     seed: Optional[int] = None
 
+    # --- Composicion de la parvada (perfiles de pollo) ---
+    # Opcional. Si la instancia se genero con una mezcla de perfiles, aqui se
+    # documenta cual; `weight` y `alpha` ya reflejan la mezcla efectiva.
+    flock_profiles: list[str] = field(default_factory=list)
+    flock_fractions: list[float] = field(default_factory=list)
+
     # --- Capa 1: Piezas Anatomicas ---
     n_parts: int = 0
     part_names: list[str] = field(default_factory=list)
@@ -265,6 +271,8 @@ class ProblemInstance:
             name=meta.get("name", path.stem),
             profile=meta.get("profile", ""),
             seed=meta.get("seed"),
+            flock_profiles=list(meta.get("flock_profiles", []) or []),
+            flock_fractions=list(meta.get("flock_fractions", []) or []),
             # Capa 1
             n_parts=prob["n_parts"],
             part_names=prob.get("part_names", []),
@@ -318,6 +326,8 @@ class ProblemInstance:
                 "name": self.name,
                 "profile": self.profile,
                 "seed": self.seed,
+                "flock_profiles": list(self.flock_profiles),
+                "flock_fractions": [float(x) for x in self.flock_fractions],
             },
             "problem": {
                 "n_parts": self.n_parts,

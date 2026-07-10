@@ -336,6 +336,36 @@ class TestPerishability:
         # Ventas = 2000, I = 0 (se acabo)
         assert sol.I[0, 0, 0] > 0  # hay inventario dia 1
 
+    def test_low_demand_forces_spoilage_discard(self):
+        """Inventario perecedero se descarta al vencer la vida util aunque
+        la demanda no lo consuma.
+
+        Este caso falla con un decoder que solo arrastra capas FIFO sin
+        caducarlas: con L=2 y produccion unica en el dia 0, el stock debe
+        seguir disponible en el dia 1 (aun fresco) pero desaparecer en el
+        dia 2 (vencido), independientemente de la demanda.
+        """
+        inst = make_trivial()
+        inst.n_periods = 4
+        inst.shelf_life = np.array([2, 2, 30], dtype=np.int32)
+        # Demanda baja y constante: no alcanza a consumir la produccion
+        inst.demand = np.full((3, 4, 1), 100.0, dtype=np.float64)
+
+        y = np.array([True, False, False, False])
+        q = np.array([5000, 0, 0, 0])
+        sol = decoder.decode(y, q, inst)
+
+        # Pechuga: prod dia 0 = 0.40 * 2.5 * 5000 = 5000
+        assert sol.p[0, 0] == 5000.0
+        assert sol.I[0, 0, 0] > 0  # dia 0: hay stock fresco
+        assert sol.I[0, 1, 0] > 0  # dia 1: aun fresco (edad 1 < L=2)
+        assert sol.I[0, 2, 0] == 0  # dia 2: vencido (edad 2 >= L), descartado
+        assert sol.I[0, 3, 0] == 0
+
+        # La factibilidad ahora refleja la cota real de perecibilidad del MILP
+        perish = constraints.check_perishability(sol, inst)
+        assert perish.satisfied, perish.violations[:3]
+
 
 class TestPartAllocationCorrections:
 

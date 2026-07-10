@@ -24,6 +24,7 @@ from dataclasses import dataclass
 
 import numpy as np
 
+from src.instances.calibration import blend_flock
 from src.instances.distributions import generate_scenarios
 from src.model.parameters import ExclusivityGroup, ProblemInstance
 
@@ -445,6 +446,8 @@ class InstanceGenerator:
         capacity_max: int | None = None,
         capacity_min: int | None = None,
         distribution: str = "lognormal",
+        flock_mix: dict[str, float] | None = None,
+        flock_label: str | None = None,
     ) -> ProblemInstance:
         """Generar una instancia completa del problema.
 
@@ -460,6 +463,12 @@ class InstanceGenerator:
             capacity_max: Override capacidad maxima.
             capacity_min: Override capacidad minima.
             distribution: 'lognormal' (default) o 'normal'.
+            flock_mix: Mezcla de perfiles de pollo (fracciones por nombre, p.ej.
+                {'liviano': 0.3, 'estándar': 0.5, 'pesado': 0.2}). Si se indica,
+                weight y alpha se derivan de la mezcla (ver blend_flock) e ignora
+                el override 'weight'.
+            flock_label: Etiqueta corta para el nombre de la instancia cuando se
+                usa flock_mix (p.ej. 'pesado'); por defecto 'mix'.
 
         Returns:
             ProblemInstance valida y reproducible.
@@ -510,15 +519,31 @@ class InstanceGenerator:
             cap_max = capacity_max or 10_000
             cap_min = capacity_min or 1000
 
+        # --- Perfiles de pollo (opcional): derivar peso y alpha efectivos ---
+        eff_alpha = catalog["alpha"]
+        eff_weight = weight or self.DEFAULT_WEIGHT
+        flock_profiles: list[str] = []
+        flock_fractions: list[float] = []
+        name = f"{size_profile}_seed{seed}"
+        if flock_mix is not None:
+            eff_weight, eff_alpha, flock_profiles, flock_fractions = blend_flock(
+                base_alpha=catalog["alpha"],
+                part_names=catalog["part_names"],
+                flock_mix=flock_mix,
+            )
+            name = f"{size_profile}_{flock_label or 'mix'}_seed{seed}"
+
         # --- Construir instancia ---
         instance = ProblemInstance(
-            name=f"{size_profile}_seed{seed}",
+            name=name,
             profile=size_profile,
             seed=seed,
+            flock_profiles=flock_profiles,
+            flock_fractions=flock_fractions,
             # Capa 1
             n_parts=catalog["n_parts"],
             part_names=catalog["part_names"],
-            alpha=catalog["alpha"],
+            alpha=eff_alpha,
             # Capa 2
             n_cut_forms=catalog["n_cut_forms"],
             cut_form_names=catalog["cut_form_names"],
@@ -528,7 +553,7 @@ class InstanceGenerator:
             # Periodos
             n_periods=n_t,
             # Economicos
-            weight=weight or self.DEFAULT_WEIGHT,
+            weight=eff_weight,
             prices=catalog["prices"],
             cost_prod=cost_prod or self.DEFAULT_COST_PROD,
             cost_setup=cost_setup or self.DEFAULT_COST_SETUP,

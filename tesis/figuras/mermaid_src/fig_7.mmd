@@ -1,0 +1,16 @@
+%%{init: {'theme': 'neutral'}}%%
+flowchart TD
+    A["Solución inicial aleatoria\ny, q"] --> B["Estimar T₀"]
+    B --> C{"T > T_final?"}
+    C -->|Sí| D["Generar vecino\n(toggle/cantidad/ambos)"]
+    D --> E{"Metropolis:\nΔ > 0 o rand < e^(Δ/T)?"}
+    E -->|Aceptar| F["Actualizar solución actual"]
+    E -->|Rechazar| G["Mantener actual"]
+    F --> H{"¿Mejor global?"}
+    G --> H
+    H -->|Sí| I["Actualizar best"]
+    H -->|No| J{"Estancado ≥ r?"}
+    J -->|Sí| K["Reheat: T *= factor"]
+    J -->|No| C
+    K --> C
+    C -->|No| L["Retornar best"]
