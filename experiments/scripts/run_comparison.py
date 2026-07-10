@@ -34,7 +34,7 @@ import numpy as np
 import yaml
 
 from experiments.scripts.baseline import solve_baseline
-from experiments.scripts.metrics import compute_all_metrics
+from experiments.scripts.metrics import compute_all_metrics, compute_gap
 from src.metaheuristics.de import DifferentialEvolution
 from src.metaheuristics.ga import GeneticAlgorithm
 from src.metaheuristics.ga_sa import HybridGASA
@@ -77,12 +77,15 @@ CSV_FIELDNAMES = [
     "seed",
     "z_value",
     "gap_percent",
+    "gap_vs_bound_percent",
     "service_level",
     "avg_inventory",
     "low_rotation_inventory",
     "elapsed_seconds",
     "n_evaluations",
     "is_feasible",
+    "solver_status",
+    "solver_best_bound",
 ]
 
 TRACE_FIELDNAMES = [
@@ -213,11 +216,19 @@ def _load_checkpoint(checkpoint_path: Path) -> set[tuple[str, str, int]]:
     return completed
 
 
-def _load_cbc_cache_from_results(results_csv: Path) -> dict[str, float]:
-    """Cargar referencias CBC por instancia desde resultados previos."""
-    z_cbc_cache: dict[str, float] = {}
+def _load_cbc_cache_from_results(results_csv: Path) -> dict[str, dict[str, float]]:
+    """Cargar referencias CBC por instancia desde resultados previos.
+
+    Criterio unificado con la ejecución fresca: la referencia de gap ('z') solo
+    se toma de filas cuyo solver_status sea 'optimal'. Filas antiguas sin la
+    columna solver_status NO se cachean como referencia (CBC es determinista y
+    barato de re-ejecutar; preferimos re-resolver a heredar una referencia de
+    calidad desconocida). La cota ('bound') se acepta de cualquier fila, porque
+    una cota dual es válida aunque el solver no haya convergido.
+    """
+    cache: dict[str, dict[str, float]] = {}
     if not results_csv.exists():
-        return z_cbc_cache
+        return cache
 
     with open(results_csv, "r", encoding="utf-8") as f:
         reader = csv.DictReader(f)
@@ -225,16 +236,27 @@ def _load_cbc_cache_from_results(results_csv: Path) -> dict[str, float]:
             if row.get("algorithm") != "cbc_exact":
                 continue
             inst = row["instance"]
+            entry = cache.setdefault(inst, {})
+
+            status = (row.get("solver_status") or "").strip().lower()
             try:
                 z = float(row["z_value"])
             except (TypeError, ValueError):
-                continue
-            if np.isnan(z):
-                continue
-            if inst not in z_cbc_cache or z > z_cbc_cache[inst]:
-                z_cbc_cache[inst] = z
+                z = float("nan")
+            if status == "optimal" and not np.isnan(z):
+                entry["z"] = z
 
-    return z_cbc_cache
+            try:
+                bound = float(row.get("solver_best_bound", ""))
+            except (TypeError, ValueError):
+                bound = float("nan")
+            if not np.isnan(bound):
+                # En maximización la cota más INFORMATIVA es la menor.
+                if "bound" not in entry or bound < entry["bound"]:
+                    entry["bound"] = bound
+
+    # Purga entradas vacías (filas legacy sin status ni bound)
+    return {k: v for k, v in cache.items() if v}
 
 
 def _build_run_list(
@@ -279,12 +301,20 @@ def _run_single(
     instance: ProblemInstance,
     seed: int,
     time_limit: int,
-    z_cbc_cache: dict[str, float],
+    z_cbc_cache: dict[str, dict[str, float]],
 ) -> SingleRunPayload:
-    """Ejecutar una sola combinacion (algoritmo, instancia, seed)."""
+    """Ejecutar una sola combinacion (algoritmo, instancia, seed).
+
+    z_cbc_cache mapea instancia -> {'z': referencia primal (solo si CBC fue
+    OPTIMAL), 'bound': mejor cota dual conocida}. El gap_percent se calcula
+    contra 'z' (semántica histórica) y gap_vs_bound_percent contra 'bound'
+    (cota garantizada, válida aunque CBC no converja).
+    """
     _set_seed(seed)
     inst_name = instance.name or "unknown"
     traces: list[dict] = []
+    solver_status = ""
+    solver_best_bound = float("nan")
 
     t0 = time.time()
 
@@ -300,6 +330,13 @@ def _run_single(
 
         result = solve_exact(instance, time_limit=tl, solver=solver_name)
         sol = result.solution
+        solver_status = result.status.value
+        solver_best_bound = float(result.best_bound)
+
+        entry = z_cbc_cache.setdefault(inst_name, {})
+        if np.isfinite(solver_best_bound):
+            if "bound" not in entry or solver_best_bound < entry["bound"]:
+                entry["bound"] = solver_best_bound
 
         if sol is None:
             elapsed = time.time() - t0
@@ -309,18 +346,21 @@ def _run_single(
                 "seed": seed,
                 "z_value": float("nan"),
                 "gap_percent": float("nan"),
+                "gap_vs_bound_percent": float("nan"),
                 "service_level": float("nan"),
                 "avg_inventory": float("nan"),
                 "low_rotation_inventory": float("nan"),
                 "elapsed_seconds": elapsed,
                 "n_evaluations": 0,
                 "is_feasible": False,
+                "solver_status": solver_status,
+                "solver_best_bound": solver_best_bound,
             }
             return SingleRunPayload(row=row, traces=traces)
 
         n_evals = 0
         if result.status == SolverStatus.OPTIMAL:
-            z_cbc_cache[inst_name] = float(result.objective_value)
+            entry["z"] = float(result.objective_value)
 
     else:
         cls = ALGORITHM_CLASSES[algo_key]
@@ -347,7 +387,9 @@ def _run_single(
         ]
 
     elapsed = time.time() - t0
-    z_ref = z_cbc_cache.get(inst_name, float("nan"))
+    ref_entry = z_cbc_cache.get(inst_name, {})
+    z_ref = ref_entry.get("z", float("nan"))
+    bound_ref = ref_entry.get("bound", float("nan"))
 
     metrics = compute_all_metrics(
         solution=sol,
@@ -362,10 +404,19 @@ def _run_single(
         "instance": inst_name,
         "seed": seed,
         **metrics.to_dict(),
+        "solver_status": solver_status,
+        "solver_best_bound": solver_best_bound,
     }
+    # Gap contra la cota dual: válido aunque CBC no haya convergido.
+    row["gap_vs_bound_percent"] = compute_gap(row["z_value"], bound_ref)
 
     if algo_key == "cbc_exact":
-        row["gap_percent"] = 0.0
+        # El gap de CBC es su propio MIP gap (0.0 solo si probó optimalidad).
+        if solver_status == SolverStatus.OPTIMAL.value:
+            row["gap_percent"] = 0.0
+            row["gap_vs_bound_percent"] = 0.0
+        else:
+            row["gap_percent"] = float("nan")
 
     return SingleRunPayload(row=row, traces=traces)
 

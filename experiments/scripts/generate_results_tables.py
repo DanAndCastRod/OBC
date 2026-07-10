@@ -92,6 +92,45 @@ def generate_instance_table(df: pd.DataFrame) -> pd.DataFrame:
     return summary
 
 
+def generate_size_table(df: pd.DataFrame) -> pd.DataFrame:
+    """Generar tabla por tamaño de instancia × algoritmo.
+
+    El promedio global de gap mezcla referencias heterogéneas (óptimo probado en
+    small/medium vs posible incumbente en large), así que la tabla reportable
+    para la tesis es esta: cada celda agrega solo instancias del mismo tamaño.
+    Incluye gap_vs_bound_percent (gap contra la cota dual del solver) cuando el
+    CSV lo trae — esa columna es defendible aunque CBC no haya convergido.
+    """
+    work = df.copy()
+    work["size"] = work["instance"].astype(str).str.split("_").str[0]
+
+    aggs = {
+        "z_mean": ("z_value", "mean"),
+        "z_std": ("z_value", "std"),
+        "gap_mean": ("gap_percent", "mean"),
+        "service_mean": ("service_level", "mean"),
+        "inv_mean": ("avg_inventory", "mean"),
+        "time_mean": ("elapsed_seconds", "mean"),
+        "n_runs": ("z_value", "count"),
+    }
+    if "gap_vs_bound_percent" in work.columns:
+        aggs["gap_vs_bound_mean"] = ("gap_vs_bound_percent", "mean")
+
+    summary = work.groupby(["size", "algorithm"]).agg(**aggs).reset_index()
+
+    summary["sort_key"] = summary["algorithm"].map(
+        {a: i for i, a in enumerate(ALGO_ORDER)}
+    )
+    size_order = {"toy": 0, "small": 1, "medium": 2, "large": 3, "industrial": 4}
+    summary["size_key"] = summary["size"].map(size_order).fillna(99)
+    summary = (
+        summary.sort_values(["size_key", "sort_key"])
+        .drop(columns=["sort_key", "size_key"])
+    )
+    summary["algorithm_label"] = summary["algorithm"].map(ALGO_LABELS)
+    return summary
+
+
 # ============================================================
 # Graficos
 # ============================================================
@@ -329,12 +368,15 @@ def generate_all(
     print("\n--- Generando tablas ---")
     main_table = generate_main_table(df)
     inst_table = generate_instance_table(df)
+    size_table = generate_size_table(df)
 
     # Guardar tablas
     main_table.to_csv(output_path / "main_results_table.csv", index=False)
     inst_table.to_csv(output_path / "instance_results_table.csv", index=False)
+    size_table.to_csv(output_path / "size_results_table.csv", index=False)
     print(f"  Tabla principal: {output_path / 'main_results_table.csv'}")
     print(f"  Tabla instancias: {output_path / 'instance_results_table.csv'}")
+    print(f"  Tabla por tamaño: {output_path / 'size_results_table.csv'}")
 
     # Imprimir tabla principal
     print("\n" + "=" * 100)

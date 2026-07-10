@@ -32,7 +32,16 @@ class SolverStatus(Enum):
 
 @dataclass
 class SolverResult:
-    """Complete solver result."""
+    """Complete solver result.
+
+    Attributes:
+        gap: MIP gap relativo del solver ((bound - incumbent) / |bound| en
+            maximización). 0.0 si el status es OPTIMAL; NaN si el solver no
+            reportó cota.
+        best_bound: Mejor cota dual reportada por el solver (cota SUPERIOR del
+            óptimo en maximización). NaN si no está disponible. Permite acotar
+            el gap de cualquier heurística: gap_vs_bound = (bound - Z_h)/|bound|.
+    """
 
     solution: Optional[Solution]
     status: SolverStatus
@@ -42,12 +51,17 @@ class SolverResult:
     solver_name: str
     n_variables: int = 0
     n_constraints: int = 0
+    best_bound: float = float("nan")
 
     def __repr__(self) -> str:
         gap_repr = f"{self.gap:.4f}" if np.isfinite(self.gap) else "nan"
+        bound_repr = (
+            f"{self.best_bound:,.0f}" if np.isfinite(self.best_bound) else "nan"
+        )
         return (
             f"SolverResult(status={self.status.value}, "
             f"Z={self.objective_value:,.0f}, gap={gap_repr}, "
+            f"bound={bound_repr}, "
             f"time={self.elapsed_seconds:.2f}s, solver={self.solver_name})"
         )
 
@@ -323,7 +337,25 @@ def solve_exact(
         sol = None
         obj_val = float(obj_raw) if has_incumbent else 0.0
 
-    gap = 0.0 if status == SolverStatus.OPTIMAL else float("nan")
+    # --- Best bound y MIP gap real ---
+    # PuLP (COIN_CMD/CBC) publica la mejor cota dual en model.bestBound al
+    # parsear la salida del solver. En maximización es una cota SUPERIOR del
+    # óptimo, por lo que sirve para acotar el gap de cualquier heurística
+    # incluso cuando el solver no converge (timeout/feasible).
+    best_bound = float("nan")
+    raw_bound = getattr(model, "bestBound", None)
+    if raw_bound is not None and np.isfinite(float(raw_bound)):
+        best_bound = float(raw_bound)
+
+    if status == SolverStatus.OPTIMAL:
+        gap = 0.0
+        if not np.isfinite(best_bound):
+            # Óptimo probado: el propio incumbente es una cota válida.
+            best_bound = obj_val
+    elif has_incumbent and np.isfinite(best_bound) and abs(best_bound) > 1e-9:
+        gap = (best_bound - obj_val) / abs(best_bound)
+    else:
+        gap = float("nan")
 
     return SolverResult(
         solution=sol,
@@ -334,4 +366,5 @@ def solve_exact(
         solver_name=solver.lower(),
         n_variables=n_vars,
         n_constraints=n_cons,
+        best_bound=best_bound,
     )

@@ -208,6 +208,25 @@ class TestSolverExact:
         assert result.n_constraints > 0
         assert result.elapsed_seconds >= 0
 
+    def test_best_bound_at_optimality(self):
+        """Con estatus OPTIMAL, la best bound coincide con Z y el gap es 0.
+
+        La cota dual es la referencia defendible para medir el gap de las
+        heuristicas: en maximizacion, bound >= Z_optimo >= Z_heuristica.
+        """
+        inst = make_trivial_deterministic()
+        result = solve_exact(inst, time_limit=30)
+
+        assert result.status == SolverStatus.OPTIMAL
+        assert np.isfinite(result.best_bound)
+        # En optimalidad la cota cierra contra el incumbente
+        assert result.best_bound == pytest.approx(
+            result.objective_value, rel=1e-6
+        )
+        assert result.gap == 0.0
+        # La cota nunca puede quedar por debajo del incumbente (maximizacion)
+        assert result.best_bound >= result.objective_value - 1e-6
+
     def test_load_toy_and_solve(self):
         """Cargar instancia toy YAML y resolver."""
         from pathlib import Path
