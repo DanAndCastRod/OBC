@@ -1,14 +1,15 @@
 {
   "protocol": {
-    "version": "v2.1",
-    "updated_at": "2026-03-10",
+    "version": "v2.2",
+    "updated_at": "2026-07-10",
     "alpha": 0.05,
     "primary_analysis_unit": "instance",
     "secondary_analysis_unit": "run",
     "multiple_testing": "Holm (pairwise Wilcoxon in ranking)",
     "h3_primary_endpoint": "avg_inventory",
     "h3_secondary_endpoint": "low_rotation_inventory (exploratory)",
-    "h3_min_informative_n": 5
+    "h3_min_informative_n": 5,
+    "v2_2_changes": "effect_size_dz pareado en hipotesis; ranking estratificado por tamano; Nemenyi CD; potencia a priori H1/H3. El ANOVA/Tukey global agrupa corridas (pseudoreplicacion) y se mantiene solo por trazabilidad historica: usar 'stratified_by_size' y 'nemenyi' para conclusiones."
   },
   "hypothesis_tests": [
     {
@@ -25,7 +26,9 @@
       "threshold": 5.0,
       "verdict": "NOT_SUPPORTED",
       "normality_p": 0.0002625598572194576,
-      "used_parametric": false
+      "used_parametric": false,
+      "effect_size_dz": 0.6658447089048171,
+      "effect_label_dz": "medium"
     },
     {
       "hypothesis": "H1",
@@ -41,7 +44,9 @@
       "threshold": 5.0,
       "verdict": "NOT_SUPPORTED",
       "normality_p": 0.0002689813554752618,
-      "used_parametric": false
+      "used_parametric": false,
+      "effect_size_dz": -0.9037440458076766,
+      "effect_label_dz": "large"
     },
     {
       "hypothesis": "H1",
@@ -57,7 +62,9 @@
       "threshold": 5.0,
       "verdict": "NOT_SUPPORTED",
       "normality_p": 0.00018925512267742306,
-      "used_parametric": false
+      "used_parametric": false,
+      "effect_size_dz": 0.6657374669539723,
+      "effect_label_dz": "medium"
     },
     {
       "hypothesis": "H1",
@@ -73,7 +80,9 @@
       "threshold": 5.0,
       "verdict": "NOT_SUPPORTED",
       "normality_p": 0.00016227079322561622,
-      "used_parametric": false
+      "used_parametric": false,
+      "effect_size_dz": 0.6666575012349417,
+      "effect_label_dz": "medium"
     },
     {
       "hypothesis": "H2",
@@ -89,7 +98,9 @@
       "threshold": 2.0,
       "verdict": "SUPPORTED",
       "normality_p": 6.416426913347095e-05,
-      "used_parametric": false
+      "used_parametric": false,
+      "effect_size_dz": -0.48703281060265907,
+      "effect_label_dz": "small"
     },
     {
       "hypothesis": "H2-run",
@@ -105,7 +116,9 @@
       "threshold": 2.0,
       "verdict": "SUPPORTED",
       "normality_p": 7.53890158950692e-25,
-      "used_parametric": false
+      "used_parametric": false,
+      "effect_size_dz": -0.028496637327846516,
+      "effect_label_dz": "negligible"
     },
     {
       "hypothesis": "H2-time",
@@ -121,7 +134,9 @@
       "threshold": 50.0,
       "verdict": "NOT_SUPPORTED",
       "normality_p": NaN,
-      "used_parametric": false
+      "used_parametric": false,
+      "effect_size_dz": NaN,
+      "effect_label_dz": "n/a"
     },
     {
       "hypothesis": "H3",
@@ -137,7 +152,9 @@
       "threshold": 15.0,
       "verdict": "NOT_SUPPORTED",
       "normality_p": 0.0001795547577785328,
-      "used_parametric": false
+      "used_parametric": false,
+      "effect_size_dz": 0.6665982928226809,
+      "effect_label_dz": "medium"
     },
     {
       "hypothesis": "H3",
@@ -153,7 +170,9 @@
       "threshold": 15.0,
       "verdict": "NOT_SUPPORTED",
       "normality_p": 0.0001990187301998958,
-      "used_parametric": false
+      "used_parametric": false,
+      "effect_size_dz": 0.9474061982103374,
+      "effect_label_dz": "large"
     },
     {
       "hypothesis": "H3",
@@ -169,7 +188,9 @@
       "threshold": 15.0,
       "verdict": "NOT_SUPPORTED",
       "normality_p": 0.0001571229804540053,
-      "used_parametric": false
+      "used_parametric": false,
+      "effect_size_dz": 0.666725182323813,
+      "effect_label_dz": "medium"
     },
     {
       "hypothesis": "H3",
@@ -185,7 +206,9 @@
       "threshold": 15.0,
       "verdict": "NOT_SUPPORTED",
       "normality_p": 0.00017047645815182477,
-      "used_parametric": false
+      "used_parametric": false,
+      "effect_size_dz": 0.6666354851441074,
+      "effect_label_dz": "medium"
     },
     {
       "hypothesis": "H3-lowrot",
@@ -201,7 +224,9 @@
       "threshold": 15.0,
       "verdict": "NOT_SUPPORTED",
       "normality_p": 1.0,
-      "used_parametric": false
+      "used_parametric": false,
+      "effect_size_dz": 0.0,
+      "effect_label_dz": "negligible"
     },
     {
       "hypothesis": "H3-lowrot",
@@ -217,7 +242,9 @@
       "threshold": 15.0,
       "verdict": "NOT_SUPPORTED",
       "normality_p": 0.9783541639451608,
-      "used_parametric": true
+      "used_parametric": true,
+      "effect_size_dz": 5.7402438551860975,
+      "effect_label_dz": "large"
     },
     {
       "hypothesis": "H3-lowrot",
@@ -233,7 +260,9 @@
       "threshold": 15.0,
       "verdict": "NOT_SUPPORTED",
       "normality_p": 0.8204612669517323,
-      "used_parametric": true
+      "used_parametric": true,
+      "effect_size_dz": 1.0497795729618806,
+      "effect_label_dz": "large"
     },
     {
       "hypothesis": "H3-lowrot",
@@ -249,7 +278,9 @@
       "threshold": 15.0,
       "verdict": "NOT_SUPPORTED",
       "normality_p": 1.0,
-      "used_parametric": false
+      "used_parametric": false,
+      "effect_size_dz": 0.0,
+      "effect_label_dz": "negligible"
     }
   ],
   "ranking": {
@@ -373,6 +404,395 @@
         "p_raw": 0.00390625,
         "p_adj_holm": 0.015625,
         "reject": true
+      }
+    ],
+    "caveat_anova": "f_oneway sobre corridas agrupadas mezcla instancias y tamanos (pseudoreplicacion); no usar como evidencia confirmatoria."
+  },
+  "stratified_by_size": {
+    "small": {
+      "algorithms": [
+        {
+          "algorithm": "ga",
+          "mean_z": 555425065.1865886,
+          "std_z": 2528067.063212868,
+          "count": 90,
+          "rank": 1
+        },
+        {
+          "algorithm": "ga_sa",
+          "mean_z": 555425065.1865886,
+          "std_z": 2528067.063212868,
+          "count": 90,
+          "rank": 2
+        },
+        {
+          "algorithm": "de",
+          "mean_z": 555416835.1476997,
+          "std_z": 2526337.633475265,
+          "count": 90,
+          "rank": 3
+        },
+        {
+          "algorithm": "sa",
+          "mean_z": 515297327.22978014,
+          "std_z": 28186101.603618026,
+          "count": 90,
+          "rank": 4
+        }
+      ],
+      "friedman_chi2": 9.000000000000002,
+      "friedman_p": 0.029290886534888188,
+      "wilcoxon_holm": [
+        {
+          "group1": "ga",
+          "group2": "sa",
+          "statistic": 0.0,
+          "p_raw": 0.25,
+          "p_adj_holm": 1.0,
+          "reject": false
+        },
+        {
+          "group1": "ga",
+          "group2": "de",
+          "statistic": 0.0,
+          "p_raw": 0.25,
+          "p_adj_holm": 1.0,
+          "reject": false
+        },
+        {
+          "group1": "ga",
+          "group2": "ga_sa",
+          "statistic": 0.0,
+          "p_raw": 1.0,
+          "p_adj_holm": 1.0,
+          "reject": false
+        },
+        {
+          "group1": "sa",
+          "group2": "de",
+          "statistic": 0.0,
+          "p_raw": 0.25,
+          "p_adj_holm": 1.0,
+          "reject": false
+        },
+        {
+          "group1": "sa",
+          "group2": "ga_sa",
+          "statistic": 0.0,
+          "p_raw": 0.25,
+          "p_adj_holm": 0.75,
+          "reject": false
+        },
+        {
+          "group1": "de",
+          "group2": "ga_sa",
+          "statistic": 0.0,
+          "p_raw": 0.25,
+          "p_adj_holm": 0.5,
+          "reject": false
+        }
+      ],
+      "n_instances": 3,
+      "note": "Friedman bloqueado por instancia dentro del estrato; con 3 instancias por tamano la potencia es limitada \u2014 el analisis confirmatorio principal sigue siendo el bloqueado global."
+    },
+    "medium": {
+      "algorithms": [
+        {
+          "algorithm": "ga",
+          "mean_z": 554780831.6104544,
+          "std_z": 2466845.33140919,
+          "count": 90,
+          "rank": 1
+        },
+        {
+          "algorithm": "ga_sa",
+          "mean_z": 554780831.6104544,
+          "std_z": 2466845.33140919,
+          "count": 90,
+          "rank": 2
+        },
+        {
+          "algorithm": "de",
+          "mean_z": 554775076.5157418,
+          "std_z": 2465541.472165231,
+          "count": 90,
+          "rank": 3
+        },
+        {
+          "algorithm": "sa",
+          "mean_z": 514846212.8862932,
+          "std_z": 28179490.801557787,
+          "count": 90,
+          "rank": 4
+        }
+      ],
+      "friedman_chi2": 9.000000000000002,
+      "friedman_p": 0.029290886534888188,
+      "wilcoxon_holm": [
+        {
+          "group1": "ga",
+          "group2": "sa",
+          "statistic": 0.0,
+          "p_raw": 0.25,
+          "p_adj_holm": 1.0,
+          "reject": false
+        },
+        {
+          "group1": "ga",
+          "group2": "de",
+          "statistic": 0.0,
+          "p_raw": 0.25,
+          "p_adj_holm": 1.0,
+          "reject": false
+        },
+        {
+          "group1": "ga",
+          "group2": "ga_sa",
+          "statistic": 0.0,
+          "p_raw": 1.0,
+          "p_adj_holm": 1.0,
+          "reject": false
+        },
+        {
+          "group1": "sa",
+          "group2": "de",
+          "statistic": 0.0,
+          "p_raw": 0.25,
+          "p_adj_holm": 1.0,
+          "reject": false
+        },
+        {
+          "group1": "sa",
+          "group2": "ga_sa",
+          "statistic": 0.0,
+          "p_raw": 0.25,
+          "p_adj_holm": 0.75,
+          "reject": false
+        },
+        {
+          "group1": "de",
+          "group2": "ga_sa",
+          "statistic": 0.0,
+          "p_raw": 0.25,
+          "p_adj_holm": 0.5,
+          "reject": false
+        }
+      ],
+      "n_instances": 3,
+      "note": "Friedman bloqueado por instancia dentro del estrato; con 3 instancias por tamano la potencia es limitada \u2014 el analisis confirmatorio principal sigue siendo el bloqueado global."
+    },
+    "large": {
+      "algorithms": [
+        {
+          "algorithm": "ga_sa",
+          "mean_z": 1640390662.3463502,
+          "std_z": 6753042.588894398,
+          "count": 90,
+          "rank": 1
+        },
+        {
+          "algorithm": "de",
+          "mean_z": 1639260936.8867326,
+          "std_z": 11061784.12472525,
+          "count": 90,
+          "rank": 2
+        },
+        {
+          "algorithm": "sa",
+          "mean_z": 1619508992.9280236,
+          "std_z": 10238383.29453194,
+          "count": 90,
+          "rank": 3
+        },
+        {
+          "algorithm": "ga",
+          "mean_z": 1616245463.256251,
+          "std_z": 12976478.73346875,
+          "count": 90,
+          "rank": 4
+        }
+      ],
+      "friedman_chi2": 9.0,
+      "friedman_p": 0.02929088653488826,
+      "wilcoxon_holm": [
+        {
+          "group1": "ga",
+          "group2": "sa",
+          "statistic": 0.0,
+          "p_raw": 0.25,
+          "p_adj_holm": 1.0,
+          "reject": false
+        },
+        {
+          "group1": "ga",
+          "group2": "de",
+          "statistic": 0.0,
+          "p_raw": 0.25,
+          "p_adj_holm": 1.0,
+          "reject": false
+        },
+        {
+          "group1": "ga",
+          "group2": "ga_sa",
+          "statistic": 0.0,
+          "p_raw": 0.25,
+          "p_adj_holm": 1.0,
+          "reject": false
+        },
+        {
+          "group1": "sa",
+          "group2": "de",
+          "statistic": 0.0,
+          "p_raw": 0.25,
+          "p_adj_holm": 0.75,
+          "reject": false
+        },
+        {
+          "group1": "sa",
+          "group2": "ga_sa",
+          "statistic": 0.0,
+          "p_raw": 0.25,
+          "p_adj_holm": 0.5,
+          "reject": false
+        },
+        {
+          "group1": "de",
+          "group2": "ga_sa",
+          "statistic": 0.0,
+          "p_raw": 0.25,
+          "p_adj_holm": 0.25,
+          "reject": false
+        }
+      ],
+      "n_instances": 3,
+      "note": "Friedman bloqueado por instancia dentro del estrato; con 3 instancias por tamano la potencia es limitada \u2014 el analisis confirmatorio principal sigue siendo el bloqueado global."
+    }
+  },
+  "nemenyi": {
+    "average_ranks": {
+      "ga": 2.3333333333333335,
+      "sa": 3.6666666666666665,
+      "de": 2.6666666666666665,
+      "ga_sa": 1.3333333333333333
+    },
+    "critical_distance": 1.5634436113675243,
+    "k": 4,
+    "n_blocks": 9,
+    "alpha": 0.05,
+    "pairs": [
+      {
+        "group1": "ga",
+        "group2": "sa",
+        "rank_diff": 1.333333333333333,
+        "significant": false
+      },
+      {
+        "group1": "ga",
+        "group2": "de",
+        "rank_diff": 0.33333333333333304,
+        "significant": false
+      },
+      {
+        "group1": "ga",
+        "group2": "ga_sa",
+        "rank_diff": 1.0000000000000002,
+        "significant": false
+      },
+      {
+        "group1": "sa",
+        "group2": "de",
+        "rank_diff": 1.0,
+        "significant": false
+      },
+      {
+        "group1": "sa",
+        "group2": "ga_sa",
+        "rank_diff": 2.333333333333333,
+        "significant": true
+      },
+      {
+        "group1": "de",
+        "group2": "ga_sa",
+        "rank_diff": 1.3333333333333333,
+        "significant": false
+      }
+    ]
+  },
+  "power_analysis": {
+    "H1": [
+      {
+        "algorithm": "ga",
+        "observed_mean_pct": 0.5884933859842643,
+        "observed_sd_pct": 0.8838297851044271,
+        "n_instances": 9,
+        "threshold_pct": 5.0,
+        "achieved_power": 0.0,
+        "n_required_80pct_power": null
+      },
+      {
+        "algorithm": "sa",
+        "observed_mean_pct": -4.150620218126875,
+        "observed_sd_pct": 4.592694399903308,
+        "n_instances": 9,
+        "threshold_pct": 5.0,
+        "achieved_power": 2.404743071338089e-13,
+        "n_required_80pct_power": null
+      },
+      {
+        "algorithm": "de",
+        "observed_mean_pct": 1.0706414648378273,
+        "observed_sd_pct": 1.6082037108959186,
+        "n_instances": 9,
+        "threshold_pct": 5.0,
+        "achieved_power": 0.0,
+        "n_required_80pct_power": null
+      },
+      {
+        "algorithm": "ga_sa",
+        "observed_mean_pct": 1.0952618165015553,
+        "observed_sd_pct": 1.642915311794513,
+        "n_instances": 9,
+        "threshold_pct": 5.0,
+        "achieved_power": 1.1102230246251565e-16,
+        "n_required_80pct_power": null
+      }
+    ],
+    "H3": [
+      {
+        "algorithm": "ga",
+        "observed_mean_pct": 13.783607818249024,
+        "observed_sd_pct": 20.6775324309382,
+        "n_instances": 9,
+        "threshold_pct": 15.0,
+        "achieved_power": 0.03536792740467465,
+        "n_required_80pct_power": null
+      },
+      {
+        "algorithm": "sa",
+        "observed_mean_pct": 17.51456471842485,
+        "observed_sd_pct": 18.48685891174249,
+        "n_instances": 9,
+        "threshold_pct": 15.0,
+        "achieved_power": 0.10200730806219882,
+        "n_required_80pct_power": 336
+      },
+      {
+        "algorithm": "de",
+        "observed_mean_pct": 12.478517788222153,
+        "observed_sd_pct": 18.716133902021458,
+        "n_instances": 9,
+        "threshold_pct": 15.0,
+        "achieved_power": 0.02185653471912674,
+        "n_required_80pct_power": null
+      },
+      {
+        "algorithm": "ga_sa",
+        "observed_mean_pct": 12.195980482930786,
+        "observed_sd_pct": 18.294826415210053,
+        "n_instances": 9,
+        "threshold_pct": 15.0,
+        "achieved_power": 0.01931492974383442,
+        "n_required_80pct_power": null
       }
     ]
   },

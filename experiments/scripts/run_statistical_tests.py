@@ -61,6 +61,12 @@ class HypothesisResult:
     verdict: str  # "SUPPORTED" / "NOT_SUPPORTED"
     normality_p: float  # p-value de Shapiro-Wilk
     used_parametric: bool  # True si se uso t-test
+    # Tamano de efecto PAREADO (dz = mean(diff)/sd(diff)). El effect_size de
+    # arriba usa la formula de muestras independientes (desviacion agrupada),
+    # que en un diseno bloqueado por instancia diluye el efecto con la enorme
+    # varianza ENTRE instancias; dz es el apropiado para estos contrastes.
+    effect_size_dz: float = float("nan")
+    effect_label_dz: str = "n/a"
 
     def __repr__(self) -> str:
         return (
@@ -98,6 +104,21 @@ def cohens_d(x: np.ndarray, y: np.ndarray) -> float:
     if pooled_std < 1e-12:
         return 0.0
     return diff / pooled_std
+
+
+def cohens_dz(paired_values: np.ndarray) -> float:
+    """Tamano de efecto para datos PAREADOS: dz = mean(x) / sd(x).
+
+    Se aplica directamente sobre el vector de diferencias por bloque (o de
+    metricas relativas por instancia, p.ej. % de mejora). A diferencia de
+    cohens_d (muestras independientes, desviacion agrupada), no diluye el
+    efecto con la varianza entre bloques.
+    """
+    x = np.asarray(paired_values, dtype=float)
+    sd = float(np.std(x, ddof=1))
+    if sd < 1e-12:
+        return 0.0
+    return float(np.mean(x)) / sd
 
 
 def effect_label(d: float) -> str:
@@ -256,6 +277,7 @@ def test_h1(df: pd.DataFrame) -> list[HypothesisResult]:
         mean_improvement = float(np.mean(improvement))
         ci = confidence_interval_95(improvement)
         d = cohens_d(z_meta, z_base)
+        dz = cohens_dz(improvement)
         test_name, stat, p, norm_p, parametric = threshold_one_sample_test(
             values=improvement,
             threshold=5.0,
@@ -285,6 +307,8 @@ def test_h1(df: pd.DataFrame) -> list[HypothesisResult]:
                 verdict=verdict,
                 normality_p=float(norm_p),
                 used_parametric=parametric,
+                effect_size_dz=dz,
+                effect_label_dz=effect_label(dz),
             )
         )
 
@@ -322,6 +346,7 @@ def test_h2(df: pd.DataFrame) -> list[HypothesisResult]:
         mean_gap_i = float(np.mean(gap_i))
         ci_i = confidence_interval_95(gap_i)
         d_i = cohens_d(z_gasa_i, z_best_i)
+        dz_i = cohens_dz(gap_i)
         test_name_i, stat_i, p_i, norm_p_i, parametric_i = threshold_one_sample_test(
             values=gap_i,
             threshold=2.0,
@@ -348,6 +373,8 @@ def test_h2(df: pd.DataFrame) -> list[HypothesisResult]:
                 verdict=verdict_i,
                 normality_p=float(norm_p_i),
                 used_parametric=parametric_i,
+                effect_size_dz=dz_i,
+                effect_label_dz=effect_label(dz_i),
             )
         )
 
@@ -369,6 +396,7 @@ def test_h2(df: pd.DataFrame) -> list[HypothesisResult]:
         mean_gap_r = float(np.mean(gap_r))
         ci_r = confidence_interval_95(gap_r)
         d_r = cohens_d(z_gasa_r, z_best_r)
+        dz_r = cohens_dz(gap_r)
         test_name_r, stat_r, p_r, norm_p_r, parametric_r = threshold_one_sample_test(
             values=gap_r,
             threshold=2.0,
@@ -395,6 +423,8 @@ def test_h2(df: pd.DataFrame) -> list[HypothesisResult]:
                 verdict=verdict_r,
                 normality_p=float(norm_p_r),
                 used_parametric=parametric_r,
+                effect_size_dz=dz_r,
+                effect_label_dz=effect_label(dz_r),
             )
         )
 
@@ -501,6 +531,7 @@ def test_h3(df: pd.DataFrame) -> list[HypothesisResult]:
             mean_reduction = float(np.mean(reduction))
             ci = confidence_interval_95(reduction)
             d = cohens_d(inv_base, inv_meta)
+            dz = cohens_dz(reduction)
             test_name, stat, p, norm_p, parametric = threshold_one_sample_test(
                 values=reduction,
                 threshold=15.0,
@@ -536,6 +567,8 @@ def test_h3(df: pd.DataFrame) -> list[HypothesisResult]:
                     verdict=verdict,
                     normality_p=float(norm_p),
                     used_parametric=parametric,
+                    effect_size_dz=dz,
+                    effect_label_dz=effect_label(dz),
                 )
             )
 
@@ -698,6 +731,292 @@ def compute_ranking(df: pd.DataFrame) -> RankingResult:
 
 
 # ============================================================
+# Analisis estratificado por tamano de instancia
+# ============================================================
+#
+# El ranking global agrupa corridas de instancias distintas como si fueran
+# independientes (pseudoreplicacion) y mezcla tamanos cuya varianza de Z
+# difiere en ordenes de magnitud. Los resultados reportables para la tesis
+# son los estratificados: cada estrato agrega solo instancias de su tamano.
+
+
+def _instance_size(instance_name: str) -> str:
+    """Extraer el tamano del nombre de instancia (small_seed42 -> small)."""
+    return str(instance_name).split("_")[0]
+
+
+def compute_stratified_ranking(df: pd.DataFrame) -> dict[str, dict]:
+    """Ranking por tamano de instancia (reusa compute_ranking por estrato)."""
+    work = df.copy()
+    work["size"] = work["instance"].map(_instance_size)
+
+    size_order = ["toy", "small", "medium", "large", "industrial"]
+    stratified: dict[str, dict] = {}
+    for size in [s for s in size_order if s in set(work["size"])]:
+        sub = work[work["size"] == size].drop(columns="size")
+        r = compute_ranking(sub)
+        stratified[size] = {
+            "algorithms": r.ranking,
+            "friedman_chi2": r.friedman_chi2,
+            "friedman_p": r.friedman_p,
+            "wilcoxon_holm": r.wilcoxon_holm,
+            "n_instances": int(sub["instance"].nunique()),
+            "note": (
+                "Friedman bloqueado por instancia dentro del estrato; con 3 "
+                "instancias por tamano la potencia es limitada — el analisis "
+                "confirmatorio principal sigue siendo el bloqueado global."
+            ),
+        }
+    return stratified
+
+
+# ============================================================
+# Diagrama de diferencia critica (Nemenyi)
+# ============================================================
+
+# Valores criticos q_alpha (alpha=0.05) del rango studentizado / sqrt(2)
+# para el test de Nemenyi (Demsar 2006, Tabla 5a).
+_NEMENYI_Q05 = {2: 1.960, 3: 2.343, 4: 2.569, 5: 2.728, 6: 2.850}
+
+
+def compute_nemenyi(df: pd.DataFrame) -> dict:
+    """Rangos promedio por algoritmo y distancia critica de Nemenyi.
+
+    Usa las medias por instancia (unidad experimental) de las 4
+    metaheuristicas: rango 1 = mejor Z en esa instancia.
+    """
+    meta_algos = ["ga", "sa", "de", "ga_sa"]
+    algo_data = df[df["algorithm"].isin(meta_algos)]
+
+    matrix = (
+        algo_data.groupby(["instance", "algorithm"], as_index=False)["z_value"]
+        .mean()
+        .pivot(index="instance", columns="algorithm", values="z_value")
+    )
+    cols = [a for a in meta_algos if a in matrix.columns]
+    matrix = matrix[cols].dropna()
+
+    k = len(cols)
+    n = len(matrix)
+    if k < 2 or n < 2:
+        return {}
+
+    # Rango 1 = mejor (Z mas alto); empates promediados
+    ranks = matrix.rank(axis=1, ascending=False)
+    avg_ranks = {c: float(ranks[c].mean()) for c in cols}
+
+    q = _NEMENYI_Q05.get(k)
+    cd = float(q * np.sqrt(k * (k + 1) / (6.0 * n))) if q else float("nan")
+
+    pairs = []
+    for g1, g2 in itertools.combinations(cols, 2):
+        diff = abs(avg_ranks[g1] - avg_ranks[g2])
+        pairs.append(
+            {
+                "group1": g1,
+                "group2": g2,
+                "rank_diff": float(diff),
+                "significant": bool(np.isfinite(cd) and diff > cd),
+            }
+        )
+
+    return {
+        "average_ranks": avg_ranks,
+        "critical_distance": cd,
+        "k": k,
+        "n_blocks": n,
+        "alpha": 0.05,
+        "pairs": pairs,
+    }
+
+
+def plot_cd_diagram(nemenyi: dict, output_path: Path) -> None:
+    """Dibujar el diagrama de diferencia critica (estilo Demsar 2006)."""
+    if not nemenyi:
+        return
+
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    # Colores fijos por algoritmo (Okabe-Ito, seguros para daltonismo);
+    # el texto va en tinta, no en el color de la serie.
+    algo_colors = {
+        "ga": "#0072B2",
+        "sa": "#E69F00",
+        "de": "#009E73",
+        "ga_sa": "#CC79A7",
+    }
+    algo_labels = {"ga": "GA", "sa": "SA", "de": "DE", "ga_sa": "GA-SA"}
+
+    avg_ranks = nemenyi["average_ranks"]
+    cd = nemenyi["critical_distance"]
+    k = nemenyi["k"]
+
+    fig, ax = plt.subplots(figsize=(7.5, 2.8), dpi=300)
+    ax.set_xlim(0.8, k + 0.2)
+    ax.set_ylim(0.0, 3.2)
+    ax.invert_xaxis()  # rango 1 (mejor) a la derecha, convencion de Demsar
+    ax.spines[["left", "right", "bottom"]].set_visible(False)
+    ax.get_yaxis().set_visible(False)
+    ax.xaxis.set_ticks_position("top")
+    ax.set_xticks(range(1, k + 1))
+    ax.tick_params(axis="x", labelsize=9, colors="#333333")
+
+    # Barra de la distancia critica (bajo el eje, con el texto debajo)
+    ax.plot([k, k - cd], [2.95, 2.95], lw=3, color="#555555", solid_capstyle="butt")
+    ax.text(
+        k - cd / 2, 2.86, f"CD = {cd:.3f}",
+        ha="center", va="top", fontsize=9, color="#333333",
+    )
+
+    # Marcas de cada algoritmo con lineas de bajada alternadas
+    ordered = sorted(avg_ranks.items(), key=lambda kv: kv[1])
+    heights = [2.3, 1.9, 1.5, 1.1, 0.9, 0.7]
+    for i, (algo, rank) in enumerate(ordered):
+        y = heights[i % len(heights)]
+        color = algo_colors.get(algo, "#333333")
+        ax.plot([rank, rank], [y, 2.75], lw=1.6, color=color)
+        side = "right" if i % 2 == 0 else "left"
+        ax.text(
+            rank, y - 0.06,
+            f"{algo_labels.get(algo, algo)} ({rank:.2f})",
+            ha=side, va="top", fontsize=9.5, color="#1a1a1a",
+        )
+
+    # Conectar grupos sin diferencia significativa (solo grupos MAXIMALES:
+    # un grupo contenido en otro ya dibujado no aporta informacion)
+    ranks_sorted = [r for _, r in ordered]
+    groups: list[tuple[int, int]] = []
+    for i in range(len(ordered)):
+        j = i
+        while j + 1 < len(ordered) and ranks_sorted[j + 1] - ranks_sorted[i] <= cd:
+            j += 1
+        if j > i and not any(gi <= i and j <= gj for gi, gj in groups):
+            groups.append((i, j))
+    y_bar = 2.55
+    for i, j in groups:
+        ax.plot(
+            [ranks_sorted[i] - 0.02, ranks_sorted[j] + 0.02],
+            [y_bar, y_bar],
+            lw=3.5, color="#888888", solid_capstyle="round",
+        )
+        y_bar -= 0.15
+
+    ax.set_title(
+        "Diagrama de diferencia crítica (Nemenyi, α=0.05) — rangos promedio de Z "
+        f"sobre {nemenyi['n_blocks']} instancias",
+        fontsize=9.5, color="#1a1a1a", pad=14,
+    )
+    fig.tight_layout()
+    fig.savefig(output_path, bbox_inches="tight", facecolor="white")
+    plt.close(fig)
+    print(f"Diagrama CD guardado en: {output_path}")
+
+
+# ============================================================
+# Analisis de potencia a priori (H1 / H3)
+# ============================================================
+
+
+def _power_one_sample_t(
+    true_mean: float,
+    sd: float,
+    n: int,
+    threshold: float,
+    alternative: str = "greater",
+    alpha: float = 0.05,
+) -> float:
+    """Potencia de un t-test de una muestra contra un umbral (no-central t)."""
+    if sd < 1e-12 or n < 2:
+        return float("nan")
+    if alternative == "greater":
+        delta = (true_mean - threshold) / sd
+    else:
+        delta = (threshold - true_mean) / sd
+    ncp = delta * np.sqrt(n)
+    crit = stats.t.ppf(1 - alpha, n - 1)
+    return float(1.0 - stats.nct.cdf(crit, n - 1, ncp))
+
+
+def _n_required(
+    true_mean: float, sd: float, threshold: float,
+    alternative: str = "greater", target_power: float = 0.80,
+) -> int | None:
+    """Menor n con potencia >= target (None si no se alcanza con n<=10000)."""
+    for n in range(3, 10001):
+        p = _power_one_sample_t(true_mean, sd, n, threshold, alternative)
+        if np.isfinite(p) and p >= target_power:
+            return n
+    return None
+
+
+def compute_power_analysis(df: pd.DataFrame) -> dict:
+    """Potencia alcanzada y n requerido para H1 y H3 (endpoint primario).
+
+    Toma el efecto OBSERVADO (media por instancia) como efecto verdadero
+    supuesto — es decir, responde: 'si el efecto real fuera el que vimos,
+    ¿que probabilidad teniamos de declararlo significativo con n=9?' y
+    '¿cuantas instancias harian falta para 80% de potencia?'.
+    """
+    meta_algos = ["ga", "sa", "de", "ga_sa"]
+    out: dict[str, list[dict]] = {"H1": [], "H3": []}
+
+    base_z = aggregate_instance_mean(df, "baseline", "z_value")
+    base_inv = aggregate_instance_mean(df, "baseline", "avg_inventory")
+
+    for algo in meta_algos:
+        algo_z = aggregate_instance_mean(df, algo, "z_value")
+        common = base_z.index.intersection(algo_z.index)
+        if len(common) >= 3:
+            zb = base_z.loc[common].values.astype(float)
+            zm = algo_z.loc[common].values.astype(float)
+            improvement = (zm - zb) / np.abs(zb) * 100.0
+            mean_v, sd_v, n = (
+                float(np.mean(improvement)),
+                float(np.std(improvement, ddof=1)),
+                len(improvement),
+            )
+            out["H1"].append(
+                {
+                    "algorithm": algo,
+                    "observed_mean_pct": mean_v,
+                    "observed_sd_pct": sd_v,
+                    "n_instances": n,
+                    "threshold_pct": 5.0,
+                    "achieved_power": _power_one_sample_t(mean_v, sd_v, n, 5.0),
+                    "n_required_80pct_power": _n_required(mean_v, sd_v, 5.0),
+                }
+            )
+
+        algo_inv = aggregate_instance_mean(df, algo, "avg_inventory")
+        common_i = base_inv.index.intersection(algo_inv.index)
+        if len(common_i) >= 3:
+            ib = base_inv.loc[common_i].values.astype(float)
+            im = algo_inv.loc[common_i].values.astype(float)
+            reduction = (ib - im) / np.maximum(np.abs(ib), 1e-9) * 100.0
+            mean_v, sd_v, n = (
+                float(np.mean(reduction)),
+                float(np.std(reduction, ddof=1)),
+                len(reduction),
+            )
+            out["H3"].append(
+                {
+                    "algorithm": algo,
+                    "observed_mean_pct": mean_v,
+                    "observed_sd_pct": sd_v,
+                    "n_instances": n,
+                    "threshold_pct": 15.0,
+                    "achieved_power": _power_one_sample_t(mean_v, sd_v, n, 15.0),
+                    "n_required_80pct_power": _n_required(mean_v, sd_v, 15.0),
+                }
+            )
+
+    return out
+
+
+# ============================================================
 # Funciones de reporte
 # ============================================================
 
@@ -767,6 +1086,9 @@ def save_results(
     h2: list[HypothesisResult],
     h3: list[HypothesisResult],
     ranking: RankingResult,
+    stratified: dict | None = None,
+    nemenyi: dict | None = None,
+    power: dict | None = None,
 ) -> None:
     """Guardar resultados en JSON."""
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -774,8 +1096,8 @@ def save_results(
     all_hypotheses = h1 + h2 + h3
     payload = {
         "protocol": {
-            "version": "v2.1",
-            "updated_at": "2026-03-10",
+            "version": "v2.2",
+            "updated_at": "2026-07-10",
             "alpha": 0.05,
             "primary_analysis_unit": "instance",
             "secondary_analysis_unit": "run",
@@ -783,6 +1105,13 @@ def save_results(
             "h3_primary_endpoint": "avg_inventory",
             "h3_secondary_endpoint": "low_rotation_inventory (exploratory)",
             "h3_min_informative_n": 5,
+            "v2_2_changes": (
+                "effect_size_dz pareado en hipotesis; ranking estratificado "
+                "por tamano; Nemenyi CD; potencia a priori H1/H3. El ANOVA/"
+                "Tukey global agrupa corridas (pseudoreplicacion) y se "
+                "mantiene solo por trazabilidad historica: usar "
+                "'stratified_by_size' y 'nemenyi' para conclusiones."
+            ),
         },
         "hypothesis_tests": [asdict(r) for r in all_hypotheses],
         "ranking": {
@@ -793,7 +1122,15 @@ def save_results(
             "friedman_chi2": ranking.friedman_chi2,
             "friedman_p": ranking.friedman_p,
             "wilcoxon_holm": ranking.wilcoxon_holm,
+            "caveat_anova": (
+                "f_oneway sobre corridas agrupadas mezcla instancias y "
+                "tamanos (pseudoreplicacion); no usar como evidencia "
+                "confirmatoria."
+            ),
         },
+        "stratified_by_size": stratified or {},
+        "nemenyi": nemenyi or {},
+        "power_analysis": power or {},
         "summary": {
             "H1": next(
                 (r.verdict for r in h1 if r.hypothesis == "H1"),
@@ -846,13 +1183,49 @@ def run_statistical_tests(
     h2 = test_h2(df)
     h3 = test_h3(df)
     ranking = compute_ranking(df)
+    stratified = compute_stratified_ranking(df)
+    nemenyi = compute_nemenyi(df)
+    power = compute_power_analysis(df)
 
     # Reportar
     print_hypothesis_results(h1 + h2 + h3)
     print_ranking(ranking)
 
+    print("\n" + "=" * 80)
+    print("RANKING ESTRATIFICADO POR TAMANO (Friedman por estrato)")
+    print("=" * 80)
+    for size, res in stratified.items():
+        best = res["algorithms"][0]["algorithm"] if res["algorithms"] else "?"
+        print(
+            f"  {size:<10} mejor={best:<6} "
+            f"Friedman chi2={res['friedman_chi2']:.2f} p={res['friedman_p']:.4f} "
+            f"({res['n_instances']} instancias)"
+        )
+
+    if nemenyi:
+        print("\nNEMENYI: rangos promedio "
+              + ", ".join(f"{a}={r:.2f}" for a, r in nemenyi["average_ranks"].items())
+              + f" | CD={nemenyi['critical_distance']:.3f}")
+
+    print("\nPOTENCIA A PRIORI (efecto observado como verdadero):")
+    for hyp, rows in power.items():
+        for r in rows:
+            n_req = r["n_required_80pct_power"]
+            n_req_s = str(n_req) if n_req is not None else ">10000 (efecto < umbral)"
+            print(
+                f"  {hyp} {r['algorithm']:<6} media={r['observed_mean_pct']:.2f}% "
+                f"potencia(n={r['n_instances']})={r['achieved_power']:.3f} "
+                f"n para 80%: {n_req_s}"
+            )
+
     # Guardar
-    save_results(Path(output_dir), h1, h2, h3, ranking)
+    save_results(Path(output_dir), h1, h2, h3, ranking, stratified, nemenyi, power)
+
+    # Figura: diagrama de diferencia critica
+    try:
+        plot_cd_diagram(nemenyi, Path("tesis/figuras/nemenyi_cd.png"))
+    except Exception as exc:  # pragma: no cover
+        print(f"AVISO: no se pudo generar el diagrama CD: {exc}")
 
     # Tabla resumen final
     print("\n" + "=" * 80)

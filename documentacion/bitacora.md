@@ -5,6 +5,38 @@ Las entradas más recientes van arriba.
 
 ---
 
+## 2026-07-10 (tarde) — Bloque B: valor estadístico de los datos ya corridos
+
+Implementado sin ejecutar ninguna corrida nueva (todo sobre `comparison.csv` y
+`comparison_traces.csv` existentes):
+
+- **Análisis anytime** (`experiments/scripts/analyze_traces.py`, nuevo): curvas
+  de calidad best-so-far vs tiempo por tamaño (`tesis/figuras/anytime_curves.png`)
+  y tabla time-to-target (`experiments/results/time_to_target.csv`). Hallazgos:
+  DE alcanza el 99% del mejor Z conocido en ~5–11 s en small/medium; GA-SA es el
+  único que alcanza el 99% en el 100% de las corridas large (mediana 231 s); SA
+  se estanca en ~93% de la calidad en small/medium (no llega nunca al 99%).
+  Convierte el "52.5x el tiempo de CBC" en un argumento anytime defendible.
+- **Estadística corregida** (`run_statistical_tests.py`, protocolo v2.2):
+  - `effect_size_dz` pareado en H1/H2/H3: la d agrupada usada antes diluía el
+    efecto con la varianza entre instancias (H3 pasaba de d≈0.4 "small" a
+    dz=0.67–0.95 "medium/large").
+  - Ranking **estratificado por tamaño** (Friedman por estrato); el ANOVA/Tukey
+    global queda marcado como pseudoreplicación (solo trazabilidad histórica).
+  - **Diagrama de diferencia crítica de Nemenyi** (`tesis/figuras/nemenyi_cd.png`):
+    rangos GA-SA 1.33 < GA 2.33 < DE 2.67 < SA 3.67, CD=1.563 → GA-SA
+    significativamente mejor que SA; el resto sin diferencia significativa.
+  - **Potencia a priori** para H1/H3: con n=9 instancias, H1 tenía potencia ≈0
+    (efecto observado 0.6–1.1% < umbral 5%) y H3 entre 0.02–0.10; para 80% de
+    potencia se necesitarían cientos de instancias. Conclusión honesta para la
+    tesis: el diseño no podía detectar los umbrales declarados; reportar
+    estimación con IC en lugar de veredicto binario.
+- Verificado: los 15 tests de hipótesis del JSON conservan exactamente los
+  mismos p-valores/métricas (0 cambios); solo se añaden secciones nuevas.
+  Suite completa: 247 tests en verde.
+
+---
+
 ## 2026-07-10 — Recomendaciones para mejorar resultados y arranque del Bloque A
 
 **Análisis:** se ejecutó un análisis multi-agente por lentes (medición de gap,
