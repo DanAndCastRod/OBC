@@ -73,9 +73,41 @@ class SimulatedAnnealing(BaseMetaheuristic):
         super().__init__(merged)
 
     def solve(self, instance: ProblemInstance, **kwargs) -> Solution:
-        """Ejecutar SA completo."""
+        """Ejecutar SA completo.
+
+        Si la config trae presupuesto (max_evaluations / max_seconds), el SA
+        encadena RESTARTS: al enfriarse una cadena, arranca otra desde una
+        solucion nueva conservando el mejor global, hasta agotar el
+        presupuesto. Sin presupuesto, ejecuta una sola cadena (comportamiento
+        historico). Esto permite comparar SA con el mismo presupuesto de
+        evaluaciones que los algoritmos poblacionales.
+        """
         self.reset()
 
+        has_budget = (
+            self.config.get("max_evaluations") is not None
+            or self.config.get("max_seconds") is not None
+        )
+
+        q_min = instance.capacity_min
+        q_max = instance.capacity_max
+        iteration = 0
+
+        while True:
+            iteration = self._run_chain(instance, q_min, q_max, iteration)
+            if not has_budget or self.budget_exhausted():
+                break
+
+        return self.best_solution
+
+    def _run_chain(
+        self,
+        instance: ProblemInstance,
+        q_min: int,
+        q_max: int,
+        iteration: int,
+    ) -> int:
+        """Ejecutar una cadena de enfriamiento completa; retorna la iteracion."""
         T = self.config["T_initial"]
         T_final = self.config["T_final"]
         cooling = self.config["cooling_rate"]
@@ -83,26 +115,27 @@ class SimulatedAnnealing(BaseMetaheuristic):
         reheat_factor = self.config["reheat_factor"]
         reheat_threshold = self.config["reheat_threshold"]
 
-        q_min = instance.capacity_min
-        q_max = instance.capacity_max
-
         # Solucion inicial
         y_curr, q_curr = random_solution(instance)
         fit_curr = self.evaluate_fitness(y_curr, q_curr, instance)
 
         # Guardar mejor
-        fit_best, sol_best = self.evaluate_and_get_solution(y_curr, q_curr, instance)
-        self.update_best(fit_best, sol_best, instance)
+        if fit_curr > self.best_fitness:
+            fit_best, sol_best = self.evaluate_and_get_solution(
+                y_curr, q_curr, instance
+            )
+            self.update_best(fit_best, sol_best, instance)
 
         # Auto-estimar temperatura inicial
         if T is None:
             T = self._estimate_initial_temperature(instance)
 
-        iteration = 0
         stagnation = 0
 
         # Loop de enfriamiento
         while T > T_final:
+            if self.budget_exhausted():
+                break
             for _ in range(max_iter):
                 # Generar vecino
                 y_new, q_new = self._generate_neighbor(y_curr, q_curr, q_min, q_max)
@@ -131,10 +164,13 @@ class SimulatedAnnealing(BaseMetaheuristic):
                     T *= reheat_factor
                     stagnation = 0
 
+                if self.budget_exhausted():
+                    return iteration
+
             # Enfriamiento
             T *= cooling
 
-        return self.best_solution
+        return iteration
 
     def _generate_neighbor(
         self,

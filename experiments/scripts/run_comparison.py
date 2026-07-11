@@ -319,8 +319,13 @@ def _run_single(
     t0 = time.time()
 
     if algo_key == "baseline":
-        strategy = algo_config.get("params", {}).get("strategy", "best")
-        sol = solve_baseline(instance, strategy=strategy)
+        params = algo_config.get("params", {})
+        sol = solve_baseline(
+            instance,
+            strategy=params.get("strategy", "best"),
+            demand_cap=bool(params.get("demand_cap", False)),
+            demand_cap_factor=float(params.get("demand_cap_factor", 1.0)),
+        )
         n_evals = 1
 
     elif algo_key == "cbc_exact":

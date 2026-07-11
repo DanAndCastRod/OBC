@@ -89,7 +89,7 @@ class BaseMetaheuristic(ABC):
         y, q = repair_lot_sizing(y, q, instance.capacity_min, instance.capacity_max)
 
         # Decodificar segunda etapa
-        sol = decoder.decode(y, q, instance)
+        sol = decoder.decode(y, q, instance, **self._decode_kwargs())
 
         # Evaluar funcion objetivo
         bd = objective.evaluate_vectorized(sol, instance)
@@ -109,10 +109,41 @@ class BaseMetaheuristic(ABC):
             (fitness, Solution)
         """
         y, q = repair_lot_sizing(y, q, instance.capacity_min, instance.capacity_max)
-        sol = decoder.decode(y, q, instance)
+        sol = decoder.decode(y, q, instance, **self._decode_kwargs())
         bd = objective.evaluate_vectorized(sol, instance)
         self.n_evaluations += 1
         return bd.total, sol
+
+    def _decode_kwargs(self) -> dict:
+        """Opciones del decodificador tomadas de la config del algoritmo.
+
+        demand_cap (bool) y demand_cap_factor (float) activan el tope de
+        produccion por demanda esperada en la ventana de vida util. Por
+        defecto quedan apagados para preservar el comportamiento historico.
+        """
+        return {
+            "demand_cap": bool(self.config.get("demand_cap", False)),
+            "demand_cap_factor": float(self.config.get("demand_cap_factor", 1.0)),
+        }
+
+    def budget_exhausted(self) -> bool:
+        """True si se agoto el presupuesto de evaluaciones o de tiempo.
+
+        Presupuesto opcional via config: max_evaluations (int) y/o
+        max_seconds (float). Sin configurar nunca se agota (comportamiento
+        historico). Permite comparar algoritmos con presupuesto IGUALADO en
+        lugar del presupuesto dispar que dejo la calibracion (p.ej. SA con
+        ~27 iteraciones por nivel de temperatura vs GA con 80x200).
+        """
+        max_evals = self.config.get("max_evaluations")
+        if max_evals is not None and self.n_evaluations >= int(max_evals):
+            return True
+        max_seconds = self.config.get("max_seconds")
+        if max_seconds is not None and (
+            time.time() - self._start_time
+        ) >= float(max_seconds):
+            return True
+        return False
 
     def generate_random(
         self, instance: ProblemInstance

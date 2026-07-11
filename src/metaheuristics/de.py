@@ -111,6 +111,10 @@ class DifferentialEvolution(BaseMetaheuristic):
 
         # --- Loop generacional ---
         for gen in range(1, max_gen + 1):
+            # Presupuesto igualado (opcional): corta cuando se agota
+            if self.budget_exhausted():
+                break
+
             improved_any = False
 
             for i in range(pop_size):

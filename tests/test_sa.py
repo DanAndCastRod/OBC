@@ -164,6 +164,32 @@ class TestSimulatedAnnealing:
         s = sa.summary()
         assert "SimulatedAnnealing" in s
 
+    def test_budget_restarts_consume_evaluations(self):
+        """Con max_evaluations, SA encadena restarts hasta agotar el
+        presupuesto en vez de terminar al enfriarse la primera cadena."""
+        np.random.seed(42)
+        inst = make_trivial()
+        base_cfg = {
+            "T_initial": 1e5,
+            "T_final": 1e3,
+            "cooling_rate": 0.5,
+            "max_iterations": 3,
+        }
+
+        sa_single = SimulatedAnnealing(dict(base_cfg))
+        sa_single.solve(inst)
+        single_chain_evals = sa_single.n_evaluations
+
+        budget = single_chain_evals * 4
+        sa_budget = SimulatedAnnealing({**base_cfg, "max_evaluations": budget})
+        sol = sa_budget.solve(inst)
+
+        assert sol is not None
+        # Usa (casi) todo el presupuesto: mas de una cadena
+        assert sa_budget.n_evaluations > single_chain_evals
+        # y no se pasa mas que por el margen de una iteracion
+        assert sa_budget.n_evaluations <= budget + 2
+
 
 # ============================================================
 # Entry point

@@ -90,6 +90,8 @@ def _compute_max_capacity_q(instance: ProblemInstance) -> np.ndarray:
 def solve_baseline(
     instance: ProblemInstance,
     strategy: Literal["proportional", "max_capacity", "best"] = "best",
+    demand_cap: bool = False,
+    demand_cap_factor: float = 1.0,
 ) -> Solution:
     """Resolver instancia con heuristica baseline.
 
@@ -99,20 +101,25 @@ def solve_baseline(
             - 'proportional': produccion proporcional a demanda
             - 'max_capacity': produccion maxima siempre
             - 'best': evalua ambas y retorna la mejor
+        demand_cap: Activar el tope de produccion por demanda esperada del
+            decodificador (mismo flag que usan las metaheuristicas, para que
+            la comparacion sea contra el mismo decodificador).
+        demand_cap_factor: Factor de seguridad del tope.
 
     Returns:
         Solution con la mejor heuristica baseline.
     """
     strategies = {}
+    decode_kwargs = {"demand_cap": demand_cap, "demand_cap_factor": demand_cap_factor}
 
     if strategy in ("proportional", "best"):
         strategies["baseline-proportional"] = _solve_single(
-            instance, _compute_proportional_q, "baseline-proportional"
+            instance, _compute_proportional_q, "baseline-proportional", decode_kwargs
         )
 
     if strategy in ("max_capacity", "best"):
         strategies["baseline-max"] = _solve_single(
-            instance, _compute_max_capacity_q, "baseline-max"
+            instance, _compute_max_capacity_q, "baseline-max", decode_kwargs
         )
 
     if strategy == "best":
@@ -128,6 +135,7 @@ def _solve_single(
     instance: ProblemInstance,
     q_func,
     algorithm_name: str,
+    decode_kwargs: dict | None = None,
 ) -> Solution:
     """Ejecutar una estrategia baseline individual.
 
@@ -135,6 +143,7 @@ def _solve_single(
         instance: Instancia del problema.
         q_func: Funcion que calcula q[T].
         algorithm_name: Nombre del algoritmo para metadata.
+        decode_kwargs: Opciones del decodificador (demand_cap, etc.).
 
     Returns:
         Solution evaluada y validada.
@@ -148,7 +157,7 @@ def _solve_single(
     y = (q > 0).astype(bool)
 
     # Decodificar segunda etapa (ventas, inventario, insatisfaccion)
-    sol = decoder.decode(y, q, instance)
+    sol = decoder.decode(y, q, instance, **(decode_kwargs or {}))
 
     # Evaluar funcion objetivo
     bd = objective.evaluate_vectorized(sol, instance)

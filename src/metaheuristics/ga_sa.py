@@ -119,6 +119,10 @@ class HybridGASA(BaseMetaheuristic):
 
         # --- Loop generacional ---
         for gen in range(1, n_gen + 1):
+            # Presupuesto igualado (opcional): corta cuando se agota
+            if self.budget_exhausted():
+                break
+
             # === Fase GA ===
             elite_indices = np.argsort(fitness)[-elite_n:]
             new_pop = [population[i] for i in elite_indices]

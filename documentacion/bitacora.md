@@ -5,6 +5,49 @@ Las entradas más recientes van arriba.
 
 ---
 
+## 2026-07-10 (noche) — Bloques C y D: decodificador, algoritmos e instancias
+
+**Bloque C — decodificador y algoritmos:**
+- **C#10 tope de demanda (`demand_cap`)**: el decoder puede limitar la
+  producción de cada forma a la demanda esperada en su ventana de vida útil
+  (newsvendor). Impacto medido en small/medium: Z sube (gap vs CBC de 3.4% a
+  **0.8%**) y el inventario baja de ~2,970 a **~756** (CBC ~158). Flag apagado
+  por defecto (preserva comportamiento histórico).
+- **C#12 presupuesto igualado**: `max_evaluations`/`max_seconds` en la clase
+  base cortan los 4 algoritmos por presupuesto común; SA encadena **restarts**
+  hasta agotarlo (antes terminaba al enfriarse la primera cadena, compitiendo
+  con ~14x menos presupuesto que GA).
+- **C#13 segunda etapa vectorizada**: la simulación FIFO con caducidad se
+  reescribió en NumPy (cubetas por periodo [W,F,T]); **~12x más rápida** en
+  large, con test de equivalencia exacto contra la versión de bucles (que se
+  conserva como referencia).
+
+**Bloque D — diseño de instancias y experimento:**
+- **D#16 economía v2**: setup 50M COP/día, capacidad con holgura (10–12k),
+  demanda volátil. Validado con CBC: el óptimo **apaga la línea 1–5 días** y el
+  baseline queda **11–28% por debajo** (en v1 quedaba a ~3%). Prueba ácida:
+  GA-SA supera al baseline en **+5.2% a +7.6%** en las instancias v2.
+- **D#17 set v2** (`data/instances_v2/`, 30 instancias = 10 por tamaño,
+  pensadas para ~6 seeds): la unidad estadística pasa de n=9 a n=30. `medium`
+  ahora usa 18 periodos (en v1 era idéntica a small). Generador:
+  `experiments/scripts/generate_instances_v2.py --validate`.
+- **Config `comparison_v2.yaml`**: 780 corridas (vs 1098), presupuesto
+  igualado (20k evals), `demand_cap` activo, salidas en `experiments/results_v2/`.
+  Smoke end-to-end (2 instancias, budget reducido): las metaheurísticas se
+  **diferencian del baseline** (baseline 11.17% vs GA-SA 5.70%), 12/12 corridas,
+  0 errores.
+
+**Pendiente de este bloque:** la sensibilidad multi-instancia (#18) requiere
+refactorizar el flujo de `run_sensitivity.py` (hoy toma una sola
+`base_instance`); no se hizo para no dejarlo a medias. Cambio necesario: aceptar
+`base_instances` (lista) y envolver el cuerpo en un bucle por instancia,
+etiquetando el CSV con la instancia base.
+
+Tests: 254 en verde (nuevos: tope de demanda ×3, equivalencia de segunda etapa
+×3, restarts de SA por presupuesto ×1).
+
+---
+
 ## 2026-07-10 (tarde) — Bloque B: valor estadístico de los datos ya corridos
 
 Implementado sin ejecutar ninguna corrida nueva (todo sobre `comparison.csv` y

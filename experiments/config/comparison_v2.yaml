@@ -1,0 +1,157 @@
+# ============================================================
+# Configuración del Experimento Comparativo v2 (2026-07-10)
+# ============================================================
+# Cambios respecto a comparison.yaml (v1):
+#   - Instancias del set v2 (data/instances_v2/): 30 instancias (10 por
+#     tamaño) donde las decisiones de setup importan (el óptimo apaga la línea
+#     1-5 días y el baseline queda 11-28% por debajo). Medium ya NO es igual a
+#     small (18 periodos vs 12).
+#   - MÁS instancias, MENOS réplicas: la unidad estadística es la instancia
+#     (n=30 aquí vs n=9 antes), no la réplica. 6 seeds por instancia.
+#   - Decodificador con tope de demanda (demand_cap) en metaheurísticas y
+#     baseline: evita acumular inventario invendible.
+#   - Presupuesto IGUALADO por evaluaciones (max_evaluations) para que la
+#     comparación GA/SA/DE/GA-SA sea justa (antes SA competía con ~14x menos).
+#   Total efectivo: 4 MH × 30 inst × 6 seeds + (baseline+CBC) × 30 = 780 corridas.
+# ============================================================
+
+experiment:
+  name: "comparison_v2"
+  description: "Comparación v2: instancias no triviales, presupuesto igualado, tope de demanda"
+  n_replicas: 6
+  seeds: [1, 2, 3, 4, 5, 6]
+  deterministic_algorithms: ["baseline", "cbc_exact"]
+  time_limit_seconds: 300
+  checkpoint_every: 50
+  runtime_estimation_seconds:
+    baseline: 1
+    cbc_exact: 30
+    sa: 40
+    ga: 40
+    de: 40
+    ga_sa: 40
+
+# ============================================================
+# Presupuesto de evaluaciones común a todas las metaheurísticas.
+# Se fija vía max_evaluations en cada algoritmo; los límites de
+# generaciones/iteraciones quedan altos para que el corte lo dé el
+# presupuesto y no la estructura del algoritmo.
+# ============================================================
+algorithms:
+  ga:
+    class: "GeneticAlgorithm"
+    params:
+      pop_size: 80
+      crossover_rate: 0.7437
+      mutation_rate: 0.0889
+      elitism_count: 3
+      selection_size: 3
+      n_generations: 100000
+      stagnation_limit: 100000
+      max_evaluations: 20000
+      demand_cap: true
+
+  sa:
+    class: "SimulatedAnnealing"
+    params:
+      T_initial: null        # auto-estimada
+      T_final: 586.35
+      cooling_rate: 0.7817
+      delta: 0.0661
+      max_iterations: 50
+      p_quantity: 0.2825
+      p_toggle: 0.4941
+      reheat_factor: 1.287
+      reheat_threshold: 54
+      max_evaluations: 20000  # con restarts encadenados hasta agotar
+      demand_cap: true
+
+  de:
+    class: "DifferentialEvolution"
+    params:
+      pop_size: 51
+      CR: 0.5112
+      F: 0.3165
+      strategy: "best/1/bin"
+      max_generations: 100000
+      stagnation_limit: 100000
+      max_evaluations: 20000
+      demand_cap: true
+
+  ga_sa:
+    class: "HybridGASA"
+    params:
+      pop_size: 39
+      crossover_rate: 0.8589
+      mutation_rate: 0.0505
+      elitism_count: 1
+      selection_size: 3
+      local_search_T: 3226.60
+      local_search_cooling: 0.7126
+      local_search_freq: 9
+      local_search_iters: 26
+      local_search_top_k: 10
+      n_generations: 100000
+      stagnation_limit: 100000
+      max_evaluations: 20000
+      demand_cap: true
+
+  cbc_exact:
+    class: "ExactSolver"
+    params:
+      time_limit: 300
+      solver: "cbc"
+
+  baseline:
+    class: "Baseline"
+    params:
+      strategy: "best"
+      demand_cap: true
+
+# ============================================================
+# Instancias v2 (10 por tamaño)
+# ============================================================
+instances:
+  small:
+    - data/instances_v2/small_v2_seed201.yaml
+    - data/instances_v2/small_v2_seed202.yaml
+    - data/instances_v2/small_v2_seed203.yaml
+    - data/instances_v2/small_v2_seed204.yaml
+    - data/instances_v2/small_v2_seed205.yaml
+    - data/instances_v2/small_v2_seed206.yaml
+    - data/instances_v2/small_v2_seed207.yaml
+    - data/instances_v2/small_v2_seed208.yaml
+    - data/instances_v2/small_v2_seed209.yaml
+    - data/instances_v2/small_v2_seed210.yaml
+  medium:
+    - data/instances_v2/medium_v2_seed201.yaml
+    - data/instances_v2/medium_v2_seed202.yaml
+    - data/instances_v2/medium_v2_seed203.yaml
+    - data/instances_v2/medium_v2_seed204.yaml
+    - data/instances_v2/medium_v2_seed205.yaml
+    - data/instances_v2/medium_v2_seed206.yaml
+    - data/instances_v2/medium_v2_seed207.yaml
+    - data/instances_v2/medium_v2_seed208.yaml
+    - data/instances_v2/medium_v2_seed209.yaml
+    - data/instances_v2/medium_v2_seed210.yaml
+  large:
+    - data/instances_v2/large_v2_seed201.yaml
+    - data/instances_v2/large_v2_seed202.yaml
+    - data/instances_v2/large_v2_seed203.yaml
+    - data/instances_v2/large_v2_seed204.yaml
+    - data/instances_v2/large_v2_seed205.yaml
+    - data/instances_v2/large_v2_seed206.yaml
+    - data/instances_v2/large_v2_seed207.yaml
+    - data/instances_v2/large_v2_seed208.yaml
+    - data/instances_v2/large_v2_seed209.yaml
+    - data/instances_v2/large_v2_seed210.yaml
+
+# ============================================================
+# Output (separado del set v1 para no sobreescribir)
+# ============================================================
+output:
+  results_csv: "experiments/results_v2/comparison.csv"
+  results_json: "experiments/results_v2/comparison.json"
+  traces_csv: "experiments/results_v2/comparison_traces.csv"
+  save_traces: true
+  checkpoint_dir: "experiments/results_v2/checkpoints"

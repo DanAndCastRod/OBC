@@ -367,6 +367,107 @@ class TestPerishability:
         assert perish.satisfied, perish.violations[:3]
 
 
+class TestDemandCapDecoder:
+
+    def test_cap_limits_production_to_demand_window(self):
+        """Con demand_cap, la produccion no excede la demanda esperada de la
+        ventana de vida util (mas el factor de seguridad)."""
+        inst = make_trivial()
+        inst.n_periods = 4
+        inst.shelf_life = np.array([2, 2, 30], dtype=np.int32)
+        inst.demand = np.full((3, 4, 1), 100.0, dtype=np.float64)
+
+        y = np.array([True, False, False, False])
+        q = np.array([5000, 0, 0, 0])
+
+        sol_free = decoder.decode(y, q, inst)
+        sol_cap = decoder.decode(y, q, inst, demand_cap=True)
+
+        # Sin tope: agota el pool (pechuga = 0.4*2.5*5000 = 5000)
+        assert sol_free.p[0, 0] == 5000.0
+        # Con tope: ventana L=2 con demanda esperada 100/dia -> 200
+        assert sol_cap.p[0, 0] == pytest.approx(200.0, abs=1e-6)
+
+    def test_cap_improves_or_matches_objective(self):
+        """El tope evita inventario invendible: Z no puede empeorar en un
+        escenario de demanda baja y constante."""
+        from src.model import objective
+
+        inst = make_trivial()
+        inst.n_periods = 4
+        inst.shelf_life = np.array([2, 2, 30], dtype=np.int32)
+        inst.demand = np.full((3, 4, 1), 100.0, dtype=np.float64)
+
+        y = np.array([True, True, True, True])
+        q = np.array([5000, 5000, 5000, 5000])
+
+        z_free = objective.evaluate(decoder.decode(y, q, inst), inst).total
+        z_cap = objective.evaluate(
+            decoder.decode(y, q, inst, demand_cap=True), inst
+        ).total
+
+        assert z_cap >= z_free
+        # y el inventario cae
+        inv_free = float(np.mean(decoder.decode(y, q, inst).I))
+        inv_cap = float(np.mean(decoder.decode(y, q, inst, demand_cap=True).I))
+        assert inv_cap < inv_free
+
+    def test_cap_default_off_preserves_behavior(self):
+        """Sin el flag, el decoder se comporta exactamente igual que antes."""
+        inst = make_trivial()
+        y = np.array([True, False, False])
+        q = np.array([5000, 0, 0])
+        a = decoder.decode(y, q, inst)
+        b = decoder.decode(y, q, inst, demand_cap=False)
+        assert np.allclose(a.p, b.p)
+        assert np.allclose(a.v, b.v)
+
+
+class TestSecondStageEquivalence:
+    """La simulacion vectorizada debe ser identica a la de bucles."""
+
+    def _assert_equivalent(self, p, inst):
+        v1, i1, u1 = decoder._second_stage_loop(p, inst)
+        v2, i2, u2 = decoder._second_stage_vectorized(p, inst)
+        np.testing.assert_allclose(v1, v2, atol=1e-9)
+        np.testing.assert_allclose(i1, i2, atol=1e-9)
+        np.testing.assert_allclose(u1, u2, atol=1e-9)
+
+    def test_equivalence_trivial(self):
+        inst = make_trivial()
+        y = np.array([True, True, False])
+        q = np.array([3000, 4000, 0])
+        sol = decoder.decode(y, q, inst)
+        self._assert_equivalent(sol.p, inst)
+
+    def test_equivalence_short_shelf_life(self):
+        inst = make_trivial()
+        inst.n_periods = 5
+        inst.shelf_life = np.array([1, 2, 3], dtype=np.int32)
+        inst.demand = np.random.RandomState(7).uniform(
+            50, 4000, size=(3, 5, 4)
+        )
+        inst.n_scenarios = 4
+        inst.scenario_probs = np.ones(4) / 4
+        p = np.random.RandomState(11).uniform(0, 3000, size=(3, 5))
+        self._assert_equivalent(p, inst)
+
+    def test_equivalence_real_instance(self):
+        from pathlib import Path
+
+        path = Path("data/instances/small_seed42.yaml")
+        if not path.exists():
+            pytest.skip("instancia no encontrada")
+        inst = ProblemInstance.from_yaml(path)
+        rng = np.random.RandomState(3)
+        q = rng.randint(
+            inst.capacity_min, inst.capacity_max + 1, size=inst.n_periods
+        )
+        y = rng.random(inst.n_periods) > 0.3
+        sol = decoder.decode(y, q, inst, demand_cap=True)
+        self._assert_equivalent(sol.p, inst)
+
+
 class TestPartAllocationCorrections:
 
     def test_decoder_respects_part_pool_with_overlap(self):
