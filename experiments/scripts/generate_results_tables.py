@@ -403,11 +403,11 @@ def generate_all(
     plot_pareto_quality_time(df, output_path)
     plot_service_level_comparison(df, output_path)
 
-    # Reporte Markdown
+    # Reporte Markdown: se escribe JUNTO a las tablas (output_dir), no en una
+    # ruta fija, para no sobreescribir el reporte de otro experimento (p.ej. una
+    # corrida v2 clobbereaba el reporte histórico v1 en documentacion/reportes/).
     print("\n--- Generando reporte ---")
-    report_dir = Path("documentacion/reportes")
-    report_dir.mkdir(parents=True, exist_ok=True)
-    generate_markdown_report(main_table, output_path, report_dir)
+    generate_markdown_report(main_table, output_path, output_path)
 
     print("\n" + "=" * 80)
     print("GENERACION COMPLETADA")

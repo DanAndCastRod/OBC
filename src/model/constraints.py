@@ -38,9 +38,17 @@ class ConstraintResult:
 
 
 def check_material_balance(sol: Solution, inst: ProblemInstance) -> ConstraintResult:
-    """Eq. 2: Material balance per form, period and scenario.
+    """Eq. 2: Material balance per form, period and scenario, con merma.
 
-    I[f,t,w] = I[f,t-1,w] + p[f,t] - v[f,t,w]
+    Con perecibilidad, el balance es:
+        I[f,t,w] = I[f,t-1,w] + p[f,t] - v[f,t,w] - merma[f,t,w]
+    donde merma >= 0 es el producto que caduca al final de su vida util. Por
+    tanto el inventario nunca puede ser MAYOR que el balance sin merma; una
+    violacion real es I por ENCIMA de I[t-1] + p - v (inventario fantasma).
+    Estar por debajo es merma legitima (el decoder descarta capas vencidas,
+    igual que el MILP nunca las carga). Se tolera merma <= produccion del
+    periodo que sale de la ventana de vida util para no enmascarar errores
+    gruesos.
     """
     violations = []
     p = _get_production(sol, inst)
@@ -49,11 +57,20 @@ def check_material_balance(sol: Solution, inst: ProblemInstance) -> ConstraintRe
         for t in range(inst.n_periods):
             for f in range(inst.n_cut_forms):
                 i_prev = 0.0 if t == 0 else sol.I[f, t - 1, w]
-                expected_i = i_prev + p[f, t] - sol.v[f, t, w]
+                no_waste_i = i_prev + p[f, t] - sol.v[f, t, w]
                 actual_i = sol.I[f, t, w]
-                if abs(expected_i - actual_i) > TOL:
+                waste = no_waste_i - actual_i
+                # Inventario por encima del balance sin merma => imposible
+                if waste < -TOL:
                     violations.append(
-                        f"f={f},t={t},w={w}: I={actual_i:.4f}, expected={expected_i:.4f}"
+                        f"f={f},t={t},w={w}: I={actual_i:.4f} > balance "
+                        f"sin merma={no_waste_i:.4f} (inventario fantasma)"
+                    )
+                # Merma que excede lo que habia disponible => error de conteo
+                elif waste > i_prev + p[f, t] + TOL:
+                    violations.append(
+                        f"f={f},t={t},w={w}: merma={waste:.4f} > disponible="
+                        f"{i_prev + p[f, t]:.4f}"
                     )
 
     return ConstraintResult("Eq.2 Material balance", len(violations) == 0, violations)

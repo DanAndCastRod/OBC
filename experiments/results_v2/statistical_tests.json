@@ -1,0 +1,805 @@
+{
+  "protocol": {
+    "version": "v2.2",
+    "updated_at": "2026-07-10",
+    "alpha": 0.05,
+    "primary_analysis_unit": "instance",
+    "secondary_analysis_unit": "run",
+    "multiple_testing": "Holm (pairwise Wilcoxon in ranking)",
+    "h3_primary_endpoint": "avg_inventory",
+    "h3_secondary_endpoint": "low_rotation_inventory (exploratory)",
+    "h3_min_informative_n": 5,
+    "v2_2_changes": "effect_size_dz pareado en hipotesis; ranking estratificado por tamano; Nemenyi CD; potencia a priori H1/H3. El ANOVA/Tukey global agrupa corridas (pseudoreplicacion) y se mantiene solo por trazabilidad historica: usar 'stratified_by_size' y 'nemenyi' para conclusiones."
+  },
+  "hypothesis_tests": [
+    {
+      "hypothesis": "H1",
+      "description": "GA vs Baseline: mejora >= 5% (promedio por instancia)",
+      "test_name": "Wilcoxon one-sided",
+      "statistic": 442.0,
+      "p_value": 5.960464477539062e-07,
+      "effect_size": 0.8826453448084607,
+      "effect_label": "large",
+      "ci_lower": 15.453680340705166,
+      "ci_upper": 23.556881100137847,
+      "metric_value": 19.505280720421506,
+      "threshold": 5.0,
+      "verdict": "SUPPORTED",
+      "normality_p": 7.666667079320177e-05,
+      "used_parametric": false,
+      "effect_size_dz": 1.797657922202279,
+      "effect_label_dz": "large"
+    },
+    {
+      "hypothesis": "H1",
+      "description": "SA vs Baseline: mejora >= 5% (promedio por instancia)",
+      "test_name": "Wilcoxon one-sided",
+      "statistic": 425.0,
+      "p_value": 7.988885045051575e-06,
+      "effect_size": 0.853250522412064,
+      "effect_label": "large",
+      "ci_lower": 14.736858377923816,
+      "ci_upper": 22.809124321956425,
+      "metric_value": 18.77299134994012,
+      "threshold": 5.0,
+      "verdict": "SUPPORTED",
+      "normality_p": 0.00020970209152437747,
+      "used_parametric": false,
+      "effect_size_dz": 1.7367986198612413,
+      "effect_label_dz": "large"
+    },
+    {
+      "hypothesis": "H1",
+      "description": "DE vs Baseline: mejora >= 5% (promedio por instancia)",
+      "test_name": "Wilcoxon one-sided",
+      "statistic": 410.0,
+      "p_value": 4.95128333568573e-05,
+      "effect_size": 0.7956058283085166,
+      "effect_label": "medium",
+      "ci_lower": 13.183699002324216,
+      "ci_upper": 21.19926827504336,
+      "metric_value": 17.19148363868379,
+      "threshold": 5.0,
+      "verdict": "SUPPORTED",
+      "normality_p": 4.3355343223083764e-05,
+      "used_parametric": false,
+      "effect_size_dz": 1.6017341432028627,
+      "effect_label_dz": "large"
+    },
+    {
+      "hypothesis": "H1",
+      "description": "GA_SA vs Baseline: mejora >= 5% (promedio por instancia)",
+      "test_name": "Wilcoxon one-sided",
+      "statistic": 452.0,
+      "p_value": 8.195638656616211e-08,
+      "effect_size": 0.897764705710265,
+      "effect_label": "large",
+      "ci_lower": 15.922874642073817,
+      "ci_upper": 24.232154164279734,
+      "metric_value": 20.077514403176774,
+      "threshold": 5.0,
+      "verdict": "SUPPORTED",
+      "normality_p": 8.472048648400232e-05,
+      "used_parametric": false,
+      "effect_size_dz": 1.8045047272654644,
+      "effect_label_dz": "large"
+    },
+    {
+      "hypothesis": "H2",
+      "description": "GA-SA vs best{GA,SA,DE}: gap <= 2% (promedio por instancia)",
+      "test_name": "one-sample t-test (one-sided)",
+      "statistic": -22.01943041386979,
+      "p_value": 5.961102835863718e-20,
+      "effect_size": 0.019771634479506677,
+      "effect_label": "negligible",
+      "ci_lower": -0.6612224216712237,
+      "ci_upper": -0.2088735442348643,
+      "metric_value": -0.435047982953044,
+      "threshold": 2.0,
+      "verdict": "SUPPORTED",
+      "normality_p": 0.5103594660758972,
+      "used_parametric": true,
+      "effect_size_dz": -0.7182490980836126,
+      "effect_label_dz": "medium"
+    },
+    {
+      "hypothesis": "H2-run",
+      "description": "GA-SA vs best{GA,SA,DE}: gap <= 2% (por corrida instance-seed)",
+      "test_name": "one-sample t-test (one-sided)",
+      "statistic": -27.47170986449572,
+      "p_value": 2.0726638063518539e-66,
+      "effect_size": 0.00324500286321069,
+      "effect_label": "negligible",
+      "ci_lower": -0.20888430943820352,
+      "ci_upper": 0.08717961624632263,
+      "metric_value": -0.06085234659594045,
+      "threshold": 2.0,
+      "verdict": "SUPPORTED",
+      "normality_p": 0.5247638821601868,
+      "used_parametric": true,
+      "effect_size_dz": -0.0604616356321485,
+      "effect_label_dz": "negligible"
+    },
+    {
+      "hypothesis": "H2-time",
+      "description": "GA-SA time <= 50% CBC time (ratio=117.31)",
+      "test_name": "ratio",
+      "statistic": 117.30922091849673,
+      "p_value": NaN,
+      "effect_size": 0.0,
+      "effect_label": "n/a",
+      "ci_lower": 1.1296804286714135,
+      "ci_upper": 1070.1741753758427,
+      "metric_value": 11730.922091849674,
+      "threshold": 50.0,
+      "verdict": "NOT_SUPPORTED",
+      "normality_p": NaN,
+      "used_parametric": false,
+      "effect_size_dz": NaN,
+      "effect_label_dz": "n/a"
+    },
+    {
+      "hypothesis": "H3",
+      "description": "GA vs Baseline: reduccion inventario >= 15% (endpoint primario: inventario promedio total por instancia)",
+      "test_name": "one-sample t-test (one-sided)",
+      "statistic": 19.721347817738447,
+      "p_value": 1.2003035462585037e-18,
+      "effect_size": 1.486839786268805,
+      "effect_label": "large",
+      "ci_lower": 25.180742423010418,
+      "ci_upper": 27.536684601672082,
+      "metric_value": 26.35871351234125,
+      "threshold": 15.0,
+      "verdict": "SUPPORTED",
+      "normality_p": 0.20178581774234772,
+      "used_parametric": true,
+      "effect_size_dz": 8.355472788511376,
+      "effect_label_dz": "large"
+    },
+    {
+      "hypothesis": "H3",
+      "description": "SA vs Baseline: reduccion inventario >= 15% (endpoint primario: inventario promedio total por instancia)",
+      "test_name": "one-sample t-test (one-sided)",
+      "statistic": 15.433089600009222,
+      "p_value": 8.04145204596749e-16,
+      "effect_size": 1.3881407763370874,
+      "effect_label": "large",
+      "ci_lower": 23.331181174596992,
+      "ci_upper": 25.876648298674432,
+      "metric_value": 24.603914736635712,
+      "threshold": 15.0,
+      "verdict": "SUPPORTED",
+      "normality_p": 0.3797830045223236,
+      "used_parametric": true,
+      "effect_size_dz": 7.218520061823692,
+      "effect_label_dz": "large"
+    },
+    {
+      "hypothesis": "H3",
+      "description": "DE vs Baseline: reduccion inventario >= 15% (endpoint primario: inventario promedio total por instancia)",
+      "test_name": "one-sample t-test (one-sided)",
+      "statistic": 16.89867426362167,
+      "p_value": 7.473514368832542e-17,
+      "effect_size": 1.1385126905729968,
+      "effect_label": "large",
+      "ci_lower": 20.22633607488904,
+      "ci_upper": 21.66560591868626,
+      "metric_value": 20.94597099678765,
+      "threshold": 15.0,
+      "verdict": "SUPPORTED",
+      "normality_p": 0.3836883306503296,
+      "used_parametric": true,
+      "effect_size_dz": 10.868502726247122,
+      "effect_label_dz": "large"
+    },
+    {
+      "hypothesis": "H3",
+      "description": "GA_SA vs Baseline: reduccion inventario >= 15% (endpoint primario: inventario promedio total por instancia)",
+      "test_name": "Wilcoxon one-sided",
+      "statistic": 465.0,
+      "p_value": 9.313225746154785e-10,
+      "effect_size": 1.6256683984860387,
+      "effect_label": "large",
+      "ci_lower": 27.564868951710153,
+      "ci_upper": 30.042655268833776,
+      "metric_value": 28.803762110271965,
+      "threshold": 15.0,
+      "verdict": "SUPPORTED",
+      "normality_p": 0.02411849983036518,
+      "used_parametric": false,
+      "effect_size_dz": 8.681540824861496,
+      "effect_label_dz": "large"
+    },
+    {
+      "hypothesis": "H3-lowrot",
+      "description": "GA vs Baseline: reduccion inventario >= 15% (endpoint secundario: baja rotacion por instancia (baseline>0))",
+      "test_name": "NO_DATA",
+      "statistic": NaN,
+      "p_value": NaN,
+      "effect_size": NaN,
+      "effect_label": "n/a",
+      "ci_lower": NaN,
+      "ci_upper": NaN,
+      "metric_value": NaN,
+      "threshold": 15.0,
+      "verdict": "NOT_SUPPORTED",
+      "normality_p": NaN,
+      "used_parametric": false,
+      "effect_size_dz": NaN,
+      "effect_label_dz": "n/a"
+    },
+    {
+      "hypothesis": "H3-lowrot",
+      "description": "SA vs Baseline: reduccion inventario >= 15% (endpoint secundario: baja rotacion por instancia (baseline>0))",
+      "test_name": "NO_DATA",
+      "statistic": NaN,
+      "p_value": NaN,
+      "effect_size": NaN,
+      "effect_label": "n/a",
+      "ci_lower": NaN,
+      "ci_upper": NaN,
+      "metric_value": NaN,
+      "threshold": 15.0,
+      "verdict": "NOT_SUPPORTED",
+      "normality_p": NaN,
+      "used_parametric": false,
+      "effect_size_dz": NaN,
+      "effect_label_dz": "n/a"
+    },
+    {
+      "hypothesis": "H3-lowrot",
+      "description": "DE vs Baseline: reduccion inventario >= 15% (endpoint secundario: baja rotacion por instancia (baseline>0))",
+      "test_name": "NO_DATA",
+      "statistic": NaN,
+      "p_value": NaN,
+      "effect_size": NaN,
+      "effect_label": "n/a",
+      "ci_lower": NaN,
+      "ci_upper": NaN,
+      "metric_value": NaN,
+      "threshold": 15.0,
+      "verdict": "NOT_SUPPORTED",
+      "normality_p": NaN,
+      "used_parametric": false,
+      "effect_size_dz": NaN,
+      "effect_label_dz": "n/a"
+    },
+    {
+      "hypothesis": "H3-lowrot",
+      "description": "GA_SA vs Baseline: reduccion inventario >= 15% (endpoint secundario: baja rotacion por instancia (baseline>0))",
+      "test_name": "NO_DATA",
+      "statistic": NaN,
+      "p_value": NaN,
+      "effect_size": NaN,
+      "effect_label": "n/a",
+      "ci_lower": NaN,
+      "ci_upper": NaN,
+      "metric_value": NaN,
+      "threshold": 15.0,
+      "verdict": "NOT_SUPPORTED",
+      "normality_p": NaN,
+      "used_parametric": false,
+      "effect_size_dz": NaN,
+      "effect_label_dz": "n/a"
+    }
+  ],
+  "ranking": {
+    "algorithms": [
+      {
+        "algorithm": "ga_sa",
+        "mean_z": 694024020.2176583,
+        "std_z": 169327251.75861883,
+        "count": 180,
+        "rank": 1
+      },
+      {
+        "algorithm": "ga",
+        "mean_z": 690423342.053375,
+        "std_z": 166668328.89507848,
+        "count": 180,
+        "rank": 2
+      },
+      {
+        "algorithm": "sa",
+        "mean_z": 686304632.232376,
+        "std_z": 166565352.5040232,
+        "count": 180,
+        "rank": 3
+      },
+      {
+        "algorithm": "de",
+        "mean_z": 677110773.1019794,
+        "std_z": 164104010.83377883,
+        "count": 180,
+        "rank": 4
+      }
+    ],
+    "anova_f": 0.3441161026466179,
+    "anova_p": 0.7934310014604818,
+    "tukey": [
+      {
+        "group1": "de",
+        "group2": "ga",
+        "p_adj": 0.8733509007691383,
+        "reject": false
+      },
+      {
+        "group1": "de",
+        "group2": "ga_sa",
+        "p_adj": 0.7707123000493988,
+        "reject": false
+      },
+      {
+        "group1": "de",
+        "group2": "sa",
+        "p_adj": 0.9534720571074942,
+        "reject": false
+      },
+      {
+        "group1": "ga",
+        "group2": "ga_sa",
+        "p_adj": 0.9969535345157834,
+        "reject": false
+      },
+      {
+        "group1": "ga",
+        "group2": "sa",
+        "p_adj": 0.995462499396623,
+        "reject": false
+      },
+      {
+        "group1": "ga_sa",
+        "group2": "sa",
+        "p_adj": 0.9716254987177129,
+        "reject": false
+      }
+    ],
+    "friedman_chi2": 73.39999999999998,
+    "friedman_p": 7.979597676940694e-16,
+    "wilcoxon_holm": [
+      {
+        "group1": "ga",
+        "group2": "sa",
+        "statistic": 30.0,
+        "p_raw": 3.7904828786849976e-06,
+        "p_adj_holm": 7.580965757369995e-06,
+        "reject": true
+      },
+      {
+        "group1": "ga",
+        "group2": "de",
+        "statistic": 0.0,
+        "p_raw": 1.862645149230957e-09,
+        "p_adj_holm": 1.1175870895385742e-08,
+        "reject": true
+      },
+      {
+        "group1": "ga",
+        "group2": "ga_sa",
+        "statistic": 76.0,
+        "p_raw": 0.0007978975772857666,
+        "p_adj_holm": 0.0007978975772857666,
+        "reject": true
+      },
+      {
+        "group1": "sa",
+        "group2": "de",
+        "statistic": 20.0,
+        "p_raw": 6.910413503646851e-07,
+        "p_adj_holm": 2.073124051094055e-06,
+        "reject": true
+      },
+      {
+        "group1": "sa",
+        "group2": "ga_sa",
+        "statistic": 15.0,
+        "p_raw": 2.551823854446411e-07,
+        "p_adj_holm": 1.0207295417785645e-06,
+        "reject": true
+      },
+      {
+        "group1": "de",
+        "group2": "ga_sa",
+        "statistic": 0.0,
+        "p_raw": 1.862645149230957e-09,
+        "p_adj_holm": 9.313225746154785e-09,
+        "reject": true
+      }
+    ],
+    "caveat_anova": "f_oneway sobre corridas agrupadas mezcla instancias y tamanos (pseudoreplicacion); no usar como evidencia confirmatoria."
+  },
+  "stratified_by_size": {
+    "small": {
+      "algorithms": [
+        {
+          "algorithm": "ga_sa",
+          "mean_z": 499550269.35851204,
+          "std_z": 5567249.258145336,
+          "count": 60,
+          "rank": 1
+        },
+        {
+          "algorithm": "ga",
+          "mean_z": 498025580.4392712,
+          "std_z": 6464095.436179347,
+          "count": 60,
+          "rank": 2
+        },
+        {
+          "algorithm": "sa",
+          "mean_z": 495677977.4427957,
+          "std_z": 7254451.171066717,
+          "count": 60,
+          "rank": 3
+        },
+        {
+          "algorithm": "de",
+          "mean_z": 487453022.9403692,
+          "std_z": 9705781.671712002,
+          "count": 60,
+          "rank": 4
+        }
+      ],
+      "friedman_chi2": 27.72,
+      "friedman_p": 4.1582539846520735e-06,
+      "wilcoxon_holm": [
+        {
+          "group1": "ga",
+          "group2": "sa",
+          "statistic": 2.0,
+          "p_raw": 0.005859375,
+          "p_adj_holm": 0.01171875,
+          "reject": true
+        },
+        {
+          "group1": "ga",
+          "group2": "de",
+          "statistic": 0.0,
+          "p_raw": 0.001953125,
+          "p_adj_holm": 0.01171875,
+          "reject": true
+        },
+        {
+          "group1": "ga",
+          "group2": "ga_sa",
+          "statistic": 4.0,
+          "p_raw": 0.013671875,
+          "p_adj_holm": 0.013671875,
+          "reject": true
+        },
+        {
+          "group1": "sa",
+          "group2": "de",
+          "statistic": 0.0,
+          "p_raw": 0.001953125,
+          "p_adj_holm": 0.009765625,
+          "reject": true
+        },
+        {
+          "group1": "sa",
+          "group2": "ga_sa",
+          "statistic": 0.0,
+          "p_raw": 0.001953125,
+          "p_adj_holm": 0.0078125,
+          "reject": true
+        },
+        {
+          "group1": "de",
+          "group2": "ga_sa",
+          "statistic": 0.0,
+          "p_raw": 0.001953125,
+          "p_adj_holm": 0.005859375,
+          "reject": true
+        }
+      ],
+      "n_instances": 10,
+      "note": "Friedman bloqueado por instancia dentro del estrato; con 3 instancias por tamano la potencia es limitada \u2014 el analisis confirmatorio principal sigue siendo el bloqueado global."
+    },
+    "medium": {
+      "algorithms": [
+        {
+          "algorithm": "ga_sa",
+          "mean_z": 671641078.8450601,
+          "std_z": 8494337.35253908,
+          "count": 60,
+          "rank": 1
+        },
+        {
+          "algorithm": "ga",
+          "mean_z": 670194875.646936,
+          "std_z": 7870873.544878209,
+          "count": 60,
+          "rank": 2
+        },
+        {
+          "algorithm": "sa",
+          "mean_z": 663524796.5657133,
+          "std_z": 13048095.732915485,
+          "count": 60,
+          "rank": 3
+        },
+        {
+          "algorithm": "de",
+          "mean_z": 658458610.2665633,
+          "std_z": 15416971.995192226,
+          "count": 60,
+          "rank": 4
+        }
+      ],
+      "friedman_chi2": 24.359999999999985,
+      "friedman_p": 2.100936899728788e-05,
+      "wilcoxon_holm": [
+        {
+          "group1": "ga",
+          "group2": "sa",
+          "statistic": 1.0,
+          "p_raw": 0.00390625,
+          "p_adj_holm": 0.01171875,
+          "reject": true
+        },
+        {
+          "group1": "ga",
+          "group2": "de",
+          "statistic": 0.0,
+          "p_raw": 0.001953125,
+          "p_adj_holm": 0.01171875,
+          "reject": true
+        },
+        {
+          "group1": "ga",
+          "group2": "ga_sa",
+          "statistic": 22.0,
+          "p_raw": 0.625,
+          "p_adj_holm": 0.625,
+          "reject": false
+        },
+        {
+          "group1": "sa",
+          "group2": "de",
+          "statistic": 8.0,
+          "p_raw": 0.048828125,
+          "p_adj_holm": 0.09765625,
+          "reject": false
+        },
+        {
+          "group1": "sa",
+          "group2": "ga_sa",
+          "statistic": 0.0,
+          "p_raw": 0.001953125,
+          "p_adj_holm": 0.009765625,
+          "reject": true
+        },
+        {
+          "group1": "de",
+          "group2": "ga_sa",
+          "statistic": 0.0,
+          "p_raw": 0.001953125,
+          "p_adj_holm": 0.0078125,
+          "reject": true
+        }
+      ],
+      "n_instances": 10,
+      "note": "Friedman bloqueado por instancia dentro del estrato; con 3 instancias por tamano la potencia es limitada \u2014 el analisis confirmatorio principal sigue siendo el bloqueado global."
+    },
+    "large": {
+      "algorithms": [
+        {
+          "algorithm": "ga_sa",
+          "mean_z": 910880712.4494029,
+          "std_z": 9460151.591468444,
+          "count": 60,
+          "rank": 1
+        },
+        {
+          "algorithm": "ga",
+          "mean_z": 903049570.0739177,
+          "std_z": 11674167.153113222,
+          "count": 60,
+          "rank": 2
+        },
+        {
+          "algorithm": "sa",
+          "mean_z": 899711122.6886193,
+          "std_z": 12380077.860063776,
+          "count": 60,
+          "rank": 3
+        },
+        {
+          "algorithm": "de",
+          "mean_z": 885420686.0990056,
+          "std_z": 17588651.341193736,
+          "count": 60,
+          "rank": 4
+        }
+      ],
+      "friedman_chi2": 22.680000000000007,
+      "friedman_p": 4.708474738295179e-05,
+      "wilcoxon_holm": [
+        {
+          "group1": "ga",
+          "group2": "sa",
+          "statistic": 9.0,
+          "p_raw": 0.064453125,
+          "p_adj_holm": 0.064453125,
+          "reject": false
+        },
+        {
+          "group1": "ga",
+          "group2": "de",
+          "statistic": 0.0,
+          "p_raw": 0.001953125,
+          "p_adj_holm": 0.01171875,
+          "reject": true
+        },
+        {
+          "group1": "ga",
+          "group2": "ga_sa",
+          "statistic": 3.0,
+          "p_raw": 0.009765625,
+          "p_adj_holm": 0.01953125,
+          "reject": true
+        },
+        {
+          "group1": "sa",
+          "group2": "de",
+          "statistic": 1.0,
+          "p_raw": 0.00390625,
+          "p_adj_holm": 0.015625,
+          "reject": true
+        },
+        {
+          "group1": "sa",
+          "group2": "ga_sa",
+          "statistic": 2.0,
+          "p_raw": 0.005859375,
+          "p_adj_holm": 0.017578125,
+          "reject": true
+        },
+        {
+          "group1": "de",
+          "group2": "ga_sa",
+          "statistic": 0.0,
+          "p_raw": 0.001953125,
+          "p_adj_holm": 0.009765625,
+          "reject": true
+        }
+      ],
+      "n_instances": 10,
+      "note": "Friedman bloqueado por instancia dentro del estrato; con 3 instancias por tamano la potencia es limitada \u2014 el analisis confirmatorio principal sigue siendo el bloqueado global."
+    }
+  },
+  "nemenyi": {
+    "average_ranks": {
+      "ga": 1.9666666666666666,
+      "sa": 2.8666666666666667,
+      "de": 3.933333333333333,
+      "ga_sa": 1.2333333333333334
+    },
+    "critical_distance": 0.8563333333333333,
+    "k": 4,
+    "n_blocks": 30,
+    "alpha": 0.05,
+    "pairs": [
+      {
+        "group1": "ga",
+        "group2": "sa",
+        "rank_diff": 0.9000000000000001,
+        "significant": true
+      },
+      {
+        "group1": "ga",
+        "group2": "de",
+        "rank_diff": 1.9666666666666666,
+        "significant": true
+      },
+      {
+        "group1": "ga",
+        "group2": "ga_sa",
+        "rank_diff": 0.7333333333333332,
+        "significant": false
+      },
+      {
+        "group1": "sa",
+        "group2": "de",
+        "rank_diff": 1.0666666666666664,
+        "significant": true
+      },
+      {
+        "group1": "sa",
+        "group2": "ga_sa",
+        "rank_diff": 1.6333333333333333,
+        "significant": true
+      },
+      {
+        "group1": "de",
+        "group2": "ga_sa",
+        "rank_diff": 2.6999999999999997,
+        "significant": true
+      }
+    ]
+  },
+  "power_analysis": {
+    "H1": [
+      {
+        "algorithm": "ga",
+        "observed_mean_pct": 19.505280720421506,
+        "observed_sd_pct": 10.8503850924685,
+        "n_instances": 30,
+        "threshold_pct": 5.0,
+        "achieved_power": 0.9999999806717694,
+        "n_required_80pct_power": 6
+      },
+      {
+        "algorithm": "sa",
+        "observed_mean_pct": 18.77299134994012,
+        "observed_sd_pct": 10.808962613892426,
+        "n_instances": 30,
+        "threshold_pct": 5.0,
+        "achieved_power": 0.99999987838256,
+        "n_required_80pct_power": 6
+      },
+      {
+        "algorithm": "de",
+        "observed_mean_pct": 17.19148363868379,
+        "observed_sd_pct": 10.733044376707436,
+        "n_instances": 30,
+        "threshold_pct": 5.0,
+        "achieved_power": 0.9999951727272468,
+        "n_required_80pct_power": 7
+      },
+      {
+        "algorithm": "ga_sa",
+        "observed_mean_pct": 20.077514403176774,
+        "observed_sd_pct": 11.126329623753394,
+        "n_instances": 30,
+        "threshold_pct": 5.0,
+        "achieved_power": 0.9999999889278137,
+        "n_required_80pct_power": 6
+      }
+    ],
+    "H3": [
+      {
+        "algorithm": "ga",
+        "observed_mean_pct": 26.35871351234125,
+        "observed_sd_pct": 3.154664515045038,
+        "n_instances": 30,
+        "threshold_pct": 15.0,
+        "achieved_power": 1.0,
+        "n_required_80pct_power": 3
+      },
+      {
+        "algorithm": "sa",
+        "observed_mean_pct": 24.603914736635712,
+        "observed_sd_pct": 3.408443077793395,
+        "n_instances": 30,
+        "threshold_pct": 15.0,
+        "achieved_power": 1.0,
+        "n_required_80pct_power": 3
+      },
+      {
+        "algorithm": "de",
+        "observed_mean_pct": 20.94597099678765,
+        "observed_sd_pct": 1.927217715665998,
+        "n_instances": 30,
+        "threshold_pct": 15.0,
+        "achieved_power": 1.0,
+        "n_required_80pct_power": 3
+      },
+      {
+        "algorithm": "ga_sa",
+        "observed_mean_pct": 28.803762110271965,
+        "observed_sd_pct": 3.3178168128618455,
+        "n_instances": 30,
+        "threshold_pct": 15.0,
+        "achieved_power": 1.0,
+        "n_required_80pct_power": 3
+      }
+    ]
+  },
+  "summary": {
+    "H1": "SUPPORTED",
+    "H2": "SUPPORTED",
+    "H3": "SUPPORTED",
+    "H3_lowrot": "NOT_SUPPORTED"
+  }
+}

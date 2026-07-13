@@ -35,6 +35,15 @@ htmlcov/
 # experiments/results/*.json
 # !experiments/results/.gitkeep
 
+# Artefactos pesados / regenerables de las corridas experimentales
+# (el CSV de trazas puede pesar cientos de MB; los .prefix_bak y checkpoints
+#  son respaldos/estado de ejecución, no datos a versionar)
+experiments/results_v2/comparison_traces.csv
+experiments/results/comparison_traces.csv
+**/*.prefix_bak
+experiments/results_v2/checkpoints/
+experiments/**/run.log
+
 # Instancias generadas
 data/instances/*.json
 !data/instances/.gitkeep

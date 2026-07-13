@@ -423,6 +423,47 @@ class TestDemandCapDecoder:
         assert np.allclose(a.v, b.v)
 
 
+class TestMaterialBalanceWithSpoilage:
+
+    def test_spoilage_is_not_a_violation(self):
+        """El inventario que cae por caducidad NO viola el balance (Eq.2):
+        el balance real es I[t] = I[t-1] + p - v - merma."""
+        inst = make_trivial()
+        inst.n_periods = 4
+        inst.shelf_life = np.array([2, 2, 30], dtype=np.int32)
+        inst.demand = np.full((3, 4, 1), 100.0, dtype=np.float64)
+
+        y = np.array([True, False, False, False])
+        q = np.array([5000, 0, 0, 0])
+        sol = decoder.decode(y, q, inst)
+
+        # Hay merma real (pechuga vence en t=2) pero el balance debe pasar
+        assert sol.I[0, 2, 0] == 0.0
+        res = constraints.check_material_balance(sol, inst)
+        assert res.satisfied, res.violations[:3]
+
+    def test_phantom_inventory_is_caught(self):
+        """Inventario POR ENCIMA del balance sin merma sí es violación."""
+        inst = make_trivial()
+        y = np.array([True, False, False])
+        q = np.array([5000, 0, 0])
+        sol = decoder.decode(y, q, inst)
+        # Inyectar inventario fantasma en t=1
+        sol.I[0, 1, 0] += 1000.0
+        res = constraints.check_material_balance(sol, inst)
+        assert not res.satisfied
+
+    def test_no_spoilage_still_exact(self):
+        """Sin merma (vida util larga) el balance sigue siendo exacto."""
+        inst = make_trivial()
+        inst.shelf_life = np.array([30, 30, 30], dtype=np.int32)
+        y = np.array([True, True, False])
+        q = np.array([3000, 4000, 0])
+        sol = decoder.decode(y, q, inst)
+        res = constraints.check_material_balance(sol, inst)
+        assert res.satisfied, res.violations[:3]
+
+
 class TestSecondStageEquivalence:
     """La simulacion vectorizada debe ser identica a la de bucles."""
 

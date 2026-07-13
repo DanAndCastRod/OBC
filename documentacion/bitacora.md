@@ -5,6 +5,67 @@ Las entradas más recientes van arriba.
 
 ---
 
+## 2026-07-13 — Corrida v2 completa: H1, H2 y H3 SOPORTADAS
+
+Se ejecutó `comparison_v2.yaml` (780 corridas, `--workers 14`). La máquina se
+suspendió ~64 h a mitad de la corrida, pero el checkpoint la reanudó y completó
+**780/780, 0 errores**. Resultados en `experiments/results_v2/`.
+
+**Resultado principal — las metaheurísticas ahora vencen al baseline:**
+
+| Tamaño | Baseline gap | GA-SA gap | GA | SA | DE |
+|---|---|---|---|---|---|
+| small | 9.88% | **4.91%** | 5.20% | 5.65% | 7.22% |
+| medium | 23.02% | **5.40%** | 5.61% | 6.55% | 7.26% |
+| large | 28.55% | **5.81%** | 6.62% | 6.96% | 8.44% |
+
+**Veredictos de hipótesis (v2, unidad = instancia, n=30):**
+- **H1 SOPORTADA** para las 4 MH: mejora 17.2–20.1% vs baseline (era 0.6–1.1%,
+  no soportada en v1). Potencia 1.000; dz 1.6–1.8. Bastan ~6 instancias para 80%.
+- **H2 SOPORTADA**: GA-SA gap −0.44% vs mejor MH individual.
+- **H3 SOPORTADA** para las 4 MH: reducción de inventario 21–29% (era 12–17%,
+  no soportada). dz 7–11. Bastan ~3 instancias para 80%.
+- Ranking: **GA-SA mejor en los 3 estratos** (Friedman p<0.0001) y por Nemenyi
+  (rango 1.23, CD 0.856): GA-SA < GA < SA < DE << baseline.
+
+**Encuadre honesto para la tesis:** v2 no "arregla" un modelo que fallaba; las
+instancias v1 eran un régimen donde producir a tope era casi óptimo (setup
+despreciable, demanda > capacidad). v2 es el régimen operativo donde las
+decisiones de setup importan. La conclusión defendible: *el valor de la
+optimización depende del régimen; cuando el setup es costoso y hay holgura de
+capacidad, las metaheurísticas entregan las mejoras hipotetizadas (17–20% costo,
+21–29% inventario), con GA-SA a la cabeza*.
+
+**Correcciones de calidad de datos aplicadas:**
+1. **Bug del check de balance (Eq.2) por la perecibilidad**: el decoder ahora
+   descarta inventario vencido (fix del Bloque C), pero `check_material_balance`
+   asumía `I=I₋₁+p−v` sin merma y marcaba como infactibles todas las soluciones
+   con merma (100% small, 0% large). Corregido: el balance real es
+   `I=I₋₁+p−v−merma`; se detecta inventario fantasma (I por encima del balance)
+   pero se tolera la merma. Verificado: 80/80 soluciones deterministas de
+   baseline en medium+large pasan a factibles, y una muestra de **8/8**
+   corridas de metaheurísticas marcadas infactibles pasa a factible sin ninguna
+   violación remanente. `feasible_pct` de baseline corregido a 100% en el CSV;
+   los flags de las MH en el CSV siguen reflejando el check viejo (re-derivarlos
+   exige re-correr 240+ corridas) — su factibilidad real es ~100% (mismo
+   decoder/check; única violación era el artefacto Eq.2-merma).
+2. **Tiempo corrupto por la suspensión**: 16 corridas GA-SA large quedaron con
+   `elapsed_seconds` ~230,000 s (y 2 a ~5,500 s) — artefacto de la suspensión,
+   no cómputo. Sanitizadas a NaN (umbral 3600 s; legit máximo = 3562 s). El
+   tiempo medio de GA-SA pasó de 18,035 s (corrupto) a **97.6 s** (real, la MH
+   más rápida). Z/gap/inventario/factibilidad de esas corridas son válidos.
+3. `generate_results_tables.py` escribía el reporte a `documentacion/reportes/`
+   (ruta fija) y clobbereaba el reporte histórico v1; ahora lo escribe junto a
+   las tablas (`output_dir`).
+
+Análisis v2 regenerado: `main/instance/size_results_table.csv`,
+`statistical_tests.json`, `time_to_target.csv`, `tesis/figuras/anytime_curves_v2.png`,
+`nemenyi_cd.png`. El CSV de trazas (337 MB) y los backups quedan gitignored.
+
+Tests: 257 en verde (nuevos: balance con merma ×3).
+
+---
+
 ## 2026-07-10 (noche) — Bloques C y D: decodificador, algoritmos e instancias
 
 **Bloque C — decodificador y algoritmos:**
