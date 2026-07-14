@@ -5,6 +5,41 @@ Las entradas más recientes van arriba.
 
 ---
 
+## 2026-07-14 — Tesis y presentación actualizadas con la campaña v2
+
+**Tesis (`tesis/tesis_coproductos.md`):**
+- **§5.5 corregida**: se elimina la afirmación falsa de que CBC no converge en
+  large; ahora documenta optimalidad probada en todos los tamaños (con best
+  bound) y re-fundamenta las metaheurísticas en tres argumentos verificados
+  (anytime, escalabilidad a tamaño industrial, flexibilidad).
+- **§6.6**: descripción del decodificador actualizada (caducidad FIFO como
+  merma, tope de demanda esperada tipo newsvendor, vectorización ~12x).
+- **Cap. 7 reestructurado en dos campañas**: intro de regímenes, §7.1–7.4
+  etiquetadas "campaña v1" (con nota de potencia a posteriori), nueva **§7.5
+  Campaña Confirmatoria v2** (diseño, tabla de gaps por tamaño, veredictos,
+  potencia, figuras nuevas: curvas anytime v2 y diagrama CD de Nemenyi);
+  subsecciones 7.5–7.12 renumeradas a 7.6–7.13.
+- **Cap. 8**: OE3/OE4 actualizados (39 instancias, dos campañas, ranking
+  GA-SA > GA > SA > DE), tabla 10 de veredictos por régimen, contribución
+  nueva ("caracterización del régimen de valor"), limitación 2 reescrita
+  (dependencia del régimen en vez de "baseline fuerte").
+- **Resumen y Abstract** reescritos con el hallazgo de dos regímenes.
+- PDF verificado: 61 páginas, 29 imágenes, 0 refs rotas.
+
+**Presentación (`docs/presentacion/sustentacion_coproductos.html`, ahora 33
+láminas):** pills de hipótesis por régimen (v1/v2) en la lámina 4; lámina 14
+etiquetada v1 con panels actualizados; **nueva lámina 14b** (campaña v2:
+diseño, tabla de gaps, Nemenyi, veredictos, anytime); conclusiones y
+contribuciones actualizadas (láminas 25–26); títulos 12–14 etiquetados
+"Campaña v1". Figura `nemenyi_cd.png` copiada a la carpeta de la presentación.
+
+Pendiente de decisión con la directora: cómo presentar la coexistencia de las
+dos campañas ante el comité (la tesis las reporta ambas con honestidad
+metodológica; la alternativa de reportar solo v2 perdería el hallazgo del
+régimen).
+
+---
+
 ## 2026-07-13 — Corrida v2 completa: H1, H2 y H3 SOPORTADAS
 
 Se ejecutó `comparison_v2.yaml` (780 corridas, `--workers 14`). La máquina se

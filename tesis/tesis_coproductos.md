@@ -130,7 +130,7 @@ A mis compañeros de la maestría, por las discusiones enriquecedoras y el acomp
 
 ## Resumen
 
-Este trabajo presenta el desarrollo de un modelo de optimización para la planificación de coproductos en la industria avícola colombiana, resuelto mediante técnicas metaheurísticas. El problema central aborda el desbalance estructural entre la oferta rígida de coproductos —determinada por la anatomía del ave— y la demanda variable del mercado. Se formula un modelo de Programación Lineal Entera Mixta (MILP) multi-periodo con estructura de lot-sizing estocástico, incluyendo decisiones binarias de setup, lote mínimo y restricciones de perecibilidad. Debido a la complejidad NP-hard del problema, se implementan y comparan cuatro metaheurísticas: Algoritmo Genético (GA), Recocido Simulado (SA), Evolución Diferencial (DE) y un algoritmo híbrido GA-SA. Los algoritmos se calibraron mediante el sampler TPE de Optuna y se evaluaron mediante un diseño experimental completo de 1,098 ejecuciones sobre 9 instancias sintéticas calibradas con datos del sector avícola colombiano. Los resultados muestran que el híbrido GA-SA alcanza la mejor calidad promedio entre los algoritmos evaluados, con calidad estadísticamente equivalente a la de la mejor metaheurística individual (gap de $-0.02\%$, $p = 1.95 \times 10^{-3}$) y gaps frente al solver exacto CBC de $\approx 3.4\%$ en instancias pequeñas y medianas y $\approx 17.6\%$ en instancias grandes (8.1% en promedio global), posicionándolo como la alternativa más competitiva entre las metaheurísticas evaluadas. La solución fue validada operativamente, demostrando robustez ante perturbaciones de $\pm 10\%$ en la demanda con un deterioro máximo de $0.04\%$ en la función objetivo. El código fuente, instancias y resultados están disponibles públicamente en el repositorio del proyecto.
+Este trabajo presenta el desarrollo de un modelo de optimización para la planificación de coproductos en la industria avícola colombiana, resuelto mediante técnicas metaheurísticas. El problema central aborda el desbalance estructural entre la oferta rígida de coproductos —determinada por la anatomía del ave— y la demanda variable del mercado. Se formula un modelo de Programación Lineal Entera Mixta (MILP) multi-periodo con estructura de lot-sizing estocástico, incluyendo decisiones binarias de setup, lote mínimo y restricciones de perecibilidad. Debido a la complejidad NP-hard del problema, se implementan y comparan cuatro metaheurísticas: Algoritmo Genético (GA), Recocido Simulado (SA), Evolución Diferencial (DE) y un algoritmo híbrido GA-SA. Los algoritmos se calibraron mediante el sampler TPE de Optuna y se evaluaron en dos campañas experimentales (1,098 y 780 ejecuciones, esta última con presupuesto de evaluaciones igualado) sobre 39 instancias sintéticas calibradas con datos del sector avícola colombiano, correspondientes a dos regímenes económicos. Los resultados muestran que el valor de la optimización depende del régimen: cuando el costo de setup es marginal y la demanda supera la capacidad, una regla trivial es casi óptima; en el régimen operativo (setup costoso, holgura de capacidad y demanda volátil), las metaheurísticas mejoran el beneficio en 17–20% y reducen el inventario en 21–29% frente al baseline ($p<10^{-4}$, potencia 1.000), con el híbrido GA-SA como mejor algoritmo en todos los tamaños (gap de 4.9–5.8% frente al óptimo certificado por CBC) y calidad estadísticamente equivalente a la mejor metaheurística individual. La solución fue validada operativamente, demostrando robustez ante perturbaciones de $\pm 10\%$ en la demanda con un deterioro máximo de $0.04\%$ en la función objetivo. El código fuente, instancias y resultados están disponibles públicamente en el repositorio del proyecto.
 
 **Palabras clave:** optimización, coproductos, metaheurísticas, industria avícola, lot-sizing estocástico
 
@@ -138,7 +138,7 @@ Este trabajo presenta el desarrollo de un modelo de optimización para la planif
 
 ## Abstract
 
-This work presents the development of an optimization model for co-product planning in the Colombian poultry industry, solved using metaheuristic techniques. The central problem addresses the structural imbalance between the rigid supply of co-products —determined by the anatomy of the bird— and the variable market demand. A multi-period Mixed-Integer Linear Programming (MILP) model with stochastic lot-sizing structure is formulated, including binary setup decisions, minimum lot constraints, and perishability restrictions. Due to the NP-hard complexity of the problem, four metaheuristics are implemented and compared: Genetic Algorithm (GA), Simulated Annealing (SA), Differential Evolution (DE), and a hybrid GA-SA algorithm. The algorithms were calibrated using Optuna's TPE sampler and evaluated through a complete experimental design of 1,098 runs over 9 synthetic instances calibrated with Colombian poultry industry data. Results show that the hybrid GA-SA achieves the best average solution quality among the evaluated algorithms, statistically equivalent to the best individual metaheuristic (gap of $-0.02\%$, $p = 1.95 \times 10^{-3}$), with gaps relative to the CBC exact solver of $\approx 3.4\%$ for small and medium instances and $\approx 17.6\%$ for large instances (8.1% overall average), positioning it as the most competitive alternative among the evaluated metaheuristics. The solution was operationally validated, demonstrating robustness against $\pm 10\%$ demand perturbations with a maximum deterioration of $0.04\%$ in the objective function. Source code, instances, and results are publicly available in the project repository.
+This work presents the development of an optimization model for co-product planning in the Colombian poultry industry, solved using metaheuristic techniques. The central problem addresses the structural imbalance between the rigid supply of co-products —determined by the anatomy of the bird— and the variable market demand. A multi-period Mixed-Integer Linear Programming (MILP) model with stochastic lot-sizing structure is formulated, including binary setup decisions, minimum lot constraints, and perishability restrictions. Due to the NP-hard complexity of the problem, four metaheuristics are implemented and compared: Genetic Algorithm (GA), Simulated Annealing (SA), Differential Evolution (DE), and a hybrid GA-SA algorithm. The algorithms were calibrated using Optuna's TPE sampler and evaluated in two experimental campaigns (1,098 and 780 runs, the latter with an equalized evaluation budget) over 39 synthetic instances calibrated with Colombian poultry industry data, spanning two economic regimes. Results show that the value of optimization is regime-dependent: when setup costs are marginal and demand exceeds capacity, a trivial rule is near-optimal; in the operating regime (costly setups, capacity slack, volatile demand), the metaheuristics improve profit by 17–20% and reduce inventory by 21–29% over the baseline ($p<10^{-4}$, power 1.000), with the hybrid GA-SA as the best algorithm across all sizes (4.9–5.8% gap to the CBC-certified optimum) and quality statistically equivalent to the best individual metaheuristic. The solution was operationally validated, demonstrating robustness against $\pm 10\%$ demand perturbations with a maximum deterioration of $0.04\%$ in the objective function. Source code, instances, and results are publicly available in the project repository.
 
 **Keywords:** optimization, co-products, metaheuristics, poultry industry, stochastic lot-sizing
 
@@ -624,9 +624,9 @@ El modelo sigue la estructura clásica de programación estocástica de dos etap
 
 ### 5.5. Validación con Solver Exacto (CBC)
 
-El modelo fue validado resolviendo instancias Small ($n_p=5$, $n_t=6$, $n_\omega=10$) con el solver exacto CBC (COIN-OR Branch and Cut) integrado en PuLP. CBC encuentra la solución óptima global garantizada para estas instancias en tiempos razonables (< 15 segundos). Esta solución óptima sirve como referencia (*benchmark*) para evaluar la calidad de las soluciones metaheurísticas.
+El modelo fue validado resolviendo las instancias de prueba con el solver exacto CBC (COIN-OR Branch and Cut) integrado en PuLP, con un límite de tiempo de 300 segundos y extracción de la mejor cota dual (*best bound*) para certificar la calidad de las soluciones. Para los tamaños evaluados, **CBC alcanza optimalidad probada en todos los casos**: las instancias Small se resuelven en segundos, las Medium en decenas de segundos y las Large (hasta $\approx 58{,}000$ variables) en 17–140 segundos según el régimen económico. La solución óptima certificada sirve como referencia (*benchmark*) para medir el gap de las metaheurísticas contra el óptimo verdadero — no contra un incumbente — en todos los tamaños.
 
-Para instancias Medium y Large, el solver exacto se ejecuta con un límite de tiempo de 300 segundos. En instancias Large ($n_p=8$, $n_t=30$, $n_\omega=100$) con 72,060 variables, CBC no logra converger a la solución óptima dentro del límite de tiempo, confirmando la necesidad de métodos metaheurísticos.
+Esta capacidad del solver exacto en los tamaños estudiados obliga a precisar la justificación de las metaheurísticas, que no descansa en una supuesta intratabilidad de estas instancias sino en tres argumentos verificados empíricamente (§7): (i) su comportamiento *anytime* — alcanzan el 99% de su calidad final en una fracción del tiempo, y en instancias Medium y Large llegan al 99% del óptimo antes de que CBC termine de certificar—; (ii) su escalabilidad esperada hacia instancias de tamaño industrial real ($n_t = 52$, $n_\omega = 500$), donde el crecimiento exponencial del árbol de búsqueda del MILP sí se vuelve limitante; y (iii) su flexibilidad para incorporar extensiones no lineales o multi-objetivo sin reformular el modelo.
 
 ---
 
@@ -804,11 +804,11 @@ La **combinación de estos mecanismos** es lo que confiere a cada algoritmo su p
 
 Dado un par $(\mathbf{y}, \mathbf{q})$, el decodificador calcula las variables de segunda etapa $(\mathbf{v}, \mathbf{I}, \mathbf{u})$ para cada escenario $\omega$ mediante una asignación greedy:
 
-1. **Producción por forma de corte:** Se asigna la masa anatómica disponible ($\alpha_p \cdot W \cdot q_t$) a las formas de corte por orden descendente de precio, respetando la disponibilidad por pieza anatómica.
-2. **Ventas FIFO:** Para cada forma de corte en cada escenario, las ventas se asignan consumiendo inventario en orden FIFO (el más antiguo se vende primero), respetando la restricción de demanda.
-3. **Inventario residual:** El inventario al final de cada periodo es la diferencia entre disponibilidad y ventas.
+1. **Producción por forma de corte:** Se asigna la masa anatómica disponible ($\alpha_p \cdot W \cdot q_t$) a las formas de corte por orden descendente de precio, respetando la disponibilidad por pieza anatómica. Opcionalmente, la producción de cada forma se acota además por la **demanda esperada dentro de su ventana de vida útil** (tope tipo *newsvendor*, parámetro `demand_cap`): sin este tope, el greedy agota el pool en orden de precio y acumula inventario que el mercado no absorbe.
+2. **Ventas FIFO con caducidad:** Para cada forma de corte en cada escenario, las ventas se asignan consumiendo inventario en orden FIFO (el más antiguo se vende primero), respetando la restricción de demanda. Las capas de inventario que exceden la vida útil $L_p$ se **descartan como merma**, de modo que la solución decodificada respeta la misma cota de perecibilidad (Eq. 7) que impone el modelo exacto.
+3. **Inventario residual:** El inventario al final de cada periodo es la diferencia entre disponibilidad, ventas y merma.
 
-Este decodificador es determinista: dado $(\mathbf{y}, \mathbf{q})$ y una instancia, siempre produce el mismo resultado.
+Este decodificador es determinista: dado $(\mathbf{y}, \mathbf{q})$ y una instancia, siempre produce el mismo resultado. La simulación de segunda etapa está vectorizada sobre los escenarios (cubetas de edad por periodo de producción), lo que acelera cada evaluación de fitness $\approx 12\times$ en instancias grandes con equivalencia exacta verificada contra la implementación de referencia.
 
 ### 6.7. Algoritmo Genético (GA)
 
@@ -897,7 +897,9 @@ Los hiperparámetros de cada metaheurística se calibraron mediante **Optuna** c
 
 ## 7. Resultados Computacionales
 
-### 7.1. Diseño Experimental
+Los resultados se reportan en **dos campañas experimentales** que corresponden a dos regímenes económicos del problema. La **campaña inicial (v1)** usa instancias donde la demanda supera sistemáticamente a la capacidad y el costo de setup es marginal frente al margen diario; en ese régimen, producir a capacidad máxima todos los días resulta casi óptimo y el problema de lot-sizing degenera. La **campaña confirmatoria (v2)**, diseñada a partir de ese diagnóstico (§7.5), usa instancias con holgura de capacidad, setup costoso y demanda volátil — el régimen operativo en el que las decisiones de activación de línea realmente importan. Presentar ambos regímenes permite delimitar con evidencia *cuándo* la optimización aporta valor.
+
+### 7.1. Diseño Experimental (campaña v1)
 
 El diseño experimental sigue un esquema factorial completo con los siguientes factores:
 
@@ -922,7 +924,7 @@ Cada ejecución tiene un límite de tiempo de 300 segundos. Los experimentos se 
 
 Las instancias fueron generadas con datos calibrados de la industria avícola colombiana: proporciones anatómicas basadas en literatura, precios de mercado FENAVI, y demanda con distribución log-normal estacional.
 
-### 7.3. Resultados Principales
+### 7.3. Resultados Principales (campaña v1)
 
 | Algoritmo | $\bar{Z}$ (COP) | Std $Z$ | Rank | N |
 |-----------|:----------------:|:-------:|:----:|:---:|
@@ -944,7 +946,7 @@ El híbrido **GA-SA obtiene el mejor rendimiento promedio**, seguido por DE, GA 
 ![Comparación del nivel de servicio (% de demanda satisfecha) por algoritmo.](figuras/service_level_comparison.png){width=80% #fig:fig_13}
 
 
-### 7.4. Validación de Hipótesis
+### 7.4. Validación de Hipótesis (campaña v1)
 
 | Hipótesis | Descripción | Test | Estadístico | p-valor | Veredicto |
 |:---------:|-------------|------|:-----------:|:-------:|:---------:|
@@ -952,7 +954,7 @@ El híbrido **GA-SA obtiene el mejor rendimiento promedio**, seguido por DE, GA 
 | **H2** | GA-SA gap $\leq 2\%$ vs mejor MH y tiempo $\leq 50\%$ de CBC (promedio por instancia) | Wilcoxon one-sided | 0.0 | $1.95\times 10^{-3}$ | **PARCIALMENTE SOPORTADA** |
 | **H3** | Reducción inventario promedio $\geq 15\%$ (endpoint primario, por instancia) | Wilcoxon one-sided | 24.0 | 0.455 | **NO SOPORTADA** |
 
-: Veredicto de hipótesis de investigación {#tbl:tabla_8}
+: Veredicto de hipótesis de investigación — campaña v1 {#tbl:tabla_8}
 
 **Análisis detallado:**
 
@@ -963,22 +965,65 @@ El híbrido **GA-SA obtiene el mejor rendimiento promedio**, seguido por DE, GA 
 **H3 (NO SOPORTADA):** En el endpoint primario (inventario promedio total por instancia), las reducciones observadas (12.2%–17.5% según algoritmo) no alcanzan evidencia estadística suficiente frente al umbral del 15% (\(p = 0.455\) en el contraste one-sided por instancia).  
 Como lectura secundaria, el endpoint de baja rotación muestra 22.3% para SA con \(p = 0.0417\), pero solo 3/9 instancias son informativas (\(baseline > 0\)); por protocolo (\(n_{informativo} \geq 5\)) se reporta como evidencia exploratoria y no confirmatoria.
 
-### 7.5. Performance Profiles
+Los veredictos anteriores corresponden al **régimen v1**. Un análisis de potencia a posteriori muestra además que, en ese régimen, el diseño no podía detectar los umbrales declarados: con el efecto observado como efecto verdadero, la potencia de H1 era $\approx 0$ (el efecto de 0.6–1.1% queda por debajo del umbral del 5%) y la de H3 entre 0.02 y 0.10 con $n=9$ instancias. La campaña confirmatoria (§7.5) rediseña las instancias y el tamaño muestral para resolver ambas limitaciones.
+
+### 7.5. Campaña Confirmatoria en Régimen Operativo (v2)
+
+El diagnóstico de la campaña v1 identificó por qué el baseline trivial resultaba casi óptimo: (i) la demanda agregada excedía la capacidad de la planta, de modo que producir a tope minimizaba la demanda insatisfecha; (ii) el costo de setup (500 mil COP/día, $\approx 0.1\%$ del margen diario) hacía irrelevante apagar la línea; y (iii) el decodificador original no aplicaba la caducidad del inventario, lo que además invalidaba la comparación de inventarios contra el modelo exacto. La campaña v2 corrige el diseño en las tres direcciones y fortalece la inferencia estadística:
+
+*   **Instancias no triviales (30 = 10 por tamaño, seeds 201–210):** capacidad con holgura ($Q^{max}$ = 10,000–12,000 carcasas/día), costo de setup de 50 millones COP/día y demanda volátil (amplitud estacional 0.35). Validación con CBC: el plan óptimo **apaga la línea 1–5 días** por horizonte y el baseline de capacidad máxima queda 10–28% por debajo del óptimo. Medium se diferencia estructuralmente de Small (18 vs 12 periodos). La parvada es una mezcla realista de perfiles de pollo (30% liviano / 50% estándar / 20% pesado) con proporciones anatómicas propias por perfil.
+*   **Unidad estadística fortalecida:** 30 instancias con 6 réplicas (la unidad de análisis es la instancia; $n=30$ vs $n=9$ de v1), para un total de **780 ejecuciones**.
+*   **Comparación justa:** presupuesto igualado de 20,000 evaluaciones de fitness para las cuatro metaheurísticas (SA encadena reinicios hasta agotarlo) y decodificador común con caducidad de inventario y tope de demanda esperada (§6.6) para todos los algoritmos, incluido el baseline.
+*   **Gap certificado:** CBC alcanzó optimalidad probada en las 30 instancias, por lo que todos los gaps se miden contra el óptimo verdadero.
+
+Los resultados por tamaño de instancia:
+
+| Tamaño | Baseline | GA | SA | DE | **GA-SA** |
+|--------|:-------:|:---:|:---:|:---:|:--------:|
+| Small | 9.88% | 5.20% | 5.65% | 7.22% | **4.91%** |
+| Medium | 23.02% | 5.61% | 6.55% | 7.26% | **5.40%** |
+| Large | 28.55% | 6.62% | 6.96% | 8.44% | **5.81%** |
+
+: Gap frente al óptimo certificado por algoritmo y tamaño — campaña v2 {#tbl:tabla_v2}
+
+Tres lecturas se desprenden de la [@tbl:tabla_v2]. Primera, **el baseline se degrada con el tamaño del horizonte** (9.9% → 28.6%): cuanto más pesa la decisión de setup, más costoso es ignorarla. Segunda, **las metaheurísticas sostienen gaps de 4.9–8.4% en todos los tamaños**, con GA-SA como mejor algoritmo en los tres estratos. Tercera, con el presupuesto igualado **SA se vuelve competitivo** (5.7–7.0%), confirmando que su bajo desempeño en v1 era en parte un artefacto del presupuesto dispar heredado de la calibración.
+
+Los veredictos de hipótesis en el régimen v2 (unidad = instancia, $n=30$):
+
+| Hipótesis | Umbral | Resultado v2 | p-valor | $d_z$ | Veredicto v2 |
+|:---------:|:------:|:------------:|:-------:|:-----:|:------------:|
+| **H1** (mejora costo vs baseline) | $\geq 5\%$ | 17.2%–20.1% según MH | $<10^{-4}$ | 1.6–1.8 | **SOPORTADA** |
+| **H2** (GA-SA vs mejor MH) | gap $\leq 2\%$ | $-0.44\%$ | $<10^{-4}$ | $-0.72$ | **SOPORTADA** (calidad) |
+| **H3** (reducción inventario) | $\geq 15\%$ | 21.0%–28.8% según MH | $<10^{-4}$ | 7–11 | **SOPORTADA** |
+
+: Veredicto de hipótesis en la campaña v2 {#tbl:tabla_v2h}
+
+La potencia alcanzada es 1.000 para H1 y H3 (bastarían 6 y 3 instancias, respectivamente, para 80% de potencia con los efectos observados). El componente de *tiempo* de H2 (tiempo $\leq 50\%$ del solver exacto) sigue sin cumplirse en tiempo total (GA-SA usa en promedio $\approx 1.6\times$ el tiempo de CBC, frente a $52.5\times$ en v1); sin embargo, el análisis *anytime* ([@fig:fig_anytime_v2]) matiza esa lectura: la mediana de GA-SA alcanza el 99% de la mejor solución conocida en 2.6 s (Small), 11.5 s (Medium) y 46.5 s (Large), **antes de que CBC complete la certificación del óptimo en Medium y Large** (30.9 s y 138.5 s).
+
+![Curvas anytime de la campaña v2: calidad best-so-far (relativa al mejor $Z$ conocido de cada instancia) frente al tiempo de pared, promediada sobre corridas. DE converge más rápido al inicio; GA-SA alcanza la mejor calidad final; SA arranca tarde por sus reinicios encadenados.](figuras/anytime_curves_v2.png){width=100% #fig:fig_anytime_v2 short-caption="Curvas anytime de la campaña v2"}
+
+El ranking se confirma con inferencia no paramétrica: Friedman bloqueado por instancia rechaza la igualdad en los tres estratos ($p < 10^{-4}$) y el diagrama de diferencia crítica de Nemenyi ([@fig:fig_nemenyi]) sitúa a GA-SA con el mejor rango promedio (1.23), significativamente por delante de SA y DE ($CD = 0.856$).
+
+![Diagrama de diferencia crítica (Nemenyi, $\alpha=0.05$) sobre las 30 instancias v2. GA-SA obtiene el mejor rango promedio; las barras grises conectan grupos sin diferencia significativa.](figuras/nemenyi_cd.png){width=85% #fig:fig_nemenyi short-caption="Diagrama de diferencia crítica de Nemenyi (campaña v2)"}
+
+En síntesis, la campaña v2 responde la pregunta que la v1 dejó abierta: **el valor de la optimización depende del régimen económico**. Cuando el setup es despreciable y la demanda excede la capacidad, una regla trivial basta; cuando el setup es costoso y existe holgura — el régimen operativo típico de una planta con capacidad dimensionada por encima de la demanda media — las metaheurísticas entregan las mejoras hipotetizadas (17–20% en costo, 21–29% en inventario) y GA-SA es la mejor opción con significancia estadística.
+
+### 7.6. Performance Profiles
 
 ![Performance profile de Dolan-Moré. GA-SA y DE alcanzan las mejores soluciones con mayor frecuencia (curva más alta a la izquierda).](figuras/performance_profile.png){width=80% #fig:fig_14 short-caption="Performance profile de Dolan-Moré"}
 
 
-### 7.6. Convergence Profiles
+### 7.7. Convergence Profiles
 
 ![Perfiles de convergencia normalizados. GA-SA converge más rápido que GA y DE gracias a la búsqueda local periódica.](figuras/convergence_profiles.png){width=80% #fig:fig_15 short-caption="Perfiles de convergencia normalizados"}
 
 
-### 7.7. Análisis de Escalabilidad
+### 7.8. Análisis de Escalabilidad
 
 ![Escalabilidad empírica (gráfico log-log). Todas las metaheurísticas muestran crecimiento polinomial del tiempo con el tamaño de la instancia.](figuras/complexity_loglog_scaling.png){width=80% #fig:fig_16 short-caption="Escalabilidad empírica (gráfico log-log)"}
 
 
-### 7.8. Análisis de Sensibilidad
+### 7.9. Análisis de Sensibilidad
 
 Se realizó un análisis de sensibilidad perturbando tres parámetros clave en el rango ±20%, con 30 réplicas por configuración (450 ejecuciones totales). El algoritmo evaluado fue GA-SA sobre la instancia `medium_seed42`.
 
@@ -1007,17 +1052,17 @@ Se realizó un análisis de sensibilidad perturbando tres parámetros clave en e
 3. **Variabilidad de demanda** tiene impacto negligible (±0.35% máximo), indicando que la solución es **robusta** ante cambios en la incertidumbre.
 4. **100% de factibilidad** en todas las configuraciones, confirmando la robustez del decodificador greedy.
 
-### 7.9. Análisis de Diversidad Poblacional
+### 7.10. Análisis de Diversidad Poblacional
 
 ![Perfiles de diversidad poblacional. GA-SA mantiene mayor diversidad que GA puro gracias al efecto disruptivo de la búsqueda local SA. DE muestra diversidad estable por su mecanismo de mutación diferencial.](figuras/diversity_profiles.png){width=80% #fig:fig_17 short-caption="Perfiles de diversidad poblacional"}
 
 
-### 7.10. Análisis de Complejidad Computacional
+### 7.11. Análisis de Complejidad Computacional
 
 ![Desglose del tiempo computacional por componente (cProfile). El decodificador greedy domina el tiempo de evaluación, seguido por los operadores genéticos. La calibración de temperatura en SA tiene un costo fijo significativo.](figuras/cprofile_component_breakdown.png){width=85% #fig:fig_18 short-caption="Desglose del tiempo computacional por componente (cProfile)"}
 
 
-### 7.11. Discusión
+### 7.12. Discusión
 
 Los resultados confirman una jerarquía práctica consistente con **Akbari-Aghghaleh et al.** [-@AkbariAghghaleh2025], pero con matices: **GA-SA y DE quedan casi empatados**, GA en tercer lugar y SA por debajo en calidad. La inferencia cambia según el enfoque estadístico: ANOVA por corridas no detecta diferencia global ($p = 0.855$), mientras Friedman por instancia sí ($p = 0.0011$), con diferencias principalmente asociadas a SA frente a {DE, GA-SA}. Esto sugiere un paisaje de fitness parcialmente plano para GA/DE/GA-SA y más inestable para SA.
 
@@ -1029,7 +1074,7 @@ Comparado con **Solano-Blanco et al.** [-@SolanoBlanco2022], quienes reportaron 
 
 La validación de robustez confirmó que la mejor solución GA-SA es factible bajo perturbaciones de ±10% en la demanda, con un deterioro máximo de 0.04% en $Z$.
 
-### 7.12. Síntesis Gráfica de Resultados
+### 7.13. Síntesis Gráfica de Resultados
 
 ![Beneficio esperado $Z$ por algoritmo y tamaño de instancia. El gradiente de color permite identificar que las diferencias entre algoritmos son marginales dentro de cada tamaño, mientras que el efecto del tamaño de instancia domina la variabilidad. Las instancias Large generan beneficios del orden de $10^9$ COP.](figuras/heatmap_z_by_algo_size.png){width=85% #fig:fig_19 short-caption="Beneficio esperado $Z$ por algoritmo y tamaño de instancia"}
 
@@ -1043,7 +1088,7 @@ La validación de robustez confirmó que la mejor solución GA-SA es factible ba
 ![Curvas de convergencia promedio normalizadas. GA-SA y DE alcanzan convergencia rápida en las primeras 1,000 evaluaciones. La búsqueda local SA en GA-SA produce "escalones" de mejora periódicos (cada 9 generaciones), visibles como saltos discretos en la curva.](figuras/convergence_comparison.png){width=80% #fig:fig_22 short-caption="Curvas de convergencia promedio normalizadas"}
 
 
-![Comparación visual entre los umbrales definidos a priori y los resultados obtenidos. H2 (gap $\leq 2\%$ vs mejor MH) es la única hipótesis con soporte, y únicamente en su componente de calidad (el componente de tiempo no se cumple). H1 permanece por debajo del umbral (0.59–1.10%). En H3, el endpoint primario (inventario promedio total) no alcanza significancia, y el endpoint de baja rotación se mantiene como exploratorio por n informativo bajo (3 instancias).](figuras/hypothesis_verdicts_visual.png){width=100% #fig:fig_23 short-caption="Comparación visual entre los umbrales definidos a priori y los resultados obtenidos"}
+![Comparación visual entre los umbrales definidos a priori y los resultados de la campaña v1. En este régimen, H2 (gap $\leq 2\%$ vs mejor MH) es la única hipótesis con soporte, y únicamente en su componente de calidad; en la campaña confirmatoria v2 (§7.5), H1 y H3 también se soportan. H1 permanece por debajo del umbral (0.59–1.10%). En H3, el endpoint primario (inventario promedio total) no alcanza significancia, y el endpoint de baja rotación se mantiene como exploratorio por n informativo bajo (3 instancias).](figuras/hypothesis_verdicts_visual.png){width=100% #fig:fig_23 short-caption="Comparación visual entre los umbrales definidos a priori y los resultados obtenidos"}
 
 
 ---
@@ -1056,36 +1101,37 @@ La validación de robustez confirmó que la mejor solución GA-SA es factible ba
 
 **Objetivo 2 (Implementar):** Se implementaron exitosamente cuatro metaheurísticas (GA, SA, DE, GA-SA) adaptadas a variables mixtas (binarias + enteras). Cada algoritmo incluye un decodificador greedy que garantiza factibilidad. El código es modular, reproducible y está disponible públicamente.
 
-**Objetivo 3 (Diseñar):** Se diseñó un generador de instancias con tres perfiles de complejidad (Small, Medium, Large) calibrados con datos del sector avícola colombiano. Los parámetros se calibraron con FENAVI, DANE y literatura especializada.
+**Objetivo 3 (Diseñar):** Se diseñó un generador de instancias con tres perfiles de complejidad (Small, Medium, Large) calibrados con datos del sector avícola colombiano (FENAVI, DANE y literatura especializada), extendido en la campaña confirmatoria con perfiles de pollo (liviano/estándar/pesado con proporciones anatómicas propias, mezclables en parvada) y dos regímenes económicos (39 instancias en total).
 
-**Objetivo 4 (Comparar):** Se ejecutó un diseño experimental de 1,098 ejecuciones con análisis estadístico completo (ANOVA, Tukey HSD, Friedman y Wilcoxon-Holm por instancia). El ranking resultante es GA-SA $\approx$ DE > GA > SA, donde la principal diferencia robusta se observa frente a SA.
+**Objetivo 4 (Comparar):** Se ejecutaron dos campañas experimentales (1,098 ejecuciones en v1 y 780 en v2, esta última con presupuesto de evaluaciones igualado entre algoritmos) con análisis estadístico completo (Friedman bloqueado por instancia, Wilcoxon-Holm, diagrama de diferencia crítica de Nemenyi, tamaños de efecto pareados y análisis de potencia). En la campaña confirmatoria el ranking es **GA-SA > GA > SA > DE**, con GA-SA como mejor algoritmo en los tres tamaños (Friedman $p<10^{-4}$; rango de Nemenyi 1.23, significativamente mejor que SA y DE).
 
 **Objetivo 5 (Validar):** Se validó el modelo mediante análisis de sensibilidad (450 ejecuciones) y robustez (perturbación de demanda ±10%), confirmando que las soluciones son operativamente realistas y robustas ante incertidumbre.
 
 ### 8.2. Veredicto de Hipótesis
 
-| Hipótesis | Umbral | Resultado observado | p-valor | Veredicto |
-|:---------:|:------:|:-------------------:|:-------:|:---------:|
-| **H1**: Mejora $\geq 5\%$ vs baseline | 5% | 0.59–1.10% | 1.000 (por instancia) | **No soportada** |
-| **H2**: GA-SA gap $\leq 2\%$ vs mejor MH y tiempo $\leq 50\%$ de CBC | 2% / 50% | -0.02% (calidad); 52.5x (tiempo) | $1.95\times 10^{-3}$ (por instancia) | **Parcialmente soportada** |
-| **H3**: Reducción inventario promedio $\geq 15\%$ | 15% | 12.2%–17.5% (por algoritmo) | 0.455 (por instancia) | **No soportada** |
+| Hipótesis | Umbral | Régimen v1 | Régimen v2 (confirmatorio) |
+|:---------:|:------:|:----------:|:--------------------------:|
+| **H1**: Mejora vs baseline | $\geq 5\%$ | 0.59–1.10% → **No soportada** | 17.2–20.1% ($p<10^{-4}$) → **Soportada** |
+| **H2**: GA-SA vs mejor MH (calidad; tiempo) | $\leq 2\%$; $\leq 50\%$ CBC | $-0.02\%$; $52.5\times$ → **Parcial** | $-0.44\%$; $1.6\times$ → **Parcial** (calidad sí; tiempo total no) |
+| **H3**: Reducción inventario | $\geq 15\%$ | 12.2–17.5% → **No soportada** | 21.0–28.8% ($p<10^{-4}$) → **Soportada** |
 
-: Resumen de veredictos de hipótesis {#tbl:tabla_10}
+: Resumen de veredictos de hipótesis por régimen experimental {#tbl:tabla_10}
 
-La hipótesis H2 se confirma parcialmente: en su componente de calidad (vista bloqueada por instancia), el GA-SA produce soluciones equivalentes a la mejor metaheurística individual; su componente de tiempo no se cumple, pues GA-SA requiere en promedio 52.5 veces el tiempo de CBC. H1 no se soporta por la fortaleza del baseline. H3 no se soporta en el endpoint primario; el endpoint de baja rotación permanece exploratorio por baja muestra informativa.
+La lectura conjunta de ambos regímenes es el hallazgo central de la tesis: **el valor de la optimización de coproductos depende del régimen económico de la planta**. En el régimen v1 (demanda por encima de la capacidad y setup marginal) el problema degenera y una regla trivial es casi óptima — de ahí que H1 y H3 no se soportaran, y el análisis de potencia muestra que ese diseño no podía detectar los umbrales declarados. En el régimen operativo v2 (setup costoso, holgura de capacidad, demanda volátil), las tres hipótesis de mejora se soportan con potencia 1.000: mejora de costo del 17–20%, reducción de inventario del 21–29% y equivalencia de calidad de GA-SA con la mejor metaheurística individual. El componente de tiempo de H2 no se cumple en tiempo total en ningún régimen, pero mejora de $52.5\times$ a $1.6\times$ el tiempo de CBC, y en la vista *anytime* GA-SA alcanza el 99% del óptimo antes de que el solver exacto complete la certificación en Medium y Large.
 
 ### 8.3. Contribuciones Principales
 
 1. **Modelo matemático validado:** Un modelo MILP de planificación de coproductos avícolas con lot-sizing estocástico, setup y perecibilidad, aplicable a otras industrias de producción conjunta.
 2. **Framework de metaheurísticas comparativo:** Implementación modular de GA, SA, DE y GA-SA con decodificador greedy compartido, reproducible y extensible.
 3. **Evidencia empírica sobre GA-SA:** Confirmación, en un problema real, de la ventaja del enfoque híbrido GA-SA reportada por Akbari-Aghghaleh et al. [-@AkbariAghghaleh2025].
-4. **Conjunto de instancias calibradas:** 9 instancias con parámetros del sector avícola colombiano, disponibles públicamente para benchmarking.
-5. **Análisis de robustez:** Validación de que las soluciones son operativamente viables y robustas ante perturbaciones de demanda (deterioro $\leq 0.04\%$).
+4. **Conjunto de instancias calibradas en dos regímenes:** 39 instancias (9 del régimen v1 y 30 del operativo v2, estas últimas con perfiles de pollo mezclables en parvada), con parámetros del sector avícola colombiano, disponibles públicamente para benchmarking.
+5. **Caracterización del régimen de valor:** Evidencia de que el beneficio de la optimización depende del régimen económico (setup/holgura/volatilidad), con la frontera cuantificada entre el régimen donde una regla trivial basta y aquel donde las metaheurísticas aportan 17–20% de mejora.
+6. **Análisis de robustez:** Validación de que las soluciones son operativamente viables y robustas ante perturbaciones de demanda (deterioro $\leq 0.04\%$).
 
 ### 8.4. Limitaciones del Estudio
 
 1. **Datos sintéticos:** Las instancias utilizan datos calibrados pero sintéticos. Aunque la cobertura de rangos de precio FENAVI es 100%, la comparación temporal externa sin desfase mantiene correlación baja (\(|\rho|_{prom} \approx 0.19\)); al permitir desfases mensuales, la alineación mejora (\(|\rho_{lag}|_{prom} \approx 0.65\)) pero con desplazamientos de pico no triviales. Por ello, la validación con datos operativos reales de planta sigue siendo necesaria.
-2. **Baseline fuerte:** El baseline de máxima capacidad resulta ser una heurística fuerte para este problema, reduciendo el margen de mejora de las metaheurísticas.
+2. **Dependencia del régimen económico:** En el régimen v1 (demanda > capacidad, setup marginal) el baseline de máxima capacidad es casi óptimo y el margen de mejora de las metaheurísticas se anula; los beneficios reportados (17–20%) corresponden al régimen operativo v2. La transferencia a una planta concreta exige verificar en cuál régimen opera.
 3. **Proporciones fijas:** El modelo asume proporciones de coproductos constantes ($\alpha_p$), sin considerar variabilidad inter-lote.
 4. **Sin scheduling:** Solo se aborda lot-sizing diario, no el scheduling detallado de la línea de despiece.
 5. **Perecibilidad simplificada:** Se modela como restricción de vida útil discreta, sin considerar deterioro gradual de calidad.

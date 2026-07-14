@@ -163,9 +163,12 @@
   <div class="card" style="margin-bottom:10px;">
     <p style="font-style:italic;font-size:.78em;">¿Cómo optimizar la planificación de producción de coproductos avícolas bajo demanda estocástica, minimizando costos de inventario y maximizando el beneficio?</p>
   </div>
-  <div class="hypo n"><strong>H1:</strong> La mejor metaheurística mejora Z en ≥ 5% vs baseline <span class="pill no">No soportada (0.59%–1.10%)</span></div>
-  <div class="hypo"><strong>H2:</strong> GA-SA alcanza gap ≤ 2% vs mejor metaheurística individual <span class="pill ok">Soportada (-0.02%, p=0.002)</span></div>
-  <div class="hypo n"><strong>H3:</strong> Reducción de inventario ≥ 15% (endpoint primario: inventario promedio) <span class="pill no">No soportada</span></div>
+  <div class="hypo"><strong>H1:</strong> La mejor metaheurística mejora Z en ≥ 5% vs baseline <span class="pill no">v1: No (0.6%–1.1%)</span> <span class="pill ok">v2: Soportada (17%–20%, p&lt;10⁻⁴)</span></div>
+  <div class="hypo"><strong>H2:</strong> GA-SA alcanza gap ≤ 2% vs mejor metaheurística individual <span class="pill ok">v1: Sí (-0.02%)</span> <span class="pill ok">v2: Sí (-0.44%)</span></div>
+  <div class="hypo"><strong>H3:</strong> Reducción de inventario ≥ 15% (endpoint primario: inventario promedio) <span class="pill no">v1: No (12%–17%)</span> <span class="pill ok">v2: Soportada (21%–29%, p&lt;10⁻⁴)</span></div>
+  <div class="card" style="margin-top:8px;">
+    <p style="font-size:.6em;margin:0;"><strong>Hallazgo central:</strong> el valor de la optimización depende del régimen económico. Régimen v1 (demanda &gt; capacidad, setup marginal): una regla trivial es casi óptima. Régimen operativo v2 (setup costoso, holgura, demanda volátil): las mejoras hipotetizadas se confirman con potencia 1.000.</p>
+  </div>
   <div class="card" style="margin-top:10px;">
     <h3 style="margin-top:0;font-size:.82em;">Lectura metodológica</h3>
     <ul style="font-size:.68em;">
@@ -479,7 +482,7 @@
 
 <!-- S13: ANÁLISIS DESCRIPTIVO -->
 <section>
-  <h2>12. Análisis Estadístico Descriptivo</h2>
+  <h2>12. Análisis Estadístico Descriptivo (Campaña v1)</h2>
   <div class="grid2">
     <div class="card" style="display:flex; flex-direction:column; justify-content:center;">
        <h3 style="margin-top:0;font-size:.85em;">Distribución Empírica (Z Global)</h3>
@@ -501,7 +504,7 @@
 
 <!-- S-RESULTADOS NUMÉRICOS (NEW) -->
 <section style="display:flex; flex-direction:column; justify-content:center; height:100%;">
-  <h2>13. Resultados Principales</h2>
+  <h2>13. Resultados Principales (Campaña v1)</h2>
   <table style="font-size:.68em; width:100%; border-collapse:collapse; margin-bottom:12px;">
     <tr style="border-bottom:2px solid var(--teal);">
       <th style="text-align:left;">Algoritmo</th>
@@ -552,7 +555,7 @@
 
 <!-- S14: ANÁLISIS INFERENCIAL -->
 <section>
-  <h2>14. Análisis Inferencial: Contrastación Formal</h2>
+  <h2>14. Análisis Inferencial: Contrastación Formal (Campaña v1)</h2>
   <div class="grid2">
     <div class="card" style="padding: 10px;">
       <h3 style="margin-top:0;font-size:.70em;">Pruebas Globales</h3>
@@ -568,15 +571,52 @@
     <div class="chartbox" style="padding:10px; display:flex; flex-direction:column; justify-content:space-evenly; background:#fff;">
       <div style="margin-bottom:10px;">
         <h4 style="margin:0 0 2px; font-size:.60em; color:var(--color-text-main);">H1: Efectividad vs Baseline</h4>
-        <p style="font-size:.48em; margin:0; line-height:1.3;"><strong>No soportada:</strong> mejora por instancia de 0.59%–1.10% (p=1.0 frente al umbral 5%). El baseline de capacidad máxima es competitivo.</p>
+        <p style="font-size:.48em; margin:0; line-height:1.3;"><strong>No soportada en v1:</strong> mejora por instancia de 0.59%–1.10% (p=1.0 frente al umbral 5%). El baseline de capacidad máxima es casi óptimo en este régimen (potencia del diseño ≈ 0). <strong>Soportada en v2</strong> (siguiente lámina).</p>
       </div>
       <div style="margin-bottom:10px;">
         <h4 style="margin:0 0 2px; font-size:.60em; color:var(--color-text-main);">H2: Sinergia Computacional de GA-SA</h4>
-        <p style="font-size:.48em; margin:0; line-height:1.3;"><strong>Soportada:</strong> gap medio = -0.02% (p=0.002 por instancia; p=7.44e-50 por corrida). Diferencia práctica pequeña, pero consistente frente al umbral 2%.</p>
+        <p style="font-size:.48em; margin:0; line-height:1.3;"><strong>Soportada (calidad):</strong> gap medio = -0.02% (p=0.002 por instancia). El componente de tiempo (≤50% de CBC) no se cumple: 52.5× en v1, 1.6× en v2.</p>
       </div>
       <div>
         <h4 style="margin:0 0 2px; font-size:.60em; color:var(--color-text-main);">H3: Inventario (primario + secundario)</h4>
-        <p style="font-size:.48em; margin:0; line-height:1.3;"><strong>No soportada (primario):</strong> en inventario promedio total no se alcanza 15%. La lectura de baja rotación se mantiene como endpoint secundario exploratorio por n informativo bajo.</p>
+        <p style="font-size:.48em; margin:0; line-height:1.3;"><strong>No soportada en v1 (primario):</strong> no se alcanza 15%; baja rotación queda exploratorio por n informativo bajo. <strong>Soportada en v2</strong> (21%–29%).</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer"></div>
+</section>
+
+<!-- S14b: CAMPAÑA CONFIRMATORIA V2 -->
+<section>
+  <h2>14b. Campaña Confirmatoria (v2): el Régimen Donde el Setup Importa</h2>
+  <div class="grid2">
+    <div>
+      <div class="card" style="padding:10px; margin-bottom:8px;">
+        <h3 style="margin-top:0;font-size:.68em;">Diseño v2 (780 corridas)</h3>
+        <ul style="font-size:.55em; line-height:1.45; margin:0;">
+          <li><strong>30 instancias</strong> (10 por tamaño) × 6 réplicas — unidad estadística: la instancia (n=30 vs n=9).</li>
+          <li><strong>Economía operativa:</strong> setup 50M COP/día, capacidad con holgura, demanda volátil → el óptimo apaga la línea 1–5 días.</li>
+          <li><strong>Parvada mixta:</strong> 30% liviano / 50% estándar / 20% pesado (α por perfil).</li>
+          <li><strong>Presupuesto igualado:</strong> 20,000 evaluaciones para las 4 MH (SA con reinicios).</li>
+          <li><strong>Gap certificado:</strong> CBC probó optimalidad en las 30 instancias (best bound).</li>
+        </ul>
+      </div>
+      <div class="card" style="padding:10px;">
+        <h3 style="margin-top:0;font-size:.68em;">Gap vs óptimo certificado</h3>
+        <table style="font-size:.55em;width:100%; border-collapse:collapse; text-align:center;">
+          <tr style="border-bottom:1px solid #ccc;"><th style="text-align:left;">Tamaño</th><th>Baseline</th><th>GA</th><th>SA</th><th>DE</th><th><strong>GA-SA</strong></th></tr>
+          <tr style="border-bottom:1px solid #eee;"><td style="text-align:left;">Small</td><td>9.88%</td><td>5.20%</td><td>5.65%</td><td>7.22%</td><td><strong>4.91%</strong></td></tr>
+          <tr style="border-bottom:1px solid #eee;"><td style="text-align:left;">Medium</td><td>23.02%</td><td>5.61%</td><td>6.55%</td><td>7.26%</td><td><strong>5.40%</strong></td></tr>
+          <tr><td style="text-align:left;">Large</td><td>28.55%</td><td>6.62%</td><td>6.96%</td><td>8.44%</td><td><strong>5.81%</strong></td></tr>
+        </table>
+        <p style="font-size:.48em; margin:6px 0 0; color:var(--color-secondary-slate);"><em>El baseline se degrada con el horizonte (9.9%→28.6%); las MH sostienen 4.9–8.4%. Friedman p&lt;10⁻⁴ en los 3 estratos; Nemenyi: GA-SA rango 1.23 (CD=0.856).</em></p>
+      </div>
+    </div>
+    <div class="chartbox" style="padding:10px; background:#fff; display:flex; flex-direction:column; justify-content:space-evenly;">
+      <img src="figuras/nemenyi_cd.png" alt="Diagrama de diferencia crítica de Nemenyi" style="max-width:100%; margin-bottom:6px;" onerror="this.style.display='none'">
+      <div class="card" style="padding:8px;">
+        <h4 style="margin:0 0 3px; font-size:.58em;">Veredictos v2 (n=30, potencia 1.000)</h4>
+        <p style="font-size:.5em; margin:0; line-height:1.4;"><strong>H1 SOPORTADA:</strong> mejora 17.2%–20.1% vs baseline (p&lt;10⁻⁴, d<sub>z</sub> 1.6–1.8) · <strong>H3 SOPORTADA:</strong> inventario −21% a −29% (d<sub>z</sub> 7–11) · <strong>H2:</strong> GA-SA −0.44% vs mejor MH. Vista <em>anytime</em>: GA-SA alcanza el 99% del óptimo en 2.6/11.5/46.5 s (mediana) — antes de que CBC certifique en Medium/Large.</p>
       </div>
     </div>
   </div>
@@ -816,13 +856,13 @@
     <p style="font-size:.68em;margin:0;"><strong>OE3 (Calibrar):</strong> 30 trials Optuna por algoritmo, evaluados en 5 instancias de calibración.</p>
   </div>
   <div class="card" style="margin-bottom:6px;">
-    <p style="font-size:.68em;margin:0;"><strong>OE4 (Comparar):</strong> 1,098 ejecuciones. ANOVA p=0.855, pero Friedman por instancia p=0.0011. Resultado práctico: GA-SA ≈ DE, ambos por encima de SA.</p>
+    <p style="font-size:.68em;margin:0;"><strong>OE4 (Comparar):</strong> dos campañas (1,098 + 780 ejecuciones, la segunda con presupuesto igualado). En la confirmatoria: GA-SA mejor en los 3 tamaños (Friedman p&lt;10⁻⁴; Nemenyi rango 1.23, CD 0.856).</p>
   </div>
   <div class="card" style="margin-bottom:6px;">
     <p style="font-size:.68em;margin:0;"><strong>OE5 (Validar):</strong> Sensibilidad estable (precios ±12.67%, demanda ±0.35% en gap) y validación externa FENAVI útil: correlación mensual baja sin desfase, pero mejora al considerar lags temporales.</p>
   </div>
   <div class="callout" style="margin-top:6px;">
-    <p style="font-size:.72em;margin:0;"><strong>Hallazgo principal:</strong> producir a Q<sup>max</sup> explica gran parte de la estructura óptima. Las metaheurísticas mejoran consistencia respecto al baseline, pero no superan en tiempo al exacto CBC en este conjunto.</p>
+    <p style="font-size:.72em;margin:0;"><strong>Hallazgo principal:</strong> el valor de la optimización depende del régimen económico. Con setup marginal y demanda &gt; capacidad, producir a Q<sup>max</sup> es casi óptimo; en el régimen operativo (setup costoso, holgura, volatilidad), las metaheurísticas mejoran el beneficio 17–20% y reducen inventario 21–29% (p&lt;10⁻⁴), con GA-SA a la cabeza y alcanzando el 99% del óptimo antes de que CBC certifique.</p>
   </div>
   <div class="footer"></div>
 </section>
@@ -837,7 +877,8 @@
         <li style="margin-bottom:4px;">Modelo MILP original para coproductos avícolas con perecibilidad.</li>
         <li style="margin-bottom:4px;">Framework comparativo con 4 metaheurísticas y baseline riguroso.</li>
         <li style="margin-bottom:4px;">Evidencia empírica sobre GA-SA: confirmación en contexto real de la ventaja híbrida reportada por Akbari-Aghghaleh et al. (2025).</li>
-        <li style="margin-bottom:4px;">Conjunto de 9 instancias calibradas con datos FENAVI/DANE, disponibles para benchmarking.</li>
+        <li style="margin-bottom:4px;">Conjunto de 39 instancias calibradas (FENAVI/DANE) en dos regímenes económicos, con perfiles de pollo mezclables en parvada.</li>
+        <li style="margin-bottom:4px;">Caracterización del régimen de valor: cuándo basta una regla trivial y cuándo la optimización aporta 17–20%.</li>
         <li>Código abierto Python reproducible con tests y pipeline Pandoc→PDF.</li>
       </ol>
     </div>
