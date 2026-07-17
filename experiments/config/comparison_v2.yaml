@@ -51,18 +51,21 @@ algorithms:
       max_evaluations: 20000
       demand_cap: true
 
+  # SA re-calibrado para el régimen v2 (tune_sa_v2.py, 40 trials TPE,
+  # 2026-07-14; journal en experiments/results_v2/tuning_sa/). Los params
+  # anteriores venían de la calibración v1 con el decoder viejo.
   sa:
     class: "SimulatedAnnealing"
     params:
       T_initial: null        # auto-estimada
-      T_final: 586.35
-      cooling_rate: 0.7817
+      T_final: 562.8640
+      cooling_rate: 0.8136
       delta: 0.0661
-      max_iterations: 50
-      p_quantity: 0.2825
-      p_toggle: 0.4941
-      reheat_factor: 1.287
-      reheat_threshold: 54
+      max_iterations: 43
+      p_quantity: 0.4704
+      p_toggle: 0.1900
+      reheat_factor: 1.0057
+      reheat_threshold: 113
       max_evaluations: 20000  # con restarts encadenados hasta agotar
       demand_cap: true
 

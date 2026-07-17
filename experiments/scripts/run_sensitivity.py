@@ -1,8 +1,10 @@
 """
 Runner de analisis de sensibilidad (Sprint 4.2).
 
-Perturba un parametro a la vez sobre una instancia base y ejecuta
+Perturba un parametro a la vez sobre una o mas instancias base y ejecuta
 GA-SA con replicas para analizar impacto en la funcion objetivo.
+La config acepta "base_instances" (lista de rutas YAML) o, retro-compatible,
+"base_instance" (ruta unica). Cada fila del CSV registra su instancia base.
 
 Uso:
     python experiments/scripts/run_sensitivity.py
@@ -102,6 +104,7 @@ PERTURBATION_FUNCS = {
 
 
 CSV_FIELDNAMES = [
+    "base_instance",
     "parameter",
     "delta",
     "seed",
@@ -125,8 +128,8 @@ def _append_row(results_csv: Path, row: dict) -> None:
             writer.writerow(row)
 
 
-def _load_completed_keys(results_csv: Path) -> set[tuple[str, str, str]]:
-    """Leer CSV existente y devolver set de (parameter, delta, seed) completados."""
+def _load_completed_keys(results_csv: Path) -> set[tuple[str, str, str, str]]:
+    """Leer CSV existente y devolver set de (base_instance, parameter, delta, seed)."""
     completed = set()
     if not results_csv.exists():
         return completed
@@ -134,11 +137,43 @@ def _load_completed_keys(results_csv: Path) -> set[tuple[str, str, str]]:
         with open(results_csv, "r", encoding="utf-8") as f:
             reader = csv.DictReader(f)
             for row in reader:
-                key = (row["parameter"], row["delta"], row["seed"])
+                key = (
+                    row.get("base_instance", ""),
+                    row["parameter"],
+                    row["delta"],
+                    row["seed"],
+                )
                 completed.add(key)
     except Exception as exc:
         logger.warning("Error leyendo CSV para resume: %s", exc)
     return completed
+
+
+def _resolve_base_paths(config: dict) -> list[str]:
+    """Obtener las rutas de instancias base desde la config.
+
+    Acepta "base_instances" (lista de rutas YAML) o, retro-compatible,
+    "base_instance" (ruta unica como string).
+    """
+    if config.get("base_instances"):
+        paths = [str(p) for p in config["base_instances"]]
+    elif config.get("base_instance"):
+        paths = [str(config["base_instance"])]
+    else:
+        raise KeyError(
+            "La config debe definir 'base_instances' (lista) o 'base_instance' (string)"
+        )
+    keys = [_base_key(p) for p in paths]
+    if len(set(keys)) != len(keys):
+        raise ValueError(
+            f"Las instancias base deben tener nombres de archivo unicos: {keys}"
+        )
+    return paths
+
+
+def _base_key(base_path: str) -> str:
+    """Identificador estable de una instancia base (stem del archivo YAML)."""
+    return Path(base_path).stem
 
 
 def _to_float(value: str) -> float | None:
@@ -172,14 +207,19 @@ def _write_results_json(
         reader = csv.DictReader(f)
         rows = list(reader)
 
-    grouped: dict[tuple[str, str], dict] = {}
+    grouped: dict[tuple[str, str, str], dict] = {}
     for row in rows:
-        key = (row.get("parameter", ""), row.get("delta", ""))
+        key = (
+            row.get("base_instance", ""),
+            row.get("parameter", ""),
+            row.get("delta", ""),
+        )
         bucket = grouped.setdefault(
             key,
             {
-                "parameter": key[0],
-                "delta": _to_float(key[1]),
+                "base_instance": key[0],
+                "parameter": key[1],
+                "delta": _to_float(key[2]),
                 "count": 0,
                 "feasible_count": 0,
                 "z_sum": 0.0,
@@ -197,11 +237,12 @@ def _write_results_json(
         bucket["eval_sum"] += _to_float(row.get("n_evaluations", "")) or 0.0
 
     summary = []
-    for key in sorted(grouped.keys()):
+    for key in sorted(grouped.keys(), key=lambda k: (k[0], k[1], _to_float(k[2]) or 0.0)):
         item = grouped[key]
         n = max(item["count"], 1)
         summary.append(
             {
+                "base_instance": item["base_instance"],
                 "parameter": item["parameter"],
                 "delta": item["delta"],
                 "count": item["count"],
@@ -266,6 +307,7 @@ def _run_single_task(task: dict) -> dict:
     )
 
     return {
+        "base_instance": task["base_instance"],
         "parameter": parameter,
         "delta": delta,
         "seed": seed,
@@ -275,6 +317,7 @@ def _run_single_task(task: dict) -> dict:
 
 
 def _run_single_sequential(
+    base_instance_key: str,
     parameter: str,
     delta: float,
     seed: int,
@@ -298,6 +341,7 @@ def _run_single_sequential(
     )
 
     return {
+        "base_instance": base_instance_key,
         "parameter": parameter,
         "delta": delta,
         "seed": seed,
@@ -315,9 +359,12 @@ def run_sensitivity(
     """Ejecutar analisis de sensibilidad completo."""
     config = _load_config(config_path)
 
-    base_path = config["base_instance"]
-    base_instance = ProblemInstance.from_yaml(base_path)
-    logger.info("Instancia base: %s", base_instance.name)
+    base_paths = _resolve_base_paths(config)
+    logger.info(
+        "Instancias base (%d): %s",
+        len(base_paths),
+        ", ".join(_base_key(p) for p in base_paths),
+    )
 
     algo_params = config.get("algorithm_params", {})
     seeds = list(config["experiment"]["seeds"])
@@ -342,39 +389,49 @@ def run_sensitivity(
         logger.info("Modo SECUENCIAL (workers=0)")
 
     # ============================================================
-    # Calcular total de runs
+    # Calcular total de runs (por cada instancia base)
     # ============================================================
-    total_runs = 0
+    runs_per_base = 0
     for param_cfg in parameters.values():
         deltas = list(param_cfg["deltas"])
         control_runs = 0 if 0.0 in deltas else n_replicas
-        total_runs += len(deltas) * n_replicas + control_runs
+        runs_per_base += len(deltas) * n_replicas + control_runs
+    total_runs = runs_per_base * len(base_paths)
 
     # ============================================================
     # Resume: cargar runs completados
     # ============================================================
     results_csv = Path(config["output"]["results_csv"])
-    completed_keys: set[tuple[str, str, str]] = set()
+    completed_keys: set[tuple[str, str, str, str]] = set()
 
     if resume and results_csv.exists():
+        with open(results_csv, "r", encoding="utf-8") as f:
+            header = next(csv.reader(f), [])
+        if "base_instance" not in header:
+            raise ValueError(
+                f"El CSV existente {results_csv} tiene un esquema anterior "
+                "(sin columna 'base_instance'); no se puede hacer --resume sobre el. "
+                "Usa otro results_csv o elimina el archivo."
+            )
         completed_keys = _load_completed_keys(results_csv)
         logger.info(
             "RESUME: %d runs ya completados en %s", len(completed_keys), results_csv
         )
-    else:
-        # Crear CSV fresco
+    elif not dry_run:
+        # Crear CSV fresco (nunca en dry-run: no tocar resultados existentes)
         results_csv.parent.mkdir(parents=True, exist_ok=True)
         with open(results_csv, "w", newline="", encoding="utf-8") as f:
             writer = csv.DictWriter(f, fieldnames=CSV_FIELDNAMES)
             writer.writeheader()
 
-    def _is_completed(parameter: str, delta: float, seed: int) -> bool:
+    def _is_completed(base_key: str, parameter: str, delta: float, seed: int) -> bool:
         """Verificar si un run ya está completado."""
-        key = (parameter, str(delta), str(seed))
+        key = (base_key, parameter, str(delta), str(seed))
         return key in completed_keys
 
     logger.info("=" * 72)
     logger.info("ANALISIS DE SENSIBILIDAD")
+    logger.info("  Instancias base: %d", len(base_paths))
     logger.info("  Parametros: %s", ", ".join(parameters.keys()))
     logger.info("  Replicas por perturbacion: %d", n_replicas)
     logger.info("  Total runs (plan): %d", total_runs)
@@ -384,110 +441,134 @@ def run_sensitivity(
 
     if dry_run:
         logger.info("DRY RUN - plan:")
-        for param_name, param_cfg in parameters.items():
-            deltas = list(param_cfg["deltas"])
-            control_runs = 0 if 0.0 in deltas else n_replicas
-            total_param = len(deltas) * n_replicas + control_runs
-            skipped = sum(
-                1
-                for d in deltas
-                for s in selected_seeds
-                if _is_completed(param_name, d, s)
-            )
-            logger.info(
-                "  %s: %d total, %d skipped (resume), %d pending",
-                param_name,
-                total_param,
-                skipped,
-                total_param - skipped,
-            )
+        for base_path in base_paths:
+            base_key = _base_key(base_path)
+            for param_name, param_cfg in parameters.items():
+                deltas = list(param_cfg["deltas"])
+                control_runs = 0 if 0.0 in deltas else n_replicas
+                total_param = len(deltas) * n_replicas + control_runs
+                skipped = sum(
+                    1
+                    for d in deltas
+                    for s in selected_seeds
+                    if _is_completed(base_key, param_name, d, s)
+                )
+                logger.info(
+                    "  %s / %s: %d total, %d skipped (resume), %d pending",
+                    base_key,
+                    param_name,
+                    total_param,
+                    skipped,
+                    total_param - skipped,
+                )
         return
 
     # ============================================================
     # FASE 1: Control runs (delta=0) — siempre secuencial
     # ============================================================
     # Los control runs se ejecutan primero porque necesitamos z_reference
-    # para calcular gap_percent de las perturbaciones.
+    # para calcular gap_percent de las perturbaciones. El control es por
+    # instancia base: cada base tiene su propio z_reference por seed.
     # ============================================================
-    control_by_param_seed: dict[str, dict[int, float]] = {}
+    control_by_base_param_seed: dict[tuple[str, str], dict[int, float]] = {}
 
     logger.info("--- FASE 1: Control runs (delta=0) ---")
-    for param_name, param_cfg in parameters.items():
-        deltas = list(param_cfg["deltas"])
-        perturb_func = PERTURBATION_FUNCS[param_name]
-        control_by_param_seed[param_name] = {}
+    for base_path in base_paths:
+        base_key = _base_key(base_path)
+        base_instance = ProblemInstance.from_yaml(base_path)
 
-        control_instance = perturb_func(base_instance, 0.0)
-        for seed in selected_seeds:
-            # Si ya fue completado en resume, leer z_value del CSV
-            if _is_completed(param_name, 0.0, seed):
-                # Buscar z_value en completed data
-                z_val = _get_z_from_csv(results_csv, param_name, 0.0, seed)
-                if z_val is not None:
-                    control_by_param_seed[param_name][seed] = z_val
+        for param_name, param_cfg in parameters.items():
+            deltas = list(param_cfg["deltas"])
+            perturb_func = PERTURBATION_FUNCS[param_name]
+            control_by_base_param_seed[(base_key, param_name)] = {}
+
+            control_instance = perturb_func(base_instance, 0.0)
+            for seed in selected_seeds:
+                # Si ya fue completado en resume, leer z_value del CSV
+                if _is_completed(base_key, param_name, 0.0, seed):
+                    # Buscar z_value en completed data
+                    z_val = _get_z_from_csv(
+                        results_csv, base_key, param_name, 0.0, seed
+                    )
+                    if z_val is not None:
+                        control_by_base_param_seed[(base_key, param_name)][seed] = z_val
+                        logger.info(
+                            "  [SKIP] %s/%s delta=0 seed=%d (Z=%.0f from resume)",
+                            base_key,
+                            param_name,
+                            seed,
+                            z_val,
+                        )
+                        continue
+
+                try:
+                    row = _run_single_sequential(
+                        base_instance_key=base_key,
+                        parameter=param_name,
+                        delta=0.0,
+                        seed=seed,
+                        instance=control_instance,
+                        algo_params=algo_params,
+                        z_reference=float("nan"),
+                    )
+                    control_by_base_param_seed[(base_key, param_name)][seed] = float(
+                        row["z_value"]
+                    )
+                    row["gap_percent"] = 0.0
+
+                    if 0.0 in deltas:
+                        _append_row(results_csv, row)
+
                     logger.info(
-                        "  [SKIP] %s delta=0 seed=%d (Z=%.0f from resume)",
+                        "  %s/%s delta=0 seed=%d Z=%.0f t=%.1fs",
+                        base_key,
                         param_name,
                         seed,
-                        z_val,
+                        row["z_value"],
+                        row["elapsed_seconds"],
                     )
-                    continue
-
-            try:
-                row = _run_single_sequential(
-                    parameter=param_name,
-                    delta=0.0,
-                    seed=seed,
-                    instance=control_instance,
-                    algo_params=algo_params,
-                    z_reference=float("nan"),
-                )
-                control_by_param_seed[param_name][seed] = float(row["z_value"])
-                row["gap_percent"] = 0.0
-
-                if 0.0 in deltas:
-                    _append_row(results_csv, row)
-
-                logger.info(
-                    "  %s delta=0 seed=%d Z=%.0f t=%.1fs",
-                    param_name,
-                    seed,
-                    row["z_value"],
-                    row["elapsed_seconds"],
-                )
-            except Exception as exc:
-                logger.error("ERROR %s/delta=0.0/seed=%d: %s", param_name, seed, exc)
+                except Exception as exc:
+                    logger.error(
+                        "ERROR %s/%s/delta=0.0/seed=%d: %s",
+                        base_key,
+                        param_name,
+                        seed,
+                        exc,
+                    )
 
     # ============================================================
     # FASE 2: Perturbation runs — paralelo si workers > 0
     # ============================================================
     logger.info("--- FASE 2: Perturbation runs (paralelo=%s) ---", use_parallel)
 
-    # Construir lista de tareas pendientes
+    # Construir lista de tareas pendientes (por instancia base)
     pending_tasks: list[dict] = []
-    for param_name, param_cfg in parameters.items():
-        deltas = list(param_cfg["deltas"])
-        for delta in deltas:
-            if abs(delta) < 1e-12:
-                continue  # delta=0 ya procesado en Fase 1
-            for seed in selected_seeds:
-                if _is_completed(param_name, delta, seed):
-                    continue  # Ya completado en resume
+    for base_path in base_paths:
+        base_key = _base_key(base_path)
+        for param_name, param_cfg in parameters.items():
+            deltas = list(param_cfg["deltas"])
+            for delta in deltas:
+                if abs(delta) < 1e-12:
+                    continue  # delta=0 ya procesado en Fase 1
+                for seed in selected_seeds:
+                    if _is_completed(base_key, param_name, delta, seed):
+                        continue  # Ya completado en resume
 
-                z_ref = control_by_param_seed.get(param_name, {}).get(
-                    seed, float("nan")
-                )
-                pending_tasks.append(
-                    {
-                        "parameter": param_name,
-                        "delta": float(delta),
-                        "seed": seed,
-                        "base_instance_path": base_path,
-                        "algo_params": algo_params,
-                        "z_reference": z_ref,
-                        "perturb_name": param_name,
-                    }
-                )
+                    z_ref = control_by_base_param_seed.get(
+                        (base_key, param_name), {}
+                    ).get(seed, float("nan"))
+                    pending_tasks.append(
+                        {
+                            "base_instance": base_key,
+                            "parameter": param_name,
+                            "delta": float(delta),
+                            "seed": seed,
+                            "base_instance_path": base_path,
+                            "algo_params": algo_params,
+                            "z_reference": z_ref,
+                            "perturb_name": param_name,
+                        }
+                    )
 
     logger.info("  Tareas pendientes: %d", len(pending_tasks))
 
@@ -503,11 +584,14 @@ def run_sensitivity(
             progress = None
 
         for i, task in enumerate(pending_tasks):
+            label = (
+                f"{task['base_instance']} {task['parameter']} "
+                f"d={task['delta']:+.0%} s{task['seed']}"
+            )
             try:
                 row = _run_single_task(task)
                 _append_row(results_csv, row)
 
-                label = f"{task['parameter']} d={task['delta']:+.0%} s{task['seed']}"
                 if progress:
                     progress.set_postfix_str(f"{label} Z={row['z_value']:,.0f}")
                     progress.update(1)
@@ -548,7 +632,10 @@ def run_sensitivity(
 
             for future in as_completed(future_to_task):
                 task = future_to_task[future]
-                label = f"{task['parameter']} d={task['delta']:+.0%} s{task['seed']}"
+                label = (
+                    f"{task['base_instance']} {task['parameter']} "
+                    f"d={task['delta']:+.0%} s{task['seed']}"
+                )
                 try:
                     row = future.result()
                     _append_row(results_csv, row)
@@ -594,7 +681,7 @@ def run_sensitivity(
 
 
 def _get_z_from_csv(
-    results_csv: Path, parameter: str, delta: float, seed: int
+    results_csv: Path, base_key: str, parameter: str, delta: float, seed: int
 ) -> float | None:
     """Buscar z_value de un run especifico en el CSV."""
     try:
@@ -602,7 +689,8 @@ def _get_z_from_csv(
             reader = csv.DictReader(f)
             for row in reader:
                 if (
-                    row["parameter"] == parameter
+                    row.get("base_instance", "") == base_key
+                    and row["parameter"] == parameter
                     and row["delta"] == str(delta)
                     and row["seed"] == str(seed)
                 ):

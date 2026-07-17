@@ -31,6 +31,7 @@ import pandas as pd
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib.ticker import FuncFormatter
 
 # ============================================================
 # Tabla de resultados principal
@@ -45,6 +46,49 @@ ALGO_LABELS = {
     "ga_sa": "GA-SA",
     "cbc_exact": "CBC (Exact)",
 }
+
+# Etiquetas en español solo para las figuras (las tablas conservan ALGO_LABELS).
+ALGO_LABELS_PLOT = {**ALGO_LABELS, "cbc_exact": "CBC (exacto)"}
+
+# Paleta Okabe-Ito (segura para daltonismo), fija por algoritmo.
+# El texto SIEMPRE va en tinta, nunca en el color de la serie.
+TINTA = "#1a1a1a"
+ALGO_COLORS = {
+    "baseline": "#666666",
+    "ga": "#0072B2",
+    "sa": "#E69F00",
+    "de": "#009E73",
+    "ga_sa": "#CC79A7",
+    "cbc_exact": "#1a1a1a",
+}
+
+plt.rcParams.update(
+    {
+        "figure.facecolor": "white",
+        "axes.facecolor": "white",
+        "savefig.facecolor": "white",
+        "savefig.dpi": 300,
+        "text.color": TINTA,
+        "axes.labelcolor": TINTA,
+        "axes.edgecolor": TINTA,
+        "xtick.color": TINTA,
+        "ytick.color": TINTA,
+        "font.family": "sans-serif",
+    }
+)
+
+_FMT_MILLONES = FuncFormatter(lambda v, _pos: f"{v:,.0f}")
+
+
+def _estilizar_ejes(ax: plt.Axes, grid_axis: str = "y") -> None:
+    """Estilo comun: spines superior/derecho fuera, grid sutil bajo los datos."""
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+    ax.spines["left"].set_linewidth(0.8)
+    ax.spines["bottom"].set_linewidth(0.8)
+    ax.grid(axis=grid_axis, alpha=0.25, linewidth=0.8, color="#999999")
+    ax.set_axisbelow(True)
+    ax.tick_params(labelsize=10, color="#999999")
 
 
 def generate_main_table(df: pd.DataFrame) -> pd.DataFrame:
@@ -141,30 +185,47 @@ def plot_boxplot_fitness(df: pd.DataFrame, output_path: Path) -> None:
     fig, ax = plt.subplots(figsize=(10, 6))
 
     algos = [a for a in ALGO_ORDER if a in df["algorithm"].unique()]
-    data = [df[df["algorithm"] == a]["z_value"].values for a in algos]
-    labels = [ALGO_LABELS.get(a, a) for a in algos]
+    data = [df[df["algorithm"] == a]["z_value"].values / 1e6 for a in algos]
+    labels = [ALGO_LABELS_PLOT.get(a, a) for a in algos]
 
-    bp = ax.boxplot(data, labels=labels, patch_artist=True)
+    bp = ax.boxplot(data, patch_artist=True, widths=0.55)
 
-    colors = ["#95a5a6", "#3498db", "#e74c3c", "#2ecc71", "#9b59b6", "#f39c12"]
-    for patch, color in zip(bp["boxes"], colors[: len(algos)]):
-        patch.set_facecolor(color)
-        patch.set_alpha(0.7)
+    for i, algo in enumerate(algos):
+        color = ALGO_COLORS.get(algo, "#666666")
+        bp["boxes"][i].set(facecolor=color, alpha=0.35, edgecolor=color, linewidth=1.6)
+        for whisker in bp["whiskers"][2 * i : 2 * i + 2]:
+            whisker.set(color=color, linewidth=1.4)
+        for cap in bp["caps"][2 * i : 2 * i + 2]:
+            cap.set(color=color, linewidth=1.4)
+        bp["medians"][i].set(color=TINTA, linewidth=1.8)
+        for flier in bp["fliers"][i : i + 1]:
+            flier.set(
+                marker="o",
+                markersize=5,
+                markerfacecolor=color,
+                markeredgecolor="white",
+                markeredgewidth=1.0,
+                alpha=0.9,
+            )
 
-    ax.set_title("Distribucion de Z por Algoritmo", fontsize=14, fontweight="bold")
-    ax.set_ylabel("Z (Funcion Objetivo, COP)", fontsize=12)
-    ax.grid(axis="y", alpha=0.3, linestyle="--")
-    ax.ticklabel_format(style="sci", axis="y", scilimits=(0, 0))
+    ax.set_xticks(range(1, len(labels) + 1))
+    ax.set_xticklabels(labels, fontsize=11)
+    ax.set_title(
+        "Distribución de Z por algoritmo", fontsize=14, fontweight="bold", color=TINTA
+    )
+    ax.set_ylabel("Z, función objetivo (millones de COP)", fontsize=12)
+    ax.yaxis.set_major_formatter(_FMT_MILLONES)
+    _estilizar_ejes(ax, grid_axis="y")
 
     fig.tight_layout()
-    fig.savefig(output_path / "boxplot_fitness.png", dpi=200)
+    fig.savefig(output_path / "boxplot_fitness.png", dpi=300)
     plt.close(fig)
     print(f"  Boxplot guardado: {output_path / 'boxplot_fitness.png'}")
 
 
 def plot_pareto_quality_time(df: pd.DataFrame, output_path: Path) -> None:
-    """Grafico de Pareto: calidad (Z medio) vs tiempo medio."""
-    fig, ax = plt.subplots(figsize=(8, 6))
+    """Grafico de Pareto: calidad (Z medio) vs tiempo medio, con etiquetas directas."""
+    fig, ax = plt.subplots(figsize=(8.5, 6))
 
     summary = (
         df.groupby("algorithm")
@@ -174,41 +235,91 @@ def plot_pareto_quality_time(df: pd.DataFrame, output_path: Path) -> None:
         )
         .reset_index()
     )
+    summary["sort_key"] = summary["algorithm"].map(
+        {a: i for i, a in enumerate(ALGO_ORDER)}
+    )
+    summary = summary.sort_values("sort_key")
 
-    colors = {
-        "baseline": "#95a5a6",
-        "ga": "#3498db",
-        "sa": "#e74c3c",
-        "de": "#2ecc71",
-        "ga_sa": "#9b59b6",
-        "cbc_exact": "#f39c12",
-    }
-
+    puntos = []  # (algo, x, y_millones)
     for _, row in summary.iterrows():
         algo = row["algorithm"]
+        x, y = row["time_mean"], row["z_mean"] / 1e6
+        puntos.append((algo, x, y))
         ax.scatter(
-            row["time_mean"],
-            row["z_mean"],
-            s=150,
-            c=colors.get(algo, "gray"),
-            label=ALGO_LABELS.get(algo, algo),
+            x,
+            y,
+            s=170,
+            color=ALGO_COLORS.get(algo, "#666666"),
             zorder=5,
-            edgecolors="black",
-            linewidth=0.5,
+            edgecolors="white",
+            linewidth=2,
         )
 
-    ax.set_xlabel("Tiempo Medio (seg)", fontsize=12)
-    ax.set_ylabel("Z Medio (COP)", fontsize=12)
+    # Etiquetas directas en tinta. Los puntos que comparten zona (tiempos en la
+    # misma decada y Z cercano) forman un cluster y reparten sus etiquetas
+    # alrededor: el mas alto arriba, el siguiente al costado, el mas bajo abajo.
+    ys = [p[2] for p in puntos]
+    y_span = (max(ys) - min(ys)) or 1.0
+    lxs = [np.log10(max(p[1], 1e-9)) for p in puntos]
+    cluster_de = list(range(len(puntos)))
+    for i in range(len(puntos)):
+        for j in range(i):
+            cerca_x = abs(lxs[i] - lxs[j]) < 0.22
+            cerca_y = abs(puntos[i][2] - puntos[j][2]) < 0.18 * y_span
+            if cerca_x and cerca_y:
+                cluster_de[i] = cluster_de[j]
+                break
+
+    por_cluster: dict[int, list[int]] = {}
+    for i, c in enumerate(cluster_de):
+        por_cluster.setdefault(c, []).append(i)
+
+    # (dx, dy, ha, va) segun el rango de Z descendente dentro del cluster
+    posiciones_cluster = [
+        (0, 11, "center", "bottom"),
+        (12, -4, "left", "center"),
+        (0, -19, "center", "top"),
+        (-12, -4, "right", "center"),
+    ]
+    for indices in por_cluster.values():
+        if len(indices) == 1:
+            asignaciones = {indices[0]: (10, 5, "left", "bottom")}
+        else:
+            orden = sorted(indices, key=lambda i: -puntos[i][2])
+            asignaciones = {
+                i: posiciones_cluster[k % len(posiciones_cluster)]
+                for k, i in enumerate(orden)
+            }
+        for i, (dx, dy, ha, va) in asignaciones.items():
+            algo, x, y = puntos[i]
+            ax.annotate(
+                ALGO_LABELS_PLOT.get(algo, algo),
+                xy=(x, y),
+                xytext=(dx, dy),
+                textcoords="offset points",
+                ha=ha,
+                va=va,
+                fontsize=10.5,
+                fontweight="bold",
+                color=TINTA,
+                zorder=6,
+            )
+
+    ax.set_xlabel("Tiempo medio (s, escala logarítmica)", fontsize=12)
+    ax.set_ylabel("Z medio (millones de COP)", fontsize=12)
     ax.set_title(
-        "Pareto: Calidad vs Tiempo Computacional", fontsize=14, fontweight="bold"
+        "Frente calidad vs. tiempo computacional",
+        fontsize=14,
+        fontweight="bold",
+        color=TINTA,
     )
-    ax.legend(fontsize=10)
-    ax.grid(alpha=0.3, linestyle="--")
-    ax.ticklabel_format(style="sci", axis="y", scilimits=(0, 0))
     ax.set_xscale("log")
+    ax.yaxis.set_major_formatter(_FMT_MILLONES)
+    ax.margins(x=0.12, y=0.12)
+    _estilizar_ejes(ax, grid_axis="both")
 
     fig.tight_layout()
-    fig.savefig(output_path / "pareto_quality_time.png", dpi=200)
+    fig.savefig(output_path / "pareto_quality_time.png", dpi=300)
     plt.close(fig)
     print(f"  Pareto guardado: {output_path / 'pareto_quality_time.png'}")
 
@@ -225,27 +336,46 @@ def plot_service_level_comparison(df: pd.DataFrame, output_path: Path) -> None:
     )
     summary = summary.sort_values("sort_key")
 
-    colors = ["#95a5a6", "#3498db", "#e74c3c", "#2ecc71", "#9b59b6", "#f39c12"]
-    labels = [ALGO_LABELS.get(a, a) for a in summary["algorithm"]]
+    colors = [ALGO_COLORS.get(a, "#666666") for a in summary["algorithm"]]
+    labels = [ALGO_LABELS_PLOT.get(a, a) for a in summary["algorithm"]]
     x = np.arange(len(labels))
 
-    bars = ax.bar(
+    ax.bar(
         x,
         summary["mean"],
         yerr=summary["std"],
-        color=colors[: len(labels)],
-        capsize=4,
-        alpha=0.8,
+        width=0.6,
+        color=colors,
+        error_kw={"ecolor": "#999999", "capsize": 3, "elinewidth": 1.2},
+        zorder=3,
     )
+
+    # Valor medio anotado en tinta encima de cada barra (sobre la barra de error).
+    for xi, media, desv in zip(x, summary["mean"], summary["std"].fillna(0.0)):
+        ax.annotate(
+            f"{media:.1f}",
+            xy=(xi, media + desv),
+            xytext=(0, 4),
+            textcoords="offset points",
+            ha="center",
+            va="bottom",
+            fontsize=10,
+            fontweight="bold",
+            color=TINTA,
+            zorder=4,
+        )
+
     ax.set_xticks(x)
-    ax.set_xticklabels(labels, rotation=15)
-    ax.set_ylabel("Nivel de Servicio (%)")
-    ax.set_title("Nivel de Servicio por Algoritmo", fontsize=14, fontweight="bold")
-    ax.grid(axis="y", alpha=0.3, linestyle="--")
+    ax.set_xticklabels(labels, fontsize=11)
+    ax.set_ylabel("Nivel de servicio (%)", fontsize=12)
+    ax.set_title(
+        "Nivel de servicio por algoritmo", fontsize=14, fontweight="bold", color=TINTA
+    )
     ax.set_ylim(0, 105)
+    _estilizar_ejes(ax, grid_axis="y")
 
     fig.tight_layout()
-    fig.savefig(output_path / "service_level_comparison.png", dpi=200)
+    fig.savefig(output_path / "service_level_comparison.png", dpi=300)
     plt.close(fig)
     print(f"  Service level guardado: {output_path / 'service_level_comparison.png'}")
 

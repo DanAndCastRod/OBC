@@ -1,0 +1,24 @@
+algorithm: sa
+best_params:
+  T_final: 562.8639594087863
+  T_initial: null
+  cooling_rate: 0.8136423443524515
+  delta: 0.0661
+  max_iterations: 43
+  p_quantity: 0.470408191279226
+  p_toggle: 0.18996821586533155
+  reheat_factor: 1.005705257345267
+  reheat_threshold: 113
+best_trial: 35
+best_value_mean_Z: 579071375.0006177
+elapsed_seconds: 814.1691825389862
+instances:
+- data/instances_v2/small_v2_seed201.yaml
+- data/instances_v2/medium_v2_seed201.yaml
+max_evaluations_per_run: 6000
+n_trials: 40
+regime: v2 (demand_cap, presupuesto igualado)
+run_seeds:
+- 1
+- 2
+sampler_seed: 42

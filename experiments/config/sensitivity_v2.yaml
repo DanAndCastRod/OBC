@@ -1,0 +1,73 @@
+# ============================================================
+# Configuracion del Analisis de Sensibilidad v2 (multi-instancia)
+# ============================================================
+# Cambios respecto a sensitivity.yaml (v1):
+#   - MULTIPLES instancias base (una por tamano del set v2) en lugar de
+#     una sola instancia medium: evita pseudoreplicacion y permite ver si
+#     la sensibilidad depende del tamano del problema.
+#   - GA-SA con los MISMOS parametros de comparison_v2.yaml: tope de
+#     demanda (demand_cap) y presupuesto igualado (max_evaluations=20000).
+#   - 5 seeds x 5 replicas por (instancia base, parametro, delta).
+#   Total: 3 bases x 3 parametros x 5 deltas x 5 replicas = 225 corridas.
+# ============================================================
+
+experiment:
+  name: "sensitivity_v2"
+  description: "Sensibilidad multi-instancia sobre el set v2 con GA-SA (presupuesto igualado)"
+  gap_reference: "delta0_per_seed"  # Gap de cada delta vs control (delta=0) del mismo seed y base
+  n_replicas: 5
+  seeds: [1, 2, 3, 4, 5]
+
+# Algoritmo a usar (mismos parametros que comparison_v2.yaml -> ga_sa)
+algorithm: ga_sa
+algorithm_params:
+  pop_size: 39
+  crossover_rate: 0.8589
+  mutation_rate: 0.0505
+  elitism_count: 1
+  selection_size: 3
+  local_search_T: 3226.60
+  local_search_cooling: 0.7126
+  local_search_freq: 9
+  local_search_iters: 26
+  local_search_top_k: 10
+  n_generations: 100000
+  stagnation_limit: 100000
+  max_evaluations: 20000
+  demand_cap: true
+
+# Instancias base para perturbaciones (una por tamano del set v2)
+base_instances:
+  - "data/instances_v2/small_v2_seed201.yaml"
+  - "data/instances_v2/medium_v2_seed201.yaml"
+  - "data/instances_v2/large_v2_seed201.yaml"
+
+# ============================================================
+# Parametros a variar
+# ============================================================
+# Cada parametro se perturba individualmente (one-at-a-time).
+# Los factores son multiplicativos: prices * (1 + delta).
+# ============================================================
+parameters:
+  prices:
+    description: "Precios de venta por forma de corte"
+    field: "prices"
+    deltas: [-0.20, -0.10, 0.0, 0.10, 0.20]
+
+  costs:
+    description: "Costos de produccion, setup e inventario"
+    fields: ["cost_prod", "cost_setup", "cost_inv"]
+    deltas: [-0.20, -0.10, 0.0, 0.10, 0.20]
+
+  demand_variability:
+    description: "Variabilidad de la demanda estocastica"
+    field: "demand"
+    deltas: [-0.50, -0.25, 0.0, 0.25, 0.50]
+    mode: "spread"  # Escalar la desviacion respecto a la media, no la media
+
+# ============================================================
+# Output (set v2, separado de experiments/results/)
+# ============================================================
+output:
+  results_csv: "experiments/results_v2/sensitivity.csv"
+  results_json: "experiments/results_v2/sensitivity.json"
