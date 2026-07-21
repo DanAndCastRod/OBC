@@ -20,58 +20,79 @@
   <script src="libs/chart.umd.min.js"></script>
   <script src="presentation_data.js"></script>
   <style>
-    :root { --teal:#0f766e; --teal2:#0d9488; --cyan:#00B8D4; --ink:#1E293B; --muted:#475569; --bg:#f4f8f8;
-      --color-secondary-slate:#64748b; --color-text-main:#1a1a1a;
+    /* Tema "tinta institucional" */
+    :root { --paper:#FAFAF7; --ink:#17202A; --muted:#5C6670; --hairline:#D9DCD6;
+      --primary:#1E3A5F; --accent:#9B1B30;
+      --card-shadow:0 1px 3px rgba(23,32,42,.08);
       --font-body:"IBM Plex Sans", system-ui, "Segoe UI", Arial, sans-serif;
       --font-heading:"Manrope", system-ui, "Segoe UI", Arial, sans-serif; }
-    .reveal { font-family:var(--font-body); color:var(--ink); font-size:24px;
-      background:radial-gradient(circle at 10% 10%, rgba(13,148,136,.16), transparent 30%), linear-gradient(180deg,var(--bg),#fff 70%); }
-    .reveal .slides section { padding:24px 42px; text-align:left; box-sizing:border-box; }
-    .reveal h1,.reveal h2,.reveal h3 { font-family:var(--font-heading); color:var(--teal); text-transform:none; }
-    .reveal h2 { font-size:1.2em; border-bottom:3px solid var(--cyan); padding-bottom:6px; }
+    .reveal { font-family:var(--font-body); color:var(--ink); font-size:24px; background:var(--paper); }
+    .reveal .slides section { padding:22px 42px 52px; text-align:left; box-sizing:border-box; min-height:100%; }
+    .reveal h1,.reveal h2,.reveal h3 { font-family:var(--font-heading); color:var(--primary); text-transform:none; }
+    .reveal h1 { font-weight:800; }
+    .reveal h2 { font-size:1.15em; font-weight:800; border-bottom:2px solid var(--primary); padding-bottom:6px; margin-bottom:14px; }
     .reveal p,.reveal li { font-size:.75em; color:var(--muted); line-height:1.45; }
+    .eyebrow { font-family:var(--font-body); font-weight:600; font-size:.5em; color:var(--accent); font-variant:small-caps; letter-spacing:.14em; margin-bottom:4px; }
     .title { text-align:center; }
     .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
     .grid4 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-    .card { background:rgba(255,255,255,.9); border:1px solid rgba(15,118,110,.24); border-radius:12px; padding:12px 14px; box-shadow:0 8px 26px rgba(15,118,110,.14); }
-    .kpi { font-family:var(--font-heading); font-size:1.6em; font-weight:800; color:var(--teal); line-height:1.05; }
-    .callout { background:linear-gradient(135deg,var(--teal),var(--teal2)); color:#fff; border-radius:12px; padding:14px; }
+    .card { background:#FFFFFF; border:1px solid var(--hairline); border-radius:10px; padding:12px 14px; box-shadow:var(--card-shadow); }
+    .kpi { font-family:var(--font-heading); font-size:1.6em; font-weight:800; color:var(--primary); line-height:1.05; }
+    .callout { background:var(--primary); color:#fff; border-radius:10px; padding:14px; }
     .callout * { color:#fff !important; }
-    .chartbox { background:#fff; border:1px solid rgba(15,118,110,.28); border-radius:12px; padding:8px 10px; box-shadow:0 8px 26px rgba(15,118,110,.12); }
+    .chartbox { background:#FFFFFF; border:1px solid var(--hairline); border-radius:10px; padding:8px 10px; box-shadow:var(--card-shadow); }
     .chart { position:relative; height:290px; }
     .chart-small { position:relative; height:225px; }
     .controls { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:6px; }
     .controls label { font-size:.62em; font-weight:600; color:var(--ink); }
-    .controls select { font-size:.62em; border:1px solid rgba(15,118,110,.34); border-radius:8px; padding:4px 8px; }
+    .controls select { font-size:.62em; border:1px solid var(--hairline); border-radius:8px; padding:4px 8px; background:#fff; color:var(--ink); }
     .pill { display:inline-block; font-size:.58em; font-weight:700; border-radius:999px; padding:2px 8px; white-space:nowrap; }
-    .ok { background:rgba(13,148,136,.16); color:var(--teal); }
-    .no { background:rgba(71,85,105,.16); color:var(--muted); }
-    .hypo { border-left:5px solid var(--teal2); background:rgba(255,255,255,.9); border-radius:10px; padding:9px 11px; margin-bottom:8px;
+    .ok { background:#EEF3EA; color:#2F5233; }
+    .no { background:#F4ECEC; color:#7A2E2E; }
+    .neutral { background:#EDEEEC; color:var(--muted); }
+    .hypo { border:1px solid var(--hairline); border-left:4px solid var(--primary); background:#FFFFFF; border-radius:8px; padding:9px 11px; margin-bottom:8px; box-shadow:var(--card-shadow);
       display:flex; flex-wrap:wrap; align-items:baseline; column-gap:6px; row-gap:4px; }
     .hypo.n { border-left-color:var(--muted); }
-    .gif img { width:100%; max-height:200px; object-fit:contain; border-radius:8px; border:1px solid rgba(15,118,110,.2); }
-    .small { font-size:.6em; color:#64748b; }
-    .footer { position:absolute; left:0; right:0; bottom:0; height:4px; background:linear-gradient(90deg,var(--teal),var(--teal2),var(--cyan)); }
-    @media (max-width:900px){ .grid2,.grid4{grid-template-columns:1fr;} .chart,.chart-small{height:230px;} .reveal .slides section{padding:16px 18px;} }
+    .gif img { width:100%; max-height:200px; object-fit:contain; border-radius:8px; border:1px solid var(--hairline); }
+    .small { font-size:.6em; color:var(--muted); }
+    .stat-tiles { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+    .stat-tile { background:#FFFFFF; border:1px solid var(--hairline); border-radius:10px; padding:12px 14px; box-shadow:var(--card-shadow); text-align:center; }
+    .stat-tile .num { font-family:var(--font-heading); font-weight:800; font-size:1.45em; color:var(--primary); line-height:1.05; }
+    .stat-tile .lbl { font-size:.55em; color:var(--muted); margin-top:4px; line-height:1.3; }
+    .takeaway { border-left:3px solid var(--accent); background:#FBF6F4; font-size:.55em; color:var(--ink); padding:7px 12px; margin-top:12px; border-radius:0 8px 8px 0; line-height:1.35; }
+    .footer { position:absolute; left:42px; right:42px; bottom:10px; display:flex; justify-content:space-between; gap:12px; border-top:1px solid var(--hairline); padding-top:6px; font-size:.5em; color:var(--muted); }
+    .reveal table { border-collapse:collapse; font-variant-numeric:tabular-nums; }
+    .reveal table th { border-bottom:2px solid var(--primary); color:var(--ink); }
+    .reveal table tr:nth-child(even) td { background:#F6F7F5; }
+    .reveal table tr.hl td { background:#E8EEF5; }
+    .divider .act-roman { font-family:var(--font-heading); font-weight:800; font-size:3.2em; color:rgba(250,250,247,.35); line-height:1; margin-bottom:6px; }
+    .divider h2 { color:#FAFAF7; border-bottom:none; font-size:1.7em; margin:0 0 12px; }
+    .divider p { color:#C9D2DD; font-size:.8em; max-width:72%; }
+    .reveal .progress { color:var(--accent); height:4px; }
+    .reveal .slide-number { background:transparent; color:var(--muted); font-family:var(--font-body); font-size:12px; }
+    @media (max-width:900px){ .grid2,.grid4,.stat-tiles{grid-template-columns:1fr;} .chart,.chart-small{height:230px;} .reveal .slides section{padding:16px 18px 46px;} }
   </style>
 </head>
 <body>
 <div class="reveal"><div class="slides">
 
 <!-- S1: PORTADA -->
-<section class="title">
-  <img src="figuras/logo_utp.png" alt="Logo UTP" style="max-height:60px;" onerror="this.style.display='none'">
-  <h1 style="font-size:1.35em;">Modelo de Optimización para la Planificación de Coproductos con Metaheurísticas en la Industria Avícola</h1>
-  <p><strong>Daniel Andrés Castañeda Rodríguez</strong></p>
-  <p class="small">Directora: Ing. Eliana Mirledy Ocampo Toro, PhD.</p>
-  <p class="small">Maestría en Investigación de Operaciones y Estadística — UTP, 2026</p>
-  <div class="footer"></div>
+<section class="title" style="display:flex; flex-direction:column; justify-content:center; height:100%;">
+  <img src="figuras/logo_utp.png" alt="Logo UTP" style="max-height:64px; margin:0 auto 14px; display:block;" onerror="this.style.display='none'">
+  <p class="eyebrow" style="text-align:center; margin-bottom:10px;">Sustentación de tesis de maestría</p>
+  <h1 style="font-size:1.32em; max-width:88%; margin:0 auto 14px;">Modelo de Optimización para la Planificación de Coproductos con Metaheurísticas en la Industria Avícola</h1>
+  <div style="width:64px; height:2px; background:var(--primary); margin:0 auto 16px;"></div>
+  <p style="margin:0 0 4px;"><strong style="color:var(--ink);">Daniel Andrés Castañeda Rodríguez</strong></p>
+  <p class="small" style="margin:0 0 2px;">Directora: PhD. Eliana Mirledy Ocampo Toro</p>
+  <p class="small" style="margin:0;">Maestría en Investigación de Operaciones y Estadística — Universidad Tecnológica de Pereira · 2026</p>
+  <div class="footer"><span>Optimización de coproductos avícolas — UTP · 2026</span></div>
 </section>
 
 <!-- S2: AGENDA -->
 <section style="display:flex; flex-direction:column; justify-content:center; height:100%;">
+  <div class="eyebrow">Hoja de ruta</div>
   <h2>Agenda</h2>
-  <ol style="column-count:2; column-gap:40px; font-size:.85em; margin-top:30px; line-height:1.6;">
+  <ol style="column-count:2; column-gap:40px; font-size:.85em; margin-top:24px; line-height:1.6;">
     <li style="margin-bottom:15px;">Contexto de la industria avícola</li>
     <li style="margin-bottom:15px;">Problema e hipótesis</li>
     <li style="margin-bottom:15px;">Justificación</li>
@@ -83,32 +104,49 @@
     <li style="margin-bottom:15px;">Resultados: campaña diagnóstica (v1) y confirmatoria (v2)</li>
     <li style="margin-bottom:15px;">Conclusiones y trabajo futuro</li>
   </ol>
-  <div class="footer"></div>
+  <div class="takeaway">Idea clave: cuatro actos — el problema, el modelo, la evidencia en dos campañas y lo que significa para la industria.</div>
+  <div class="footer"><span>Optimización de coproductos avícolas — UTP · 2026</span><span>Hoja de ruta</span></div>
+</section>
+
+<!-- DIVISORIA I -->
+<section class="divider" data-background-color="#1E3A5F" style="display:flex; flex-direction:column; justify-content:center; height:100%;">
+  <div class="act-roman">I</div>
+  <h2>El problema</h2>
+  <p>«Cada pollo produce un mix fijo; el mercado no compra ese mix».</p>
 </section>
 
 <!-- S3: CONTEXTO INDUSTRIA -->
 <section>
-  <h2>1. Contexto: Industria Avícola Colombiana</h2>
+  <div class="eyebrow">Acto I · El problema</div>
+  <h2>1. Una industria de 1.7M t/año planifica sobre un mix que no elige</h2>
+  <div class="stat-tiles" style="margin-bottom:12px;">
+    <div class="stat-tile"><div class="num">1.7M</div><div class="lbl">t/año de producción de pollo en Colombia (FENAVI 2023)</div></div>
+    <div class="stat-tile"><div class="num">~30%</div><div class="lbl">de la canal es pechuga: el resto debe venderse igual</div></div>
+    <div class="stat-tile"><div class="num">20%</div><div class="lbl">beneficio adicional demostrado (campaña confirmatoria)</div></div>
+  </div>
   <div class="grid2">
-    <div>
-      <div class="card"><div class="kpi">1.7M</div><p>Toneladas de pollo procesadas por año (FENAVI 2023)</p></div>
-      <div class="card" style="margin-top:8px;"><div class="kpi">8 cortes</div><p>Coproductos por carcasa (pechuga, muslo, ala, etc.)</p></div>
-      <div class="card" style="margin-top:8px;"><div class="kpi">NP-hard</div><p>CLSP estocástico con setup, perecibilidad y coproducción</p></div>
+    <div class="card">
+      <h3 style="margin-top:0; font-size:.78em;">Por qué es un problema difícil</h3>
+      <ul style="font-size:.62em; line-height:1.5;">
+        <li><strong>8 coproductos por carcasa</strong> (pechuga, muslo, ala, etc.) en proporciones fijas α<sub>p</sub>.</li>
+        <li><strong>CLSP estocástico NP-hard:</strong> setup, perecibilidad y coproducción simultáneos.</li>
+        <li>Demanda heterogénea y estacional por corte.</li>
+      </ul>
     </div>
-    <div>
-      <div class="chartbox">
-        <h3 style="margin-top:0;">Baseline vs GA-SA vs CBC exacto</h3>
-        <div class="chart-small"><canvas id="baselineSizeChart"></canvas></div>
-        <p class="small">Comparación de Z medio (M COP) por tamaño de instancia.</p>
-      </div>
+    <div class="chartbox">
+      <h3 style="margin-top:0;">Baseline vs GA-SA vs CBC exacto</h3>
+      <div class="chart-small"><canvas id="baselineSizeChart"></canvas></div>
+      <p class="small">Comparación de Z medio (M COP) por tamaño de instancia.</p>
     </div>
   </div>
-  <div class="footer"></div>
+  <div class="takeaway">Idea clave: a esta escala, cada punto porcentual de eficiencia en el mix vale miles de millones de COP al año.</div>
+  <div class="footer"><span>Optimización de coproductos avícolas — UTP · 2026</span><span>Acto I · El problema</span></div>
 </section>
 
 <!-- S4: PROBLEMA -->
 <section>
-  <h2>2. Problema: Dinámica Push vs Pull</h2>
+  <div class="eyebrow">Acto I · El problema</div>
+  <h2>2. La anatomía fija la oferta; el mercado exige otro mix</h2>
   <div class="grid2">
     <div class="callout">
       <h3 style="margin-top:0;">Push (Oferta)</h3>
@@ -136,12 +174,14 @@
       <tr><td>Demanda insatisfecha</td><td>Cortes de alta demanda agotados</td><td>Pérdida de ventas</td></tr>
     </table>
   </div>
-  <div class="footer"></div>
+  <div class="takeaway">Idea clave: no se puede producir solo pechuga — todo plan de producción administra el mix completo o paga el desbalance.</div>
+  <div class="footer"><span>Optimización de coproductos avícolas — UTP · 2026</span><span>Acto I · El problema</span></div>
 </section>
 
 <!-- S-JUSTIFICACION (NEW) -->
 <section style="display:flex; flex-direction:column; justify-content:center; height:100%;">
-  <h2>3. Justificación del Estudio</h2>
+  <div class="eyebrow">Acto I · El problema</div>
+  <h2>3. El desbalance cuesta margen, inventario y desperdicio</h2>
   <div class="grid2">
     <div class="card">
       <h3 style="margin-top:0;font-size:.78em;">Relevancia Económica</h3>
@@ -166,12 +206,14 @@
       </ul>
     </div>
   </div>
-  <div class="footer"></div>
+  <div class="takeaway">Idea clave: inventario excesivo, liquidaciones y desperdicio son costos evitables con mejor planificación — y alinean el estudio con los ODS 9 y 12.</div>
+  <div class="footer"><span>Optimización de coproductos avícolas — UTP · 2026</span><span>Acto I · El problema</span></div>
 </section>
 
 <!-- S5: HIPÓTESIS -->
 <section>
-  <h2>4. Pregunta de Investigación e Hipótesis</h2>
+  <div class="eyebrow">Acto I · El problema</div>
+  <h2>4. Tres hipótesis falsables sobre el valor de optimizar</h2>
   <div class="card" style="margin-bottom:10px;">
     <p style="font-style:italic;font-size:.78em;">¿Cómo optimizar la planificación de producción de coproductos avícolas bajo demanda estocástica, minimizando costos de inventario y maximizando el beneficio?</p>
   </div>
@@ -189,12 +231,14 @@
       <li>Objetivo: escalar con buena calidad, no superar al exacto.</li>
     </ul>
   </div>
-  <div class="footer"></div>
+  <div class="takeaway">Idea clave: las mismas tres hipótesis se contrastan en dos regímenes económicos — y el veredicto cambia con el régimen.</div>
+  <div class="footer"><span>Optimización de coproductos avícolas — UTP · 2026</span><span>Acto I · El problema</span></div>
 </section>
 
 <!-- S6: OBJETIVOS -->
 <section>
-  <h2>5. Objetivos</h2>
+  <div class="eyebrow">Acto I · El problema</div>
+  <h2>5. Objetivos: formular, resolver, calibrar y validar en dos campañas</h2>
   <div class="card" style="margin-bottom:10px;">
     <h3 style="margin-top:0;">Objetivo General</h3>
     <p style="font-size:.75em;">Desarrollar un modelo de optimización para la planificación de coproductos en la industria avícola colombiana, resuelto mediante metaheurísticas.</p>
@@ -210,12 +254,14 @@
       <div class="card" style="margin-bottom:6px;"><p style="font-size:.68em;margin:0;"><strong>OE5.</strong> Validar con datos FENAVI/DANE y análisis de sensibilidad.</p></div>
     </div>
   </div>
-  <div class="footer"></div>
+  <div class="takeaway">Idea clave: del modelo formal (OE1) a la validación estadística (OE5), un pipeline completo y reproducible.</div>
+  <div class="footer"><span>Optimización de coproductos avícolas — UTP · 2026</span><span>Acto I · El problema</span></div>
 </section>
 
 <!-- S7: MARCO TEÓRICO -->
 <section style="display:flex; flex-direction:column; justify-content:center; height:100%;">
-  <h2>6. Marco Teórico</h2>
+  <div class="eyebrow">Acto I · El problema</div>
+  <h2>6. Coproducción + perecibilidad + estocasticidad: un CLSP NP-hard</h2>
   <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
     <div class="card">
       <h3 style="margin-top:0;font-size:.78em;">Producción Conjunta</h3>
@@ -257,12 +303,14 @@
       <p style="font-size:.60em; line-height:1.35; margin:0;">Lote mínimo + setup + perecibilidad + estocasticidad: el problema es formalmente <strong>NP-hard</strong> (Mahdieh et al. 2018). En los tamaños estudiados (hasta ≈58,000 variables) CBC certifica el óptimo en 17–140 s; el valor de las metaheurísticas está en su comportamiento <em>anytime</em> (99% del óptimo en segundos), su escalabilidad al tamaño industrial real (52 periodos × 500 escenarios) y su flexibilidad para extensiones no lineales o multi-objetivo.</p>
     </div>
   </div>
-  <div class="footer"></div>
+  <div class="takeaway">Idea clave: el valor de las metaheurísticas no es vencer a CBC, sino su comportamiento anytime y su escalabilidad al tamaño industrial.</div>
+  <div class="footer"><span>Optimización de coproductos avícolas — UTP · 2026</span><span>Acto I · El problema</span></div>
 </section>
 
 <!-- S8: ESTADO DEL ARTE -->
 <section style="display:flex; flex-direction:column; justify-content:center; height:100%;">
-  <h2>7. Estado del Arte</h2>
+  <div class="eyebrow">Acto I · El problema</div>
+  <h2>7. Ningún trabajo previo integra las cuatro dimensiones con coproductos</h2>
   <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:8px;">
     <p style="font-size:.58em; margin:0;"><strong>Búsqueda sistemática Scopus (feb. 2026):</strong> 8 queries temáticas → 478 resultados → <strong>13 papers</strong> en la intersección directa.</p>
     <p style="font-size:.52em; margin:0; color:var(--muted);"><em>Q7 (reviews multi-product lot-sizing estocástico) = 0 resultados.</em></p>
@@ -280,7 +328,7 @@
         <tr style="border-bottom:1px solid #f0f0f0;"><td style="text-align:center;">Q6</td><td>CLSP + Complejidad</td><td style="text-align:center;">30</td></tr>
         <tr style="border-bottom:1px solid #f0f0f0;"><td style="text-align:center;">Q7</td><td>Reviews multi-product estocástico</td><td style="text-align:center;font-weight:700;color:var(--muted);">0</td></tr>
         <tr><td style="text-align:center;">Q8</td><td>Lote mínimo + Prog. entera</td><td style="text-align:center;">4</td></tr>
-        <tr style="border-top:2px solid var(--teal);"><td></td><td><strong>Total</strong></td><td style="text-align:center;"><strong>478</strong></td></tr>
+        <tr style="border-top:2px solid var(--primary);"><td></td><td><strong>Total</strong></td><td style="text-align:center;"><strong>478</strong></td></tr>
       </table>
     </div>
     <div>
@@ -299,12 +347,21 @@
       </div>
     </div>
   </div>
-  <div class="footer"></div>
+  <div class="takeaway">Idea clave: 13 de 478 papers rozan la intersección; la combinación completa con coproductos es la brecha que llena esta tesis.</div>
+  <div class="footer"><span>Optimización de coproductos avícolas — UTP · 2026</span><span>Acto I · El problema</span></div>
+</section>
+
+<!-- DIVISORIA II -->
+<section class="divider" data-background-color="#1E3A5F" style="display:flex; flex-direction:column; justify-content:center; height:100%;">
+  <div class="act-roman">II</div>
+  <h2>Modelo y algoritmos</h2>
+  <p>«Un MILP estocástico y cuatro metaheurísticas sobre el mismo decodificador».</p>
 </section>
 
 <!-- S9: MODELO MATEMÁTICO -->
 <section>
-  <h2>8. Modelo Matemático</h2>
+  <div class="eyebrow">Acto II · Modelo y algoritmos</div>
+  <h2>8. Un MILP estocástico de dos etapas maximiza el beneficio esperado</h2>
   <div class="card" style="margin-bottom:8px;">
     <p style="font-size:.72em;"><strong>Función Objetivo:</strong> Maximizar beneficio esperado</p>
     <p style="font-size:.78em;text-align:center;">\(\max Z = \frac{1}{|\Omega|}\sum_{\omega}\left[\sum_{p,t} r_p \cdot v_{pt\omega} - \sum_t (c_{prod} \cdot q_t + c_{setup} \cdot y_t) - \sum_{p,t} c_{inv} \cdot I_{pt\omega}\right]\)</p>
@@ -331,82 +388,97 @@
       </table>
     </div>
   </div>
-  <div class="footer"></div>
+  <div class="takeaway">Idea clave: setup y lote se deciden antes de conocer la demanda; el modelo optimiza su valor esperado sobre los escenarios.</div>
+  <div class="footer"><span>Optimización de coproductos avícolas — UTP · 2026</span><span>Acto II · Modelo y algoritmos</span></div>
 </section>
 
 <!-- S10: METAHEURÍSTICAS + GIFs -->
 <section>
-  <h2>9. Metaheurísticas Implementadas</h2>
+  <div class="eyebrow">Acto II · Modelo y algoritmos</div>
+  <h2>9. Cuatro estrategias de búsqueda: población, trayectoria e hibridación</h2>
   <div class="grid4" style="gap:6px;grid-template-rows:1fr 1fr;">
     <div class="card gif" style="padding:6px;"><h3 style="margin:0 0 2px;font-size:.78em;">GA</h3><img src="figuras/intuicion_ga.gif" alt="GIF GA" style="max-height:180px;" onerror="this.style.display='none'"><p style="margin:2px 0 0;font-size:.55em;">Población → selección → cruce → mutación.</p></div>
     <div class="card gif" style="padding:6px;"><h3 style="margin:0 0 2px;font-size:.78em;">SA</h3><img src="figuras/intuicion_sa.gif" alt="GIF SA" style="max-height:180px;" onerror="this.style.display='none'"><p style="margin:2px 0 0;font-size:.55em;">Trayectoria con enfriamiento: T₀→T<sub>min</sub>.</p></div>
     <div class="card gif" style="padding:6px;"><h3 style="margin:0 0 2px;font-size:.78em;">DE</h3><img src="figuras/intuicion_de.gif" alt="GIF DE" style="max-height:180px;" onerror="this.style.display='none'"><p style="margin:2px 0 0;font-size:.55em;">Mutación: v = x<sub>r1</sub> + F·(x<sub>r2</sub> − x<sub>r3</sub>).</p></div>
     <div class="card gif" style="padding:6px;"><h3 style="margin:0 0 2px;font-size:.78em;">GA-SA (Híbrido)</h3><img src="figuras/intuicion_ga_sa.gif" alt="GIF GA-SA" style="max-height:180px;" onerror="this.style.display='none'"><p style="margin:2px 0 0;font-size:.55em;">GA global + SA local cada <em>k</em> generaciones.</p></div>
   </div>
-  <div class="footer"></div>
+  <div class="takeaway">Idea clave: cuatro mecanismos de búsqueda distintos compiten sobre el mismo problema y en igualdad de condiciones.</div>
+  <div class="footer"><span>Optimización de coproductos avícolas — UTP · 2026</span><span>Acto II · Modelo y algoritmos</span></div>
 </section>
 
 <!-- S11: CODIFICACIÓN -->
 <section style="display:flex; flex-direction:column; justify-content:center; height:100%;">
-  <h2>10. Esquema de Representación y Decodificador</h2>
-  <p style="font-size:.58em; margin:-10px 0 10px 0; color:var(--teal);"><strong>Aplicación Universal:</strong> Este esquema y decodificador es utilizado de manera idéntica por GA, SA, DE y GA-SA.</p>
+  <div class="eyebrow">Acto II · Modelo y algoritmos</div>
+  <h2>10. Un cromosoma y un decodificador comunes hacen justa la comparación</h2>
+  <p style="font-size:.58em; margin:-10px 0 10px 0; color:var(--primary);"><strong>Aplicación Universal:</strong> Este esquema y decodificador es utilizado de manera idéntica por GA, SA, DE y GA-SA.</p>
   <div class="grid2">
     <div class="card">
       <h3 style="margin-top:0;font-size:.85em;">1. Estructura del Cromosoma (Genotipo)</h3>
       <p style="font-size:.60em; margin-bottom:5px; line-height:1.3;">Vector unificado de <strong>2T genes</strong> (dos puntos de decisión por cada uno de los \(T\) periodos). Combina variables de setup binarias (<span style="font-family:monospace;">y<sub>t</sub></span>) y tamaño de lote continuas (<span style="font-family:monospace;">q<sub>t</sub></span>):</p>
       <div style="display:flex; justify-content:center; gap:3px; margin: 15px 0;">
-        <div style="padding:6px 10px; border:2px solid var(--cyan); background:#E0F7FA; border-radius:4px; font-family:monospace; font-size:.7em;">y₁</div>
-        <div style="padding:6px 10px; border:2px solid var(--cyan); background:#E0F7FA; border-radius:4px; font-family:monospace; font-size:.7em;">y₂</div>
+        <div style="padding:6px 10px; border:2px solid var(--primary); background:#E8EEF5; border-radius:4px; font-family:monospace; font-size:.7em;">y₁</div>
+        <div style="padding:6px 10px; border:2px solid var(--primary); background:#E8EEF5; border-radius:4px; font-family:monospace; font-size:.7em;">y₂</div>
         <div style="padding:6px 10px; border:2px dashed #64748b; font-size:.7em;">...</div>
-        <div style="padding:6px 10px; border:2px solid var(--cyan); background:#E0F7FA; border-radius:4px; font-family:monospace; font-size:.7em;">y<sub>T</sub></div>
-        <div style="padding:6px 10px; border:2px solid var(--teal); background:#ccfbf1; border-radius:4px; font-family:monospace; font-size:.7em;">q₁</div>
-        <div style="padding:6px 10px; border:2px solid var(--teal); background:#ccfbf1; border-radius:4px; font-family:monospace; font-size:.7em;">q₂</div>
+        <div style="padding:6px 10px; border:2px solid var(--primary); background:#E8EEF5; border-radius:4px; font-family:monospace; font-size:.7em;">y<sub>T</sub></div>
+        <div style="padding:6px 10px; border:2px solid var(--muted); background:#F0F1EF; border-radius:4px; font-family:monospace; font-size:.7em;">q₁</div>
+        <div style="padding:6px 10px; border:2px solid var(--muted); background:#F0F1EF; border-radius:4px; font-family:monospace; font-size:.7em;">q₂</div>
         <div style="padding:6px 10px; border:2px dashed #64748b; font-size:.7em;">...</div>
-        <div style="padding:6px 10px; border:2px solid var(--teal); background:#ccfbf1; border-radius:4px; font-family:monospace; font-size:.7em;">q<sub>T</sub></div>
+        <div style="padding:6px 10px; border:2px solid var(--muted); background:#F0F1EF; border-radius:4px; font-family:monospace; font-size:.7em;">q<sub>T</sub></div>
       </div>
       <p style="font-size:.55em; margin:0;">Restricciones físicas mapeadas a cotas: <strong>q<sub>t</sub> ∈ [Q<sup>min</sup>, Q<sup>max</sup>]</strong>.</p>
     </div>
     <div class="card">
       <h3 style="margin-top:0;font-size:.85em;">2. Decodificador Greedy (Fenotipo)</h3>
       <ol style="font-size:.65em; padding-left:20px;">
-        <li><strong style="color:var(--teal);">Reparación factibilidad:</strong> Forzar <span style="font-family:monospace;">y<sub>t</sub> = 1</span> si la demanda supera stock disponible.</li>
-        <li><strong style="color:var(--teal);">Balance de Masas:</strong> Calcular coproductos <span style="font-family:monospace;">x<sub>pt</sub> = α<sub>p</sub> · q<sub>t</sub></span> para cada parte.</li>
-        <li><strong style="color:var(--teal);">Simulación Estocástica:</strong> Computar inventario FIFO a través de <span style="font-family:monospace;">|Ω| = 100</span> micro-escenarios de demanda.</li>
-        <li><strong style="color:var(--teal);">Perecibilidad:</strong> Descartar producto excediendo vida útil <span style="font-family:monospace;">L<sub>p</sub></span> (Desecho).</li>
-        <li><strong style="color:var(--teal);">Fitness:</strong> Esperanza matemática E[Z] de la utilidad neta.</li>
+        <li><strong style="color:var(--primary);">Reparación factibilidad:</strong> Forzar <span style="font-family:monospace;">y<sub>t</sub> = 1</span> si la demanda supera stock disponible.</li>
+        <li><strong style="color:var(--primary);">Balance de Masas:</strong> Calcular coproductos <span style="font-family:monospace;">x<sub>pt</sub> = α<sub>p</sub> · q<sub>t</sub></span> para cada parte.</li>
+        <li><strong style="color:var(--primary);">Simulación Estocástica:</strong> Computar inventario FIFO a través de <span style="font-family:monospace;">|Ω| = 100</span> micro-escenarios de demanda.</li>
+        <li><strong style="color:var(--primary);">Perecibilidad:</strong> Descartar producto excediendo vida útil <span style="font-family:monospace;">L<sub>p</sub></span> (Desecho).</li>
+        <li><strong style="color:var(--primary);">Fitness:</strong> Esperanza matemática E[Z] de la utilidad neta.</li>
       </ol>
     </div>
   </div>
   <p style="font-size:.52em; margin-top:12px; text-align:right; color:var(--muted);"><em>Fuentes empíricas: Adaptado de la representación clásica de Lot-Sizing en agroindustrias.</em></p>
-  <div class="footer"></div>
+  <div class="takeaway">Idea clave: al compartir representación y decodificador, la comparación mide algoritmos de búsqueda, no diferencias de implementación.</div>
+  <div class="footer"><span>Optimización de coproductos avícolas — UTP · 2026</span><span>Acto II · Modelo y algoritmos</span></div>
 </section>
 
 <!-- S11b: CROMOSOMA, OPERADORES Y BALANCE (fusión de 10b+10c+10d) -->
 <section>
-  <h2>10b. Cromosoma, Operadores y Balance</h2>
+  <div class="eyebrow">Acto II · Modelo y algoritmos</div>
+  <h2>11. Vecindades que equilibran exploración y explotación en un espacio de 10³⁵</h2>
   <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
     <div class="card gif" style="padding:8px;">
       <h3 style="margin:0 0 4px;font-size:.72em;">Cromosoma s = (y, q)</h3>
-      <img src="figuras/chromosome_build.gif" alt="Construcción del cromosoma" style="width:100%; max-height:230px; object-fit:contain; border-radius:8px; border:1px solid rgba(15,118,110,.2);" onerror="this.style.display='none'">
+      <img src="figuras/chromosome_build.gif" alt="Construcción del cromosoma" style="width:100%; max-height:230px; object-fit:contain; border-radius:8px; border:1px solid var(--hairline);" onerror="this.style.display='none'">
       <p style="font-size:.52em; margin:6px 0 0; line-height:1.35;">Codifica solo las decisiones de 1ª etapa: setup \(y_t \in \{0,1\}\) y lote \(q_t \in [Q^{min}, Q^{max}]\). Espacio de búsqueda ≈ 8.7×10³⁵ (T=12): la enumeración exhaustiva es imposible.</p>
     </div>
     <div class="card gif" style="padding:8px;">
       <h3 style="margin:0 0 4px;font-size:.72em;">Operadores de vecindad</h3>
-      <img src="figuras/neighborhood_operators.gif" alt="Operadores de vecindad" style="width:100%; max-height:230px; object-fit:contain; border-radius:8px; border:1px solid rgba(15,118,110,.2);" onerror="this.style.display='none'">
+      <img src="figuras/neighborhood_operators.gif" alt="Operadores de vecindad" style="width:100%; max-height:230px; object-fit:contain; border-radius:8px; border:1px solid var(--hairline);" onerror="this.style.display='none'">
       <p style="font-size:.52em; margin:6px 0 0; line-height:1.35;">N<sub>toggle</sub> invierte bits de setup (saltos estructurales); N<sub>quantity</sub> perturba cantidades (ajuste fino). N<sub>mixta</sub> los combina probabilísticamente — usado por <strong>SA</strong> y <strong>GA-SA</strong>.</p>
     </div>
     <div class="card gif" style="padding:8px;">
       <h3 style="margin:0 0 4px;font-size:.72em;">Exploración–Explotación</h3>
-      <img src="figuras/exploration_exploitation.gif" alt="Exploración vs Explotación" style="width:100%; max-height:230px; object-fit:contain; border-radius:8px; border:1px solid rgba(15,118,110,.2);" onerror="this.style.display='none'">
+      <img src="figuras/exploration_exploitation.gif" alt="Exploración vs Explotación" style="width:100%; max-height:230px; object-fit:contain; border-radius:8px; border:1px solid var(--hairline);" onerror="this.style.display='none'">
       <p style="font-size:.52em; margin:6px 0 0; line-height:1.35;">GA/DE diversifican vía población; SA intensifica con enfriamiento (Metropolis \(P = e^{\Delta/T}\)). <strong>GA-SA</strong> combina exploración global del GA con explotación periódica del SA sobre los top-k.</p>
     </div>
   </div>
-  <div class="footer"></div>
+  <div class="takeaway">Idea clave: con ≈8.7×10³⁵ soluciones posibles, el diseño de la vecindad importa tanto como el algoritmo que la recorre.</div>
+  <div class="footer"><span>Optimización de coproductos avícolas — UTP · 2026</span><span>Acto II · Modelo y algoritmos</span></div>
+</section>
+
+<!-- DIVISORIA III -->
+<section class="divider" data-background-color="#1E3A5F" style="display:flex; flex-direction:column; justify-content:center; height:100%;">
+  <div class="act-roman">III</div>
+  <h2>La evidencia</h2>
+  <p>«Dos campañas: una diagnóstica que falló con honestidad y una confirmatoria que respondió».</p>
 </section>
 
 <!-- S12: DISEÑO EXPERIMENTAL -->
 <section>
-  <h2>11. Diseño Experimental</h2>
+  <div class="eyebrow">Acto III · La evidencia</div>
+  <h2>12. Diseño experimental: 1,878 corridas en dos campañas</h2>
   <div class="grid2">
     <div class="card">
       <h3 style="margin-top:0;">Factores y niveles</h3>
@@ -434,12 +506,14 @@
       </ul>
     </div>
   </div>
-  <div class="footer"></div>
+  <div class="takeaway">Idea clave: calibración con Optuna, réplicas independientes y pruebas no paramétricas sostienen cada afirmación que sigue.</div>
+  <div class="footer"><span>Optimización de coproductos avícolas — UTP · 2026</span><span>Acto III · La evidencia</span></div>
 </section>
 
 <!-- S13: ANÁLISIS DESCRIPTIVO -->
 <section>
-  <h2>12. Análisis Estadístico Descriptivo (Campaña v1)</h2>
+  <div class="eyebrow">Acto III · La evidencia</div>
+  <h2>13. Campaña diagnóstica (v1): la instancia pesa más que el algoritmo</h2>
   <div class="grid2">
     <div class="card" style="display:flex; flex-direction:column; justify-content:center;">
        <h3 style="margin-top:0;font-size:.85em;">Distribución Empírica (Z Global)</h3>
@@ -453,24 +527,26 @@
        </div>
     </div>
     <div class="chartbox" style="padding:0; box-shadow:none; background:transparent;">
-      <img src="figuras/boxplot_fitness.png" alt="Boxplot Fitness" style="width:100%; object-fit:contain; max-height:430px; border-radius:8px;">
+      <img src="figuras/boxplot_fitness.png" alt="Boxplot Fitness" style="width:100%; object-fit:contain; max-height:420px; border-radius:8px;">
     </div>
   </div>
-  <div class="footer"></div>
+  <div class="takeaway">Idea clave: la varianza entre instancias domina (~10×) sobre la diferencia entre algoritmos: el ranking exige bloquear por instancia.</div>
+  <div class="footer"><span>Optimización de coproductos avícolas — UTP · 2026</span><span>Acto III · La evidencia</span></div>
 </section>
 
 <!-- S-RESULTADOS NUMÉRICOS (NEW) -->
 <section style="display:flex; flex-direction:column; justify-content:center; height:100%;">
-  <h2>13. Resultados Principales (Campaña v1)</h2>
+  <div class="eyebrow">Acto III · La evidencia</div>
+  <h2>14. Campaña diagnóstica (v1): el baseline trivial empata — y eso es un hallazgo</h2>
   <table style="font-size:.68em; width:100%; border-collapse:collapse; margin-bottom:12px;">
-    <tr style="border-bottom:2px solid var(--teal);">
+    <tr style="border-bottom:2px solid var(--primary);">
       <th style="text-align:left;">Algoritmo</th>
       <th style="text-align:center;">Z̄ (COP)</th>
       <th style="text-align:center;">Std Z</th>
       <th style="text-align:center;">Rank</th>
       <th style="text-align:center;">N</th>
     </tr>
-    <tr style="border-bottom:1px solid #eee; background:#e0f2f1;">
+    <tr class="hl" style="border-bottom:1px solid #eee;">
       <td><strong>GA-SA</strong></td>
       <td style="text-align:center;"><strong>916,865,520</strong></td>
       <td style="text-align:center;">512,578,412</td>
@@ -507,12 +583,14 @@
       <p style="font-size:.62em; margin:0;"><strong>Ranking práctico:</strong> GA-SA ≈ DE &gt; GA &gt; SA. La varianza inter-instancia domina (~10×) frente a la varianza inter-algoritmo.</p>
     </div>
   </div>
-  <div class="footer"></div>
+  <div class="takeaway">Idea clave: el empate con el baseline no es un fracaso — delimita el régimen donde optimizar no paga y motiva la campaña confirmatoria.</div>
+  <div class="footer"><span>Optimización de coproductos avícolas — UTP · 2026</span><span>Acto III · La evidencia</span></div>
 </section>
 
 <!-- S14: ANÁLISIS INFERENCIAL -->
 <section>
-  <h2>14. Análisis Inferencial: Contrastación Formal (Campaña v1)</h2>
+  <div class="eyebrow">Acto III · La evidencia</div>
+  <h2>15. Contrastación formal (v1): H2 se sostiene; H1 y H3 no alcanzan el umbral</h2>
   <div class="grid2">
     <div class="card" style="padding:10px;">
       <h3 style="margin-top:0;font-size:.70em;">Pruebas Globales</h3>
@@ -523,29 +601,31 @@
         <tr style="border-bottom:1px solid #eee;"><td>Wilcoxon-Holm (pares)</td><td>SA vs DE / GA-SA</td><td><strong>&lt; 0.024</strong></td><td>Significativo</td></tr>
         <tr><td>Shapiro-Wilk</td><td>varía</td><td>&lt; 0.05 (varios casos)</td><td>No normalidad global</td></tr>
       </table>
-      <p style="font-size:.52em; margin-top:10px; color:var(--color-secondary-slate);"><em>Nota: la vista por corridas queda dominada por heterogeneidad entre instancias; la vista bloqueada por instancia mejora la inferencia para ranking.</em></p>
+      <p style="font-size:.52em; margin-top:10px; color:var(--muted);"><em>Nota: la vista por corridas queda dominada por heterogeneidad entre instancias; la vista bloqueada por instancia mejora la inferencia para ranking.</em></p>
     </div>
     <div class="chartbox" style="padding:10px; display:flex; flex-direction:column; justify-content:space-evenly; background:#fff;">
       <div style="margin-bottom:10px;">
-        <h4 style="margin:0 0 2px; font-size:.60em; color:var(--color-text-main);">H1: Efectividad vs Baseline</h4>
+        <h4 style="margin:0 0 2px; font-size:.60em; color:var(--ink);">H1: Efectividad vs Baseline</h4>
         <p style="font-size:.52em; margin:0; line-height:1.3;"><strong>No soportada en v1:</strong> mejora por instancia de 0.59%–1.10% (p=1.0 frente al umbral 5%). El baseline de capacidad máxima es casi óptimo en este régimen (potencia del diseño ≈ 0). <strong>Soportada en v2</strong> (siguiente lámina).</p>
       </div>
       <div style="margin-bottom:10px;">
-        <h4 style="margin:0 0 2px; font-size:.60em; color:var(--color-text-main);">H2: Sinergia Computacional de GA-SA</h4>
+        <h4 style="margin:0 0 2px; font-size:.60em; color:var(--ink);">H2: Sinergia Computacional de GA-SA</h4>
         <p style="font-size:.52em; margin:0; line-height:1.3;"><strong>Soportada (calidad):</strong> gap medio = -0.02% (p=0.002 por instancia). El componente de tiempo (≤50% de CBC) no se cumple: razón de tiempos medios totales ≈1.7× en v2 (52.5× en v1); por corrida la razón media es mayor porque CBC resuelve las small en &lt;2 s.</p>
       </div>
       <div>
-        <h4 style="margin:0 0 2px; font-size:.60em; color:var(--color-text-main);">H3: Inventario (primario + secundario)</h4>
+        <h4 style="margin:0 0 2px; font-size:.60em; color:var(--ink);">H3: Inventario (primario + secundario)</h4>
         <p style="font-size:.52em; margin:0; line-height:1.3;"><strong>No soportada en v1 (primario):</strong> no se alcanza 15%; baja rotación queda exploratorio por n informativo bajo. <strong>Soportada en v2</strong> (21%–29%).</p>
       </div>
     </div>
   </div>
-  <div class="footer"></div>
+  <div class="takeaway">Idea clave: hay significancia estadística entre algoritmos, pero sin relevancia práctica frente al baseline en este régimen.</div>
+  <div class="footer"><span>Optimización de coproductos avícolas — UTP · 2026</span><span>Acto III · La evidencia</span></div>
 </section>
 
 <!-- S14b: CAMPAÑA CONFIRMATORIA V2 -->
 <section>
-  <h2>15. Campaña Confirmatoria (v2): el Régimen Donde el Setup Importa</h2>
+  <div class="eyebrow">Acto III · La evidencia</div>
+  <h2>16. Campaña confirmatoria (v2): 20% más beneficio y −30% inventario donde el setup importa</h2>
   <div class="grid2">
     <div>
       <div class="card" style="padding:10px; margin-bottom:8px;">
@@ -566,7 +646,7 @@
           <tr style="border-bottom:1px solid #eee;"><td style="text-align:left;">Medium</td><td>23.02%</td><td>5.02%</td><td>5.19%</td><td><strong>4.57%</strong></td><td>5.16%</td></tr>
           <tr><td style="text-align:left;">Large</td><td>28.55%</td><td>5.59%</td><td>5.80%</td><td><strong>5.05%</strong></td><td>5.91%</td></tr>
         </table>
-        <p style="font-size:.5em; margin:6px 0 0; color:var(--color-secondary-slate);"><em>El baseline se degrada con el horizonte (9.9%→28.6%); las 4 MH re-calibradas convergen a 4.6–5.9%. Friedman p≤0.03 por estrato; Nemenyi: DE 1.77 (leve ventaja), GA/SA/GA-SA empatados 2.73–2.77 (CD=0.856).</em></p>
+        <p style="font-size:.5em; margin:6px 0 0; color:var(--muted);"><em>El baseline se degrada con el horizonte (9.9%→28.6%); las 4 MH re-calibradas convergen a 4.6–5.9%. Friedman p≤0.03 por estrato; Nemenyi: DE 1.77 (leve ventaja), GA/SA/GA-SA empatados 2.73–2.77 (CD=0.856).</em></p>
       </div>
     </div>
     <div class="chartbox" style="padding:10px; background:#fff; display:flex; flex-direction:column; justify-content:space-evenly;">
@@ -577,21 +657,23 @@
       </div>
     </div>
   </div>
-  <div class="footer"></div>
+  <div class="takeaway">Idea clave: donde el setup cuesta y hay holgura, optimizar rinde +20% de beneficio y −30% de inventario con potencia 1.000.</div>
+  <div class="footer"><span>Optimización de coproductos avícolas — UTP · 2026</span><span>Acto III · La evidencia</span></div>
 </section>
 
 <!-- S15: ESCALABILIDAD COMPUTACIONAL -->
 <section>
-  <h2>16. Perfil Empírico de Complejidad y Escalabilidad (Campaña v1)</h2>
+  <div class="eyebrow">Acto III · La evidencia</div>
+  <h2>17. Escalabilidad (campaña diagnóstica, v1): rapidez y calidad no coinciden en un único algoritmo</h2>
   <div class="grid2">
-    <div class="chartbox" style="padding:10px; box-shadow:none; border:1px solid #e2e8f0; background:transparent;">
+    <div class="chartbox" style="padding:10px; box-shadow:none; border:1px solid var(--hairline); background:transparent;">
       <h3 style="margin:0 0 5px;font-size:.70em; text-align:center;">Dolan-Moré: Performance Profile (Eficiencia/Tiempo)</h3>
       <img src="figuras/performance_profile.png" alt="Performance Profile Dolan-More" style="width:90%; margin:0 auto; display:block; object-fit:contain; max-height:260px;">
       <p style="font-size:.5em; line-height:1.2; text-align:center; padding:5px 15px 0;">
         El perfil de desempeño muestra dominancia de SA en tiempo puro y mejor calidad de GA-SA/DE. La lectura es multi-criterio: rapidez y calidad no coinciden en un único algoritmo.
       </p>
     </div>
-    <div class="chartbox" style="padding:10px; box-shadow:none; border:1px solid #e2e8f0; background:transparent;">
+    <div class="chartbox" style="padding:10px; box-shadow:none; border:1px solid var(--hairline); background:transparent;">
       <h3 style="margin:0 0 5px;font-size:.70em; text-align:center;">Cota Log-Log: Tiempo vs. Dimensión</h3>
       <img src="figuras/complexity_loglog_scaling.png" alt="Log-log Scaling O(N)" style="width:90%; margin:0 auto; display:block; object-fit:contain; max-height:260px;">
       <p style="font-size:.5em; line-height:1.2; text-align:center; padding:5px 15px 0;">
@@ -599,19 +681,21 @@
       </p>
     </div>
   </div>
-  <div class="footer"></div>
+  <div class="takeaway">Idea clave: SA domina en tiempo puro y GA-SA/DE en calidad — la elección depende del presupuesto de cómputo disponible.</div>
+  <div class="footer"><span>Optimización de coproductos avícolas — UTP · 2026</span><span>Acto III · La evidencia</span></div>
 </section>
 
 <!-- S16+17 FUSIONADAS: CONVERGENCIA Y RANKING -->
 <section>
-  <h2>17. Convergencia y Ranking Interactivos (Campaña v1)</h2>
+  <div class="eyebrow">Acto III · La evidencia</div>
+  <h2>18. Convergencia (v1): la ganancia llega en las primeras evaluaciones</h2>
   <div class="grid2">
     <div class="chartbox">
       <div class="controls">
         <label for="algoViewSelector">Vista</label>
         <select id="algoViewSelector"><option value="convergence">Convergencia normalizada</option><option value="diversity">Diversidad</option></select>
       </div>
-      <div class="chart" style="height:470px;"><canvas id="algoDynamicsChart"></canvas></div>
+      <div class="chart" style="height:430px;"><canvas id="algoDynamicsChart"></canvas></div>
       <p class="small" style="margin:6px 0 0;">Datos reales: `comparison_traces.csv` y `complexity/convergence_profiles.csv`.</p>
     </div>
     <div style="display:flex; flex-direction:column; gap:12px;">
@@ -628,11 +712,13 @@
       </div>
     </div>
   </div>
-  <div class="footer"></div>
+  <div class="takeaway">Idea clave: el grueso de la mejora se obtiene en las primeras evaluaciones — comportamiento anytime útil para decidir en segundos.</div>
+  <div class="footer"><span>Optimización de coproductos avícolas — UTP · 2026</span><span>Acto III · La evidencia</span></div>
 </section>
 
 <section>
-  <h2>18. Frontera de Pareto (Calidad vs. Cómputo, Campaña v1)</h2>
+  <div class="eyebrow">Acto III · La evidencia</div>
+  <h2>19. Frontera de Pareto (v1): ninguna corrida domina calidad y tiempo a la vez</h2>
   <div class="chartbox">
     <div class="controls">
       <label for="paretoSizeSelector">Tamaño</label>
@@ -656,11 +742,13 @@
     <div class="chart"><canvas id="paretoChart"></canvas></div>
   </div>
   <p class="small">Cada punto representa una corrida; filtros en vivo por tamaño y algoritmo.</p>
-  <div class="footer"></div>
+  <div class="takeaway">Idea clave: la frontera calidad-cómputo es el mapa para elegir algoritmo según el tiempo disponible en operación.</div>
+  <div class="footer"><span>Optimización de coproductos avícolas — UTP · 2026</span><span>Acto III · La evidencia</span></div>
 </section>
 
 <section>
-  <h2>19. Análisis de Sensibilidad (Stress-Testing, Campaña v1)</h2>
+  <div class="eyebrow">Acto III · La evidencia</div>
+  <h2>20. Sensibilidad (v1): 100% de factibilidad bajo estrés de parámetros</h2>
   <div class="chartbox">
     <div class="controls">
       <label for="sensitivityParamSelector">Parámetro</label>
@@ -671,12 +759,21 @@
     <div class="chart"><canvas id="sensitivityChart"></canvas></div>
   </div>
   <p class="small">Factibilidad 100% en sensibilidad y respuesta consistente ante variaciones.</p>
-  <div class="footer"></div>
+  <div class="takeaway">Idea clave: los precios mueven el resultado (±12.7%) más que la variabilidad de la demanda (±0.35%) — y la factibilidad nunca se pierde.</div>
+  <div class="footer"><span>Optimización de coproductos avícolas — UTP · 2026</span><span>Acto III · La evidencia</span></div>
+</section>
+
+<!-- DIVISORIA IV -->
+<section class="divider" data-background-color="#1E3A5F" style="display:flex; flex-direction:column; justify-content:center; height:100%;">
+  <div class="act-roman">IV</div>
+  <h2>Qué significa</h2>
+  <p>«El valor depende del régimen; la calibración pesa más que el algoritmo».</p>
 </section>
 
 <!-- S-LIMITACIONES (NEW) -->
 <section style="display:flex; flex-direction:column; justify-content:center; height:100%;">
-  <h2>20. Limitaciones del Estudio</h2>
+  <div class="eyebrow">Acto IV · Qué significa</div>
+  <h2>21. Limitaciones: qué afirma este estudio y qué no</h2>
   <div class="grid2">
     <div class="card">
       <h3 style="margin-top:0;font-size:.78em;">Limitaciones Metodológicas</h3>
@@ -697,12 +794,14 @@
       </div>
     </div>
   </div>
-  <div class="footer"></div>
+  <div class="takeaway">Idea clave: los hallazgos son válidos dentro de su alcance declarado; la validación con datos de planta sigue pendiente.</div>
+  <div class="footer"><span>Optimización de coproductos avícolas — UTP · 2026</span><span>Acto IV · Qué significa</span></div>
 </section>
 
 <!-- S-CONCLUSIONES -->
 <section>
-  <h2>21. Síntesis y Conclusiones Finales</h2>
+  <div class="eyebrow">Acto IV · Qué significa</div>
+  <h2>22. El valor de la optimización depende del régimen</h2>
   <div class="card" style="margin-bottom:6px;">
     <p style="font-size:.68em;margin:0;"><strong>OE1 (Formular):</strong> Modelo MILP multi-periodo validado con CBC (óptimo certificado en todos los tamaños; ≈1,100–58,000 variables).</p>
   </div>
@@ -721,12 +820,14 @@
   <div class="callout" style="margin-top:6px;">
     <p style="font-size:.72em;margin:0;"><strong>Hallazgo principal:</strong> el valor de la optimización depende del régimen económico. Con setup marginal y demanda &gt; capacidad, producir a Q<sup>max</sup> es casi óptimo; en el régimen operativo (setup costoso, holgura, volatilidad), las metaheurísticas mejoran el beneficio ~20% y reducen inventario 28–31% (p&lt;10⁻⁴); re-calibradas, las cuatro convergen a ~5% de gap — calibrar para el régimen importa más que elegir el algoritmo — y alcanzan el 99% del óptimo antes de que CBC certifique.</p>
   </div>
-  <div class="footer"></div>
+  <div class="takeaway">Idea clave: la pregunta correcta no es «¿qué algoritmo gana?» sino «¿en qué régimen opera la planta y cómo calibrar para él?».</div>
+  <div class="footer"><span>Optimización de coproductos avícolas — UTP · 2026</span><span>Acto IV · Qué significa</span></div>
 </section>
 
 <!-- S-CONTRIBUCIONES -->
 <section style="display:flex; flex-direction:column; justify-content:center; height:100%;">
-  <h2>22. Contribuciones y Proyección</h2>
+  <div class="eyebrow">Acto IV · Qué significa</div>
+  <h2>23. Contribuciones: un benchmark reproducible y una regla de decisión</h2>
   <div class="grid2">
     <div class="card">
       <h3 style="margin-top:0;">Contribuciones</h3>
@@ -751,29 +852,32 @@
       </ul>
     </div>
   </div>
-  <div class="footer"></div>
+  <div class="takeaway">Idea clave: 39 instancias calibradas, dos regímenes caracterizados y código abierto dejan un benchmark listo para extenderse.</div>
+  <div class="footer"><span>Optimización de coproductos avícolas — UTP · 2026</span><span>Acto IV · Qué significa</span></div>
 </section>
 
 <!-- S-PREGUNTAS -->
-<section class="title">
-  <h1>¿Preguntas?</h1>
-  <p>Gracias por su atención</p>
-  <p><strong>Daniel Andrés Castañeda Rodríguez</strong></p>
-  <p class="small">Directora: Ing. Eliana Mirledy Ocampo Toro, PhD.</p>
-  <img src="figuras/logo_utp.png" alt="Logo UTP" style="max-height:56px;" onerror="this.style.display='none'">
-  <div class="footer"></div>
+<section class="title" style="display:flex; flex-direction:column; justify-content:center; height:100%;">
+  <p class="eyebrow" style="text-align:center; margin-bottom:10px;">Gracias por su atención</p>
+  <h1 style="font-size:1.6em; margin:0 0 14px;">¿Preguntas?</h1>
+  <div style="width:64px; height:2px; background:var(--primary); margin:0 auto 16px;"></div>
+  <p style="margin:0 0 4px;"><strong style="color:var(--ink);">Daniel Andrés Castañeda Rodríguez</strong></p>
+  <p class="small" style="margin:0 0 14px;">Directora: PhD. Eliana Mirledy Ocampo Toro</p>
+  <img src="figuras/logo_utp.png" alt="Logo UTP" style="max-height:56px; margin:0 auto; display:block;" onerror="this.style.display='none'">
+  <div class="footer"><span>Optimización de coproductos avícolas — UTP · 2026</span><span>Cierre</span></div>
 </section>
 
 <!-- SEPARADOR: MATERIAL DE RESPALDO -->
 <section class="title" style="display:flex; flex-direction:column; justify-content:center; height:100%;">
-  <h1>Material de respaldo</h1>
+  <h1 style="font-size:1.4em;">Material de respaldo</h1>
   <p class="small">para preguntas del jurado</p>
-  <div class="footer"></div>
+  <div class="footer"><span>Optimización de coproductos avícolas — UTP · 2026</span><span>Material de respaldo</span></div>
 </section>
 
 <!-- RESPALDO: TRAZABILIDAD DE HIPERPARÁMETROS -->
 <section>
-  <h2>Respaldo: Trazabilidad de Hiperparámetros — calibración v1 (re-calibrada en v2)</h2>
+  <div class="eyebrow">Material de respaldo</div>
+  <h2>Respaldo: Trazabilidad de hiperparámetros — calibración diagnóstica (v1), re-calibrada en la confirmatoria (v2)</h2>
   <div class="grid2">
     <div class="card" style="padding:8px;">
       <h3 style="margin-top:0;font-size:.72em;">Hiperparámetros Óptimos (Tabla 5 tesis)</h3>
@@ -807,12 +911,14 @@
       </div>
     </div>
   </div>
-  <div class="footer"></div>
+  <div class="takeaway">Idea clave: cada hiperparámetro final es trazable a sus 30 trials de Optuna — la calibración es auditable, no una caja negra.</div>
+  <div class="footer"><span>Optimización de coproductos avícolas — UTP · 2026</span><span>Material de respaldo</span></div>
 </section>
 
 <!-- RESPALDO: HEATMAP -->
 <section>
-  <h2>Respaldo: Superficie Analítica de Desempeño (Heatmap, Campaña v1)</h2>
+  <div class="eyebrow">Material de respaldo</div>
+  <h2>Respaldo: Superficie analítica de desempeño (heatmap, campaña diagnóstica v1)</h2>
   <div class="chartbox">
     <div class="controls">
       <label for="heatmapMetricSelector">Métrica</label>
@@ -826,12 +932,14 @@
     <div class="chart"><canvas id="heatmapChart"></canvas></div>
   </div>
   <p class="small">Vista matricial interactiva por combinación algoritmo-instancia (promedios de corridas).</p>
-  <div class="footer"></div>
+  <div class="takeaway">Idea clave: la vista matricial localiza en qué instancias concretas se concentran los gaps y los tiempos altos.</div>
+  <div class="footer"><span>Optimización de coproductos avícolas — UTP · 2026</span><span>Material de respaldo</span></div>
 </section>
 
 <!-- RESPALDO: INVENTARIO BAJA ROTACIÓN -->
 <section>
-  <h2>Respaldo: Dinámica Estructural del Inventario (Baja Rotación, Campaña v1)</h2>
+  <div class="eyebrow">Material de respaldo</div>
+  <h2>Respaldo: Dinámica del inventario de baja rotación (campaña diagnóstica v1)</h2>
   <div class="chartbox">
     <div class="controls">
       <label for="lowRotSizeSelector">Tamaño de instancia</label>
@@ -845,12 +953,14 @@
     <div class="chart"><canvas id="lowRotationChart"></canvas></div>
   </div>
   <p class="small">Caja intercuartil (Q25-Q75), mediana y bigotes P10-P90 por algoritmo.</p>
-  <div class="footer"></div>
+  <div class="takeaway">Idea clave: el inventario de baja rotación concentra el riesgo de perecibilidad; su distribución distingue a los algoritmos.</div>
+  <div class="footer"><span>Optimización de coproductos avícolas — UTP · 2026</span><span>Material de respaldo</span></div>
 </section>
 
 <!-- RESPALDO: ROBUSTEZ OPERATIVA -->
 <section>
-  <h2>Respaldo: Robustez Operativa de la Arquitectura (Campaña v1)</h2>
+  <div class="eyebrow">Material de respaldo</div>
+  <h2>Respaldo: Robustez operativa de la arquitectura (campaña diagnóstica v1)</h2>
   <div class="grid2">
     <div class="card">
       <h3 style="margin-top:0;">Checklist técnico</h3>
@@ -870,20 +980,26 @@
       <div class="chart-small"><canvas id="robustnessChart"></canvas></div>
     </div>
   </div>
-  <div class="footer"></div>
+  <div class="takeaway">Idea clave: factibilidad, estabilidad y eficiencia se auditan por algoritmo en una sola vista — 100% de factibilidad empírica.</div>
+  <div class="footer"><span>Optimización de coproductos avícolas — UTP · 2026</span><span>Material de respaldo</span></div>
 </section>
 
 </div></div>
 
 <script src="libs/reveal.min.js"></script>
 <script>
-Reveal.initialize({ hash:true, slideNumber:'c/t', transition:'fade', width:1280, height:720, margin:0.03, center:false, progress:true, history:true });
+Reveal.initialize({ hash:true, slideNumber:'c/t', transition:'fade', transitionSpeed:'fast', width:1280, height:720, margin:0.03, center:false, progress:true, history:true });
 
 // Paleta Okabe-Ito (segura para daltonismo); fuente única de color para todos los charts
 const palette = { ga:'#0072B2', sa:'#E69F00', de:'#009E73', ga_sa:'#CC79A7', baseline:'#666666', cbc_exact:'#1a1a1a' };
 const algoColor = (a) => palette[a] || '#666666';
 const labels = { ga_sa:'GA-SA', de:'DE', ga:'GA', sa:'SA', baseline:'Baseline', cbc_exact:'CBC exacto' };
 const store = window.PRESENTATION_DATA || {};
+
+// Tema global de Chart.js (tinta institucional): solo estética compartida, sin tocar datasets
+Chart.defaults.color = '#5C6670';
+Chart.defaults.borderColor = '#E5E7E3';
+Chart.defaults.font.family = "'IBM Plex Sans', system-ui, 'Segoe UI', Arial, sans-serif";
 
 let cBaseline, cDyn, cRank, cSize, cSens, cRob, cOptunaEvo, cOptunaParam, cHeatmap, cLowRot, cPareto;
 const summary = () => Array.isArray(store.algorithm_summary) ? store.algorithm_summary : [];
@@ -894,9 +1010,9 @@ const tickFmt = (d=2) => ({ callback: (v) => fmtNum(v, d) });
 
 function colorScale(value, min, max) {
   if (!isFiniteNumber(value)) return 'rgba(148,163,184,0.55)';
-  if (!isFiniteNumber(min) || !isFiniteNumber(max) || max <= min) return 'rgba(15,118,110,0.65)';
+  if (!isFiniteNumber(min) || !isFiniteNumber(max) || max <= min) return 'rgba(30,58,95,0.65)';
   const t = (value - min) / (max - min);
-  const hue = 185 - (185 - 28) * Math.max(0, Math.min(1, t));
+  const hue = 215 - (215 - 28) * Math.max(0, Math.min(1, t));
   return `hsla(${hue}, 75%, 45%, 0.75)`;
 }
 
@@ -1016,7 +1132,7 @@ function renderOptuna(){
               data: valueSeries,
               type: 'scatter',
               pointRadius: 3,
-              pointBackgroundColor: '#00B8D4',
+              pointBackgroundColor: '#1E3A5F',
               showLine: false,
             }
           ]
@@ -1194,8 +1310,8 @@ function renderLowRotation(){
           {
             label: 'IQR (Q25-Q75)',
             data: iqr,
-            backgroundColor: 'rgba(15,118,110,0.28)',
-            borderColor: '#0f766e',
+            backgroundColor: 'rgba(30,58,95,0.22)',
+            borderColor: '#1E3A5F',
             borderWidth: 1.2,
             borderRadius: 4,
           },
@@ -1203,8 +1319,8 @@ function renderLowRotation(){
             type: 'line',
             label: 'Mediana (Q50)',
             data: q50,
-            borderColor: '#00B8D4',
-            pointBackgroundColor: '#00B8D4',
+            borderColor: '#9B1B30',
+            pointBackgroundColor: '#9B1B30',
             pointRadius: 3,
             tension: 0,
           },
@@ -1325,7 +1441,7 @@ function renderSens(){
   const t={mean_gap_percent:'Gap medio (%)',mean_z_mcop:'Z medio (M COP)',mean_elapsed_seconds:'Tiempo medio (s)'};
   const paint=()=>{ const rows=(store.sensitivity&&store.sensitivity[pSel.value])?store.sensitivity[pSel.value]:[]; const lbl=rows.map(r=>`${(r.delta*100).toFixed(0)}%`), vals=rows.map(r=>r[mSel.value]);
     if(cSens){ cSens.data.labels=lbl; cSens.data.datasets[0].data=vals; cSens.data.datasets[0].label=`${pSel.value} - ${t[mSel.value]}`; cSens.options.scales.y.title.text=t[mSel.value]; cSens.update(); return; }
-    cSens=new Chart(el,{type:'line',data:{labels:lbl,datasets:[{label:`${pSel.value} - ${t[mSel.value]}`,data:vals,borderColor:'#0f766e',backgroundColor:'rgba(15,118,110,.14)',borderWidth:2.3,fill:true,tension:.2,pointRadius:3,pointBackgroundColor:'#00B8D4'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{font:{size:10}}}},scales:{x:{title:{display:true,text:'Variación del parámetro',font:{size:10}}},y:{title:{display:true,text:t[mSel.value],font:{size:10}}}}}});
+    cSens=new Chart(el,{type:'line',data:{labels:lbl,datasets:[{label:`${pSel.value} - ${t[mSel.value]}`,data:vals,borderColor:'#1E3A5F',backgroundColor:'rgba(30,58,95,.12)',borderWidth:2.3,fill:true,tension:.2,pointRadius:3,pointBackgroundColor:'#1E3A5F'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{font:{size:10}}}},scales:{x:{title:{display:true,text:'Variación del parámetro',font:{size:10}}},y:{title:{display:true,text:t[mSel.value],font:{size:10}}}}}});
   };
   if(!pSel.dataset.bound){ pSel.addEventListener('change',paint); mSel.addEventListener('change',paint); pSel.dataset.bound='1'; }
   paint();
