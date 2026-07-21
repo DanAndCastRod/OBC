@@ -194,7 +194,7 @@
       <div class="card" style="margin-bottom:6px;"><p style="font-size:.68em;margin:0;"><strong>OE3.</strong> Calibrar hiperparámetros con Optuna (TPE).</p></div>
     </div>
     <div>
-      <div class="card" style="margin-bottom:6px;"><p style="font-size:.68em;margin:0;"><strong>OE4.</strong> Comparar rendimiento en 9 instancias con 30 semillas.</p></div>
+      <div class="card" style="margin-bottom:6px;"><p style="font-size:.68em;margin:0;"><strong>OE4.</strong> Comparar rendimiento en dos campañas: 9 instancias × 30 semillas (v1) y 30 instancias × 6 semillas con presupuesto igualado (v2).</p></div>
       <div class="card" style="margin-bottom:6px;"><p style="font-size:.68em;margin:0;"><strong>OE5.</strong> Validar con datos FENAVI/DANE y análisis de sensibilidad.</p></div>
     </div>
   </div>
@@ -242,7 +242,7 @@
     </div>
     <div class="callout">
       <h3 style="margin-top:0;font-size:.78em;">Justificación del enfoque</h3>
-      <p style="font-size:.60em; line-height:1.35; margin:0;">Lote mínimo + setup + perecibilidad + estocasticidad: el problema es formalmente <strong>NP-hard</strong> (Mahdieh et al. 2018), haciendo intratables los solvers exactos en instancias grandes (72,060 variables). Las metaheurísticas ofrecen soluciones de alta calidad en tiempo polinomial.</p>
+      <p style="font-size:.60em; line-height:1.35; margin:0;">Lote mínimo + setup + perecibilidad + estocasticidad: el problema es formalmente <strong>NP-hard</strong> (Mahdieh et al. 2018). En los tamaños estudiados (hasta ≈58,000 variables) CBC certifica el óptimo en 17–140 s; el valor de las metaheurísticas está en su comportamiento <em>anytime</em> (99% del óptimo en segundos), su escalabilidad al tamaño industrial real (52 periodos × 500 escenarios) y su flexibilidad para extensiones no lineales o multi-objetivo.</p>
     </div>
   </div>
   <div class="footer"></div>
@@ -311,10 +311,11 @@
     <div class="card">
       <h3 style="margin-top:0;font-size:.78em;">Dimensiones</h3>
       <table style="font-size:.64em;width:100%;">
-        <tr><th>Tamaño</th><th>T</th><th>P</th><th>|Ω|</th><th>Variables</th></tr>
-        <tr><td>Small</td><td>6</td><td>8</td><td>10</td><td>912</td></tr>
-        <tr><td>Medium</td><td>12</td><td>8</td><td>15</td><td>6,180</td></tr>
-        <tr><td>Large</td><td>24</td><td>8</td><td>30</td><td>72,060</td></tr>
+        <tr><th>Tamaño</th><th>T (v1 / v2)</th><th>Formas</th><th>|Ω|</th><th></th></tr>
+        <tr><td>Small</td><td>6 / 12</td><td>6</td><td>10 / 20</td><td></td></tr>
+        <tr><td>Medium</td><td>12 / 18</td><td>6</td><td>50 / 50</td><td></td></tr>
+        <tr><td>Large</td><td>30 / 24</td><td>8</td><td>100 / 100</td><td></td></tr>
+        <tr><td colspan="5" style="font-size:.9em;color:#555;">≈1,100–58,000 variables (medido en CBC); v2 añade parvada mixta y setup 50M</td></tr>
       </table>
     </div>
   </div>
@@ -458,7 +459,7 @@
         <tr><td>Algoritmo</td><td>6 (GA, SA, DE, GA-SA, Baseline, CBC)</td></tr>
         <tr><td>Tamaño</td><td>3 (Small, Medium, Large)</td></tr>
         <tr><td>Semilla</td><td>30 réplicas independientes</td></tr>
-        <tr><td><strong>Total</strong></td><td><strong>1,098 ejecuciones</strong></td></tr>
+        <tr><td><strong>Total v1</strong></td><td><strong>1,098 ejecuciones</strong> (+780 de la campaña v2 → 1,878)</td></tr>
       </table>
     </div>
     <div class="card">
@@ -625,7 +626,7 @@
 
 <!-- S15: ESCALABILIDAD COMPUTACIONAL -->
 <section>
-  <h2>15. Perfil Empírico de Complejidad y Escalabilidad</h2>
+  <h2>15. Perfil Empírico de Complejidad y Escalabilidad (Campaña v1)</h2>
   <div class="grid2">
     <div class="chartbox" style="padding:10px; box-shadow:none; border:1px solid #e2e8f0; background:transparent;">
       <h3 style="margin:0 0 5px;font-size:.70em; text-align:center;">Dolan-Moré: Performance Profile (Eficiencia/Tiempo)</h3>
@@ -646,7 +647,7 @@
 </section>
 
 <section>
-  <h2>16. Convergencia Algorítmica Interactiva</h2>
+  <h2>16. Convergencia Algorítmica Interactiva (Campaña v1)</h2>
   <div class="chartbox">
     <div class="controls">
       <label for="algoViewSelector">Vista</label>
@@ -659,7 +660,7 @@
 </section>
 
 <section>
-  <h2>17. Dashboard Comparativo</h2>
+  <h2>17. Dashboard Comparativo (Campaña v1)</h2>
   <div class="grid2">
     <div class="chartbox">
       <h3 style="margin-top:0;">Ranking global</h3>
@@ -677,7 +678,7 @@
 </section>
 
 <section>
-  <h2>18. Trazabilidad de Hiperparámetros (Optuna TPE)</h2>
+  <h2>18. Trazabilidad de Hiperparámetros — calibración v1 (re-calibrada en v2)</h2>
   <div class="grid2">
     <div class="card" style="padding:8px;">
       <h3 style="margin-top:0;font-size:.72em;">Hiperparámetros Óptimos (Tabla 5 tesis)</h3>
@@ -715,7 +716,7 @@
 </section>
 
 <section>
-  <h2>19. Superficie Analítica de Desempeño (Heatmap)</h2>
+  <h2>19. Superficie Analítica de Desempeño (Heatmap, Campaña v1)</h2>
   <div class="chartbox">
     <div class="controls">
       <label for="heatmapMetricSelector">Métrica</label>
@@ -733,7 +734,7 @@
 </section>
 
 <section>
-  <h2>20. Dinámica Estructural del Inventario (Baja Rotación)</h2>
+  <h2>20. Dinámica Estructural del Inventario (Baja Rotación, Campaña v1)</h2>
   <div class="chartbox">
     <div class="controls">
       <label for="lowRotSizeSelector">Tamaño de instancia</label>
@@ -751,7 +752,7 @@
 </section>
 
 <section>
-  <h2>21. Frontera de Pareto (Calidad vs. Cómputo)</h2>
+  <h2>21. Frontera de Pareto (Calidad vs. Cómputo, Campaña v1)</h2>
   <div class="chartbox">
     <div class="controls">
       <label for="paretoSizeSelector">Tamaño</label>
@@ -779,7 +780,7 @@
 </section>
 
 <section>
-  <h2>22. Análisis de Sensibilidad (Stress-Testing Económico)</h2>
+  <h2>22. Análisis de Sensibilidad (Stress-Testing, Campaña v1)</h2>
   <div class="chartbox">
     <div class="controls">
       <label for="sensitivityParamSelector">Parámetro</label>
@@ -794,7 +795,7 @@
 </section>
 
 <section>
-  <h2>23. Robustez Operativa de la Arquitectura</h2>
+  <h2>23. Robustez Operativa de la Arquitectura (Campaña v1)</h2>
   <div class="grid2">
     <div class="card">
       <h3 style="margin-top:0;">Checklist técnico</h3>
@@ -847,7 +848,7 @@
 <section>
   <h2>25. Síntesis y Conclusiones Finales</h2>
   <div class="card" style="margin-bottom:6px;">
-    <p style="font-size:.68em;margin:0;"><strong>OE1 (Formular):</strong> Modelo MILP multi-periodo validado con CBC. 912–72,060 variables.</p>
+    <p style="font-size:.68em;margin:0;"><strong>OE1 (Formular):</strong> Modelo MILP multi-periodo validado con CBC (óptimo certificado en todos los tamaños; ≈1,100–58,000 variables).</p>
   </div>
   <div class="card" style="margin-bottom:6px;">
     <p style="font-size:.68em;margin:0;"><strong>OE2 (Implementar):</strong> GA, SA, DE, GA-SA con reparación de factibilidad y convergencia.</p>
@@ -856,7 +857,7 @@
     <p style="font-size:.68em;margin:0;"><strong>OE3 (Calibrar):</strong> 30 trials Optuna por algoritmo, evaluados en 5 instancias de calibración.</p>
   </div>
   <div class="card" style="margin-bottom:6px;">
-    <p style="font-size:.68em;margin:0;"><strong>OE4 (Comparar):</strong> dos campañas (1,098 + 780 ejecuciones, la segunda con presupuesto igualado). En la confirmatoria: GA-SA mejor en los 3 tamaños (Friedman p&lt;10⁻⁴; Nemenyi rango 1.23, CD 0.856).</p>
+    <p style="font-size:.68em;margin:0;"><strong>OE4 (Comparar):</strong> dos campañas (1,098 + 780 ejecuciones, la segunda con las 4 MH re-calibradas y presupuesto igualado). En la confirmatoria las 4 convergen a 4.6–5.9% de gap (Nemenyi: DE 1.77 con leve ventaja; GA/SA/GA-SA empatados).</p>
   </div>
   <div class="card" style="margin-bottom:6px;">
     <p style="font-size:.68em;margin:0;"><strong>OE5 (Validar):</strong> Sensibilidad estable (precios ±12.67%, demanda ±0.35% en gap) y validación externa FENAVI útil: correlación mensual baja sin desfase, pero mejora al considerar lags temporales.</p>
