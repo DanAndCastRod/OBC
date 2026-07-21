@@ -1,0 +1,21 @@
+algorithm: de
+best_params:
+  CR: 0.3836409505748176
+  F: 0.8564149336852792
+  max_generations: 100000
+  pop_size: 69
+  stagnation_limit: 100000
+  strategy: best/1/bin
+best_trial: 37
+best_value_mean_Z: 582098881.7357517
+elapsed_seconds: 1033.9059941768646
+instances:
+- data/instances_v2/small_v2_seed201.yaml
+- data/instances_v2/medium_v2_seed201.yaml
+max_evaluations_per_run: 6000
+n_trials: 40
+regime: v2 (demand_cap, presupuesto igualado)
+run_seeds:
+- 1
+- 2
+sampler_seed: 42

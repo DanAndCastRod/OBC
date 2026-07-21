@@ -1,0 +1,27 @@
+algorithm: ga_sa
+best_params:
+  crossover_rate: 0.7329095352082438
+  elitism_count: 1
+  local_search_T: 1165.3848267627175
+  local_search_cooling: 0.7825115617926384
+  local_search_freq: 7
+  local_search_iters: 43
+  local_search_top_k: 10
+  mutation_rate: 0.067438280550472
+  n_generations: 100000
+  pop_size: 55
+  selection_size: 3
+  stagnation_limit: 100000
+best_trial: 25
+best_value_mean_Z: 580523668.8399619
+elapsed_seconds: 994.1713843345642
+instances:
+- data/instances_v2/small_v2_seed201.yaml
+- data/instances_v2/medium_v2_seed201.yaml
+max_evaluations_per_run: 6000
+n_trials: 40
+regime: v2 (demand_cap, presupuesto igualado)
+run_seeds:
+- 1
+- 2
+sampler_seed: 42

@@ -163,9 +163,9 @@
   <div class="card" style="margin-bottom:10px;">
     <p style="font-style:italic;font-size:.78em;">¿Cómo optimizar la planificación de producción de coproductos avícolas bajo demanda estocástica, minimizando costos de inventario y maximizando el beneficio?</p>
   </div>
-  <div class="hypo"><strong>H1:</strong> La mejor metaheurística mejora Z en ≥ 5% vs baseline <span class="pill no">v1: No (0.6%–1.1%)</span> <span class="pill ok">v2: Soportada (17%–20%, p&lt;10⁻⁴)</span></div>
-  <div class="hypo"><strong>H2:</strong> GA-SA alcanza gap ≤ 2% vs mejor metaheurística individual <span class="pill ok">v1: Sí (-0.02%)</span> <span class="pill ok">v2: Sí (-0.44%)</span></div>
-  <div class="hypo"><strong>H3:</strong> Reducción de inventario ≥ 15% (endpoint primario: inventario promedio) <span class="pill no">v1: No (12%–17%)</span> <span class="pill ok">v2: Soportada (21%–29%, p&lt;10⁻⁴)</span></div>
+  <div class="hypo"><strong>H1:</strong> La mejor metaheurística mejora Z en ≥ 5% vs baseline <span class="pill no">v1: No (0.6%–1.1%)</span> <span class="pill ok">v2: Soportada (20%–21%, p&lt;10⁻⁴)</span></div>
+  <div class="hypo"><strong>H2:</strong> GA-SA alcanza gap ≤ 2% vs mejor metaheurística individual <span class="pill ok">v1: Sí (-0.02%)</span> <span class="pill ok">v2: Sí (+0.54%)</span></div>
+  <div class="hypo"><strong>H3:</strong> Reducción de inventario ≥ 15% (endpoint primario: inventario promedio) <span class="pill no">v1: No (12%–17%)</span> <span class="pill ok">v2: Soportada (28%–31%, p&lt;10⁻⁴)</span></div>
   <div class="card" style="margin-top:8px;">
     <p style="font-size:.6em;margin:0;"><strong>Hallazgo central:</strong> el valor de la optimización depende del régimen económico. Régimen v1 (demanda &gt; capacidad, setup marginal): una regla trivial es casi óptima. Régimen operativo v2 (setup costoso, holgura, demanda volátil): las mejoras hipotetizadas se confirman con potencia 1.000.</p>
   </div>
@@ -605,18 +605,18 @@
         <h3 style="margin-top:0;font-size:.68em;">Gap vs óptimo certificado</h3>
         <table style="font-size:.55em;width:100%; border-collapse:collapse; text-align:center;">
           <tr style="border-bottom:1px solid #ccc;"><th style="text-align:left;">Tamaño</th><th>Baseline</th><th>GA</th><th>SA</th><th>DE</th><th><strong>GA-SA</strong></th></tr>
-          <tr style="border-bottom:1px solid #eee;"><td style="text-align:left;">Small</td><td>9.88%</td><td>5.20%</td><td>5.65%</td><td>7.22%</td><td><strong>4.91%</strong></td></tr>
-          <tr style="border-bottom:1px solid #eee;"><td style="text-align:left;">Medium</td><td>23.02%</td><td>5.61%</td><td>6.55%</td><td>7.26%</td><td><strong>5.40%</strong></td></tr>
-          <tr><td style="text-align:left;">Large</td><td>28.55%</td><td>6.62%</td><td>6.96%</td><td>8.44%</td><td><strong>5.81%</strong></td></tr>
+          <tr style="border-bottom:1px solid #eee;"><td style="text-align:left;">Small</td><td>9.88%</td><td>4.84%</td><td><strong>4.73%</strong></td><td>4.98%</td><td>4.76%</td></tr>
+          <tr style="border-bottom:1px solid #eee;"><td style="text-align:left;">Medium</td><td>23.02%</td><td>5.02%</td><td>5.19%</td><td><strong>4.57%</strong></td><td>5.16%</td></tr>
+          <tr><td style="text-align:left;">Large</td><td>28.55%</td><td>5.59%</td><td>5.80%</td><td><strong>5.05%</strong></td><td>5.91%</td></tr>
         </table>
-        <p style="font-size:.48em; margin:6px 0 0; color:var(--color-secondary-slate);"><em>El baseline se degrada con el horizonte (9.9%→28.6%); las MH sostienen 4.9–8.4%. Friedman p&lt;10⁻⁴ en los 3 estratos; Nemenyi: GA-SA rango 1.23 (CD=0.856).</em></p>
+        <p style="font-size:.48em; margin:6px 0 0; color:var(--color-secondary-slate);"><em>El baseline se degrada con el horizonte (9.9%→28.6%); las 4 MH re-calibradas convergen a 4.6–5.9%. Friedman p≤0.03 por estrato; Nemenyi: DE 1.77 (leve ventaja), GA/SA/GA-SA empatados 2.73–2.77 (CD=0.856).</em></p>
       </div>
     </div>
     <div class="chartbox" style="padding:10px; background:#fff; display:flex; flex-direction:column; justify-content:space-evenly;">
       <img src="figuras/nemenyi_cd.png" alt="Diagrama de diferencia crítica de Nemenyi" style="max-width:100%; margin-bottom:6px;" onerror="this.style.display='none'">
       <div class="card" style="padding:8px;">
         <h4 style="margin:0 0 3px; font-size:.58em;">Veredictos v2 (n=30, potencia 1.000)</h4>
-        <p style="font-size:.5em; margin:0; line-height:1.4;"><strong>H1 SOPORTADA:</strong> mejora 17.2%–20.1% vs baseline (p&lt;10⁻⁴, d<sub>z</sub> 1.6–1.8) · <strong>H3 SOPORTADA:</strong> inventario −21% a −29% (d<sub>z</sub> 7–11) · <strong>H2:</strong> GA-SA −0.44% vs mejor MH. Vista <em>anytime</em>: GA-SA alcanza el 99% del óptimo en 2.6/11.5/46.5 s (mediana) — antes de que CBC certifique en Medium/Large.</p>
+        <p style="font-size:.5em; margin:0; line-height:1.4;"><strong>H1 SOPORTADA:</strong> mejora 20.2%–20.8% vs baseline (p&lt;10⁻⁴) · <strong>H3 SOPORTADA:</strong> inventario −28% a −31% · <strong>H2:</strong> GA-SA +0.54% vs mejor MH (≤2%). Con las 4 MH re-calibradas la paridad es el resultado: <strong>elegir el algoritmo importa menos que calibrarlo para el régimen</strong>. Anytime: DE alcanza el 99% del óptimo en 1.6/4.0/17.4 s — antes de que CBC certifique.</p>
       </div>
     </div>
   </div>
@@ -862,7 +862,7 @@
     <p style="font-size:.68em;margin:0;"><strong>OE5 (Validar):</strong> Sensibilidad estable (precios ±12.67%, demanda ±0.35% en gap) y validación externa FENAVI útil: correlación mensual baja sin desfase, pero mejora al considerar lags temporales.</p>
   </div>
   <div class="callout" style="margin-top:6px;">
-    <p style="font-size:.72em;margin:0;"><strong>Hallazgo principal:</strong> el valor de la optimización depende del régimen económico. Con setup marginal y demanda &gt; capacidad, producir a Q<sup>max</sup> es casi óptimo; en el régimen operativo (setup costoso, holgura, volatilidad), las metaheurísticas mejoran el beneficio 17–20% y reducen inventario 21–29% (p&lt;10⁻⁴), con GA-SA a la cabeza y alcanzando el 99% del óptimo antes de que CBC certifique.</p>
+    <p style="font-size:.72em;margin:0;"><strong>Hallazgo principal:</strong> el valor de la optimización depende del régimen económico. Con setup marginal y demanda &gt; capacidad, producir a Q<sup>max</sup> es casi óptimo; en el régimen operativo (setup costoso, holgura, volatilidad), las metaheurísticas mejoran el beneficio ~20% y reducen inventario 28–31% (p&lt;10⁻⁴); re-calibradas, las cuatro convergen a ~5% de gap — calibrar para el régimen importa más que elegir el algoritmo — y alcanzan el 99% del óptimo antes de que CBC certifique.</p>
   </div>
   <div class="footer"></div>
 </section>

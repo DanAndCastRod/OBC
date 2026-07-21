@@ -1,0 +1,22 @@
+algorithm: ga
+best_params:
+  crossover_rate: 0.7570151082123792
+  elitism_count: 3
+  mutation_rate: 0.05898383107168505
+  n_generations: 100000
+  pop_size: 113
+  selection_size: 5
+  stagnation_limit: 100000
+best_trial: 23
+best_value_mean_Z: 581273194.1989946
+elapsed_seconds: 979.4085130691528
+instances:
+- data/instances_v2/small_v2_seed201.yaml
+- data/instances_v2/medium_v2_seed201.yaml
+max_evaluations_per_run: 6000
+n_trials: 40
+regime: v2 (demand_cap, presupuesto igualado)
+run_seeds:
+- 1
+- 2
+sampler_seed: 42

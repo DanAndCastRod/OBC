@@ -1,9 +1,9 @@
 {
   "experiment": "comparison_v2",
-  "generated_at_epoch": 1784315279.378232,
+  "generated_at_epoch": 1784649831.2035232,
   "total_planned": 780,
   "completed_count": 780,
-  "new_successful_runs": 180,
+  "new_successful_runs": 540,
   "new_errors_count": 0,
   "errors": []
 }
