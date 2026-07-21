@@ -4,27 +4,37 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sustentación Coproductos</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Fuentes locales (woff2 variables descargadas de Google Fonts, subset latin) */
+    @font-face { font-family:'Manrope'; font-style:normal; font-weight:500; font-display:swap; src:url('libs/fonts/manrope-latin.woff2') format('woff2'); unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family:'Manrope'; font-style:normal; font-weight:700; font-display:swap; src:url('libs/fonts/manrope-latin.woff2') format('woff2'); unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family:'Manrope'; font-style:normal; font-weight:800; font-display:swap; src:url('libs/fonts/manrope-latin.woff2') format('woff2'); unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family:'IBM Plex Sans'; font-style:normal; font-weight:400; font-display:swap; src:url('libs/fonts/ibm-plex-sans-latin.woff2') format('woff2'); unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family:'IBM Plex Sans'; font-style:normal; font-weight:500; font-display:swap; src:url('libs/fonts/ibm-plex-sans-latin.woff2') format('woff2'); unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family:'IBM Plex Sans'; font-style:normal; font-weight:600; font-display:swap; src:url('libs/fonts/ibm-plex-sans-latin.woff2') format('woff2'); unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family:'IBM Plex Sans'; font-style:normal; font-weight:700; font-display:swap; src:url('libs/fonts/ibm-plex-sans-latin.woff2') format('woff2'); unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+  </style>
   <link rel="stylesheet" href="libs/reveal.min.css">
   <link rel="stylesheet" href="libs/white.min.css">
   <script src="libs/tex-mml-chtml.js" async></script>
   <script src="libs/chart.umd.min.js"></script>
   <script src="presentation_data.js"></script>
   <style>
-    :root { --teal:#0f766e; --teal2:#0d9488; --cyan:#00B8D4; --ink:#1E293B; --muted:#475569; --bg:#f4f8f8; }
-    .reveal { font-family:"IBM Plex Sans",sans-serif; color:var(--ink); font-size:24px;
+    :root { --teal:#0f766e; --teal2:#0d9488; --cyan:#00B8D4; --ink:#1E293B; --muted:#475569; --bg:#f4f8f8;
+      --color-secondary-slate:#64748b; --color-text-main:#1a1a1a;
+      --font-body:"IBM Plex Sans", system-ui, "Segoe UI", Arial, sans-serif;
+      --font-heading:"Manrope", system-ui, "Segoe UI", Arial, sans-serif; }
+    .reveal { font-family:var(--font-body); color:var(--ink); font-size:24px;
       background:radial-gradient(circle at 10% 10%, rgba(13,148,136,.16), transparent 30%), linear-gradient(180deg,var(--bg),#fff 70%); }
-    .reveal .slides section { padding:24px 42px; text-align:left; }
-    .reveal h1,.reveal h2,.reveal h3 { font-family:"Manrope",sans-serif; color:var(--teal); text-transform:none; }
+    .reveal .slides section { padding:24px 42px; text-align:left; box-sizing:border-box; }
+    .reveal h1,.reveal h2,.reveal h3 { font-family:var(--font-heading); color:var(--teal); text-transform:none; }
     .reveal h2 { font-size:1.2em; border-bottom:3px solid var(--cyan); padding-bottom:6px; }
     .reveal p,.reveal li { font-size:.75em; color:var(--muted); line-height:1.45; }
     .title { text-align:center; }
     .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
     .grid4 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
     .card { background:rgba(255,255,255,.9); border:1px solid rgba(15,118,110,.24); border-radius:12px; padding:12px 14px; box-shadow:0 8px 26px rgba(15,118,110,.14); }
-    .kpi { font-family:"Manrope",sans-serif; font-size:1.6em; font-weight:800; color:var(--teal); line-height:1.05; }
+    .kpi { font-family:var(--font-heading); font-size:1.6em; font-weight:800; color:var(--teal); line-height:1.05; }
     .callout { background:linear-gradient(135deg,var(--teal),var(--teal2)); color:#fff; border-radius:12px; padding:14px; }
     .callout * { color:#fff !important; }
     .chartbox { background:#fff; border:1px solid rgba(15,118,110,.28); border-radius:12px; padding:8px 10px; box-shadow:0 8px 26px rgba(15,118,110,.12); }
@@ -33,10 +43,11 @@
     .controls { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:6px; }
     .controls label { font-size:.62em; font-weight:600; color:var(--ink); }
     .controls select { font-size:.62em; border:1px solid rgba(15,118,110,.34); border-radius:8px; padding:4px 8px; }
-    .pill { display:inline-block; font-size:.58em; font-weight:700; border-radius:999px; padding:2px 8px; margin-left:6px; }
+    .pill { display:inline-block; font-size:.58em; font-weight:700; border-radius:999px; padding:2px 8px; white-space:nowrap; }
     .ok { background:rgba(13,148,136,.16); color:var(--teal); }
     .no { background:rgba(71,85,105,.16); color:var(--muted); }
-    .hypo { border-left:5px solid var(--teal2); background:rgba(255,255,255,.9); border-radius:10px; padding:9px 11px; margin-bottom:8px; }
+    .hypo { border-left:5px solid var(--teal2); background:rgba(255,255,255,.9); border-radius:10px; padding:9px 11px; margin-bottom:8px;
+      display:flex; flex-wrap:wrap; align-items:baseline; column-gap:6px; row-gap:4px; }
     .hypo.n { border-left-color:var(--muted); }
     .gif img { width:100%; max-height:200px; object-fit:contain; border-radius:8px; border:1px solid rgba(15,118,110,.2); }
     .small { font-size:.6em; color:#64748b; }
@@ -63,12 +74,13 @@
   <ol style="column-count:2; column-gap:40px; font-size:.85em; margin-top:30px; line-height:1.6;">
     <li style="margin-bottom:15px;">Contexto de la industria avícola</li>
     <li style="margin-bottom:15px;">Problema e hipótesis</li>
+    <li style="margin-bottom:15px;">Justificación</li>
     <li style="margin-bottom:15px;">Objetivos</li>
     <li style="margin-bottom:15px;">Marco teórico</li>
     <li style="margin-bottom:15px;">Estado del arte</li>
     <li style="margin-bottom:15px;">Modelo matemático</li>
     <li style="margin-bottom:15px;">Diseño experimental y metaheurísticas</li>
-    <li style="margin-bottom:15px;">Resultados y validación</li>
+    <li style="margin-bottom:15px;">Resultados: campaña diagnóstica (v1) y confirmatoria (v2)</li>
     <li style="margin-bottom:15px;">Conclusiones y trabajo futuro</li>
   </ol>
   <div class="footer"></div>
@@ -258,7 +270,7 @@
   <div class="grid2">
     <div class="card" style="padding:8px;">
       <h3 style="margin-top:0; font-size:.70em;">Queries Scopus y Resultados</h3>
-      <table style="font-size:.48em; width:100%; border-collapse:collapse;">
+      <table style="font-size:.52em; width:100%; border-collapse:collapse;">
         <tr style="border-bottom:1px solid #ccc;"><th style="text-align:center;">Q</th><th>Tema</th><th style="text-align:center;">#</th></tr>
         <tr style="border-bottom:1px solid #f0f0f0;"><td style="text-align:center;">Q1</td><td>Lot-sizing estocástico + NP-hard</td><td style="text-align:center;">9</td></tr>
         <tr style="border-bottom:1px solid #f0f0f0;"><td style="text-align:center;">Q2</td><td>MH + Setup estocástico</td><td style="text-align:center;">11</td></tr>
@@ -365,84 +377,28 @@
       </ol>
     </div>
   </div>
-  <p style="font-size:.45em; margin-top:12px; text-align:right; color:var(--muted);"><em>Fuentes empíricas: Adaptado de la representación clásica de Lot-Sizing en agroindustrias.</em></p>
+  <p style="font-size:.52em; margin-top:12px; text-align:right; color:var(--muted);"><em>Fuentes empíricas: Adaptado de la representación clásica de Lot-Sizing en agroindustrias.</em></p>
   <div class="footer"></div>
 </section>
 
-<!-- S11b: REPRESENTACIÓN CROMOSÓMICA (DETALLADA) -->
+<!-- S11b: CROMOSOMA, OPERADORES Y BALANCE (fusión de 10b+10c+10d) -->
 <section>
-  <h2>10b. Representación del Cromosoma</h2>
-  <div class="grid2">
-    <div class="card gif" style="padding:10px;">
-      <img src="figuras/chromosome_build.gif" alt="Construcción del cromosoma" style="width:100%; max-height:320px; object-fit:contain; border-radius:8px; border:1px solid rgba(15,118,110,.2);" onerror="this.style.display='none'">
+  <h2>10b. Cromosoma, Operadores y Balance</h2>
+  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
+    <div class="card gif" style="padding:8px;">
+      <h3 style="margin:0 0 4px;font-size:.72em;">Cromosoma s = (y, q)</h3>
+      <img src="figuras/chromosome_build.gif" alt="Construcción del cromosoma" style="width:100%; max-height:230px; object-fit:contain; border-radius:8px; border:1px solid rgba(15,118,110,.2);" onerror="this.style.display='none'">
+      <p style="font-size:.52em; margin:6px 0 0; line-height:1.35;">Codifica solo las decisiones de 1ª etapa: setup \(y_t \in \{0,1\}\) y lote \(q_t \in [Q^{min}, Q^{max}]\). Espacio de búsqueda ≈ 8.7×10³⁵ (T=12): la enumeración exhaustiva es imposible.</p>
     </div>
-    <div class="card" style="padding:12px;">
-      <h3 style="margin-top:0;font-size:.82em;">Estructura formal</h3>
-      <p style="font-size:.62em; margin-bottom:8px; line-height:1.35;">Cada cromosoma <strong>s = (y, q)</strong> codifica exclusivamente las <strong>decisiones de primera etapa</strong>:</p>
-      <ul style="font-size:.58em; line-height:1.35;">
-        <li><strong style="color:var(--teal);">Vector binario y</strong>: setup de la línea por periodo — \(y_t \in \{0, 1\}\)</li>
-        <li><strong style="color:var(--teal);">Vector entero q</strong>: carcasas a procesar — \(q_t \in [Q^{min}, Q^{max}]\)</li>
-        <li><strong>Consistencia</strong>: si \(y_t = 0 \Rightarrow q_t = 0\). Si \(y_t = 1 \Rightarrow Q^{min} \leq q_t \leq Q^{max}\)</li>
-      </ul>
-      <div class="callout" style="margin-top:10px; padding:8px;">
-        <p style="font-size:.55em; margin:0;"><strong>Espacio de búsqueda:</strong> \(|\mathcal{S}| = (1 + Q^{max} - Q^{min} + 1)^{T} \approx 8.7 \times 10^{35}\) para T=12. Enumeración exhaustiva es imposible.</p>
-      </div>
-      <p style="font-size:.50em; margin-top:8px; color:var(--muted);">Las variables de 2ª etapa (\(v_{pt\omega}\), \(I_{pt\omega}\), \(u_{pt\omega}\)) <strong>no</strong> forman parte del cromosoma — se calculan por el decodificador greedy.</p>
+    <div class="card gif" style="padding:8px;">
+      <h3 style="margin:0 0 4px;font-size:.72em;">Operadores de vecindad</h3>
+      <img src="figuras/neighborhood_operators.gif" alt="Operadores de vecindad" style="width:100%; max-height:230px; object-fit:contain; border-radius:8px; border:1px solid rgba(15,118,110,.2);" onerror="this.style.display='none'">
+      <p style="font-size:.52em; margin:6px 0 0; line-height:1.35;">N<sub>toggle</sub> invierte bits de setup (saltos estructurales); N<sub>quantity</sub> perturba cantidades (ajuste fino). N<sub>mixta</sub> los combina probabilísticamente — usado por <strong>SA</strong> y <strong>GA-SA</strong>.</p>
     </div>
-  </div>
-  <div class="footer"></div>
-</section>
-
-<!-- S11c: OPERADORES DE VECINDAD -->
-<section>
-  <h2>10c. Operadores de Vecindad</h2>
-  <p style="font-size:.55em; margin:-5px 0 8px 0; color:var(--teal);"><strong>Mecanismos que definen qué soluciones son alcanzables</strong> desde una solución dada en un solo movimiento.</p>
-  <div class="grid2">
-    <div class="card gif" style="padding:10px;">
-      <img src="figuras/neighborhood_operators.gif" alt="Operadores de vecindad" style="width:100%; max-height:310px; object-fit:contain; border-radius:8px; border:1px solid rgba(15,118,110,.2);" onerror="this.style.display='none'">
-    </div>
-    <div style="display:flex; flex-direction:column; gap:8px;">
-      <div class="card" style="padding:8px; border-left:4px solid var(--teal2);">
-        <h3 style="margin:0 0 2px;font-size:.72em;">N<sub>toggle</sub> — Exploración estructural</h3>
-        <p style="font-size:.55em; margin:0; line-height:1.3;">Invierte \(k\) bits aleatorios del vector de setup. Modifica <strong>qué periodos producen</strong>. Genera saltos largos en el espacio de soluciones.</p>
-      </div>
-      <div class="card" style="padding:8px; border-left:4px solid var(--teal);">
-        <h3 style="margin:0 0 2px;font-size:.72em;">N<sub>quantity</sub> — Explotación local</h3>
-        <p style="font-size:.55em; margin:0; line-height:1.3;">Perturbación gaussiana \(\mathcal{N}(0, \delta \cdot Q^{max})\) en periodos activos. Ajustes finos en cantidades <strong>sin modificar estructura</strong>.</p>
-      </div>
-      <div class="card" style="padding:8px; border-left:4px solid var(--teal);">
-        <h3 style="margin:0 0 2px;font-size:.72em;">N<sub>mixta</sub> — Balance adaptativo</h3>
-        <p style="font-size:.55em; margin:0; line-height:1.3;">Selección probabilística: con \(p_{toggle}\) aplica toggle, con \(p_{quantity}\) aplica cantidad, y con \(1 - p_t - p_q\) aplica ambas. Usado por <strong>SA</strong> y <strong>GA-SA</strong>.</p>
-      </div>
-    </div>
-  </div>
-  <div class="footer"></div>
-</section>
-
-<!-- S11d: EXPLORACIÓN VS EXPLOTACIÓN -->
-<section>
-  <h2>10d. Balance Exploración–Explotación</h2>
-  <div class="grid2">
-    <div class="card gif" style="padding:10px;">
-      <img src="figuras/exploration_exploitation.gif" alt="Exploración vs Explotación" style="width:100%; max-height:310px; object-fit:contain; border-radius:8px; border:1px solid rgba(15,118,110,.2);" onerror="this.style.display='none'">
-    </div>
-    <div style="display:flex; flex-direction:column; gap:6px;">
-      <div class="card" style="padding:8px;">
-        <h3 style="margin:0 0 4px;font-size:.72em;">Perfil de búsqueda por algoritmo</h3>
-        <table style="font-size:.52em; width:100%; border-collapse:collapse;">
-          <tr style="border-bottom:1px solid #ccc;"><th style="text-align:left;">Algoritmo</th><th style="text-align:left;">Exploración</th><th style="text-align:left;">Explotación</th></tr>
-          <tr style="border-bottom:1px solid #f0f0f0;"><td><strong>SA</strong></td><td>Alta T: aceptación amplia</td><td>Baja T: enfriamiento</td></tr>
-          <tr style="border-bottom:1px solid #f0f0f0;"><td><strong>GA</strong></td><td>Población + cruce + mutación</td><td>Elitismo + torneo</td></tr>
-          <tr style="border-bottom:1px solid #f0f0f0;"><td><strong>DE</strong></td><td>Vectores de diferencia</td><td>Selección greedy</td></tr>
-          <tr><td><strong>GA-SA</strong></td><td>GA global (explorar)</td><td>SA local cada <em>k</em> gen.</td></tr>
-        </table>
-      </div>
-      <div class="callout" style="padding:8px;">
-        <p style="font-size:.58em; margin:0;"><strong>Hallazgo clave:</strong> GA-SA logra el <strong>balance óptimo</strong> combinando la diversificación del GA (exploración) con la intensificación del SA (explotación periódica sobre los top-k individuos).</p>
-      </div>
-      <div class="card" style="padding:6px;">
-        <p style="font-size:.50em; margin:0; color:var(--muted);"><strong>Criterio de Metropolis</strong> \(P = e^{\Delta/T}\) actúa como mecanismo de <em>balance adaptativo</em>: acepta empeoramientos controlados para escapar de óptimos locales.</p>
-      </div>
+    <div class="card gif" style="padding:8px;">
+      <h3 style="margin:0 0 4px;font-size:.72em;">Exploración–Explotación</h3>
+      <img src="figuras/exploration_exploitation.gif" alt="Exploración vs Explotación" style="width:100%; max-height:230px; object-fit:contain; border-radius:8px; border:1px solid rgba(15,118,110,.2);" onerror="this.style.display='none'">
+      <p style="font-size:.52em; margin:6px 0 0; line-height:1.35;">GA/DE diversifican vía población; SA intensifica con enfriamiento (Metropolis \(P = e^{\Delta/T}\)). <strong>GA-SA</strong> combina exploración global del GA con explotación periódica del SA sobre los top-k.</p>
     </div>
   </div>
   <div class="footer"></div>
@@ -558,7 +514,7 @@
 <section>
   <h2>14. Análisis Inferencial: Contrastación Formal (Campaña v1)</h2>
   <div class="grid2">
-    <div class="card" style="padding: 10px;">
+    <div class="card" style="padding:10px;">
       <h3 style="margin-top:0;font-size:.70em;">Pruebas Globales</h3>
       <table style="font-size:.50em;width:100%; border-collapse:collapse; text-align:left;">
         <tr style="border-bottom:1px solid #ccc;"><th>Dócima</th><th>Estadístico</th><th>P-valor</th><th>Significancia (α=0.05)</th></tr>
@@ -567,20 +523,20 @@
         <tr style="border-bottom:1px solid #eee;"><td>Wilcoxon-Holm (pares)</td><td>SA vs DE / GA-SA</td><td><strong>&lt; 0.024</strong></td><td>Significativo</td></tr>
         <tr><td>Shapiro-Wilk</td><td>varía</td><td>&lt; 0.05 (varios casos)</td><td>No normalidad global</td></tr>
       </table>
-      <p style="font-size:.45em; margin-top:10px; color:var(--color-secondary-slate);"><em>Nota: la vista por corridas queda dominada por heterogeneidad entre instancias; la vista bloqueada por instancia mejora la inferencia para ranking.</em></p>
+      <p style="font-size:.52em; margin-top:10px; color:var(--color-secondary-slate);"><em>Nota: la vista por corridas queda dominada por heterogeneidad entre instancias; la vista bloqueada por instancia mejora la inferencia para ranking.</em></p>
     </div>
     <div class="chartbox" style="padding:10px; display:flex; flex-direction:column; justify-content:space-evenly; background:#fff;">
       <div style="margin-bottom:10px;">
         <h4 style="margin:0 0 2px; font-size:.60em; color:var(--color-text-main);">H1: Efectividad vs Baseline</h4>
-        <p style="font-size:.48em; margin:0; line-height:1.3;"><strong>No soportada en v1:</strong> mejora por instancia de 0.59%–1.10% (p=1.0 frente al umbral 5%). El baseline de capacidad máxima es casi óptimo en este régimen (potencia del diseño ≈ 0). <strong>Soportada en v2</strong> (siguiente lámina).</p>
+        <p style="font-size:.52em; margin:0; line-height:1.3;"><strong>No soportada en v1:</strong> mejora por instancia de 0.59%–1.10% (p=1.0 frente al umbral 5%). El baseline de capacidad máxima es casi óptimo en este régimen (potencia del diseño ≈ 0). <strong>Soportada en v2</strong> (siguiente lámina).</p>
       </div>
       <div style="margin-bottom:10px;">
         <h4 style="margin:0 0 2px; font-size:.60em; color:var(--color-text-main);">H2: Sinergia Computacional de GA-SA</h4>
-        <p style="font-size:.48em; margin:0; line-height:1.3;"><strong>Soportada (calidad):</strong> gap medio = -0.02% (p=0.002 por instancia). El componente de tiempo (≤50% de CBC) no se cumple: 52.5× en v1, 1.6× en v2.</p>
+        <p style="font-size:.52em; margin:0; line-height:1.3;"><strong>Soportada (calidad):</strong> gap medio = -0.02% (p=0.002 por instancia). El componente de tiempo (≤50% de CBC) no se cumple: razón de tiempos medios totales ≈1.7× en v2 (52.5× en v1); por corrida la razón media es mayor porque CBC resuelve las small en &lt;2 s.</p>
       </div>
       <div>
         <h4 style="margin:0 0 2px; font-size:.60em; color:var(--color-text-main);">H3: Inventario (primario + secundario)</h4>
-        <p style="font-size:.48em; margin:0; line-height:1.3;"><strong>No soportada en v1 (primario):</strong> no se alcanza 15%; baja rotación queda exploratorio por n informativo bajo. <strong>Soportada en v2</strong> (21%–29%).</p>
+        <p style="font-size:.52em; margin:0; line-height:1.3;"><strong>No soportada en v1 (primario):</strong> no se alcanza 15%; baja rotación queda exploratorio por n informativo bajo. <strong>Soportada en v2</strong> (21%–29%).</p>
       </div>
     </div>
   </div>
@@ -589,7 +545,7 @@
 
 <!-- S14b: CAMPAÑA CONFIRMATORIA V2 -->
 <section>
-  <h2>14b. Campaña Confirmatoria (v2): el Régimen Donde el Setup Importa</h2>
+  <h2>15. Campaña Confirmatoria (v2): el Régimen Donde el Setup Importa</h2>
   <div class="grid2">
     <div>
       <div class="card" style="padding:10px; margin-bottom:8px;">
@@ -610,7 +566,7 @@
           <tr style="border-bottom:1px solid #eee;"><td style="text-align:left;">Medium</td><td>23.02%</td><td>5.02%</td><td>5.19%</td><td><strong>4.57%</strong></td><td>5.16%</td></tr>
           <tr><td style="text-align:left;">Large</td><td>28.55%</td><td>5.59%</td><td>5.80%</td><td><strong>5.05%</strong></td><td>5.91%</td></tr>
         </table>
-        <p style="font-size:.48em; margin:6px 0 0; color:var(--color-secondary-slate);"><em>El baseline se degrada con el horizonte (9.9%→28.6%); las 4 MH re-calibradas convergen a 4.6–5.9%. Friedman p≤0.03 por estrato; Nemenyi: DE 1.77 (leve ventaja), GA/SA/GA-SA empatados 2.73–2.77 (CD=0.856).</em></p>
+        <p style="font-size:.5em; margin:6px 0 0; color:var(--color-secondary-slate);"><em>El baseline se degrada con el horizonte (9.9%→28.6%); las 4 MH re-calibradas convergen a 4.6–5.9%. Friedman p≤0.03 por estrato; Nemenyi: DE 1.77 (leve ventaja), GA/SA/GA-SA empatados 2.73–2.77 (CD=0.856).</em></p>
       </div>
     </div>
     <div class="chartbox" style="padding:10px; background:#fff; display:flex; flex-direction:column; justify-content:space-evenly;">
@@ -626,7 +582,7 @@
 
 <!-- S15: ESCALABILIDAD COMPUTACIONAL -->
 <section>
-  <h2>15. Perfil Empírico de Complejidad y Escalabilidad (Campaña v1)</h2>
+  <h2>16. Perfil Empírico de Complejidad y Escalabilidad (Campaña v1)</h2>
   <div class="grid2">
     <div class="chartbox" style="padding:10px; box-shadow:none; border:1px solid #e2e8f0; background:transparent;">
       <h3 style="margin:0 0 5px;font-size:.70em; text-align:center;">Dolan-Moré: Performance Profile (Eficiencia/Tiempo)</h3>
@@ -646,69 +602,29 @@
   <div class="footer"></div>
 </section>
 
+<!-- S16+17 FUSIONADAS: CONVERGENCIA Y RANKING -->
 <section>
-  <h2>16. Convergencia Algorítmica Interactiva (Campaña v1)</h2>
-  <div class="chartbox">
-    <div class="controls">
-      <label for="algoViewSelector">Vista</label>
-      <select id="algoViewSelector"><option value="convergence">Convergencia normalizada</option><option value="diversity">Diversidad</option></select>
-    </div>
-    <div class="chart"><canvas id="algoDynamicsChart"></canvas></div>
-  </div>
-  <p class="small">Datos reales: `comparison_traces.csv` y `complexity/convergence_profiles.csv`.</p>
-  <div class="footer"></div>
-</section>
-
-<section>
-  <h2>17. Dashboard Comparativo (Campaña v1)</h2>
+  <h2>17. Convergencia y Ranking Interactivos (Campaña v1)</h2>
   <div class="grid2">
     <div class="chartbox">
-      <h3 style="margin-top:0;">Ranking global</h3>
-      <div class="chart-small"><canvas id="rankingChart"></canvas></div>
-    </div>
-    <div class="chartbox">
       <div class="controls">
-        <label for="sizeMetricSelector">Métrica</label>
-        <select id="sizeMetricSelector"><option value="mean_z_mcop">Z medio (M COP)</option><option value="mean_elapsed_seconds">Tiempo medio (s)</option><option value="mean_gap_percent">Gap medio (%)</option></select>
+        <label for="algoViewSelector">Vista</label>
+        <select id="algoViewSelector"><option value="convergence">Convergencia normalizada</option><option value="diversity">Diversidad</option></select>
       </div>
-      <div class="chart-small"><canvas id="bySizeChart"></canvas></div>
+      <div class="chart" style="height:470px;"><canvas id="algoDynamicsChart"></canvas></div>
+      <p class="small" style="margin:6px 0 0;">Datos reales: `comparison_traces.csv` y `complexity/convergence_profiles.csv`.</p>
     </div>
-  </div>
-  <div class="footer"></div>
-</section>
-
-<section>
-  <h2>18. Trazabilidad de Hiperparámetros — calibración v1 (re-calibrada en v2)</h2>
-  <div class="grid2">
-    <div class="card" style="padding:8px;">
-      <h3 style="margin-top:0;font-size:.72em;">Hiperparámetros Óptimos (Tabla 5 tesis)</h3>
-      <table style="font-size:.44em; width:100%; border-collapse:collapse;">
-        <tr style="border-bottom:1px solid #ccc;"><th style="text-align:left;">Parámetro</th><th>GA</th><th>SA</th><th>DE</th><th>GA-SA</th></tr>
-        <tr style="border-bottom:1px solid #f0f0f0;"><td>pop_size</td><td>80</td><td>—</td><td>51</td><td>39</td></tr>
-        <tr style="border-bottom:1px solid #f0f0f0;"><td>crossover_rate</td><td>0.744</td><td>—</td><td>—</td><td>0.859</td></tr>
-        <tr style="border-bottom:1px solid #f0f0f0;"><td>mutation_rate</td><td>0.089</td><td>—</td><td>—</td><td>0.051</td></tr>
-        <tr style="border-bottom:1px solid #f0f0f0;"><td>T₀ / cooling</td><td>—</td><td>203,952 / 0.782</td><td>—</td><td>—</td></tr>
-        <tr style="border-bottom:1px solid #f0f0f0;"><td>F (scale) / CR</td><td>—</td><td>—</td><td>0.317 / 0.511</td><td>—</td></tr>
-        <tr style="border-bottom:1px solid #f0f0f0;"><td>LS freq / top_k</td><td>—</td><td>—</td><td>—</td><td>9 / 10</td></tr>
-        <tr><td>stagnation_limit</td><td>50</td><td>54</td><td>50</td><td>50</td></tr>
-      </table>
-      <p style="font-size:.42em; margin-top:5px; color:var(--muted);"><em>30 trials × 5 instancias calibración × timeout 900 s/trial.</em></p>
-    </div>
-    <div class="chartbox">
-      <div class="controls">
-        <label for="optunaAlgoSelector">Algoritmo</label>
-        <select id="optunaAlgoSelector">
-          <option value="ga">GA</option>
-          <option value="sa">SA</option>
-          <option value="de">DE</option>
-          <option value="ga_sa">GA-SA</option>
-        </select>
-        <label for="optunaParamSelector">Hiperparámetro</label>
-        <select id="optunaParamSelector"></select>
+    <div style="display:flex; flex-direction:column; gap:12px;">
+      <div class="chartbox">
+        <h3 style="margin-top:0;font-size:.72em;">Ranking global</h3>
+        <div class="chart-small" style="height:200px;"><canvas id="rankingChart"></canvas></div>
       </div>
-      <div class="grid2">
-        <div class="chart-small"><canvas id="optunaEvolutionChart"></canvas></div>
-        <div class="chart-small"><canvas id="optunaParamChart"></canvas></div>
+      <div class="chartbox">
+        <div class="controls">
+          <label for="sizeMetricSelector">Métrica</label>
+          <select id="sizeMetricSelector"><option value="mean_z_mcop">Z medio (M COP)</option><option value="mean_elapsed_seconds">Tiempo medio (s)</option><option value="mean_gap_percent">Gap medio (%)</option></select>
+        </div>
+        <div class="chart-small" style="height:200px;"><canvas id="bySizeChart"></canvas></div>
       </div>
     </div>
   </div>
@@ -716,43 +632,7 @@
 </section>
 
 <section>
-  <h2>19. Superficie Analítica de Desempeño (Heatmap, Campaña v1)</h2>
-  <div class="chartbox">
-    <div class="controls">
-      <label for="heatmapMetricSelector">Métrica</label>
-      <select id="heatmapMetricSelector">
-        <option value="mean_gap_percent">Gap medio (%)</option>
-        <option value="mean_elapsed_seconds">Tiempo medio (s)</option>
-        <option value="mean_service_level">Nivel de servicio medio (%)</option>
-        <option value="mean_z_mcop">Z medio (M COP)</option>
-      </select>
-    </div>
-    <div class="chart"><canvas id="heatmapChart"></canvas></div>
-  </div>
-  <p class="small">Vista matricial interactiva por combinación algoritmo-instancia (promedios de corridas).</p>
-  <div class="footer"></div>
-</section>
-
-<section>
-  <h2>20. Dinámica Estructural del Inventario (Baja Rotación, Campaña v1)</h2>
-  <div class="chartbox">
-    <div class="controls">
-      <label for="lowRotSizeSelector">Tamaño de instancia</label>
-      <select id="lowRotSizeSelector">
-        <option value="all">Todas</option>
-        <option value="small">Small</option>
-        <option value="medium">Medium</option>
-        <option value="large">Large</option>
-      </select>
-    </div>
-    <div class="chart"><canvas id="lowRotationChart"></canvas></div>
-  </div>
-  <p class="small">Caja intercuartil (Q25-Q75), mediana y bigotes P10-P90 por algoritmo.</p>
-  <div class="footer"></div>
-</section>
-
-<section>
-  <h2>21. Frontera de Pareto (Calidad vs. Cómputo, Campaña v1)</h2>
+  <h2>18. Frontera de Pareto (Calidad vs. Cómputo, Campaña v1)</h2>
   <div class="chartbox">
     <div class="controls">
       <label for="paretoSizeSelector">Tamaño</label>
@@ -780,7 +660,7 @@
 </section>
 
 <section>
-  <h2>22. Análisis de Sensibilidad (Stress-Testing, Campaña v1)</h2>
+  <h2>19. Análisis de Sensibilidad (Stress-Testing, Campaña v1)</h2>
   <div class="chartbox">
     <div class="controls">
       <label for="sensitivityParamSelector">Parámetro</label>
@@ -794,33 +674,9 @@
   <div class="footer"></div>
 </section>
 
-<section>
-  <h2>23. Robustez Operativa de la Arquitectura (Campaña v1)</h2>
-  <div class="grid2">
-    <div class="card">
-      <h3 style="margin-top:0;">Checklist técnico</h3>
-      <ul>
-        <li>Reparación de factibilidad (y,q) en GA, SA, DE y GA-SA.</li>
-        <li>Registro de convergencia en todos los algoritmos.</li>
-        <li>Control por estancamiento en GA, DE y GA-SA.</li>
-        <li>Factibilidad empírica: 100% en comparación y sensibilidad.</li>
-      </ul>
-      <h3 style="margin-top:8px;">Alertas de validez</h3>
-      <ul id="scientificWarnings" style="font-size:.66em;">
-        <li>Sin alertas críticas cargadas.</li>
-      </ul>
-    </div>
-    <div class="chartbox">
-      <h3 style="margin-top:0;">Indicadores operativos</h3>
-      <div class="chart-small"><canvas id="robustnessChart"></canvas></div>
-    </div>
-  </div>
-  <div class="footer"></div>
-</section>
-
 <!-- S-LIMITACIONES (NEW) -->
 <section style="display:flex; flex-direction:column; justify-content:center; height:100%;">
-  <h2>24. Limitaciones del Estudio</h2>
+  <h2>20. Limitaciones del Estudio</h2>
   <div class="grid2">
     <div class="card">
       <h3 style="margin-top:0;font-size:.78em;">Limitaciones Metodológicas</h3>
@@ -846,7 +702,7 @@
 
 <!-- S-CONCLUSIONES -->
 <section>
-  <h2>25. Síntesis y Conclusiones Finales</h2>
+  <h2>21. Síntesis y Conclusiones Finales</h2>
   <div class="card" style="margin-bottom:6px;">
     <p style="font-size:.68em;margin:0;"><strong>OE1 (Formular):</strong> Modelo MILP multi-periodo validado con CBC (óptimo certificado en todos los tamaños; ≈1,100–58,000 variables).</p>
   </div>
@@ -870,7 +726,7 @@
 
 <!-- S-CONTRIBUCIONES -->
 <section style="display:flex; flex-direction:column; justify-content:center; height:100%;">
-  <h2>26. Contribuciones y Proyección</h2>
+  <h2>22. Contribuciones y Proyección</h2>
   <div class="grid2">
     <div class="card">
       <h3 style="margin-top:0;">Contribuciones</h3>
@@ -908,13 +764,124 @@
   <div class="footer"></div>
 </section>
 
+<!-- SEPARADOR: MATERIAL DE RESPALDO -->
+<section class="title" style="display:flex; flex-direction:column; justify-content:center; height:100%;">
+  <h1>Material de respaldo</h1>
+  <p class="small">para preguntas del jurado</p>
+  <div class="footer"></div>
+</section>
+
+<!-- RESPALDO: TRAZABILIDAD DE HIPERPARÁMETROS -->
+<section>
+  <h2>Respaldo: Trazabilidad de Hiperparámetros — calibración v1 (re-calibrada en v2)</h2>
+  <div class="grid2">
+    <div class="card" style="padding:8px;">
+      <h3 style="margin-top:0;font-size:.72em;">Hiperparámetros Óptimos (Tabla 5 tesis)</h3>
+      <table style="font-size:.52em; width:100%; border-collapse:collapse;">
+        <tr style="border-bottom:1px solid #ccc;"><th style="text-align:left;">Parámetro</th><th>GA</th><th>SA</th><th>DE</th><th>GA-SA</th></tr>
+        <tr style="border-bottom:1px solid #f0f0f0;"><td>pop_size</td><td>80</td><td>—</td><td>51</td><td>39</td></tr>
+        <tr style="border-bottom:1px solid #f0f0f0;"><td>crossover_rate</td><td>0.744</td><td>—</td><td>—</td><td>0.859</td></tr>
+        <tr style="border-bottom:1px solid #f0f0f0;"><td>mutation_rate</td><td>0.089</td><td>—</td><td>—</td><td>0.051</td></tr>
+        <tr style="border-bottom:1px solid #f0f0f0;"><td>T₀ / cooling</td><td>—</td><td>203,952 / 0.782</td><td>—</td><td>—</td></tr>
+        <tr style="border-bottom:1px solid #f0f0f0;"><td>F (scale) / CR</td><td>—</td><td>—</td><td>0.317 / 0.511</td><td>—</td></tr>
+        <tr style="border-bottom:1px solid #f0f0f0;"><td>LS freq / top_k</td><td>—</td><td>—</td><td>—</td><td>9 / 10</td></tr>
+        <tr><td>stagnation_limit</td><td>50</td><td>54</td><td>50</td><td>50</td></tr>
+      </table>
+      <p style="font-size:.52em; margin-top:5px; color:var(--muted);"><em>30 trials × 5 instancias calibración × timeout 900 s/trial. Tabla completa en anexo de la tesis.</em></p>
+    </div>
+    <div class="chartbox">
+      <div class="controls">
+        <label for="optunaAlgoSelector">Algoritmo</label>
+        <select id="optunaAlgoSelector">
+          <option value="ga">GA</option>
+          <option value="sa">SA</option>
+          <option value="de">DE</option>
+          <option value="ga_sa">GA-SA</option>
+        </select>
+        <label for="optunaParamSelector">Hiperparámetro</label>
+        <select id="optunaParamSelector"></select>
+      </div>
+      <div class="grid2">
+        <div class="chart-small"><canvas id="optunaEvolutionChart"></canvas></div>
+        <div class="chart-small"><canvas id="optunaParamChart"></canvas></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"></div>
+</section>
+
+<!-- RESPALDO: HEATMAP -->
+<section>
+  <h2>Respaldo: Superficie Analítica de Desempeño (Heatmap, Campaña v1)</h2>
+  <div class="chartbox">
+    <div class="controls">
+      <label for="heatmapMetricSelector">Métrica</label>
+      <select id="heatmapMetricSelector">
+        <option value="mean_gap_percent">Gap medio (%)</option>
+        <option value="mean_elapsed_seconds">Tiempo medio (s)</option>
+        <option value="mean_service_level">Nivel de servicio medio (%)</option>
+        <option value="mean_z_mcop">Z medio (M COP)</option>
+      </select>
+    </div>
+    <div class="chart"><canvas id="heatmapChart"></canvas></div>
+  </div>
+  <p class="small">Vista matricial interactiva por combinación algoritmo-instancia (promedios de corridas).</p>
+  <div class="footer"></div>
+</section>
+
+<!-- RESPALDO: INVENTARIO BAJA ROTACIÓN -->
+<section>
+  <h2>Respaldo: Dinámica Estructural del Inventario (Baja Rotación, Campaña v1)</h2>
+  <div class="chartbox">
+    <div class="controls">
+      <label for="lowRotSizeSelector">Tamaño de instancia</label>
+      <select id="lowRotSizeSelector">
+        <option value="all">Todas</option>
+        <option value="small">Small</option>
+        <option value="medium">Medium</option>
+        <option value="large">Large</option>
+      </select>
+    </div>
+    <div class="chart"><canvas id="lowRotationChart"></canvas></div>
+  </div>
+  <p class="small">Caja intercuartil (Q25-Q75), mediana y bigotes P10-P90 por algoritmo.</p>
+  <div class="footer"></div>
+</section>
+
+<!-- RESPALDO: ROBUSTEZ OPERATIVA -->
+<section>
+  <h2>Respaldo: Robustez Operativa de la Arquitectura (Campaña v1)</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3 style="margin-top:0;">Checklist técnico</h3>
+      <ul>
+        <li>Reparación de factibilidad (y,q) en GA, SA, DE y GA-SA.</li>
+        <li>Registro de convergencia en todos los algoritmos.</li>
+        <li>Control por estancamiento en GA, DE y GA-SA.</li>
+        <li>Factibilidad empírica: 100% en comparación y sensibilidad.</li>
+      </ul>
+      <h3 style="margin-top:8px;">Alertas de validez</h3>
+      <ul id="scientificWarnings" style="font-size:.66em;">
+        <li>Sin alertas críticas cargadas.</li>
+      </ul>
+    </div>
+    <div class="chartbox">
+      <h3 style="margin-top:0;">Indicadores operativos</h3>
+      <div class="chart-small"><canvas id="robustnessChart"></canvas></div>
+    </div>
+  </div>
+  <div class="footer"></div>
+</section>
+
 </div></div>
 
 <script src="libs/reveal.min.js"></script>
 <script>
 Reveal.initialize({ hash:true, slideNumber:'c/t', transition:'fade', width:1280, height:720, margin:0.03, center:false, progress:true, history:true });
 
-const palette = { ga_sa:'#1E293B', de:'#0f766e', ga:'#0097A7', sa:'#00B8D4', baseline:'#475569', cbc_exact:'#0f172a' };
+// Paleta Okabe-Ito (segura para daltonismo); fuente única de color para todos los charts
+const palette = { ga:'#0072B2', sa:'#E69F00', de:'#009E73', ga_sa:'#CC79A7', baseline:'#666666', cbc_exact:'#1a1a1a' };
+const algoColor = (a) => palette[a] || '#666666';
 const labels = { ga_sa:'GA-SA', de:'DE', ga:'GA', sa:'SA', baseline:'Baseline', cbc_exact:'CBC exacto' };
 const store = window.PRESENTATION_DATA || {};
 
@@ -945,9 +912,9 @@ function renderBaseline() {
 
 function dynData(algo,view){
   if(view==='diversity'){ const d=store.diversity_profiles&&store.diversity_profiles[algo]; if(!d)return null;
-    return {x:d.iteration,y:d.diversity_mean,tX:'Iteración',tY:'Diversidad media',color:d.color||palette[algo],label:`${labels[algo]} - diversidad`}; }
+    return {x:d.iteration,y:d.diversity_mean,tX:'Iteración',tY:'Diversidad media',color:algoColor(algo),label:`${labels[algo]} - diversidad`}; }
   const c=store.convergence_profiles&&store.convergence_profiles[algo]; if(!c)return null;
-  return {x:c.n_evaluations,y:c.mean_norm_z,tX:'Evaluaciones',tY:'Z normalizado',color:c.color||palette[algo],label:`${labels[algo]} - convergencia`};
+  return {x:c.n_evaluations,y:c.mean_norm_z,tX:'Evaluaciones',tY:'Z normalizado',color:algoColor(algo),label:`${labels[algo]} - convergencia`};
 }
 
 function renderDyn(){
@@ -969,7 +936,7 @@ function renderDyn(){
 function renderRank(){
   const el=document.getElementById('rankingChart'); if(!el||cRank) return;
   const rows=summary().filter(r=>['ga_sa','de','ga','sa'].includes(r.algorithm));
-  cRank = new Chart(el,{type:'bar',data:{labels:rows.map(r=>r.label),datasets:[{label:'Z medio (M COP)',data:rows.map(r=>r.mean_z_mcop),backgroundColor:rows.map(r=>r.color||palette[r.algorithm]),borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:false,title:{display:true,text:'Millones COP',font:{size:10}},ticks:tickFmt(1)}}}});
+  cRank = new Chart(el,{type:'bar',data:{labels:rows.map(r=>r.label),datasets:[{label:'Z medio (M COP)',data:rows.map(r=>r.mean_z_mcop),backgroundColor:rows.map(r=>algoColor(r.algorithm)),borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:false,title:{display:true,text:'Millones COP',font:{size:10}},ticks:tickFmt(1)}}}});
 }
 
 function renderSize(){
@@ -1024,7 +991,7 @@ function renderOptuna(){
       cOptunaEvo.data.labels = labelsTrial;
       cOptunaEvo.data.datasets[0].data = bestSeries;
       cOptunaEvo.data.datasets[0].label = `${labels[algo]} best-so-far`;
-      cOptunaEvo.data.datasets[0].borderColor = palette[algo] || '#0f766e';
+      cOptunaEvo.data.datasets[0].borderColor = algoColor(algo);
       cOptunaEvo.data.datasets[1].data = valueSeries;
       cOptunaEvo.data.datasets[1].label = `${labels[algo]} valor trial`;
       cOptunaEvo.update();
@@ -1037,8 +1004,8 @@ function renderOptuna(){
             {
               label: `${labels[algo]} best-so-far`,
               data: bestSeries,
-              borderColor: palette[algo] || '#0f766e',
-              backgroundColor: (palette[algo] || '#0f766e') + '22',
+              borderColor: algoColor(algo),
+              backgroundColor: algoColor(algo) + '22',
               tension: 0.2,
               fill: true,
               pointRadius: 0,
@@ -1083,7 +1050,7 @@ function renderOptuna(){
             label: `${labels[algo]}: ${param} vs objetivo`,
             data: scatter,
             pointRadius: 3,
-            pointBackgroundColor: palette[algo] || '#0f766e',
+            pointBackgroundColor: algoColor(algo),
           }]
         },
         options: {
@@ -1311,7 +1278,7 @@ function renderPareto(){
       data: groups[a],
       pointRadius: 3,
       pointHoverRadius: 5,
-      backgroundColor: palette[a] || '#334155',
+      backgroundColor: algoColor(a),
     }));
 
     if(cPareto){
@@ -1369,7 +1336,7 @@ function renderRob(){
   const rows=summary().filter(r=>['ga_sa','de','ga','sa'].includes(r.algorithm)); if(!rows.length) return;
   const minT=Math.min(...rows.map(r=>r.mean_elapsed_seconds)), minE=Math.min(...rows.map(r=>r.mean_n_evaluations));
   const st=rows.map(r=>1/(1+Math.abs(r.std_z_mcop/Math.max(Math.abs(r.mean_z_mcop),1e-9))));
-  cRob=new Chart(el,{type:'radar',data:{labels:['Factibilidad','Estabilidad','Eficiencia tiempo','Eficiencia evaluaciones'],datasets:rows.map((r,i)=>({label:r.label,data:[(r.feasible_rate_percent||0)/100,st[i],minT/Math.max(r.mean_elapsed_seconds,1e-9),minE/Math.max(r.mean_n_evaluations,1e-9)],borderColor:r.color||palette[r.algorithm],backgroundColor:(r.color||palette[r.algorithm])+'33',borderWidth:2,pointRadius:2}))},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10}}}},scales:{r:{min:0,max:1,ticks:{stepSize:.25,backdropColor:'transparent',font:{size:9}}}}}});
+  cRob=new Chart(el,{type:'radar',data:{labels:['Factibilidad','Estabilidad','Eficiencia tiempo','Eficiencia evaluaciones'],datasets:rows.map((r,i)=>({label:r.label,data:[(r.feasible_rate_percent||0)/100,st[i],minT/Math.max(r.mean_elapsed_seconds,1e-9),minE/Math.max(r.mean_n_evaluations,1e-9)],borderColor:algoColor(r.algorithm),backgroundColor:algoColor(r.algorithm)+'33',borderWidth:2,pointRadius:2}))},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10}}}},scales:{r:{min:0,max:1,ticks:{stepSize:.25,backdropColor:'transparent',font:{size:9}}}}}});
 }
 
 function renderAuditWarnings(){
