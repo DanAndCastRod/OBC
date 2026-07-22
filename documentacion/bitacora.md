@@ -5,6 +5,53 @@ Las entradas más recientes van arriba.
 
 ---
 
+## 2026-07-22 — Refinamientos post-recalibración y rediseño de la presentación
+
+- **Rediseño de la presentación** (docs/presentacion/): tema "tinta institucional"
+  (azul #1E3A5F + carmesí #9B1B30 sobre papel #FAFAF7), storytelling en 4 actos
+  con divisorias y títulos de aserción, takeaways por lámina, portada protocolar,
+  35 láminas. La paleta Okabe-Ito de series se conserva (identidad con las
+  figuras de la tesis).
+- **GIFs didácticos regenerados** con script reproducible
+  (build_intuition_gifs.py): mismo paisaje de fitness para los 4 algoritmos,
+  fases etiquetadas, termómetro SA, vectores DE, lupa GA-SA. <400 KB c/u.
+- **Correcciones de datos post-recalibración** (cifras que contradecían v2):
+  H3 v2 28–31% (no 21–29%), tiempo H2 métrica oficial 4.7×/instancia (ratio de
+  medias ≈1× tras recalibrar GA-SA), contribución "ventaja híbrida GA-SA"
+  reformulada a paridad, caption Nemenyi §7.5 (DE 1.77), README reescrito a las
+  dos campañas, chart de contexto con datos v2 reales.
+- **Revisión multi-agente** (37 refinamientos): QA visual, contenido, experiencia
+  de defensa (speaker notes, fragments, export PDF, README día D), ecosistema.
+
+## 2026-07-21 — Comparación justa: 4 MH re-calibradas → paridad
+
+- El re-tuning de SA (2026-07-17) lo dejó como mejor algoritmo, revelando que el
+  ranking dependía de la calibración asimétrica. Se creó `tune_mh_v2.py` y se
+  re-calibraron **GA, DE y GA-SA** (40 trials TPE c/u) y se re-corrieron sus
+  brazos (540/540). Resultado: **las 4 convergen a 4.6–5.9% de gap**; Nemenyi
+  DE 1.77 (leve ventaja), GA/SA/GA-SA empatados 2.73–2.77 (CD 0.856). H1
+  (20.2–20.8%), H2 (+0.54% ≤2%) y H3 (28.3–31.0%) se sostienen.
+- **Hallazgo metodológico central**: elegir el algoritmo pesa menos que
+  calibrarlo para el régimen. Params en comparison_v2.yaml (commits hasta
+  b173832). Tesis §7.5/§8 y presentación actualizadas con los números justos.
+- Trampa: los `--resume` de run_comparison APPENDEAN trazas → deduplicar
+  comparison_traces.csv (última corrida por clave) antes del análisis anytime.
+
+## 2026-07-17 — Re-tuning SA, sensibilidad multi-instancia y figuras
+
+- **Sensibilidad multi-instancia** (#18): run_sensitivity.py refactorizado para
+  aceptar `base_instances` (lista) con columna base_instance y resume por base.
+  Config sensitivity_v2.yaml (3 bases v2 × 3 params × 5 deltas × 5 seeds = 225
+  runs, GA-SA con demand_cap). **Confirma el orden de v1**: precios dominan
+  (±47% en Z ante ±20%), costos segundo (±27%), variabilidad de demanda
+  negligible (±2%) → robustez operativa.
+- **Re-tuning de SA para v2** (#15, tune_sa_v2.py): SA pasó de 6.39% a 5.24% de
+  gap con params re-calibrados (p_toggle 0.19, p_quantity 0.47, cooling 0.81).
+- **Figuras** con paleta Okabe-Ito unificada + figura central de dos regímenes
+  (regimes_comparison.png).
+
+---
+
 ## 2026-07-14 — Tesis y presentación actualizadas con la campaña v2
 
 **Tesis (`tesis/tesis_coproductos.md`):**

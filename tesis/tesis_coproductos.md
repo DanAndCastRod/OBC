@@ -1008,6 +1008,12 @@ La inferencia no paramétrica confirma la lectura: Friedman bloqueado por instan
 
 En síntesis, la campaña v2 responde la pregunta que la v1 dejó abierta: **el valor de la optimización depende del régimen económico**. Cuando el setup es despreciable y la demanda excede la capacidad, una regla trivial basta; cuando el setup es costoso y existe holgura — el régimen operativo típico de una planta con capacidad dimensionada por encima de la demanda media — las metaheurísticas entregan las mejoras hipotetizadas (20–21% en costo, 28–31% en inventario); con calibración justa las cuatro convergen a gaps de ~5% frente al óptimo certificado, con leve ventaja estadística de DE.
 
+> **Nota sobre las secciones §7.6–§7.13.** Salvo indicación explícita, los
+> análisis de rendimiento, convergencia, escalabilidad, sensibilidad, diversidad
+> y complejidad que siguen corresponden a la **campaña diagnóstica (v1)**, cuyo
+> valor es caracterizar el comportamiento algorítmico; los veredictos de
+> hipótesis y el ranking definitivo provienen de la campaña confirmatoria (§7.5).
+
 ### 7.6. Performance Profiles
 
 ![Performance profile de Dolan-Moré. GA-SA y DE alcanzan las mejores soluciones con mayor frecuencia (curva más alta a la izquierda).](figuras/performance_profile.png){width=80% #fig:fig_14 short-caption="Performance profile de Dolan-Moré"}
@@ -1051,6 +1057,8 @@ Se realizó un análisis de sensibilidad perturbando tres parámetros clave en e
 2. **Costos** tiene sensibilidad moderada: ±10% produce ±2.67% en $Z$.
 3. **Variabilidad de demanda** tiene impacto negligible (±0.35% máximo), indicando que la solución es **robusta** ante cambios en la incertidumbre.
 4. **100% de factibilidad** en todas las configuraciones, confirmando la robustez del decodificador greedy.
+
+**Confirmación multi-instancia (campaña v2).** El análisis anterior (v1) se ejecutó sobre una única instancia base. Para descartar que el ordenamiento de sensibilidad fuera un artefacto de esa instancia, se replicó sobre **tres instancias base del régimen operativo** (small/medium/large de la campaña confirmatoria; 225 ejecuciones). El resultado reproduce el mismo ordenamiento con mayor magnitud, coherente con el régimen v2: los **precios** siguen siendo el parámetro dominante (una perturbación de ±20% desplaza $Z$ en $\approx \mp 47\%$), seguidos de los **costos** ($\approx \pm 27\%$), mientras que la **variabilidad de la demanda** permanece negligible ($\leq 2\%$). La robustez ante incertidumbre de demanda y la sensibilidad a precios son, por tanto, propiedades estructurales del modelo, no de una instancia particular.
 
 ### 7.10. Análisis de Diversidad Poblacional
 
@@ -1105,7 +1113,7 @@ La validación de robustez confirmó que la mejor solución GA-SA es factible ba
 
 **Objetivo 4 (Comparar):** Se ejecutaron dos campañas experimentales (1,098 ejecuciones en v1 y 780 en v2, esta última con presupuesto de evaluaciones igualado entre algoritmos) con análisis estadístico completo (Friedman bloqueado por instancia, Wilcoxon-Holm, diagrama de diferencia crítica de Nemenyi, tamaños de efecto pareados y análisis de potencia). En la campaña confirmatoria, con las cuatro metaheurísticas re-calibradas para el régimen v2 y presupuesto igualado, las cuatro convergen a gaps de 4.6–5.9% (rango de Nemenyi: DE 1.77 con leve ventaja significativa; GA, SA y GA-SA empatados en 2.73–2.77) — la elección del algoritmo pesa menos que calibrarlo para el régimen correcto.
 
-**Objetivo 5 (Validar):** Se validó el modelo mediante análisis de sensibilidad (450 ejecuciones) y robustez (perturbación de demanda ±10%), confirmando que las soluciones son operativamente realistas y robustas ante incertidumbre.
+**Objetivo 5 (Validar):** Se validó el modelo mediante análisis de sensibilidad (450 ejecuciones en v1 y 225 multi-instancia en v2, que confirman precios como parámetro dominante y robustez ante variabilidad de demanda) y de robustez ante perturbaciones de demanda ±10%, confirmando que las soluciones son operativamente realistas y estables ante incertidumbre.
 
 ### 8.2. Veredicto de Hipótesis
 
