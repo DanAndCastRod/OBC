@@ -1004,7 +1004,7 @@ La potencia alcanzada es 1.000 para H1 y H3 (bastarían 6 y 3 instancias, respec
 
 La inferencia no paramétrica confirma la lectura: Friedman bloqueado por instancia rechaza la igualdad global ($p \leq 0.03$ por estrato) y el diagrama de diferencia crítica de Nemenyi ([@fig:fig_nemenyi]) sitúa a DE con el mejor rango promedio (1.77), con GA, SA y GA-SA estadísticamente empatados entre sí (2.73–2.77; $CD = 0.856$); SA es el mejor en el estrato Small y DE en Medium y Large.
 
-![Diagrama de diferencia crítica (Nemenyi, $\alpha=0.05$) sobre las 30 instancias v2. GA-SA obtiene el mejor rango promedio; las barras grises conectan grupos sin diferencia significativa.](figuras/nemenyi_cd.png){width=85% #fig:fig_nemenyi short-caption="Diagrama de diferencia crítica de Nemenyi (campaña v2)"}
+![Diagrama de diferencia crítica (Nemenyi, $\alpha=0.05$) sobre las 30 instancias v2. DE obtiene el mejor rango promedio (1.77); GA, SA y GA-SA quedan estadísticamente empatados. Las barras grises conectan grupos sin diferencia significativa.](figuras/nemenyi_cd.png){width=85% #fig:fig_nemenyi short-caption="Diagrama de diferencia crítica de Nemenyi (campaña v2)"}
 
 En síntesis, la campaña v2 responde la pregunta que la v1 dejó abierta: **el valor de la optimización depende del régimen económico**. Cuando el setup es despreciable y la demanda excede la capacidad, una regla trivial basta; cuando el setup es costoso y existe holgura — el régimen operativo típico de una planta con capacidad dimensionada por encima de la demanda media — las metaheurísticas entregan las mejoras hipotetizadas (20–21% en costo, 28–31% en inventario); con calibración justa las cuatro convergen a gaps de ~5% frente al óptimo certificado, con leve ventaja estadística de DE.
 
@@ -1123,7 +1123,7 @@ La lectura conjunta de ambos regímenes es el hallazgo central de la tesis: **el
 
 1. **Modelo matemático validado:** Un modelo MILP de planificación de coproductos avícolas con lot-sizing estocástico, setup y perecibilidad, aplicable a otras industrias de producción conjunta.
 2. **Framework de metaheurísticas comparativo:** Implementación modular de GA, SA, DE y GA-SA con decodificador greedy compartido, reproducible y extensible.
-3. **Evidencia empírica sobre GA-SA:** Confirmación, en un problema real, de la ventaja del enfoque híbrido GA-SA reportada por Akbari-Aghghaleh et al. [-@AkbariAghghaleh2025].
+3. **Evidencia empírica sobre metaheurísticas híbridas:** Bajo calibración justa por régimen, las cuatro estrategias (GA, SA, DE, GA-SA) alcanzan paridad estadística (leve ventaja de DE), matizando la superioridad del híbrido GA-SA reportada por Akbari-Aghghaleh et al. [-@AkbariAghghaleh2025]: la ventaja depende del esfuerzo de calibración, no del algoritmo en sí.
 4. **Conjunto de instancias calibradas en dos regímenes:** 39 instancias (9 del régimen v1 y 30 del operativo v2, estas últimas con perfiles de pollo mezclables en parvada), con parámetros del sector avícola colombiano, disponibles públicamente para benchmarking.
 5. **Caracterización del régimen de valor:** Evidencia de que el beneficio de la optimización depende del régimen económico (setup/holgura/volatilidad), con la frontera cuantificada entre el régimen donde una regla trivial basta y aquel donde las metaheurísticas aportan 17–20% de mejora.
 6. **Análisis de robustez:** Validación de que las soluciones son operativamente viables y robustas ante perturbaciones de demanda (deterioro $\leq 0.04\%$).

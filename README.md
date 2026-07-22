@@ -12,18 +12,23 @@ Universidad Tecnológica de Pereira, 2026
 
 Modelo de optimización para la planificación de coproductos en la industria avícola colombiana, resuelto mediante metaheurísticas (GA, SA, DE, GA-SA). Aborda el desbalance estructural entre la oferta rígida de coproductos —determinada por la anatomía del ave— y la demanda estocástica del mercado.
 
-Se formula un modelo de **Programación Lineal Entera Mixta (MILP)** multi-periodo con estructura de **lot-sizing estocástico**, incluyendo decisiones binarias de setup, lote mínimo y restricciones de perecibilidad. El problema se resuelve mediante cuatro metaheurísticas calibradas con **Optuna/TPE** y evaluadas en un diseño experimental de **1,098 ejecuciones** sobre **9 instancias** calibradas con datos del sector avícola colombiano (FENAVI, DANE).
+Se formula un modelo de **Programación Lineal Entera Mixta (MILP)** multi-periodo con estructura de **lot-sizing estocástico**, incluyendo decisiones binarias de setup, lote mínimo y restricciones de perecibilidad. El problema se resuelve mediante cuatro metaheurísticas calibradas con **Optuna/TPE** y evaluadas en **dos campañas experimentales** (1,098 ejecuciones diagnósticas + 780 confirmatorias) sobre **39 instancias** calibradas con datos del sector avícola colombiano (FENAVI, DANE).
 
 ## Resultados Principales
 
-| Algoritmo | Rank | Gap vs CBC (Small/Medium) | Gap vs CBC (promedio global) |
-|-----------|:----:|:-------------------------:|:----------------------------:|
-| **GA-SA** (híbrido) | 🥇 1 | 3.4% | 8.12% |
-| DE | 🥈 2 | 3.4% | 8.14% |
-| GA | 🥉 3 | 3.4% | 8.52% |
-| SA | 4 | 10.4% | 13.11% |
+El hallazgo central es que **el valor de la optimización depende del régimen económico**:
 
-**Notas:** (1) El promedio global está dominado por las instancias Large (~17.6–18.8% para todos los algoritmos), en las que CBC no converge al óptimo dentro del límite de 300 s, por lo que el gap allí es frente al incumbente de CBC. (2) El criterio de la hipótesis H2 (gap ≤ 2%) se evalúa frente a la **mejor metaheurística individual**, no frente a CBC; su resultado fue −0.02% (componente de calidad soportado). Fuente: `experiments/results/main_results_table.csv` e `instance_results_table.csv`.
+- **Campaña diagnóstica (v1):** con demanda por encima de la capacidad y costo de setup marginal, el problema degenera y una regla trivial (producir a capacidad máxima) queda casi óptima — H1 y H3 no se soportan. Un análisis de potencia muestra que ese diseño no podía detectar los umbrales declarados.
+- **Campaña confirmatoria (v2):** con setup costoso, holgura de capacidad y demanda volátil (el régimen operativo real), las metaheurísticas **mejoran el beneficio ~20% y reducen el inventario 28–31%** frente al baseline ($p<10^{-4}$, potencia 1.000). Con las cuatro metaheurísticas **re-calibradas para el régimen** y presupuesto igualado, todas convergen a gaps de **4.6–5.9%** frente al óptimo certificado por CBC:
+
+| Algoritmo | Gap vs óptimo (v2) | Rango Nemenyi |
+|-----------|:------------------:|:-------------:|
+| **DE** | 4.6–8.4% | 🥇 1.77 |
+| GA | 4.8–6.6% | 2.73 |
+| SA | 4.7–6.8% | 2.73 |
+| GA-SA | 4.8–5.9% | 2.77 |
+
+**Nota metodológica:** el ranking observado depende de qué algoritmos estén calibrados. Con calibración justa (los cuatro tuneados para v2) la diferencia entre ellos es estadísticamente marginal — **calibrar para el régimen pesa más que elegir el algoritmo**. CBC alcanza optimalidad certificada en todos los tamaños (best bound; 1.4–191 s). Fuente: `experiments/results_v2/`.
 
 ## Estructura del Repositorio
 
@@ -98,11 +103,17 @@ python experiments/scripts/reproduce.py
 ### Ejecución Individual
 
 ```bash
-# Comparación de algoritmos (1,098 ejecuciones)
+# Campaña diagnóstica v1 (1,098 ejecuciones)
 python experiments/scripts/run_comparison.py
 
-# Análisis de sensibilidad (450 ejecuciones)
-python experiments/scripts/run_sensitivity.py
+# Campaña confirmatoria v2 (780 ejecuciones, presupuesto igualado, --workers N)
+python experiments/scripts/run_comparison.py --config experiments/config/comparison_v2.yaml --workers 12
+
+# Re-calibración de metaheurísticas para el régimen v2 (Optuna/TPE)
+python experiments/scripts/tune_mh_v2.py --algo ga_sa --n-trials 40 --max-evaluations 6000
+
+# Análisis de sensibilidad multi-instancia (v2: 225 ejecuciones, 3 bases)
+python experiments/scripts/run_sensitivity.py --config experiments/config/sensitivity_v2.yaml --workers 7
 
 # Análisis de complejidad
 python experiments/scripts/run_complexity_analysis.py
