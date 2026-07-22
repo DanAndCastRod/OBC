@@ -53,7 +53,7 @@
     .hypo { border:1px solid var(--hairline); border-left:4px solid var(--primary); background:#FFFFFF; border-radius:8px; padding:9px 11px; margin-bottom:8px; box-shadow:var(--card-shadow);
       display:flex; flex-wrap:wrap; align-items:baseline; column-gap:6px; row-gap:4px; }
     .hypo.n { border-left-color:var(--muted); }
-    .gif img { width:100%; max-height:200px; object-fit:contain; border-radius:8px; border:1px solid var(--hairline); }
+    .gif img { width:100%; max-height:200px; object-fit:contain; background:var(--paper); border-radius:8px; border:1px solid var(--hairline); }
     .small { font-size:.6em; color:var(--muted); }
     .stat-tiles { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
     .stat-tile { background:#FFFFFF; border:1px solid var(--hairline); border-radius:10px; padding:12px 14px; box-shadow:var(--card-shadow); text-align:center; }
@@ -70,6 +70,19 @@
     .divider p { color:#C9D2DD; font-size:.8em; max-width:72%; }
     .reveal .progress { color:var(--accent); height:4px; }
     .reveal .slide-number { background:transparent; color:var(--muted); font-family:var(--font-body); font-size:12px; }
+    /* --- Ajustes para la defensa --- */
+    /* Problema #1: centrar verticalmente el contenido de las láminas de CONTENIDO
+       (excluye portada/preguntas [.title] y divisorias de acto [.divider]) para
+       que el bloque respire en todo el lienzo y no ancle arriba. */
+    .reveal .slides > section.present:not(.title):not(.divider),
+    .reveal .slides > section.closing.present { display:flex !important; flex-direction:column; justify-content:center; }
+    /* Divisorias de acto: centrar el bloque verticalmente (numeral+título+cita)
+       para que no quede anclado arriba con el campo azul vacío debajo. */
+    .reveal .slides > section.divider.present { display:flex !important; flex-direction:column; justify-content:center; }
+    /* Jerarquía tipográfica: dos niveles fijos por clase. Título de tarjeta ~1.05em
+       (≈25px) — sólo afecta a las tarjetas cuyo h3 no fija tamaño inline, uniformando
+       los títulos "gigantes" sin tocar las láminas densas. */
+    .reveal .slides .card h3, .reveal .slides .chartbox h3, .reveal .slides .callout h3 { font-size:1.05em; margin-top:0; line-height:1.2; }
     @media (max-width:900px){ .grid2,.grid4,.stat-tiles{grid-template-columns:1fr;} .chart,.chart-small{height:230px;} .reveal .slides section{padding:16px 18px 46px;} }
   </style>
 </head>
@@ -92,6 +105,7 @@
 <section style="display:flex; flex-direction:column; justify-content:center; height:100%;">
   <div class="eyebrow">Hoja de ruta</div>
   <h2>Agenda</h2>
+  <aside class="notes">Presento la hoja de ruta en cuatro actos: el problema, el modelo, la evidencia en dos campañas y qué significa. Enfatizo que la columna vertebral de la charla es el contraste entre dos regímenes económicos, no un solo experimento. Invito al jurado a fijarse en cómo cambia el veredicto entre la campaña diagnóstica (v1) y la confirmatoria (v2). (~45 s)</aside>
   <ol style="column-count:2; column-gap:40px; font-size:.85em; margin-top:24px; line-height:1.6;">
     <li style="margin-bottom:15px;">Contexto de la industria avícola</li>
     <li style="margin-bottom:15px;">Problema e hipótesis</li>
@@ -119,15 +133,16 @@
 <section>
   <div class="eyebrow">Acto I · El problema</div>
   <h2>1. Una industria de 1.7M t/año planifica sobre un mix que no elige</h2>
+  <aside class="notes">Sitúo la escala del sector y la idea de que la planta no elige el mix anatómico que produce. El gancho es el 20% de beneficio adicional que demostraré al final. Cierro insistiendo en que a esta escala cada punto porcentual de eficiencia vale miles de millones de COP, y paso a explicar por qué el mix es difícil. (~75 s)</aside>
   <div class="stat-tiles" style="margin-bottom:12px;">
     <div class="stat-tile"><div class="num">1.7M</div><div class="lbl">t/año de producción de pollo en Colombia (FENAVI 2023)</div></div>
     <div class="stat-tile"><div class="num">~30%</div><div class="lbl">de la canal es pechuga: el resto debe venderse igual</div></div>
     <div class="stat-tile"><div class="num">20%</div><div class="lbl">beneficio adicional demostrado (campaña confirmatoria)</div></div>
   </div>
   <div class="grid2">
-    <div class="card">
+    <div class="card" style="display:flex; flex-direction:column; justify-content:center;">
       <h3 style="margin-top:0; font-size:.78em;">Por qué es un problema difícil</h3>
-      <ul style="font-size:.62em; line-height:1.5;">
+      <ul style="font-size:.66em; line-height:1.7;">
         <li><strong>8 coproductos por carcasa</strong> (pechuga, muslo, ala, etc.) en proporciones fijas α<sub>p</sub>.</li>
         <li><strong>CLSP estocástico NP-hard:</strong> setup, perecibilidad y coproducción simultáneos.</li>
         <li>Demanda heterogénea y estacional por corte.</li>
@@ -147,6 +162,7 @@
 <section>
   <div class="eyebrow">Acto I · El problema</div>
   <h2>2. La anatomía fija la oferta; el mercado exige otro mix</h2>
+  <aside class="notes">Explico la tensión push-pull: la oferta es rígida por anatomía y la demanda es estacional y heterogénea por corte. El punto clave: no se puede producir solo pechuga, así que todo plan administra el mix completo o paga el desbalance. Uso la tabla de consecuencias para nombrar los tres costos evitables que atacamos. (~75 s)</aside>
   <div class="grid2">
     <div class="callout">
       <h3 style="margin-top:0;">Push (Oferta)</h3>
@@ -182,10 +198,11 @@
 <section style="display:flex; flex-direction:column; justify-content:center; height:100%;">
   <div class="eyebrow">Acto I · El problema</div>
   <h2>3. El desbalance cuesta margen, inventario y desperdicio</h2>
+  <aside class="notes">Cuantifico por qué importa: inventario excesivo, liquidaciones y desperdicio son costos evitables con mejor planificación, con órdenes de magnitud tomados de la literatura. Conecto con los ODS 9 y 12 para enmarcar la sostenibilidad. Destaco la relevancia metodológica: es el primer framework que integra las cuatro dimensiones con coproductos. (~75 s)</aside>
   <div class="grid2">
     <div class="card">
       <h3 style="margin-top:0;font-size:.78em;">Relevancia Económica</h3>
-      <table style="font-size:.58em; width:100%; border-collapse:collapse;">
+      <table style="font-size:.6em; width:100%; border-collapse:collapse;">
         <tr style="border-bottom:1px solid #ccc;"><th style="text-align:left;">Consecuencia</th><th style="text-align:center;">Impacto estimado</th><th style="text-align:left;">Fuente</th></tr>
         <tr style="border-bottom:1px solid #f0f0f0;"><td>Costos de inventario excesivo</td><td style="text-align:center;">+15–25% del costo total</td><td>Sel et al. 2015</td></tr>
         <tr style="border-bottom:1px solid #f0f0f0;"><td>Pérdidas por ventas de liquidación</td><td style="text-align:center;">−20–40% del margen</td><td>Amorim et al. 2014</td></tr>
@@ -214,13 +231,14 @@
 <section>
   <div class="eyebrow">Acto I · El problema</div>
   <h2>4. Tres hipótesis falsables sobre el valor de optimizar</h2>
+  <aside class="notes">Presento las tres hipótesis una a una: aparecen como fragmentos para dosificar. No leo los porcentajes; los uso para mostrar el contraste entre columnas v1 y v2. El mensaje central, que revelo con el último fragmento, es que el valor de optimizar depende del régimen económico: en v1 el baseline empata, en v2 las mejoras se confirman con potencia 1.000. (~90 s)</aside>
   <div class="card" style="margin-bottom:10px;">
     <p style="font-style:italic;font-size:.78em;">¿Cómo optimizar la planificación de producción de coproductos avícolas bajo demanda estocástica, minimizando costos de inventario y maximizando el beneficio?</p>
   </div>
-  <div class="hypo"><strong>H1:</strong> La mejor metaheurística mejora Z en ≥ 5% vs baseline <span class="pill no">v1: No (0.6%–1.1%)</span> <span class="pill ok">v2: Soportada (20%–21%, p&lt;10⁻⁴)</span></div>
-  <div class="hypo"><strong>H2:</strong> GA-SA alcanza gap ≤ 2% vs mejor metaheurística individual <span class="pill ok">v1: Sí (-0.02%)</span> <span class="pill ok">v2: Sí (+0.54%)</span></div>
-  <div class="hypo"><strong>H3:</strong> Reducción de inventario ≥ 15% (endpoint primario: inventario promedio) <span class="pill no">v1: No (12%–17%)</span> <span class="pill ok">v2: Soportada (28%–31%, p&lt;10⁻⁴)</span></div>
-  <div class="card" style="margin-top:8px;">
+  <div class="hypo fragment"><strong>H1:</strong> La mejor metaheurística mejora Z en ≥ 5% vs baseline <span class="pill no">v1: No (0.6%–1.1%)</span> <span class="pill ok">v2: Soportada (20%–21%, p&lt;10⁻⁴)</span></div>
+  <div class="hypo fragment"><strong>H2:</strong> GA-SA alcanza gap ≤ 2% vs mejor metaheurística individual <span class="pill ok">v1: Sí (-0.02%)</span> <span class="pill ok">v2: Sí (+0.54%)</span></div>
+  <div class="hypo fragment"><strong>H3:</strong> Reducción de inventario ≥ 15% (endpoint primario: inventario promedio) <span class="pill no">v1: No (12%–17%)</span> <span class="pill ok">v2: Soportada (28%–31%, p&lt;10⁻⁴)</span></div>
+  <div class="card fragment" style="margin-top:8px;">
     <p style="font-size:.6em;margin:0;"><strong>Hallazgo central:</strong> el valor de la optimización depende del régimen económico. Régimen v1 (demanda &gt; capacidad, setup marginal): una regla trivial es casi óptima. Régimen operativo v2 (setup costoso, holgura, demanda volátil): las mejoras hipotetizadas se confirman con potencia 1.000.</p>
   </div>
   <div class="card" style="margin-top:10px;">
@@ -239,6 +257,7 @@
 <section>
   <div class="eyebrow">Acto I · El problema</div>
   <h2>5. Objetivos: formular, resolver, calibrar y validar en dos campañas</h2>
+  <aside class="notes">Recorro los cinco objetivos específicos como un pipeline: formular, implementar, calibrar, comparar y validar. Me detengo en OE4 porque introduce las dos campañas con presupuesto igualado, que es lo distintivo. La idea a transmitir es que todo el flujo, del modelo formal a la validación estadística, es reproducible. (~60 s)</aside>
   <div class="card" style="margin-bottom:10px;">
     <h3 style="margin-top:0;">Objetivo General</h3>
     <p style="font-size:.75em;">Desarrollar un modelo de optimización para la planificación de coproductos en la industria avícola colombiana, resuelto mediante metaheurísticas.</p>
@@ -262,6 +281,7 @@
 <section style="display:flex; flex-direction:column; justify-content:center; height:100%;">
   <div class="eyebrow">Acto I · El problema</div>
   <h2>6. Coproducción + perecibilidad + estocasticidad: un CLSP NP-hard</h2>
+  <aside class="notes">Fundamento por qué el problema es un CLSP estocástico NP-hard: coproducción, perecibilidad y estocasticidad de forma simultánea. Sitúo las metaheurísticas por familia — trayectoria, población e híbridos. El punto que quiero que quede grabado: su valor no es vencer a CBC sino el comportamiento anytime y la escalabilidad al tamaño industrial. (~90 s)</aside>
   <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
     <div class="card">
       <h3 style="margin-top:0;font-size:.78em;">Producción Conjunta</h3>
@@ -311,6 +331,7 @@
 <section style="display:flex; flex-direction:column; justify-content:center; height:100%;">
   <div class="eyebrow">Acto I · El problema</div>
   <h2>7. Ningún trabajo previo integra las cuatro dimensiones con coproductos</h2>
+  <aside class="notes">Resumo la búsqueda sistemática en Scopus: ocho queries, 478 resultados, solo 13 en la intersección directa. Señalo que Q7 dio cero, lo que confirma el vacío. El argumento de brecha, que es mi cierre: ninguno de esos trabajos combina las cuatro dimensiones con coproductos, y eso es lo que llena la tesis. (~75 s)</aside>
   <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:8px;">
     <p style="font-size:.58em; margin:0;"><strong>Búsqueda sistemática Scopus (feb. 2026):</strong> 8 queries temáticas → 478 resultados → <strong>13 papers</strong> en la intersección directa.</p>
     <p style="font-size:.52em; margin:0; color:var(--muted);"><em>Q7 (reviews multi-product lot-sizing estocástico) = 0 resultados.</em></p>
@@ -362,6 +383,7 @@
 <section>
   <div class="eyebrow">Acto II · Modelo y algoritmos</div>
   <h2>8. Un MILP estocástico de dos etapas maximiza el beneficio esperado</h2>
+  <aside class="notes">Presento la función objetivo sin recitar cada término: maximizar el beneficio esperado sobre los escenarios. El punto conceptual clave es la estructura de dos etapas: setup y lote se deciden antes de conocer la demanda (here-and-now) y ventas e inventario se ajustan después. Menciono las dimensiones de las instancias para dar escala, sin detenerme en cada número. (~90 s)</aside>
   <div class="card" style="margin-bottom:8px;">
     <p style="font-size:.72em;"><strong>Función Objetivo:</strong> Maximizar beneficio esperado</p>
     <p style="font-size:.78em;text-align:center;">\(\max Z = \frac{1}{|\Omega|}\sum_{\omega}\left[\sum_{p,t} r_p \cdot v_{pt\omega} - \sum_t (c_{prod} \cdot q_t + c_{setup} \cdot y_t) - \sum_{p,t} c_{inv} \cdot I_{pt\omega}\right]\)</p>
@@ -396,11 +418,12 @@
 <section>
   <div class="eyebrow">Acto II · Modelo y algoritmos</div>
   <h2>9. Cuatro estrategias de búsqueda: población, trayectoria e hibridación</h2>
+  <aside class="notes">Uso las cuatro animaciones para dar intuición visual de cada estrategia sin fórmulas: población en GA y DE, trayectoria con enfriamiento en SA, e hibridación en GA-SA. El objetivo es que el jurado vea cómo cada una recorre el paisaje de fitness. Cierro subrayando que las cuatro compiten sobre el mismo problema y en igualdad de condiciones. (~75 s)</aside>
   <div class="grid4" style="gap:6px;grid-template-rows:1fr 1fr;">
-    <div class="card gif" style="padding:6px;"><h3 style="margin:0 0 2px;font-size:.78em;">GA</h3><img src="figuras/intuicion_ga.gif" alt="GIF GA" style="max-height:180px;" onerror="this.style.display='none'"><p style="margin:2px 0 0;font-size:.55em;">Población → selección → cruce → mutación.</p></div>
-    <div class="card gif" style="padding:6px;"><h3 style="margin:0 0 2px;font-size:.78em;">SA</h3><img src="figuras/intuicion_sa.gif" alt="GIF SA" style="max-height:180px;" onerror="this.style.display='none'"><p style="margin:2px 0 0;font-size:.55em;">Trayectoria con enfriamiento: T₀→T<sub>min</sub>.</p></div>
-    <div class="card gif" style="padding:6px;"><h3 style="margin:0 0 2px;font-size:.78em;">DE</h3><img src="figuras/intuicion_de.gif" alt="GIF DE" style="max-height:180px;" onerror="this.style.display='none'"><p style="margin:2px 0 0;font-size:.55em;">Mutación: v = x<sub>r1</sub> + F·(x<sub>r2</sub> − x<sub>r3</sub>).</p></div>
-    <div class="card gif" style="padding:6px;"><h3 style="margin:0 0 2px;font-size:.78em;">GA-SA (Híbrido)</h3><img src="figuras/intuicion_ga_sa.gif" alt="GIF GA-SA" style="max-height:180px;" onerror="this.style.display='none'"><p style="margin:2px 0 0;font-size:.55em;">GA global + SA local cada <em>k</em> generaciones.</p></div>
+    <div class="card gif" style="padding:5px;"><h3 style="margin:0 0 2px;font-size:.78em;">GA</h3><img src="figuras/intuicion_ga.gif" alt="GIF GA" style="max-height:150px;" onerror="this.style.display='none'"><p style="margin:2px 0 0;font-size:.55em;">Población → selección → cruce → mutación.</p></div>
+    <div class="card gif" style="padding:5px;"><h3 style="margin:0 0 2px;font-size:.78em;">SA</h3><img src="figuras/intuicion_sa.gif" alt="GIF SA" style="max-height:150px;" onerror="this.style.display='none'"><p style="margin:2px 0 0;font-size:.55em;">Trayectoria con enfriamiento: T₀→T<sub>min</sub>.</p></div>
+    <div class="card gif" style="padding:5px;"><h3 style="margin:0 0 2px;font-size:.78em;">DE</h3><img src="figuras/intuicion_de.gif" alt="GIF DE" style="max-height:150px;" onerror="this.style.display='none'"><p style="margin:2px 0 0;font-size:.55em;">Mutación: v = x<sub>r1</sub> + F·(x<sub>r2</sub> − x<sub>r3</sub>).</p></div>
+    <div class="card gif" style="padding:5px;"><h3 style="margin:0 0 2px;font-size:.78em;">GA-SA (Híbrido)</h3><img src="figuras/intuicion_ga_sa.gif" alt="GIF GA-SA" style="max-height:150px;" onerror="this.style.display='none'"><p style="margin:2px 0 0;font-size:.55em;">GA global + SA local cada <em>k</em> generaciones.</p></div>
   </div>
   <div class="takeaway">Idea clave: cuatro mecanismos de búsqueda distintos compiten sobre el mismo problema y en igualdad de condiciones.</div>
   <div class="footer"><span>Optimización de coproductos avícolas — UTP · 2026</span><span>Acto II · Modelo y algoritmos</span></div>
@@ -410,6 +433,7 @@
 <section style="display:flex; flex-direction:column; justify-content:center; height:100%;">
   <div class="eyebrow">Acto II · Modelo y algoritmos</div>
   <h2>10. Un cromosoma y un decodificador comunes hacen justa la comparación</h2>
+  <aside class="notes">Explico que las cuatro metaheurísticas comparten la misma representación y el mismo decodificador greedy, lo que hace justa la comparación: medimos el algoritmo de búsqueda, no diferencias de implementación. Recorro rápido los cinco pasos del decodificador, deteniéndome en la reparación de factibilidad. El punto clave es la equidad metodológica. (~75 s)</aside>
   <p style="font-size:.58em; margin:-10px 0 10px 0; color:var(--primary);"><strong>Aplicación Universal:</strong> Este esquema y decodificador es utilizado de manera idéntica por GA, SA, DE y GA-SA.</p>
   <div class="grid2">
     <div class="card">
@@ -447,6 +471,7 @@
 <section>
   <div class="eyebrow">Acto II · Modelo y algoritmos</div>
   <h2>11. Vecindades que equilibran exploración y explotación en un espacio de 10³⁵</h2>
+  <aside class="notes">Uso el tamaño del espacio de búsqueda, del orden de 10³⁵, para justificar por qué la enumeración exhaustiva es imposible. Explico las vecindades: toggle de setup para saltos estructurales y perturbación de cantidad para ajuste fino, y cómo SA y GA-SA las combinan. La idea a transmitir: el diseño de la vecindad importa tanto como el algoritmo que la recorre. (~75 s)</aside>
   <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
     <div class="card gif" style="padding:8px;">
       <h3 style="margin:0 0 4px;font-size:.72em;">Cromosoma s = (y, q)</h3>
@@ -479,6 +504,7 @@
 <section>
   <div class="eyebrow">Acto III · La evidencia</div>
   <h2>12. Diseño experimental: 1,878 corridas en dos campañas</h2>
+  <aside class="notes">Doy la magnitud del esfuerzo experimental: 1,878 corridas entre las dos campañas. Menciono la calibración con Optuna y el aparato estadístico — ANOVA y Tukey por corridas, Friedman y Wilcoxon-Holm bloqueados por instancia. El mensaje: cada afirmación que sigue está respaldada por réplicas independientes y pruebas no paramétricas. (~75 s)</aside>
   <div class="grid2">
     <div class="card">
       <h3 style="margin-top:0;">Factores y niveles</h3>
@@ -514,8 +540,9 @@
 <section>
   <div class="eyebrow">Acto III · La evidencia</div>
   <h2>13. Campaña diagnóstica (v1): la instancia pesa más que el algoritmo</h2>
+  <aside class="notes">Interpreto la distribución de Z en la campaña diagnóstica: la varianza entre instancias domina, unas diez veces, sobre la diferencia entre algoritmos. Esa es la razón por la que hay que bloquear por instancia para poder rankear. Adelanto que GA-SA y DE lideran en media, con diferencias prácticas pequeñas frente a GA y SA. (~75 s)</aside>
   <div class="grid2">
-    <div class="card" style="display:flex; flex-direction:column; justify-content:center;">
+    <div class="card" style="display:flex; flex-direction:column; justify-content:flex-start;">
        <h3 style="margin-top:0;font-size:.85em;">Distribución Empírica (Z Global)</h3>
        <ul style="font-size:.65em;">
          <li><strong>Varianza inter-instancia:</strong> El valor objetivo Z es altamente heterocedástico, dependiendo críticamente de la demanda pico y el tamaño de la instancia.</li>
@@ -538,6 +565,7 @@
 <section style="display:flex; flex-direction:column; justify-content:center; height:100%;">
   <div class="eyebrow">Acto III · La evidencia</div>
   <h2>14. Campaña diagnóstica (v1): el baseline trivial empata — y eso es un hallazgo</h2>
+  <aside class="notes">Muestro la tabla: GA-SA queda primero pero el baseline trivial prácticamente empata. El punto que defiendo con firmeza: ese empate no es un fracaso, delimita el régimen donde optimizar no paga y es lo que motiva la campaña confirmatoria. Contrasto el ANOVA no significativo con el Friedman significativo bloqueado por instancia. (~90 s)</aside>
   <table style="font-size:.68em; width:100%; border-collapse:collapse; margin-bottom:12px;">
     <tr style="border-bottom:2px solid var(--primary);">
       <th style="text-align:left;">Algoritmo</th>
@@ -591,6 +619,7 @@
 <section>
   <div class="eyebrow">Acto III · La evidencia</div>
   <h2>15. Contrastación formal (v1): H2 se sostiene; H1 y H3 no alcanzan el umbral</h2>
+  <aside class="notes">Resumo el veredicto formal de v1: H2 se sostiene en calidad, mientras H1 y H3 no alcanzan su umbral en este régimen. Aclaro que la potencia del diseño era casi nula precisamente porque el baseline de capacidad máxima es casi óptimo cuando la demanda supera la capacidad. Anticipo el giro: en v2, H1 y H3 sí se soportan. (~90 s)</aside>
   <div class="grid2">
     <div class="card" style="padding:10px;">
       <h3 style="margin-top:0;font-size:.70em;">Pruebas Globales</h3>
@@ -626,6 +655,7 @@
 <section>
   <div class="eyebrow">Acto III · La evidencia</div>
   <h2>16. Campaña confirmatoria (v2): 20% más beneficio y −30% inventario donde el setup importa</h2>
+  <aside class="notes">Este es el clímax de la evidencia; me tomo mi tiempo. Primero presento el diseño de v2 — 30 instancias, economía operativa, presupuesto igualado; luego, como fragmentos, aparecen la tabla de gaps y los veredictos. El titular: donde el setup cuesta y hay holgura, optimizar rinde +20% de beneficio y −30% de inventario con potencia 1.000, y calibrar para el régimen importa más que elegir el algoritmo. (~120 s)</aside>
   <div class="grid2">
     <div>
       <div class="card" style="padding:10px; margin-bottom:8px;">
@@ -638,7 +668,7 @@
           <li><strong>Gap certificado:</strong> CBC probó optimalidad en las 30 instancias (best bound).</li>
         </ul>
       </div>
-      <div class="card" style="padding:10px;">
+      <div class="card fragment" style="padding:10px;">
         <h3 style="margin-top:0;font-size:.68em;">Gap vs óptimo certificado</h3>
         <table style="font-size:.55em;width:100%; border-collapse:collapse; text-align:center;">
           <tr style="border-bottom:1px solid #ccc;"><th style="text-align:left;">Tamaño</th><th>Baseline</th><th>GA</th><th>SA</th><th>DE</th><th><strong>GA-SA</strong></th></tr>
@@ -651,7 +681,7 @@
     </div>
     <div class="chartbox" style="padding:10px; background:#fff; display:flex; flex-direction:column; justify-content:space-evenly;">
       <img src="figuras/nemenyi_cd.png" alt="Diagrama de diferencia crítica de Nemenyi" style="max-width:100%; margin-bottom:6px;" onerror="this.style.display='none'">
-      <div class="card" style="padding:8px;">
+      <div class="card fragment" style="padding:8px;">
         <h4 style="margin:0 0 3px; font-size:.58em;">Veredictos v2 (n=30, potencia 1.000)</h4>
         <p style="font-size:.5em; margin:0; line-height:1.4;"><strong>H1 SOPORTADA:</strong> mejora 20.2%–20.8% vs baseline (p&lt;10⁻⁴) · <strong>H3 SOPORTADA:</strong> inventario −28% a −31% · <strong>H2:</strong> GA-SA +0.54% vs mejor MH (≤2%). Con las 4 MH re-calibradas la paridad es el resultado: <strong>elegir el algoritmo importa menos que calibrarlo para el régimen</strong>. Anytime: DE alcanza el 99% del óptimo en 1.6/4.0/17.4 s (mediana; en large solo el 47% de corridas lo logra) — con CBC certificando el óptimo en 2/25/159 s.</p>
       </div>
@@ -665,6 +695,7 @@
 <section>
   <div class="eyebrow">Acto III · La evidencia</div>
   <h2>17. Escalabilidad (campaña diagnóstica, v1): rapidez y calidad no coinciden en un único algoritmo</h2>
+  <aside class="notes">Leo los dos perfiles: el de Dolan-Moré y el escalamiento log-log. El mensaje multi-criterio: SA domina en tiempo puro y GA-SA/DE en calidad, así que rapidez y calidad no coinciden en un solo algoritmo. Aclaro con honestidad que, con solo tres tamaños, el exponente empírico es evidencia indicativa, no una ley definitiva. (~75 s)</aside>
   <div class="grid2">
     <div class="chartbox" style="padding:10px; box-shadow:none; border:1px solid var(--hairline); background:transparent;">
       <h3 style="margin:0 0 5px;font-size:.70em; text-align:center;">Dolan-Moré: Performance Profile (Eficiencia/Tiempo)</h3>
@@ -689,6 +720,7 @@
 <section>
   <div class="eyebrow">Acto III · La evidencia</div>
   <h2>18. Convergencia (v1): la ganancia llega en las primeras evaluaciones</h2>
+  <aside class="notes">Muestro que el grueso de la mejora llega en las primeras evaluaciones: es el comportamiento anytime, útil para decidir en segundos en operación. Si el jurado pregunta, uso el selector para pasar de convergencia a diversidad. Los paneles de ranking global y por tamaño refuerzan el orden práctico GA-SA ≈ DE > GA > SA. (~75 s)</aside>
   <div class="grid2">
     <div class="chartbox">
       <div class="controls">
@@ -696,7 +728,7 @@
         <select id="algoViewSelector"><option value="convergence">Convergencia normalizada</option><option value="diversity">Diversidad</option></select>
       </div>
       <div class="chart" style="height:430px;"><canvas id="algoDynamicsChart"></canvas></div>
-      <p class="small" style="margin:6px 0 0;">Datos reales: `comparison_traces.csv` y `complexity/convergence_profiles.csv`.</p>
+      <p class="small" style="margin:6px 0 0;">Trazas de convergencia reales — campaña diagnóstica (v1), 1,098 corridas.</p>
     </div>
     <div style="display:flex; flex-direction:column; gap:12px;">
       <div class="chartbox">
@@ -719,6 +751,7 @@
 <section>
   <div class="eyebrow">Acto III · La evidencia</div>
   <h2>19. Frontera de Pareto (v1): ninguna corrida domina calidad y tiempo a la vez</h2>
+  <aside class="notes">El scatter, en escala logarítmica de tiempo, muestra que ninguna corrida domina simultáneamente en calidad y en tiempo. Explico que la frontera es el mapa para elegir algoritmo según el presupuesto de cómputo disponible. Ofrezco filtrar en vivo por tamaño y por algoritmo si el jurado quiere ver un estrato concreto. (~60 s)</aside>
   <div class="chartbox">
     <div class="controls">
       <label for="paretoSizeSelector">Tamaño</label>
@@ -749,6 +782,7 @@
 <section>
   <div class="eyebrow">Acto III · La evidencia</div>
   <h2>20. Sensibilidad (v1): 100% de factibilidad bajo estrés de parámetros</h2>
+  <aside class="notes">Reporto factibilidad del 100% bajo estrés de parámetros. El hallazgo a subrayar: los precios mueven el resultado mucho más (±12.7%) que la variabilidad de la demanda (±0.35%), y la factibilidad nunca se pierde. Ofrezco cambiar de parámetro o de métrica con los selectores según la pregunta. (~60 s)</aside>
   <div class="chartbox">
     <div class="controls">
       <label for="sensitivityParamSelector">Parámetro</label>
@@ -774,6 +808,7 @@
 <section style="display:flex; flex-direction:column; justify-content:center; height:100%;">
   <div class="eyebrow">Acto IV · Qué significa</div>
   <h2>21. Limitaciones: qué afirma este estudio y qué no</h2>
+  <aside class="notes">Soy explícito sobre el alcance para adelantarme a las preguntas del jurado: datos sintéticos calibrados, baseline fuerte, proporciones fijas, sin scheduling y perecibilidad simplificada. El punto de honestidad científica: estas limitaciones acotan la generalidad pero no invalidan los hallazgos. Cierro reconociendo que falta validación con datos operativos de planta. (~75 s)</aside>
   <div class="grid2">
     <div class="card">
       <h3 style="margin-top:0;font-size:.78em;">Limitaciones Metodológicas</h3>
@@ -790,7 +825,7 @@
         <li style="margin-bottom:6px;"><strong>Perecibilidad simplificada:</strong> Vida útil discreta (FIFO) sin deterioro gradual de calidad.</li>
       </ol>
       <div class="callout" style="margin-top:8px; padding:8px 10px;">
-        <p style="font-size:.58em; margin:0;"><strong>Implicación:</strong> Estas limitaciones no invalidan los hallazgos, pero definen el alcance de generalidad. La validación con datos operativos reales de planta sigue siendo necesaria.</p>
+        <p style="font-size:.6em; margin:0;"><strong>Implicación:</strong> Estas limitaciones no invalidan los hallazgos, pero definen el alcance de generalidad. La validación con datos operativos reales de planta sigue siendo necesaria.</p>
       </div>
     </div>
   </div>
@@ -802,22 +837,23 @@
 <section>
   <div class="eyebrow">Acto IV · Qué significa</div>
   <h2>22. El valor de la optimización depende del régimen</h2>
-  <div class="card" style="margin-bottom:6px;">
+  <aside class="notes">Cierro el arco argumental recorriendo los cinco objetivos cumplidos, uno a uno como fragmentos, y remato con el hallazgo principal. El mensaje que quiero que el jurado se lleve: el valor de la optimización depende del régimen económico, y calibrar para él importa más que elegir el algoritmo. Hago una pausa deliberada antes de revelar el callout final. (~120 s)</aside>
+  <div class="card fragment" style="margin-bottom:6px;">
     <p style="font-size:.68em;margin:0;"><strong>OE1 (Formular):</strong> Modelo MILP multi-periodo validado con CBC (óptimo certificado en todos los tamaños; ≈1,100–58,000 variables).</p>
   </div>
-  <div class="card" style="margin-bottom:6px;">
+  <div class="card fragment" style="margin-bottom:6px;">
     <p style="font-size:.68em;margin:0;"><strong>OE2 (Implementar):</strong> GA, SA, DE, GA-SA con reparación de factibilidad y convergencia.</p>
   </div>
-  <div class="card" style="margin-bottom:6px;">
+  <div class="card fragment" style="margin-bottom:6px;">
     <p style="font-size:.68em;margin:0;"><strong>OE3 (Calibrar):</strong> 30 trials Optuna por algoritmo, evaluados en 5 instancias de calibración.</p>
   </div>
-  <div class="card" style="margin-bottom:6px;">
+  <div class="card fragment" style="margin-bottom:6px;">
     <p style="font-size:.68em;margin:0;"><strong>OE4 (Comparar):</strong> dos campañas (1,098 + 780 ejecuciones, la segunda con las 4 MH re-calibradas y presupuesto igualado). En la confirmatoria las 4 convergen a 4.6–5.9% de gap (Nemenyi: DE 1.77 con leve ventaja; GA/SA/GA-SA empatados).</p>
   </div>
-  <div class="card" style="margin-bottom:6px;">
+  <div class="card fragment" style="margin-bottom:6px;">
     <p style="font-size:.68em;margin:0;"><strong>OE5 (Validar):</strong> Sensibilidad estable (precios ±12.67%, demanda ±0.35% en gap) y validación externa FENAVI útil: correlación mensual baja sin desfase, pero mejora al considerar lags temporales.</p>
   </div>
-  <div class="callout" style="margin-top:6px;">
+  <div class="callout fragment" style="margin-top:6px;">
     <p style="font-size:.72em;margin:0;"><strong>Hallazgo principal:</strong> el valor de la optimización depende del régimen económico. Con setup marginal y demanda &gt; capacidad, producir a Q<sup>max</sup> es casi óptimo; en el régimen operativo (setup costoso, holgura, volatilidad), las metaheurísticas mejoran el beneficio ~20% y reducen inventario 28–31% (p&lt;10⁻⁴); re-calibradas, las cuatro convergen a ~5% de gap — calibrar para el régimen importa más que elegir el algoritmo — y alcanzan el 99% del óptimo antes de que CBC certifique.</p>
   </div>
   <div class="takeaway">Idea clave: la pregunta correcta no es «¿qué algoritmo gana?» sino «¿en qué régimen opera la planta y cómo calibrar para él?».</div>
@@ -828,6 +864,7 @@
 <section style="display:flex; flex-direction:column; justify-content:center; height:100%;">
   <div class="eyebrow">Acto IV · Qué significa</div>
   <h2>23. Contribuciones: un benchmark reproducible y una regla de decisión</h2>
+  <aside class="notes">Enumero las contribuciones: modelo MILP original, framework comparativo justo, benchmark de 39 instancias en dos regímenes y una regla de decisión por régimen. Destaco un matiz frente a la literatura: la superioridad del híbrido reportada por Akbari-Aghghaleh resulta dependiente de la calibración. Enlazo el trabajo futuro — datos reales, multi-objetivo, rolling horizon — y doy paso a preguntas. (~75 s)</aside>
   <div class="grid2">
     <div class="card">
       <h3 style="margin-top:0;">Contribuciones</h3>
@@ -857,27 +894,28 @@
 </section>
 
 <!-- S-PREGUNTAS -->
-<section class="title" style="display:flex; flex-direction:column; justify-content:center; height:100%;">
-  <p class="eyebrow" style="text-align:center; margin-bottom:10px;">Gracias por su atención</p>
-  <h1 style="font-size:1.6em; margin:0 0 14px;">¿Preguntas?</h1>
-  <div style="width:64px; height:2px; background:var(--primary); margin:0 auto 16px;"></div>
+<section class="title closing" style="display:flex; flex-direction:column; justify-content:center; align-items:center; height:100%; text-align:center;">
+  <p class="eyebrow" style="margin-bottom:12px;">Gracias por su atención</p>
+  <h1 style="font-size:1.7em; margin:0 0 14px;">¿Preguntas?</h1>
+  <div style="width:64px; height:2px; background:var(--primary); margin:0 0 18px;"></div>
   <p style="margin:0 0 4px;"><strong style="color:var(--ink);">Daniel Andrés Castañeda Rodríguez</strong></p>
-  <p class="small" style="margin:0 0 14px;">Directora: PhD. Eliana Mirledy Ocampo Toro</p>
-  <img src="figuras/logo_utp.png" alt="Logo UTP" style="max-height:56px; margin:0 auto; display:block;" onerror="this.style.display='none'">
+  <p class="small" style="margin:0 0 22px;">Directora: PhD. Eliana Mirledy Ocampo Toro</p>
+  <img src="figuras/logo_utp.png" alt="Logo UTP" style="max-height:60px; display:block;" onerror="this.style.display='none'">
   <div class="footer"><span>Optimización de coproductos avícolas — UTP · 2026</span><span>Cierre</span></div>
 </section>
 
-<!-- SEPARADOR: MATERIAL DE RESPALDO -->
-<section class="title" style="display:flex; flex-direction:column; justify-content:center; height:100%;">
-  <h1 style="font-size:1.4em;">Material de respaldo</h1>
-  <p class="small">para preguntas del jurado</p>
-  <div class="footer"><span>Optimización de coproductos avícolas — UTP · 2026</span><span>Material de respaldo</span></div>
+<!-- SEPARADOR: MATERIAL DE RESPALDO (mismo patrón que las divisorias de acto) -->
+<section class="divider" data-background-color="#1E3A5F" style="display:flex; flex-direction:column; justify-content:center; height:100%;">
+  <div class="act-roman" style="font-size:2.4em;">&#10022;</div>
+  <h2>Material de respaldo</h2>
+  <p>«para preguntas del jurado»</p>
 </section>
 
 <!-- RESPALDO: TRAZABILIDAD DE HIPERPARÁMETROS -->
 <section>
   <div class="eyebrow">Material de respaldo</div>
   <h2>Respaldo: Trazabilidad de hiperparámetros — calibración diagnóstica (v1), re-calibrada en la confirmatoria (v2)</h2>
+  <aside class="notes">Lámina de respaldo para preguntas sobre calibración. Aquí muestro que cada hiperparámetro final es trazable a sus 30 trials de Optuna: la calibración es auditable, no una caja negra. Uso los selectores para exhibir la evolución del objetivo y el efecto de cada hiperparámetro sobre Z. (~45 s)</aside>
   <div class="grid2">
     <div class="card" style="padding:8px;">
       <h3 style="margin-top:0;font-size:.72em;">Hiperparámetros Óptimos (Tabla 5 tesis)</h3>
@@ -919,6 +957,7 @@
 <section>
   <div class="eyebrow">Material de respaldo</div>
   <h2>Respaldo: Superficie analítica de desempeño (heatmap, campaña diagnóstica v1)</h2>
+  <aside class="notes">Respaldo para localizar en qué instancias concretas se concentran los gaps y los tiempos altos. Cambio de métrica con el selector según lo que pregunte el jurado — gap, tiempo, nivel de servicio o Z. Sirve para responder con precisión sobre una instancia específica. (~40 s)</aside>
   <div class="chartbox">
     <div class="controls">
       <label for="heatmapMetricSelector">Métrica</label>
@@ -940,6 +979,7 @@
 <section>
   <div class="eyebrow">Material de respaldo</div>
   <h2>Respaldo: Dinámica del inventario de baja rotación (campaña diagnóstica v1)</h2>
+  <aside class="notes">Respaldo sobre el inventario de baja rotación, que concentra el riesgo de perecibilidad. La distribución por cuantiles — caja intercuartil, mediana y bigotes P10-P90 — distingue el comportamiento de cada algoritmo. Lo uso si preguntan por el endpoint de inventario de H3. (~40 s)</aside>
   <div class="chartbox">
     <div class="controls">
       <label for="lowRotSizeSelector">Tamaño de instancia</label>
@@ -961,6 +1001,7 @@
 <section>
   <div class="eyebrow">Material de respaldo</div>
   <h2>Respaldo: Robustez operativa de la arquitectura (campaña diagnóstica v1)</h2>
+  <aside class="notes">Respaldo de robustez operativa: reparación de factibilidad en las cuatro metaheurísticas, registro de convergencia y control de estancamiento, con 100% de factibilidad empírica. El radar resume los indicadores por algoritmo en una sola vista. Cierro remitiendo a las alertas de validez cargadas directamente desde los datos. (~40 s)</aside>
   <div class="grid2">
     <div class="card">
       <h3 style="margin-top:0;">Checklist técnico</h3>
@@ -987,8 +1028,10 @@
 </div></div>
 
 <script src="libs/reveal.min.js"></script>
+<script src="libs/plugin/notes/notes.js"></script>
 <script>
-Reveal.initialize({ hash:true, slideNumber:'c/t', transition:'fade', transitionSpeed:'fast', width:1280, height:720, margin:0.03, center:false, progress:true, history:true });
+Reveal.initialize({ hash:true, slideNumber:'c', transition:'fade', transitionSpeed:'fast', width:1280, height:720, margin:0.03, center:false, progress:true, history:true,
+  plugins: (typeof RevealNotes !== 'undefined') ? [RevealNotes] : [] });
 
 // Paleta Okabe-Ito (segura para daltonismo); fuente única de color para todos los charts
 const palette = { ga:'#0072B2', sa:'#E69F00', de:'#009E73', ga_sa:'#CC79A7', baseline:'#666666', cbc_exact:'#1a1a1a' };
@@ -1428,8 +1471,10 @@ function renderPareto(){
           }
         },
         scales: {
-          x: { title: { display: true, text: 'Tiempo (s)', font: { size: 10 } } },
-          y: { title: { display: true, text: 'Z (M COP)', font: { size: 10 } } },
+          x: { type: 'logarithmic', min: 0.5,
+               title: { display: true, text: 'Tiempo (s) — escala log', font: { size: 10 } },
+               ticks: { callback: (v) => { const l = Math.log10(v); return Number.isInteger(l) ? fmtNum(v, 0) : ''; } } },
+          y: { title: { display: true, text: 'Z (M COP)', font: { size: 10 } }, ticks: tickFmt(0) },
         }
       }
     });
